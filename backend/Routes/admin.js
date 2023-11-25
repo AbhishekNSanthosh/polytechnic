@@ -20,7 +20,7 @@ router.post('/adminLogin', limiter, async (req, res) => {
             return res.status(401).json({
                 resCode: 401,
                 status: 'FAILURE',
-                message: 'Invalid username'
+                message: 'Invalid username or password'
             });
         }
 
@@ -28,7 +28,7 @@ router.post('/adminLogin', limiter, async (req, res) => {
             return res.status(401).json({
                 resCode: 401,
                 status: 'FAILURE',
-                message: 'Invalid username'
+                message: 'Invalid username or password'
             });
         }
         const user = await User.findOne({ username });
@@ -102,6 +102,22 @@ router.post('/adminLogin', limiter, async (req, res) => {
 router.post('/createNewAdmin',verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
+        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: 'Invalid username or username'
+            });
+        }
+
+        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: 'Invalid password or username'
+            });
+        }
+
         const existingAdmin = await User.findOne({ username });
         if (existingAdmin) {
             return res.status(400).json({
