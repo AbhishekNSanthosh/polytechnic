@@ -17,9 +17,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1/admin", adminRoute,limiter);
-app.use("/api/v1/student", studentRoute,limiter);
-app.use("/api/v1/teacher", teacherRoute,limiter);
+app.use("/api/v1/admin", adminRoute, limiter);
+app.use("/api/v1/student", studentRoute, limiter);
+app.use("/api/v1/teacher", teacherRoute, limiter);
+app.use('/api/v1/info', (req, res) => {
+    res.json({
+        resCode: 200,
+        status:"SUCCESS",
+        message: "Backend of carmel polytechnic grievances, developed by Abhishek Santhosh"
+    })
+})
 
 const connectDb = () => {
     mongoose
