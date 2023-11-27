@@ -17,10 +17,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1/admin", adminRoute, limiter);
-app.use("/api/v1/student", studentRoute, limiter);
-app.use("/api/v1/teacher", teacherRoute, limiter);
-app.use('/api/v1/info', (req, res) => {
+app.use("/api/v2/admin", adminRoute, limiter);
+app.use("/api/v2/student", studentRoute, limiter);
+app.use("/api/v2/teacher", teacherRoute, limiter);
+app.use('/api/v2/info', (req, res) => {
     res.json({
         resCode: 200,
         status:"SUCCESS",
