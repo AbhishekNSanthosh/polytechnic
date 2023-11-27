@@ -85,8 +85,8 @@ router.post('/adminLogin', limiter, async (req, res) => {
             resCode: 200,
             status: 'SUCCESS',
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
-            accessToken: token,
             message: 'Authentication successfull',
+            accessToken: token,
         });
 
     } catch (err) {
@@ -118,7 +118,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
             });
         }
 
-        const existingAdmin = await User.findOne({ username });
+        const existingAdmin = await User.findOne({ username ,role:"admin" });
         if (existingAdmin) {
             return res.status(401).json({
                 resCode: 401,
@@ -133,21 +133,21 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
                 password: hashedPassword,
                 role: "admin"
             });
-          await  user.save();
+            await user.save();
         }).then(() => {
             return res.status(201).json({
                 resCode: 201,
                 status: 'SUCCESS',
                 message: 'Admin created successfully.',
-                accessToken:req.accessToken
+                accessToken: req.accessToken
             })
         }).catch((error) => {
             console.log(error)
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: "Invalid credentials"
-            })
+            return res.status(400).json({
+                resCode: 500,
+                status: "FAILURE",
+                message: "Please fill the required fields"
+            });
         })
     } catch (error) {
         return res.status(500).json({
@@ -161,7 +161,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 //api to create  new student
 router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password ,semester,department} = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
             return res.status(401).json({
                 resCode: 401,
@@ -178,12 +178,12 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
             });
         }
 
-        const existingAdmin = await User.findOne({ username });
+        const existingAdmin = await User.findOne({ username ,role:"student" });
         if (existingAdmin) {
             return res.status(401).json({
                 resCode: 401,
                 status: 'FAILURE',
-                error: 'Username already exists. Choose a different username.'
+                error: 'Username already exists as student. Choose a different username.'
             });
         }
 
@@ -191,23 +191,25 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
             const user = new User({
                 username,
                 password: hashedPassword,
-                role: "student"
+                role: "student",
+                department,
+                semester
             });
-           await user.save();
+            await user.save();
         }).then(() => {
             return res.status(201).json({
                 resCode: 201,
                 status: 'SUCCESS',
                 message: 'Student created successfully.',
-                accessToken:req.accessToken,
+                accessToken: req.accessToken,
             })
         }).catch((error) => {
             console.log(error)
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: "Invalid credentials"
-            })
+            return res.status(400).json({
+                resCode: 400,
+                status: "FAILURE",
+                message: "Please fill the required fields"
+            });
         })
     } catch (error) {
         return res.status(500).json({
@@ -221,7 +223,7 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
 //api to create  new teacher
 router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
     try {
-        const { username, password ,department} = req.body;
+        const { username, password, department,semester } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
             return res.status(401).json({
                 resCode: 401,
@@ -238,12 +240,12 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
             });
         }
 
-        const existingAdmin = await User.findOne({ username });
+        const existingAdmin = await User.findOne({ username ,role:"teacher" });
         if (existingAdmin) {
             return res.status(401).json({
                 resCode: 401,
                 status: 'FAILURE',
-                error: 'Username already exists. Choose a different username.'
+                error: 'Username already exists as teacher. Choose a different username.'
             });
         }
 
@@ -252,23 +254,24 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
                 username,
                 password: hashedPassword,
                 role: "teacher",
-                department:department
+                semester:semester,
+                department: department
             });
-           await user.save();
+            await user.save();
         }).then(() => {
             return res.status(201).json({
                 resCode: 201,
                 status: 'SUCCESS',
                 message: 'Teacher created successfully.',
-                accessToken:req.accessToken,
+                accessToken: req.accessToken,
             })
         }).catch((error) => {
             console.log(error)
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: "Invalid credentials"
-            })
+            return res.status(400).json({
+                resCode: 400,
+                status: "FAILURE",
+                message: "Please fill the required fields"+error
+            });
         })
     } catch (error) {
         return res.status(500).json({
