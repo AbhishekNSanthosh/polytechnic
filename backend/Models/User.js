@@ -8,6 +8,12 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String, required: true
   },
+  semester: {
+    type: String, enum: ['S1', 'S2', 'S3', 'S4', 'S4', 'S6'],
+  },
+  department: {
+    type: String, enum: ['CS', 'EEE', 'CE', 'ME'],
+  },
   role: {
     type: String, enum: ['admin', 'student', 'teacher'], required: true,
   },

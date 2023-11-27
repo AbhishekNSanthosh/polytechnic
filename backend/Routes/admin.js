@@ -99,7 +99,7 @@ router.post('/adminLogin', limiter, async (req, res) => {
 });
 
 //api to create a new admin
-router.post('/createNewAdmin',verifyAdminToken, async (req, res) => {
+router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
@@ -120,35 +120,37 @@ router.post('/createNewAdmin',verifyAdminToken, async (req, res) => {
 
         const existingAdmin = await User.findOne({ username });
         if (existingAdmin) {
-            return res.status(400).json({
-                resCode: 400,
+            return res.status(401).json({
+                resCode: 401,
                 status: 'FAILURE',
                 error: 'Username already exists. Choose a different username.'
             });
         }
 
-        bcrypt.hash(password, 12).then(hashedPassword => {
+        bcrypt.hash(password, 12).then(async hashedPassword => {
             const user = new User({
                 username,
                 password: hashedPassword,
                 role: "admin"
             });
-            user.save();
+          await  user.save();
         }).then(() => {
             return res.status(201).json({
-                resCode: 200,
+                resCode: 201,
                 status: 'SUCCESS',
-                message: 'Admin created successfully.'
+                message: 'Admin created successfully.',
+                accessToken:req.accessToken
             })
-        }).catch((err) => {
-            return res.status(400).json({
-                resCode: 400,
+        }).catch((error) => {
+            console.log(error)
+            return res.status(401).json({
+                resCode: 401,
                 status: 'FAILURE',
-                message: err.message
+                message: "Invalid credentials"
             })
         })
     } catch (error) {
-       return res.status(500).json({
+        return res.status(500).json({
             resCode: 500,
             status: "FAILURE",
             message: "Internal server error. Please try again later."
@@ -156,6 +158,125 @@ router.post('/createNewAdmin',verifyAdminToken, async (req, res) => {
     }
 });
 
+//api to create  new student
+router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: 'Invalid username or username'
+            });
+        }
 
+        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: 'Invalid password or username'
+            });
+        }
+
+        const existingAdmin = await User.findOne({ username });
+        if (existingAdmin) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                error: 'Username already exists. Choose a different username.'
+            });
+        }
+
+        bcrypt.hash(password, 12).then(async hashedPassword => {
+            const user = new User({
+                username,
+                password: hashedPassword,
+                role: "student"
+            });
+           await user.save();
+        }).then(() => {
+            return res.status(201).json({
+                resCode: 201,
+                status: 'SUCCESS',
+                message: 'Student created successfully.',
+                accessToken:req.accessToken,
+            })
+        }).catch((error) => {
+            console.log(error)
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: "Invalid credentials"
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({
+            resCode: 500,
+            status: "FAILURE",
+            message: "Internal server error. Please try again later."
+        });
+    }
+});
+
+//api to create  new teacher
+router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
+    try {
+        const { username, password ,department} = req.body;
+        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: 'Invalid username or password'
+            });
+        }
+
+        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: 'Invalid username or password'
+            });
+        }
+
+        const existingAdmin = await User.findOne({ username });
+        if (existingAdmin) {
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                error: 'Username already exists. Choose a different username.'
+            });
+        }
+
+        bcrypt.hash(password, 12).then(async hashedPassword => {
+            const user = new User({
+                username,
+                password: hashedPassword,
+                role: "teacher",
+                department:department
+            });
+           await user.save();
+        }).then(() => {
+            return res.status(201).json({
+                resCode: 201,
+                status: 'SUCCESS',
+                message: 'Teacher created successfully.',
+                accessToken:req.accessToken,
+            })
+        }).catch((error) => {
+            console.log(error)
+            return res.status(401).json({
+                resCode: 401,
+                status: 'FAILURE',
+                message: "Invalid credentials"
+            })
+        })
+    } catch (error) {
+        return res.status(500).json({
+            resCode: 500,
+            status: "FAILURE",
+            message: "Internal server error. Please try again later."
+        });
+    }
+});
 
 module.exports = router;

@@ -20,8 +20,8 @@ app.use(express.json());
 app.use("/api/v2/admin", adminRoute, limiter);
 app.use("/api/v2/student", studentRoute, limiter);
 app.use("/api/v2/teacher", teacherRoute, limiter);
-app.use('/api/v2/info', (req, res) => {
-    res.json({
+app.use('/api/v2/', (req, res) => {
+   return res.json({
         resCode: 200,
         status:"SUCCESS",
         message: "Backend of carmel polytechnic grievances, developed by Abhishek Santhosh"
