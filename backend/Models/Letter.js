@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 const moment = require('moment')
 
-const letterSchema = new Schema({
-  subject: {
-    type: String,
-    required: true,
-  },
+const letterSchema = new mongoose.Schema({
   from: { type: mongoose.Types.ObjectId, ref: 'User' },
   to: {
+    type: String,
+    default: "admin"
+  },
+  subject: {
     type: String,
     required: true,
   },
@@ -19,6 +19,14 @@ const letterSchema = new Schema({
     type: Boolean,
     default: false
   },
+  sender: {
+    type: String,
+    default: null
+  },
+  status: {
+    type: String, enum: ['PENDING', 'APPROVED', 'REJECTED'], default: "PENDING",
+  },
+  viewAccessids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true, versionKey: false });
 
 letterSchema.set('toJSON', {

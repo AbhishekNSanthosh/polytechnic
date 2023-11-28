@@ -31,7 +31,6 @@ const verifyAdminToken = async (req, res, next) => {
         }
 
         req.userId = decoded?.userId
-        req.user = user?.username;
         req.accessToken = token
         req.user = user
         next();
@@ -82,7 +81,6 @@ const verifyStudentToken = async (req, res, next) => {
         }
 
         req.userId = decoded?.userId
-        req.user = user?.username;
         req.accessToken = token
         req.user = user
         next();
@@ -133,7 +131,6 @@ const verifyTeacherToken = async (req, res, next) => {
         }
 
         req.userId = decoded?.userId
-        req.user = user?.username;
         req.accessToken = token
         req.user = user
         next();

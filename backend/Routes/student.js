@@ -5,6 +5,8 @@ const User = require('../Models/User');
 const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { verifyStudentToken } = require('../libs/Auth');
+const Letter = require('../Models/Letter');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -89,6 +91,37 @@ router.post('/studentLogin', limiter, async (req, res) => {
         });
 
     } catch (err) {
+        return res.status(500).json({
+            resCode: 500,
+            status: "FAILURE",
+            message: "Internal server error. Please try again later."
+        });
+    }
+});
+
+//api to create a new letter from student
+router.post('/addLetter', verifyStudentToken, async (req, res) => {
+    const { body, subject } = req.body;
+
+    try {
+        const newLetter = new Letter({
+            body,
+            from: req.userId,
+            subject,
+            sender: req?.user?.role
+        });
+
+        const savedLetter = await newLetter.save();
+
+        return res.status(201).json({
+            resCode: 201,
+            status: 'SUCCESS',
+            data: savedLetter,
+            message: 'Grievance created successfully',
+            accessToken: req.accessToken,
+        });
+    } catch (error) {
+        console.log(error)
         return res.status(500).json({
             resCode: 500,
             status: "FAILURE",

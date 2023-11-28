@@ -159,7 +159,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 });
 
 //api to create  new student
-router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
+router.post('/createNewStudent', async (req, res) => {
     try {
         const { username, password ,semester,department} = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
@@ -212,6 +212,7 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
             });
         })
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             resCode: 500,
             status: "FAILURE",
