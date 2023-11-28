@@ -7,8 +7,8 @@ const studentRoute = require('./Routes/student.js')
 const teacherRoute = require('./Routes/teacher.js')
 const rateLimit = require('express-rate-limit');
 const limiter = rateLimit({
-    windowMs: 60000, // 1 second
-    max: 1, // 1 request per second
+    windowMs: 600000, // 1 second
+    max: 3, // 1 request per second
     message: 'Rate limit exceeded. Please try again later.',
 });
 
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use("/api/v2/admin", adminRoute, limiter);
 app.use("/api/v2/student", studentRoute, limiter);
 app.use("/api/v2/teacher", teacherRoute, limiter);
-app.use('/api/v2/', (req, res) => {
+app.use('/api/v2/',limiter, (req, res) => {
    return res.json({
         resCode: 200,
         status:"SUCCESS",
