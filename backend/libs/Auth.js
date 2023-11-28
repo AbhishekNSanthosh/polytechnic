@@ -122,7 +122,7 @@ const verifyTeacherToken = async (req, res, next) => {
         const decoded = jwt.verify(token, 'carmelpoly');
         const user = await User.findOne({ _id: decoded.userId })
 
-        if (decoded.username !== user?.username && decoded.role !== "teacher") {
+        if (decoded.username !== user?.username && (user?.role !== "teacher" && decoded.role !== "teacher")) {
             return res.status(401).json({
                 resCode: 401,
                 status: "FAILURE",
@@ -130,10 +130,18 @@ const verifyTeacherToken = async (req, res, next) => {
             });
         }
 
-        req.userId = decoded?.userId
-        req.accessToken = token
-        req.user = user
-        next();
+        if (decoded.role === "teacher" && user?.role === "teacher") {
+            req.userId = decoded?.userId
+            req.accessToken = token
+            req.user = user
+            next();
+        }else{
+            return res.status(401).json({
+                resCode: 401,
+                status: "FAILURE",
+                message: "Not Authorized",
+            });
+        }
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
             return res.status(401).json({
