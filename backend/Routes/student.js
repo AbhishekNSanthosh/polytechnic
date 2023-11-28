@@ -30,7 +30,7 @@ router.post('/studentLogin', limiter, async (req, res) => {
                 message: 'Invalid username or password'
             });
         }
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username, role: "student" });
         if (!user) {
             return res.status(401).json({
                 resCode: 401,
