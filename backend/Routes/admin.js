@@ -6,6 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
+const { roles, createSuccessResponse } = require('../Utils/Helpers')
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -80,14 +81,16 @@ router.post('/adminLogin', limiter, async (req, res) => {
         const token = jwt.sign({
             username: user.username, userId: user._id, role: "admin"
         }, "carmelpoly", { expiresIn: '1h' });
-
-        return res.status(200).json({
-            resCode: 200,
-            status: 'SUCCESS',
+        
+        const response = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
             message: 'Authentication successfull',
+            accessType: roles.adminRole,
             accessToken: token,
-        });
+        }
+
+        const successResponse = createSuccessResponse(response);
+        return res.status(200).json(successResponse);
 
     } catch (err) {
         return res.status(500).json({
