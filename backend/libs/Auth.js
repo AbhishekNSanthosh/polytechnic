@@ -55,7 +55,7 @@ const verifyAdminToken = async (req, res, next) => {
 const verifyStudentToken = async (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(403).json({
-            status: "failed",
+            status: "FAILURE",
             code: 403,
             message: "Token not found Authentication failed",
         });
@@ -89,7 +89,7 @@ const verifyStudentToken = async (req, res, next) => {
             return res.status(401).json({
                 resCode: 401,
                 status: "FAILURE",
-                message: 'Token has expired !'
+                message: 'SEssion has expired !'
             });
         } else {
             return res.status(401).json({
@@ -115,7 +115,7 @@ const verifyTeacherToken = async (req, res, next) => {
         return res.status(403).json({
             resCode: 403,
             status: "FAILURE",
-            message: "Token not found",
+            message: "Invalid session",
         });
     }
     try {
@@ -147,7 +147,7 @@ const verifyTeacherToken = async (req, res, next) => {
             return res.status(401).json({
                 resCode: 401,
                 status: "FAILURE",
-                message: 'Token has expired !'
+                message: 'Session has expired !'
             });
         } else {
             return res.status(401).json({

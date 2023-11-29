@@ -33,10 +33,10 @@ router.post('/adminLogin', limiter, async (req, res) => {
         }
         const user = await User.findOne({ username });
         if (!user) {
-            return res.status(401).json({
-                resCode: 401,
+            return res.status(404).json({
+                resCode: 404,
                 status: 'FAILURE',
-                message: 'Authentication failed. User not found.'
+                message: 'User not found.'
             });
         }
         if (user.lockUntil > new Date()) {
@@ -118,7 +118,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
             });
         }
 
-        const existingAdmin = await User.findOne({ username ,role:"admin" });
+        const existingAdmin = await User.findOne({ username, role: "admin" });
         if (existingAdmin) {
             return res.status(401).json({
                 resCode: 401,
@@ -144,7 +144,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
         }).catch((error) => {
             console.log(error)
             return res.status(400).json({
-                resCode: 500,
+                resCode: 400,
                 status: "FAILURE",
                 message: "Please fill the required fields"
             });
@@ -159,9 +159,9 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 });
 
 //api to create  new student
-router.post('/createNewStudent', async (req, res) => {
+router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
-        const { username, password ,semester,department} = req.body;
+        const { username, password, semester, department } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
             return res.status(401).json({
                 resCode: 401,
@@ -178,7 +178,7 @@ router.post('/createNewStudent', async (req, res) => {
             });
         }
 
-        const existingAdmin = await User.findOne({ username ,role:"student" });
+        const existingAdmin = await User.findOne({ username, role: "student" });
         if (existingAdmin) {
             return res.status(401).json({
                 resCode: 401,
@@ -224,7 +224,7 @@ router.post('/createNewStudent', async (req, res) => {
 //api to create  new teacher
 router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
     try {
-        const { username, password, department,semester } = req.body;
+        const { username, password, department, semester } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
             return res.status(401).json({
                 resCode: 401,
@@ -241,7 +241,7 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
             });
         }
 
-        const existingAdmin = await User.findOne({ username ,role:"teacher" });
+        const existingAdmin = await User.findOne({ username, role: "teacher" });
         if (existingAdmin) {
             return res.status(401).json({
                 resCode: 401,
@@ -255,7 +255,7 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
                 username,
                 password: hashedPassword,
                 role: "teacher",
-                semester:semester,
+                semester: semester,
                 department: department
             });
             await user.save();
@@ -271,7 +271,7 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
             return res.status(400).json({
                 resCode: 400,
                 status: "FAILURE",
-                message: "Please fill the required fields"+error
+                message: "Please fill the required fields" + error
             });
         })
     } catch (error) {
