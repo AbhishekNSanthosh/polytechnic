@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, createSuccessResponse } = require('../Utils/Helpers')
+const { roles, createSuccessResponse, fiveHundredResponse } = require('../Utils/Helpers')
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -81,23 +81,20 @@ router.post('/adminLogin', limiter, async (req, res) => {
         const token = jwt.sign({
             username: user.username, userId: user._id, role: "admin"
         }, "carmelpoly", { expiresIn: '1h' });
-        
-        const response = {
+
+        const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
             message: 'Authentication successfull',
             accessType: roles.adminRole,
             accessToken: token,
         }
 
-        const successResponse = createSuccessResponse(response);
+        const successResponse = createSuccessResponse(responseMsg);
         return res.status(200).json(successResponse);
 
     } catch (err) {
-        return res.status(500).json({
-            resCode: 500,
-            status: "FAILURE",
-            message: "Internal server error. Please try again later."
-        });
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
     }
 });
 
@@ -153,11 +150,8 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
             });
         })
     } catch (error) {
-        return res.status(500).json({
-            resCode: 500,
-            status: "FAILURE",
-            message: "Internal server error. Please try again later."
-        });
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
     }
 });
 
@@ -215,12 +209,8 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
             });
         })
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            resCode: 500,
-            status: "FAILURE",
-            message: "Internal server error. Please try again later."
-        });
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
     }
 });
 
@@ -278,11 +268,8 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
             });
         })
     } catch (error) {
-        return res.status(500).json({
-            resCode: 500,
-            status: "FAILURE",
-            message: "Internal server error. Please try again later."
-        });
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
     }
 });
 
