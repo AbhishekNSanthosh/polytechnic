@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, successResponse, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse } = require('../Utils/Helpers')
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse } = require('../Utils/Helpers')
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -70,7 +70,7 @@ router.post('/adminLogin', limiter, async (req, res) => {
             accessToken: token,
         }
 
-        const successResponseMsg = successResponse(responseMsg);
+        const successResponseMsg = twohundredResponse(responseMsg);
         return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.log(error)
