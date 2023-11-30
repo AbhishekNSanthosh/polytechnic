@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, successResponse, fiveHundredResponse, twohundredResponse, fourNotOneResponse, errorMessages } = require('../Utils/Helpers')
+const { roles, successResponse, fiveHundredResponse, twohundredResponse, fourNotOneResponse, errorMessages, fourNotFourResponse } = require('../Utils/Helpers')
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -28,18 +28,12 @@ router.post('/adminLogin', limiter, async (req, res) => {
         }
         const user = await User.findOne({ username });
         if (!user) {
-            return res.status(404).json({
-                resCode: 404,
-                status: 'FAILURE',
-                message: 'User not found.'
-            });
+            const errorMessage = fourNotFourResponse(errorMessages.notFoundMsg);
+            return res.status(404).json(errorMessage);
         }
         if (user.lockUntil > new Date()) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Account is locked. Try again later.'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.AccountLockedMsg);
+            return res.status(401).json(errorMessage);
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -57,11 +51,8 @@ router.post('/adminLogin', limiter, async (req, res) => {
         }
 
         if (user?.role !== "admin") {
-            return res.status(404).json({
-                resCode: 404,
-                status: "FAILURE",
-                message: "User not found"
-            });
+            const errorMessage = fourNotFourResponse(errorMessages.notFoundMsg);
+            return res.status(404).json(errorMessage);
         }
 
         user.loginAttempts = 0;
@@ -74,7 +65,7 @@ router.post('/adminLogin', limiter, async (req, res) => {
 
         const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
-            message: 'Authentication successfull',
+            message:errorMessages.AuthSuccessMsg,
             accessType: roles.adminRole,
             accessToken: token,
         }
@@ -104,11 +95,8 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 
         const existingAdmin = await User.findOne({ username, role: "admin" });
         if (existingAdmin) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                error: 'Username already exists. Choose a different username.'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.userAlreadyExistsMsg);
+            return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
@@ -147,11 +135,8 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
 
         const existingAdmin = await User.findOne({ username, role: "student" });
         if (existingAdmin) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Username already exists as student. Choose a different username.'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
@@ -192,11 +177,8 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
 
         const existingAdmin = await User.findOne({ username, role: "teacher" });
         if (existingAdmin) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                error: 'Username already exists as teacher. Choose a different username.'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({

@@ -34,16 +34,23 @@ const fourNotOneResponse = (data = {}) => {
     };
 };
 
+const fourNotFourResponse = (data = {}) => {
+    return {
+        resCode: 404,
+        status: "FAILURE",
+        ...data
+    };
+};
+
 const errorMessages = {
     invalidMsg: "Invalid username or password!",
     userNotfoundMsg: "User not found",
-    notFoundMsg: "Not found",
+    notFoundMsg: "Requested data not found",
     internalErrorMsg: "Internal server error. Please try again!",
     AccountLockedMsg: 'Account is locked. Try again later.',
     AuthSuccessMsg: "Authentication successfull",
     userAlreadyExistsMsg: "Username already exists. Choose a different username.",
     createdSuccessMsg:"Created successfully",
-
 }
 
 module.exports = {
@@ -52,5 +59,6 @@ module.exports = {
     fiveHundredResponse,
     twohundredResponse,
     fourNotOneResponse,
-    errorMessages
+    errorMessages,
+    fourNotFourResponse
 }
