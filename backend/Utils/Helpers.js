@@ -6,7 +6,7 @@ const createSuccessResponse = (data = {}) => {
     return {
         resCode: 200,
         status: "SUCCESS",
-        data,
+        ...data,
     };
 };
 
