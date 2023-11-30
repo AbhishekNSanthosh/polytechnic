@@ -6,7 +6,8 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse } = require('../Utils/Helpers')
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse } = require('../Utils/Helpers');
+const Letter = require('../Models/Letter');
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -224,5 +225,21 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 });
+
+//api to get all letters send by the student
+router.get('/getAllLetters', verifyAdminToken, async (req, res) => {
+    try {
+        const letters = await Letter.find().populate('from','username email department semester');
+        const successResponseMsg = twohundredResponse({
+            data: letters.length === 0 ? null : letters,
+            letterCount: letters.length
+        });
+        return res.status(201).json(successResponseMsg);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
 
 module.exports = router;
