@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const { verifyStudentToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
 const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse } = require('../Utils/Helpers');
+const moment = require('moment');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -134,9 +135,29 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
 //api to get all letters send by the student
 router.get('/getAllLetters', verifyStudentToken, async (req, res) => {
     try {
-        const letters = await Letter.find({ from: req.userId });
+        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: 'desc' }).populate('from', 'username email department semester role');
+
+        const sanitizedLetters = letters.map(letter => ({
+            ...letter.toObject(),
+            from: {
+                username: letter.from.username,
+                email: letter.from.email,
+                semester: letter.from.semester,
+                department: letter.from.department,
+                role: letter.from.role,
+            },
+            createdAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+        }));
         const successResponseMsg = twohundredResponse({
-            data: letters ? letters : null,
+            message: letters.length === 0 ? "No letters send by you" : "All letters",
+            data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
             letterCount: letters.length
         });
         return res.status(201).json(successResponseMsg);

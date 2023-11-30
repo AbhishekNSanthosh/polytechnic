@@ -133,12 +133,31 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
     }
 });
 
-//api to get all letters send by the student
+//api to get all letters send by the teacher
 router.get('/getAllLetters', verifyTeacherToken, async (req, res) => {
     try {
-        const letters = await Letter.find({ from: req.userId });
+        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: 'desc' }).populate('from', 'username email semester department role');
+        const sanitizedLetters = letters.map(letter => ({
+            ...letter.toObject(),
+            from: {
+                username: letter.from.username,
+                email: letter.from.email,
+                semester: letter.from.semester,
+                department: letter.from.department,
+                role: letter.from.role,
+            },
+            createdAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+        }));
         const successResponseMsg = twohundredResponse({
-            data: letters.length === 0 ? null : letters,
+            message: letters.length === 0 ? "No letters send by you" : "All letters",
+            data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
             letterCount: letters.length
         });
         return res.status(201).json(successResponseMsg);

@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
 const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
+const moment = require('moment');
+
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -226,12 +228,101 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
     }
 });
 
-//api to get all letters send by the student
+//api to get all letters
 router.get('/getAllLetters', verifyAdminToken, async (req, res) => {
     try {
-        const letters = await Letter.find().populate('from','username email department semester');
+        const letters = await Letter.find().sort({ createdAt: 'desc' }).populate('from', 'username email department semester role');
+        const sanitizedLetters = letters.map(letter => ({
+            ...letter.toObject(),
+            from: {
+                username: letter.from.username,
+                email: letter.from.email,
+                semester: letter.from.semester,
+                department: letter.from.department,
+                role: letter.from.role,
+            },
+            createdAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+        }));
         const successResponseMsg = twohundredResponse({
-            data: letters.length === 0 ? null : letters,
+            message: letters.length === 0 ? "No letters " : "All letters",
+            data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
+            letterCount: letters.length
+        });
+        return res.status(201).json(successResponseMsg);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
+
+//api to get all letters send by the student
+router.get('/getAllStudentLetters', verifyAdminToken, async (req, res) => {
+    try {
+        const letters = await Letter.find({ sender: "student" }).sort({ createdAt: 'desc' }).populate('from', 'username email role semester department');
+        const sanitizedLetters = letters.map(letter => ({
+            ...letter.toObject(),
+            from: {
+                username: letter.from.username,
+                email: letter.from.email,
+                semester: letter.from.semester,
+                department: letter.from.department,
+                role: letter.from.role,
+            },
+            createdAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+        }));
+        const successResponseMsg = twohundredResponse({
+            message: letters.length === 0 ? "No letters send by student" : "All student letters",
+            data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
+            letterCount: letters.length
+        });
+        return res.status(201).json(successResponseMsg);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
+
+//api to get all letters send by the student
+router.get('/getAllTeacherLetters', verifyAdminToken, async (req, res) => {
+    try {
+        const letters = await Letter.find({ sender: "teacher" }).sort({ createdAt: 'desc' }).populate('from', 'username email department semester role');
+        const sanitizedLetters = letters.map(letter => ({
+            ...letter.toObject(),
+            from: {
+                username: letter.from.username,
+                email: letter.from.email,
+                semester: letter.from.semester,
+                department: letter.from.department,
+                role: letter.from.role,
+            },
+            createdAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+        }));
+        const successResponseMsg = twohundredResponse({
+            message: letters.length === 0 ? "No letters send by teacher" : "All teacher letters",
+            data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
             letterCount: letters.length
         });
         return res.status(201).json(successResponseMsg);

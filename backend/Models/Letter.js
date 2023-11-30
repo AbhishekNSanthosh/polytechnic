@@ -19,10 +19,10 @@ const letterSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  // sender: {
-  //   type: String,
-  //   default: null
-  // },
+  sender: {
+    type: String,
+    default: null
+  },
   status: {
     type: String, enum: ['PENDING', 'APPROVED', 'REJECTED'], default: "PENDING",
   },
