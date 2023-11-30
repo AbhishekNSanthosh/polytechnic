@@ -18,21 +18,21 @@ router.post('/adminLogin', limiter, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
         const user = await User.findOne({ username });
         if (!user) {
-            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
         }
         if (user.lockUntil > new Date()) {
-            const errorMessage = fourNotOneResponse(resMessages.AccountLockedMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
             return res.status(401).json(errorMessage);
         }
 
@@ -46,12 +46,12 @@ router.post('/adminLogin', limiter, async (req, res) => {
             }
 
             await user.save();
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (user?.role !== "admin") {
-            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
         }
 
@@ -84,18 +84,18 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         const existingAdmin = await User.findOne({ username, role: "admin" });
         if (existingAdmin) {
-            const errorMessage = fourNotOneResponse(resMessages.userAlreadyExistsMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.userAlreadyExistsMsg });
             return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -124,18 +124,18 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, semester, department } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         const existingStudent = await User.findOne({ username, role: "student" });
         if (existingStudent) {
-            const errorMessage = fourNotOneResponse(resMessages.userAlreadyExistsMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.userAlreadyExistsMsg });
             return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -166,18 +166,18 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, department, semester } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         const existingTeacher = await User.findOne({ username, role: "teacher" });
         if (existingTeacher) {
-            const errorMessage = fourNotOneResponse(resMessages.userAlreadyExistsMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.userAlreadyExistsMsg });
             return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
