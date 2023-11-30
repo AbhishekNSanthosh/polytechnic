@@ -5,12 +5,12 @@ const { resMessages, fourNotThreeResponse, fourNotOneResponse } = require('../Ut
 // Middleware to verify JWT tokens for checking admin authorization
 const verifyAdminToken = async (req, res, next) => {
     if (!req.headers.authorization) {
-        const errorMessage = fourNotThreeResponse(resMessages.invalidMsg);
+        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
         return res.status(403).json(errorMessage);
     }
     let token = req.headers.authorization.split(" ")[1];
     if (!token) {
-        const errorMessage = fourNotThreeResponse(resMessages.tokenNotFound);
+        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
         return res.status(403).json(errorMessage);
     }
     try {
@@ -18,7 +18,7 @@ const verifyAdminToken = async (req, res, next) => {
         const user = await User.findOne({ _id: decoded.userId })
 
         if (decoded.username !== user?.username && decoded.role !== "admin") {
-            const errorMessage = fourNotOneResponse(resMessages.unAuthorized);
+            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
             return res.status(401).json(errorMessage);
         }
         if (decoded.role === "admin" && user?.role === "admin") {
@@ -27,15 +27,15 @@ const verifyAdminToken = async (req, res, next) => {
             req.user = user
             next();
         } else {
-            const errorMessage = fourNotOneResponse(resMessages.unAuthorized);
+            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
             return res.status(401).json(errorMessage);
         }
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse(resMessages.sessionExpired);
+            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired });
             return res.status(401).json(errorMessage);
         } else {
-            const errorMessage = fourNotOneResponse(resMessages.authFailed);
+            const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
             return res.status(401).json(errorMessage);
         }
     }
@@ -44,12 +44,12 @@ const verifyAdminToken = async (req, res, next) => {
 // Middleware to verify JWT tokens for checking student authorization
 const verifyStudentToken = async (req, res, next) => {
     if (!req.headers.authorization) {
-        const errorMessage = fourNotThreeResponse(resMessages.invalidMsg);
+        const errorMessage = fourNotThreeResponse({ message: resMessages.invalidMsg });
         return res.status(403).json(errorMessage);
     }
     let token = req.headers.authorization.split(" ")[1];
     if (!token) {
-        const errorMessage = fourNotThreeResponse(resMessages.tokenNotFound);
+        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
         return res.status(403).json(errorMessage);
     }
     try {
@@ -57,7 +57,7 @@ const verifyStudentToken = async (req, res, next) => {
         const user = await User.findOne({ _id: decoded.userId })
 
         if (decoded.username !== user?.username && decoded.role !== "student") {
-            const errorMessage = fourNotOneResponse(resMessages.unAuthorized);
+            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
             return res.status(401).json(errorMessage);
         }
 
@@ -67,15 +67,15 @@ const verifyStudentToken = async (req, res, next) => {
             req.user = user
             next();
         } else {
-            const errorMessage = fourNotOneResponse(resMessages.unAuthorized);
+            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
             return res.status(401).json(errorMessage);
         }
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse(resMessages.sessionExpired);
+            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired });
             return res.status(401).json(errorMessage);
         } else {
-            const errorMessage = fourNotOneResponse(resMessages.authFailed);
+            const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
             return res.status(401).json(errorMessage);
         }
     }
@@ -84,12 +84,12 @@ const verifyStudentToken = async (req, res, next) => {
 // Middleware to verify JWT tokens for checking teacher authorization
 const verifyTeacherToken = async (req, res, next) => {
     if (!req.headers.authorization) {
-        const errorMessage = fourNotThreeResponse(resMessages.invalidMsg);
+        const errorMessage = fourNotThreeResponse({ message: resMessages.invalidMsg });
         return res.status(403).json(errorMessage);
     }
     let token = req.headers.authorization.split(" ")[1];
     if (!token) {
-        const errorMessage = fourNotThreeResponse(resMessages.tokenNotFound);
+        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
         return res.status(403).json(errorMessage);
     }
     try {
@@ -97,7 +97,7 @@ const verifyTeacherToken = async (req, res, next) => {
         const user = await User.findOne({ _id: decoded.userId })
 
         if (decoded.username !== user?.username && (user?.role !== "teacher" && decoded.role !== "teacher")) {
-            const errorMessage = fourNotOneResponse(resMessages.unAuthorized);
+            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
             return res.status(401).json(errorMessage);
         }
 
@@ -115,10 +115,10 @@ const verifyTeacherToken = async (req, res, next) => {
         }
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse(resMessages.sessionExpired);
+            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired });
             return res.status(401).json(errorMessage);
         } else {
-            const errorMessage = fourNotOneResponse(resMessages.authFailed);
+            const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
             return res.status(401).json(errorMessage);
         }
     }
