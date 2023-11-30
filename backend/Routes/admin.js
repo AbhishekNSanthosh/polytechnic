@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse } = require('../Utils/Helpers')
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse } = require('../Utils/Helpers')
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -95,8 +95,8 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 
         const existingAdmin = await User.findOne({ username, role: "admin" });
         if (existingAdmin) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.userAlreadyExistsMsg });
-            return res.status(401).json(errorMessage);
+            const errorMessage = fourNotNineResponse({ message: resMessages.userAlreadyExistsMsg });
+            return res.status(409).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
@@ -104,11 +104,20 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
             password: hashedPassword,
             role: "admin"
         });
-        await user.save();
+        const savedUser = await user.save();
+        const userWithoutPassword = {
+            _id: savedUser._id,
+            username: savedUser.username,
+            username: savedUser.email,
+            role: savedUser.role,
+            semester: savedUser.semester,
+            department: savedUser.department
+        };
         const responseMsg = {
             resCode: 201,
             status: 'SUCCESS',
             message: 'created successfully.',
+            userData: userWithoutPassword,
             accessToken: req.accessToken
         }
         const successResponseMsg = twoNotOneResponse(responseMsg);
@@ -135,8 +144,8 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
 
         const existingStudent = await User.findOne({ username, role: "student" });
         if (existingStudent) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.userAlreadyExistsMsg });
-            return res.status(401).json(errorMessage);
+            const errorMessage = fourNotNineResponse({ message: resMessages.userAlreadyExistsMsg });
+            return res.status(409).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
@@ -177,8 +186,8 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
 
         const existingTeacher = await User.findOne({ username, role: "teacher" });
         if (existingTeacher) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.userAlreadyExistsMsg });
-            return res.status(401).json(errorMessage);
+            const errorMessage = fourNotNineResponse({ message: resMessages.userAlreadyExistsMsg });
+            return res.status(409).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({

@@ -64,7 +64,7 @@ router.post('/studentLogin', limiter, async (req, res) => {
 
         const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
-            message: errorMessages.AuthSuccessMsg,
+            message: resMessages.AuthSuccessMsg,
             accessType: roles.studentRole,
             accessToken: token,
         }
@@ -72,7 +72,8 @@ router.post('/studentLogin', limiter, async (req, res) => {
         const successResponseMsg = twohundredResponse(responseMsg);
         return res.status(200).json(successResponseMsg);
 
-    } catch (err) {
+    } catch (error) {
+        console.log(error)
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
     }

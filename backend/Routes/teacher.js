@@ -67,7 +67,7 @@ router.post('/teacherLogin', limiter, async (req, res) => {
         const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
             message: errorMessages.AuthSuccessMsg,
-            accessType: roles.studentRole,
+            accessType: roles.teacherRole,
             accessToken: token,
         }
 

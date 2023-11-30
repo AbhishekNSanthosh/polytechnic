@@ -53,6 +53,14 @@ const fourNotThreeResponse = (data = {}) => {
     };
 };
 
+const fourNotNineResponse = (data = {}) => {
+    return {
+        resCode: 409,
+        status: "FAILURE",
+        ...data
+    };
+};
+
 const resMessages = {
     invalidMsg: "Invalid username or password!",
     userNotfoundMsg: "User not found",
@@ -76,5 +84,6 @@ module.exports = {
     fourNotOneResponse,
     fourNotFourResponse,
     fourNotThreeResponse,
+    fourNotNineResponse,
     resMessages,
 }
