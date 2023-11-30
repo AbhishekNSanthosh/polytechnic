@@ -100,6 +100,15 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
+        if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: "Invalid body" });
+            return res.status(400).json(errorMessage);
+        }
+
+        if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: "Invalid subject" });
+            return res.status(400).json(errorMessage);
+        }
         const newLetter = new Letter({
             body,
             from: req.userId,
@@ -123,5 +132,21 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 });
+
+//api to get all letters send by the student
+router.get('/getAllLetters', verifyTeacherToken, async (req, res) => {
+    try {
+        const letters = await Letter.find({ from: req.userId });
+        const successResponseMsg = twohundredResponse({
+            data: letters.length === 0 ? null : letters,
+            letterCount: letters.length
+        });
+        return res.status(201).json(successResponseMsg);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
 
 module.exports = router;
