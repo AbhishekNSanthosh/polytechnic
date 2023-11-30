@@ -19,21 +19,21 @@ router.post('/teacherLogin', limiter, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
         const user = await User.findOne({ username });
         if (!user) {
-            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
         }
         if (user.lockUntil > new Date()) {
-            const errorMessage = fourNotOneResponse(resMessages.AccountLockedMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
             return res.status(401).json(errorMessage);
         }
 
@@ -47,12 +47,12 @@ router.post('/teacherLogin', limiter, async (req, res) => {
             }
 
             await user.save();
-            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (user?.role !== "teacher") {
-            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
         }
 
