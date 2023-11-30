@@ -79,6 +79,20 @@ router.post('/adminLogin', limiter, async (req, res) => {
     }
 });
 
+//api to get admin info && token is valid or not
+router.get('/getUserDetails', verifyAdminToken, async (req, res) => {
+    try {
+        if (req.user) {
+            const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
+            const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
+            return res.status(200).json(responseMsg)
+        }
+    } catch (error) {
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
+
 //api to create a new admin
 router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
     try {
