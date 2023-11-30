@@ -44,6 +44,15 @@ const fourNotFourResponse = (data = {}) => {
     };
 };
 
+const fourNotThreeResponse = (data = {}) => {
+    return {
+        resCode: 403,
+        status: "FAILURE",
+        message: "Token not found. Authentication failed",
+        ...data
+    };
+};
+
 const resMessages = {
     invalidMsg: "Invalid username or password!",
     userNotfoundMsg: "User not found",
@@ -53,6 +62,10 @@ const resMessages = {
     AuthSuccessMsg: "Authentication successfull",
     userAlreadyExistsMsg: "Username already exists. Choose a different username.",
     createdSuccessMsg: "Created successfully",
+    tokenNotFound: "Token not found",
+    unAuthorized: "Unauthorized access",
+    sessionExpired:"Session expired",
+    authFailed:"Authentication failed"
 }
 
 module.exports = {
@@ -61,6 +74,7 @@ module.exports = {
     fiveHundredResponse,
     twohundredResponse,
     fourNotOneResponse,
+    fourNotFourResponse,
+    fourNotThreeResponse,
     resMessages,
-    fourNotFourResponse
 }
