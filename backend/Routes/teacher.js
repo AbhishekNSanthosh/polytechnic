@@ -27,7 +27,8 @@ router.post('/teacherLogin', limiter, async (req, res) => {
             const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username, role: "teacher" });
+
         if (!user) {
             const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
@@ -66,7 +67,7 @@ router.post('/teacherLogin', limiter, async (req, res) => {
 
         const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
-            message: errorMessages.AuthSuccessMsg,
+            message: resMessages.AuthSuccessMsg,
             accessType: roles.teacherRole,
             accessToken: token,
         }
@@ -74,11 +75,25 @@ router.post('/teacherLogin', limiter, async (req, res) => {
         const successResponseMsg = twohundredResponse(responseMsg);
         return res.status(200).json(successResponseMsg);
 
-    } catch (err) {
+    } catch (error) {
+        console.log(error)
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
     }
 });
+
+router.get('/getUserDetails', verifyTeacherToken, async (req, res) => {
+    try {
+        if (req.user) {
+            const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
+            const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
+            return res.status(200).json(responseMsg)
+        }
+    } catch (error) {
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
 
 //api to add letter by teacher
 router.post('/addLetter', verifyTeacherToken, async (req, res) => {
