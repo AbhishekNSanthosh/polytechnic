@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyTeacherToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
+const { fiveHundredResponse } = require('../Utils/Helpers');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -91,11 +92,8 @@ router.post('/teacherLogin', limiter, async (req, res) => {
         });
 
     } catch (err) {
-        return res.status(500).json({
-            resCode: 500,
-            status: "FAILURE",
-            message: "Internal server error. Please try again later."
-        });
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
     }
 });
 
@@ -122,11 +120,8 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
         });
     } catch (error) {
         console.log(error)
-        return res.status(500).json({
-            resCode: 500,
-            status: "FAILURE",
-            message: "Internal server error. Please try again later."
-        });
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
     }
 });
 
