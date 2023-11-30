@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, successResponse, fiveHundredResponse, twohundredResponse, fourNotOneResponse, errorMessages, fourNotFourResponse } = require('../Utils/Helpers')
+const { roles, successResponse, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse } = require('../Utils/Helpers')
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -18,21 +18,21 @@ router.post('/adminLogin', limiter, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
         const user = await User.findOne({ username });
         if (!user) {
-            const errorMessage = fourNotFourResponse(errorMessages.notFoundMsg);
+            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
             return res.status(404).json(errorMessage);
         }
         if (user.lockUntil > new Date()) {
-            const errorMessage = fourNotOneResponse(errorMessages.AccountLockedMsg);
+            const errorMessage = fourNotOneResponse(resMessages.AccountLockedMsg);
             return res.status(401).json(errorMessage);
         }
 
@@ -46,12 +46,12 @@ router.post('/adminLogin', limiter, async (req, res) => {
             }
 
             await user.save();
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
         if (user?.role !== "admin") {
-            const errorMessage = fourNotFourResponse(errorMessages.notFoundMsg);
+            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
             return res.status(404).json(errorMessage);
         }
 
@@ -65,7 +65,7 @@ router.post('/adminLogin', limiter, async (req, res) => {
 
         const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
-            message:errorMessages.AuthSuccessMsg,
+            message: resMessages.AuthSuccessMsg,
             accessType: roles.adminRole,
             accessToken: token,
         }
@@ -84,18 +84,18 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
         const existingAdmin = await User.findOne({ username, role: "admin" });
         if (existingAdmin) {
-            const errorMessage = fourNotOneResponse(errorMessages.userAlreadyExistsMsg);
+            const errorMessage = fourNotOneResponse(resMessages.userAlreadyExistsMsg);
             return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -111,7 +111,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
             message: 'created successfully.',
             accessToken: req.accessToken
         }
-        const successResponseMsg = twohundredResponse(responseMsg);
+        const successResponseMsg = twoNotOneResponse(responseMsg);
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         const errorResponse = fiveHundredResponse();
@@ -124,18 +124,18 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, semester, department } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
-        const existingAdmin = await User.findOne({ username, role: "student" });
-        if (existingAdmin) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+        const existingStudent = await User.findOne({ username, role: "student" });
+        if (existingStudent) {
+            const errorMessage = fourNotOneResponse(resMessages.userAlreadyExistsMsg);
             return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -153,7 +153,7 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
             message: 'created successfully.',
             accessToken: req.accessToken
         }
-        const successResponseMsg = twohundredResponse(responseMsg);
+        const successResponseMsg = twoNotOneResponse(responseMsg);
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         const errorResponse = fiveHundredResponse();
@@ -166,18 +166,18 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, department, semester } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
             return res.status(401).json(errorMessage);
         }
 
-        const existingAdmin = await User.findOne({ username, role: "teacher" });
-        if (existingAdmin) {
-            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+        const existingTeacher = await User.findOne({ username, role: "teacher" });
+        if (existingTeacher) {
+            const errorMessage = fourNotOneResponse(resMessages.userAlreadyExistsMsg);
             return res.status(401).json(errorMessage);
         }
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -194,7 +194,7 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
             message: 'Teacher created successfully.',
             accessToken: req.accessToken
         }
-        const successResponseMsg = twohundredResponse(responseMsg);
+        const successResponseMsg = twoNotOneResponse(responseMsg);
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         const errorResponse = fiveHundredResponse();

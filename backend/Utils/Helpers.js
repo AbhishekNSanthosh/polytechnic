@@ -1,8 +1,10 @@
 const roles = {
-    adminRole: "admin"
+    adminRole: "admin",
+    studentRole: "student",
+    teacherRole: "teacher"
 }
 
-const successResponse = (data = {}) => {
+const twohundredResponse = (data = {}) => {
     return {
         resCode: 200,
         status: "SUCCESS",
@@ -10,7 +12,7 @@ const successResponse = (data = {}) => {
     };
 };
 
-const twohundredResponse = (data = {}) => {
+const twoNotOneResponse = (data = {}) => {
     return {
         resCode: 201,
         status: "SUCCESS",
@@ -42,7 +44,7 @@ const fourNotFourResponse = (data = {}) => {
     };
 };
 
-const errorMessages = {
+const resMessages = {
     invalidMsg: "Invalid username or password!",
     userNotfoundMsg: "User not found",
     notFoundMsg: "Requested data not found",
@@ -50,15 +52,15 @@ const errorMessages = {
     AccountLockedMsg: 'Account is locked. Try again later.',
     AuthSuccessMsg: "Authentication successfull",
     userAlreadyExistsMsg: "Username already exists. Choose a different username.",
-    createdSuccessMsg:"Created successfully",
+    createdSuccessMsg: "Created successfully",
 }
 
 module.exports = {
     roles,
-    successResponse,
+    twoNotOneResponse,
     fiveHundredResponse,
     twohundredResponse,
     fourNotOneResponse,
-    errorMessages,
+    resMessages,
     fourNotFourResponse
 }

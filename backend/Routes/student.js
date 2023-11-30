@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyStudentToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse } = require('../Utils/Helpers');
+const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse } = require('../Utils/Helpers');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -19,60 +19,39 @@ router.post('/studentLogin', limiter, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
-
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
         const user = await User.findOne({ username, role: "student" });
         if (!user) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Authentication failed. User not found.'
-            });
+            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
+            return res.status(404).json(errorMessage);
         }
         if (user.lockUntil > new Date()) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Account is locked. Try again later.'
-            });
+            const errorMessage = fourNotOneResponse(resMessages.AccountLockedMsg);
+            return res.status(401).json(errorMessage);
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
             user.loginAttempts += 1;
-
             if (user.loginAttempts >= 3) {
                 user.lockUntil = new Date(Date.now() + 10 * 60 * 1000); // Lock for 10 minutes
             }
 
             await user.save();
-            console.log(user)
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(resMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         if (user?.role !== "student") {
-            return res.status(404).json({
-                resCode: 404,
-                status: "FAILURE",
-                message: "User not found"
-            });
+            const errorMessage = fourNotFourResponse(resMessages.userNotfoundMsg);
+            return res.status(404).json(errorMessage);
         }
 
         user.loginAttempts = 0;
@@ -83,13 +62,15 @@ router.post('/studentLogin', limiter, async (req, res) => {
             username: user.username, userId: user._id, role: "student"
         }, "carmelpoly", { expiresIn: '1h' });
 
-        return res.status(200).json({
-            resCode: 200,
-            status: 'SUCCESS',
+        const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
+            message: errorMessages.AuthSuccessMsg,
+            accessType: roles.studentRole,
             accessToken: token,
-            message: 'Authentication successfull',
-        });
+        }
+
+        const successResponseMsg = twohundredResponse(responseMsg);
+        return res.status(200).json(successResponseMsg);
 
     } catch (err) {
         const errorResponse = fiveHundredResponse();
@@ -110,14 +91,15 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
         });
 
         const savedLetter = await newLetter.save();
-
-        return res.status(201).json({
+        const responseMsg = {
             resCode: 201,
             status: 'SUCCESS',
+            message: 'created successfully.',
             data: savedLetter,
-            message: 'Grievance created successfully',
-            accessToken: req.accessToken,
-        });
+            accessToken: req.accessToken
+        }
+        const successResponseMsg = twoNotOneResponse(responseMsg);
+        return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.log(error)
         const errorResponse = fiveHundredResponse();

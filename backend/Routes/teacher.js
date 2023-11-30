@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyTeacherToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse } = require('../Utils/Helpers');
+const { fiveHundredResponse, twoNotOneResponse, twohundredResponse } = require('../Utils/Helpers');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -83,13 +83,15 @@ router.post('/teacherLogin', limiter, async (req, res) => {
             username: user.username, userId: user._id, role: "teacher"
         }, "carmelpoly", { expiresIn: '1h' });
 
-        return res.status(200).json({
-            resCode: 200,
-            status: 'SUCCESS',
+        const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
+            message: errorMessages.AuthSuccessMsg,
+            accessType: roles.studentRole,
             accessToken: token,
-            message: 'Authentication successfull',
-        });
+        }
+
+        const successResponseMsg = twohundredResponse(responseMsg);
+        return res.status(200).json(successResponseMsg);
 
     } catch (err) {
         const errorResponse = fiveHundredResponse();
@@ -110,14 +112,15 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
         });
 
         const savedLetter = await newLetter.save();
-
-        return res.status(201).json({
+        const responseMsg = {
             resCode: 201,
             status: 'SUCCESS',
+            message: 'created successfully.',
             data: savedLetter,
-            message: 'Grievance created successfully',
-            accessToken: req.accessToken,
-        });
+            accessToken: req.accessToken
+        }
+        const successResponseMsg = twoNotOneResponse(responseMsg);
+        return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.log(error)
         const errorResponse = fiveHundredResponse();
