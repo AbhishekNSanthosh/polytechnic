@@ -6,11 +6,11 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, createSuccessResponse, fiveHundredResponse } = require('../Utils/Helpers')
+const { roles, successResponse, fiveHundredResponse, twohundredResponse, fourNotOneResponse, errorMessages } = require('../Utils/Helpers')
 const limiter = rateLimit({
-    windowMs: 10 * 60 * 1000, // 10 minutes
+    windowMs: 1 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
-    message: 'Too many login attempts. Your account is locked for 10 minutes.',
+    message: 'Too many requests. Your account is locked for 10 minutes.',
 });
 
 //api to login admin
@@ -18,19 +18,13 @@ router.post('/adminLogin', limiter, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
         const user = await User.findOne({ username });
         if (!user) {
@@ -58,12 +52,8 @@ router.post('/adminLogin', limiter, async (req, res) => {
             }
 
             await user.save();
-            console.log(user)
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         if (user?.role !== "admin") {
@@ -89,10 +79,10 @@ router.post('/adminLogin', limiter, async (req, res) => {
             accessToken: token,
         }
 
-        const successResponse = createSuccessResponse(responseMsg);
-        return res.status(200).json(successResponse);
-
-    } catch (err) {
+        const successResponseMsg = successResponse(responseMsg);
+        return res.status(200).json(successResponseMsg);
+    } catch (error) {
+        console.log(error)
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
     }
@@ -103,19 +93,13 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or username'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid password or username'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         const existingAdmin = await User.findOne({ username, role: "admin" });
@@ -126,29 +110,21 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
                 error: 'Username already exists. Choose a different username.'
             });
         }
-
-        bcrypt.hash(password, 12).then(async hashedPassword => {
-            const user = new User({
-                username,
-                password: hashedPassword,
-                role: "admin"
-            });
-            await user.save();
-        }).then(() => {
-            return res.status(201).json({
-                resCode: 201,
-                status: 'SUCCESS',
-                message: 'Admin created successfully.',
-                accessToken: req.accessToken
-            })
-        }).catch((error) => {
-            console.log(error)
-            return res.status(400).json({
-                resCode: 400,
-                status: "FAILURE",
-                message: "Please fill the required fields"
-            });
-        })
+        const hashedPassword = await bcrypt.hash(password, 12);
+        const user = new User({
+            username,
+            password: hashedPassword,
+            role: "admin"
+        });
+        await user.save();
+        const responseMsg = {
+            resCode: 201,
+            status: 'SUCCESS',
+            message: 'created successfully.',
+            accessToken: req.accessToken
+        }
+        const successResponseMsg = twohundredResponse(responseMsg);
+        return res.status(201).json(successResponseMsg);
     } catch (error) {
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
@@ -160,19 +136,13 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, semester, department } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or username'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid password or username'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         const existingAdmin = await User.findOne({ username, role: "student" });
@@ -180,34 +150,26 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
             return res.status(401).json({
                 resCode: 401,
                 status: 'FAILURE',
-                error: 'Username already exists as student. Choose a different username.'
+                message: 'Username already exists as student. Choose a different username.'
             });
         }
-
-        bcrypt.hash(password, 12).then(async hashedPassword => {
-            const user = new User({
-                username,
-                password: hashedPassword,
-                role: "student",
-                department,
-                semester
-            });
-            await user.save();
-        }).then(() => {
-            return res.status(201).json({
-                resCode: 201,
-                status: 'SUCCESS',
-                message: 'Student created successfully.',
-                accessToken: req.accessToken,
-            })
-        }).catch((error) => {
-            console.log(error)
-            return res.status(400).json({
-                resCode: 400,
-                status: "FAILURE",
-                message: "Please fill the required fields"
-            });
-        })
+        const hashedPassword = await bcrypt.hash(password, 12);
+        const user = new User({
+            username,
+            password: hashedPassword,
+            role: "student",
+            department,
+            semester
+        });
+        await user.save();
+        const responseMsg = {
+            resCode: 201,
+            status: 'SUCCESS',
+            message: 'created successfully.',
+            accessToken: req.accessToken
+        }
+        const successResponseMsg = twohundredResponse(responseMsg);
+        return res.status(201).json(successResponseMsg);
     } catch (error) {
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
@@ -219,19 +181,13 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, department, semester } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            return res.status(401).json({
-                resCode: 401,
-                status: 'FAILURE',
-                message: 'Invalid username or password'
-            });
+            const errorMessage = fourNotOneResponse(errorMessages.invalidMsg);
+            return res.status(401).json(errorMessage);
         }
 
         const existingAdmin = await User.findOne({ username, role: "teacher" });
@@ -242,31 +198,22 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
                 error: 'Username already exists as teacher. Choose a different username.'
             });
         }
+        const hashedPassword = await bcrypt.hash(password, 12);
+        const user = new User({
+            username,
+            password: hashedPassword,
+            role: "teacher",
+            semester: semester,
+            department: department
+        });
 
-        bcrypt.hash(password, 12).then(async hashedPassword => {
-            const user = new User({
-                username,
-                password: hashedPassword,
-                role: "teacher",
-                semester: semester,
-                department: department
-            });
-            await user.save();
-        }).then(() => {
-            return res.status(201).json({
-                resCode: 201,
-                status: 'SUCCESS',
-                message: 'Teacher created successfully.',
-                accessToken: req.accessToken,
-            })
-        }).catch((error) => {
-            console.log(error)
-            return res.status(400).json({
-                resCode: 400,
-                status: "FAILURE",
-                message: "Please fill the required fields" + error
-            });
-        })
+        await user.save();
+        const responseMsg = {
+            message: 'Teacher created successfully.',
+            accessToken: req.accessToken
+        }
+        const successResponseMsg = twohundredResponse(responseMsg);
+        return res.status(201).json(successResponseMsg);
     } catch (error) {
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
