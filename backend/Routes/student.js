@@ -19,20 +19,20 @@ router.post('/studentLogin', limiter, async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({message:resMessages.invalidMsg});
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({message:resMessages.invalidMsg});
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
         const user = await User.findOne({ username, role: "student" });
         if (!user) {
-            const errorMessage = fourNotFourResponse({message:resMessages.userNotfoundMsg});
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
         }
         if (user.lockUntil > new Date()) {
-            const errorMessage = fourNotOneResponse({message:resMessages.AccountLockedMsg});
+            const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
             return res.status(401).json(errorMessage);
         }
 
@@ -45,12 +45,12 @@ router.post('/studentLogin', limiter, async (req, res) => {
             }
 
             await user.save();
-            const errorMessage = fourNotOneResponse({message:resMessages.invalidMsg});
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
         }
 
         if (user?.role !== "student") {
-            const errorMessage = fourNotFourResponse({message:resMessages.userNotfoundMsg});
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
         }
 
@@ -98,6 +98,15 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
+        if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: "Invalid body" });
+            return res.status(400).json(errorMessage);
+        }
+
+        if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: "Invalid subject" });
+            return res.status(400).json(errorMessage);
+        }
         const newLetter = new Letter({
             body,
             from: req.userId,
@@ -121,5 +130,21 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 });
+
+//api to get all letters send by the student
+router.get('/getAllLetters', verifyStudentToken, async (req, res) => {
+    try {
+        const letters = await Letter.find({ from: req.userId });
+        const successResponseMsg = twohundredResponse({
+            data: letters ? letters : null,
+            letterCount: letters.length
+        });
+        return res.status(201).json(successResponseMsg);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
 
 module.exports = router;
