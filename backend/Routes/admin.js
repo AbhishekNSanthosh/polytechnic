@@ -161,7 +161,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 //api to create  new student
 router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
-        const { username, password, semester, department } = req.body;
+        const { username, password, email, semester, department } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
             const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
             return res.status(401).json(errorMessage);
@@ -181,6 +181,7 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
         const user = new User({
             username,
             password: hashedPassword,
+            email,
             role: "student",
             department,
             semester

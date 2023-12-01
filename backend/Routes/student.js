@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyStudentToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse } = require('../Utils/Helpers');
+const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter } = require('../Utils/Helpers');
 const moment = require('moment');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
@@ -167,5 +167,70 @@ router.get('/getAllLetters', verifyStudentToken, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 })
+
+//student forgot password feature
+router.post('/forgotPassword', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
+            return res.status(404).json(errorMessage);
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign({ userId: user._id, semester: user?.semester, department: user?.department }, 'carmelpoly', { expiresIn: '1h' });
+
+        // Send reset password email
+        const resetPasswordUrl = `http://localhost:5172/reset-password?token=${token}`;
+
+        const mailOptions = {
+            from: 'abhishekSanthosh404@gmail.com',
+            to: user.email,
+            subject: 'Password Reset',
+            text: `Click the following link to reset your password: ${resetPasswordUrl}`,
+        };
+
+        await transporter.sendMail(mailOptions);
+        const successMsg = twohundredResponse({ message: 'Reset password email sent successfully' })
+        return res.status(200).json(successMsg);
+    } catch (error) {
+        console.error(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
+//api to validate token
+router.post('/resetPassword', async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+
+        const decoded = jwt.verify(token, 'carmelpoly');
+
+        const user = await User.findById(decoded.userId);
+
+        if (!user || user.resetTokenUsed) {
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
+            return res.status(404).json(errorMessage);
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+        user.password = hashedPassword;
+        user.resetTokenUsed = true;
+        await user.save();
+
+        return res.status(200).json({ message: 'Password reset successfully' });
+    } catch (error) {
+        console.error(error);
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token has expired' });
+        }
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 module.exports = router;

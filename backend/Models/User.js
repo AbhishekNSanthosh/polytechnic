@@ -6,16 +6,16 @@ const userSchema = new mongoose.Schema({
     type: String, required: true
   },
   email: {
-    type: String, default:null
+    type: String, default: null
   },
   password: {
     type: String, required: true
   },
   semester: {
-    type: String, enum: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6',null], default: null,
+    type: String, enum: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', null], default: null,
   },
   department: {
-    type: String, enum: ['CS', 'EEE', 'CE', 'ME',null], default: null,
+    type: String, enum: ['CS', 'EEE', 'CE', 'ME', null], default: null,
   },
   role: {
     type: String, enum: ['admin', 'student', 'teacher'], required: true,
@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
   lockUntil: {
     type: Date, default: new Date(0)
   },
+  resetTokenUsed: Boolean,
 }, { timestamps: true, versionKey: false });
 
 userSchema.set('toJSON', {
