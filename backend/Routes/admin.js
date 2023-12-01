@@ -15,14 +15,22 @@ const multer = require('multer');
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
 
+const rateLimitError = (req, res) => {
+    return res.status(429).json({
+        resCode: 429,
+        status: "FAILURE",
+        message: resMessages.rateLimit
+    })
+};
+
 const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 10 minutes
+    windowMs: 2 * 1000, // 2 seconds
     max: 3, // 3 attempts
-    message: 'Too many requests. Your account is locked for 10 minutes.',
+    handler: rateLimitError,
 });
 
 //api to login admin
-router.post('/adminLogin', limiter, async (req, res) => {
+router.post('/adminLogin', async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
@@ -529,30 +537,23 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
 
         if (role === "student") {
             if (semester && department) {
-                // Return filtered data based on both semester and department for students
                 users = await User.find({ role, semester, department }).sort({ createdAt: 'desc' });
             } else if (semester) {
-                // Return filtered data based on semester only for students
                 users = await User.find({ role, semester }).sort({ createdAt: 'desc' });
             } else if (department) {
-                // Return filtered data based on department only for students
                 users = await User.find({ role, department }).sort({ createdAt: 'desc' });
             } else {
-                // Return all students
                 users = await User.find({ role }).sort({ createdAt: 'desc' });
             }
 
             message = "All students";
         } else if (role === "admin") {
-            // Return all admins
             users = await User.find({ role }).sort({ createdAt: 'desc' });
             message = "All admins";
         } else if (role === "teacher") {
             if (department) {
-                // Return filtered data based on department only for teachers
                 users = await User.find({ role, department }).sort({ createdAt: 'desc' });
             } else {
-                // Return all teachers
                 users = await User.find({ role }).sort({ createdAt: 'desc' });
             }
 
@@ -579,23 +580,21 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
 });
 
 //api to search for user based on the role
-router.post('/searchUser', verifyAdminToken, async (req, res) => {
+router.post('/searchUser', verifyAdminToken, limiter, async (req, res) => {
     try {
         const { role, query } = req.body;
 
-        // Validate role
         const validRoles = ['student', 'admin', 'teacher'];
         if (!validRoles.includes(role)) {
             const errorMessage = fourHundredResponse({ message: resMessages.notFoundMsg })
             return res.status(400).json(errorMessage)
         }
 
-        // Perform the search based on role, username, or email
         const users = await User.find({
             role,
             $or: [
-                { username: { $regex: query, $options: 'i' } }, // Case-insensitive search for username
-                // { email: { $regex: query, $options: 'i' } }, // Case-insensitive search for email
+                { username: { $regex: query, $options: 'i' } },
+                // { email: { $regex: query, $options: 'i' } },
             ],
         }).sort({ createdAt: "desc" });
         const sanitizedUsers = sanitizedUserList(users);

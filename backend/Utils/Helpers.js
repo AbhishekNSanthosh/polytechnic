@@ -86,7 +86,8 @@ const resMessages = {
     tokenNotFound: "Token not found",
     unAuthorized: "Unauthorized access",
     sessionExpired: "Session expired",
-    authFailed: "Authentication failed"
+    authFailed: "Authentication failed",
+    rateLimit: "Too many requests. Please try after some time"
 }
 
 const transporter = nodemailer.createTransport({
