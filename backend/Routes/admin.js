@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse } = require('../Utils/Helpers');
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
 const XLSX = require('xlsx');
@@ -494,26 +494,11 @@ router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
             data = null;
         }
         const users = await User.find({ role: role }).sort({ createdAt: 'desc' });
-        const sanitizedUserList = users.map(user => ({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            semester: user.semester,
-            department: user.department,
-            role: user.role,
-            createdAt: {
-                date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(user.createdAt).fromNow(),
-            },
-            updatedAt: {
-                date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(user.createdAt).fromNow(),
-            },
-        }));
+        const usersData = sanitizedUserList(users);
         const successMsg = twohundredResponse({
             message,
-            data: sanitizedUserList.length === 0 ? null : sanitizedUserList,
-            studentsCount: sanitizedUserList.length,
+            data: usersData.length === 0 ? null : usersData,
+            studentsCount: usersData.length,
             accessToken: req.acessToken
         })
         return res.status(200).json(successMsg)

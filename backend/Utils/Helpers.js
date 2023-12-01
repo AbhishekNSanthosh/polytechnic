@@ -1,5 +1,6 @@
-const nodemailer = require('nodemailer')
-const dotenv = require('dotenv')
+const nodemailer = require('nodemailer');
+const moment = require('moment');
+const dotenv = require('dotenv');
 dotenv.config();
 
 const roles = {
@@ -96,6 +97,26 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+const sanitizedUserList = (users) => {
+    const userList = users.map(user => ({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        semester: user.semester,
+        department: user.department,
+        role: user.role,
+        createdAt: {
+            date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(user.createdAt).fromNow(),
+        },
+        updatedAt: {
+            date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(user.createdAt).fromNow(),
+        },
+    }));
+    return userList;
+}
+
 module.exports = {
     roles,
     twoNotOneResponse,
@@ -106,6 +127,7 @@ module.exports = {
     fourNotThreeResponse,
     fourNotNineResponse,
     fourHundredResponse,
+    sanitizedUserList,
     resMessages,
     transporter
 }
