@@ -578,4 +578,34 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
     }
 });
 
+//api to search for user based on the role
+router.post('/searchUser', verifyAdminToken, async (req, res) => {
+    try {
+        const { role, query } = req.body;
+
+        // Validate role
+        const validRoles = ['student', 'admin', 'teacher'];
+        if (!validRoles.includes(role)) {
+            const errorMessage = fourHundredResponse({ message: resMessages.notFoundMsg })
+            return res.status(400).json(errorMessage)
+        }
+
+        // Perform the search based on role, username, or email
+        const users = await User.find({
+            role,
+            $or: [
+                { username: { $regex: query, $options: 'i' } }, // Case-insensitive search for username
+                // { email: { $regex: query, $options: 'i' } }, // Case-insensitive search for email
+            ],
+        }).sort({ createdAt: "desc" });
+        const sanitizedUsers = sanitizedUserList(users);
+        const successResponse = twohundredResponse({ message: "Search results :", data: sanitizedUsers })
+        return res.status(200).json(successResponse);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
 module.exports = router;
