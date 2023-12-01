@@ -446,37 +446,48 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
 });
 
 //api to send mail to share the email and password to students
-router.get('/', (req, res) => {
-    const mailOptions = {
-        from: 'abhisheksanthosh404@gmail.com',
-        to: 'abhisheksanthoshofficial19@gmail.com',
-        subject: 'Welcome to NoteNest - Your Note Management Companion',
-        text: 'Hello there!\n\nWelcome to NoteNest, your new destination for effortless note management and collaboration.',
-        html: `<p>Hello there!</p>
-               <p>Welcome to NoteNest, your new destination for effortless note management and collaboration.</p>
-               <p>NoteNest is a web application designed to simplify the way you store and manage your notes online. With NoteNest, you can:</p>
-               <ul>
-                 <li>Create and store notes securely in one place.</li>
-                 <li>Collaborate seamlessly with your team or colleagues.</li>
-                 <li>Organize your information in a user-friendly and efficient manner.</li>
-                 <li>Foster productivity and teamwork through easy information sharing.</li>
-               </ul>
-               <p>We're thrilled to have you on board! Your journey with NoteNest begins now. Get started by logging into your account and experience the future of note management.</p>
-               <p>If you have any questions or need assistance, don't hesitate to contact our friendly support team. We're here to help you make the most of NoteNest.</p>
-               <p>Thank you for choosing NoteNest. Let's make note-taking a breeze!</p>`
-    };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Error:', error);
-        } else {
-            console.log('Email sent:', info.response);
-        }
-    });
-    res.send({
-        status: 200,
-        message: "Hey, Welcome to NoteNest! Developed by Abhishek Santhosh."
-    })
-})
+// router.get('/shareUserCredentials', async (req, res) => {
+//     try {
+//         const students = await User.find({ role: 'student' });
+
+//         students.forEach(async (student) => {
+
+//             // Update the user's password in the database
+//             const decodedPasword = await bcrypt(password, student.password);
+
+//             console.log(decodedPasword)
+//             // Send email with temporary password
+//             const mailOptions = {
+//                 from: 'abhisheksanthosh404@gmail.com',
+//                 to: student.email,
+//                 subject: 'Welcome to NoteNest - Your Temporary Password',
+//                 text: `Hello ${student.username}!\n\nYour temporary password is: ${tempPassword}`,
+//                 html: `<p>Hello ${student.username}!</p>
+//                  <p>Your temporary password is: ${tempPassword}</p>
+//                  <p>Please log in and reset your password as soon as possible.</p>`,
+//             };
+
+//             // transporter.sendMail(mailOptions, (error, info) => {
+//             //     if (error) {
+//             //         console.log(`Error sending email to ${student.email}:`, error);
+//             //     } else {
+//             //         console.log(`Email sent to ${student.email}:`, info.response);
+//             //     }
+//             // });
+//         });
+
+//         res.status(200).json({
+//             status: 200,
+//             message: 'Emails sent successfully.',
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             status: 500,
+//             message: 'Internal Server Error',
+//         });
+//     }
+// });
 
 //api to get all students
 router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
@@ -508,5 +519,63 @@ router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 })
+
+//api to filter students by sem dep etc
+router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
+    try {
+        const { role, semester, department } = req.body;
+        let message;
+        let users;
+
+        if (role === "student") {
+            if (semester && department) {
+                // Return filtered data based on both semester and department for students
+                users = await User.find({ role, semester, department }).sort({ createdAt: 'desc' });
+            } else if (semester) {
+                // Return filtered data based on semester only for students
+                users = await User.find({ role, semester }).sort({ createdAt: 'desc' });
+            } else if (department) {
+                // Return filtered data based on department only for students
+                users = await User.find({ role, department }).sort({ createdAt: 'desc' });
+            } else {
+                // Return all students
+                users = await User.find({ role }).sort({ createdAt: 'desc' });
+            }
+
+            message = "All students";
+        } else if (role === "admin") {
+            // Return all admins
+            users = await User.find({ role }).sort({ createdAt: 'desc' });
+            message = "All admins";
+        } else if (role === "teacher") {
+            if (department) {
+                // Return filtered data based on department only for teachers
+                users = await User.find({ role, department }).sort({ createdAt: 'desc' });
+            } else {
+                // Return all teachers
+                users = await User.find({ role }).sort({ createdAt: 'desc' });
+            }
+
+            message = "All teachers";
+        } else {
+            message = "Invalid role";
+            users = null;
+        }
+
+        const usersData = sanitizedUserList(users);
+        const successMsg = twohundredResponse({
+            message,
+            data: usersData.length === 0 ? null : usersData,
+            studentsCount: usersData.length,
+            accessToken: req.accessToken
+        });
+
+        return res.status(200).json(successMsg);
+    } catch (error) {
+        console.log(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
 
 module.exports = router;
