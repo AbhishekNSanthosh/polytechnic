@@ -1,3 +1,7 @@
+const nodemailer = require('nodemailer')
+const dotenv = require('dotenv')
+dotenv.config();
+
 const roles = {
     adminRole: "admin",
     studentRole: "student",
@@ -61,6 +65,14 @@ const fourNotNineResponse = (data = {}) => {
     };
 };
 
+const fourHundredResponse = (data = {}) => {
+    return {
+        resCode: 400,
+        status: "FAILURE",
+        ...data
+    };
+};
+
 const resMessages = {
     invalidMsg: "Invalid username or password!",
     userNotfoundMsg: "User not found",
@@ -72,9 +84,17 @@ const resMessages = {
     createdSuccessMsg: "Created successfully",
     tokenNotFound: "Token not found",
     unAuthorized: "Unauthorized access",
-    sessionExpired:"Session expired",
-    authFailed:"Authentication failed"
+    sessionExpired: "Session expired",
+    authFailed: "Authentication failed"
 }
+
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.env.MAILID,
+        pass: process.env.MAILPASSKEY,
+    },
+});
 
 module.exports = {
     roles,
@@ -85,5 +105,7 @@ module.exports = {
     fourNotFourResponse,
     fourNotThreeResponse,
     fourNotNineResponse,
+    fourHundredResponse,
     resMessages,
+    transporter
 }

@@ -6,9 +6,14 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse } = require('../Utils/Helpers');
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
+const XLSX = require('xlsx');
+const multer = require('multer');
+
+const storage = multer.memoryStorage(); // Store the file in memory
+const upload = multer({ storage: storage });
 
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 10 minutes
@@ -347,7 +352,7 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
             return res.status(404).json(errorMessage);
         }
 
-        const users = await User.find({ _id: { $in: userIds } ,role:"teacher"});
+        const users = await User.find({ _id: { $in: userIds }, role: "teacher" });
 
         if (users.length !== userIds.length) {
             const errorMessage = fourNotFourResponse({ message: 'Some users not found' });
@@ -377,5 +382,146 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 });
+
+//api to upload bulk user data via xlsx
+router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), async (req, res) => {
+    try {
+        // Get the buffer containing the file data
+        const fileData = req.file.buffer;
+
+        // Process Excel file (assuming single sheet for simplicity)
+        const workbook = XLSX.read(fileData, { type: 'buffer' });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        // Check if users with the same name and role as "student" already exist
+        const existingUsers = await User.find({
+            $and: [
+                { role: 'student' },
+                { username: { $in: jsonData.map(student => student.username) } }
+            ]
+        });
+
+        if (existingUsers.length > 0) {
+            // Respond with error message if usernames are already taken
+            const duplicates = existingUsers.map(user => ({
+                username: user.username,
+                semester: user.semester,
+                department: user.department,
+            }));
+
+            const errorResponse = fourHundredResponse({
+                message: 'Some usernames are already taken. Please choose unique usernames.',
+                duplicates,
+            });
+            return res.status(500).json(errorResponse);
+        }
+
+        // Hash passwords before inserting students into MongoDB
+        const studentsToInsert = await Promise.all(jsonData.map(async (student) => {
+            if (!student.password) {
+                // Check if password field is missing
+                throw new Error(`Password field missing for user: ${student.username}`);
+            }
+            const pass = JSON.stringify(student.password)
+            const hashedPassword = await bcrypt.hash(pass, 12);
+            return {
+                ...student,
+                password: hashedPassword,
+            };
+        }));
+
+        // Insert students into MongoDB
+        const students = await User.insertMany(studentsToInsert);
+
+        // Respond with success message
+        const successResponse = twoNotOneResponse({ message: `${students.length} students data added successfully`, accessToken: req.accessToken });
+        return res.status(201).json(successResponse);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
+//api to send mail to share the email and password to students
+router.get('/', (req, res) => {
+    const mailOptions = {
+        from: 'abhisheksanthosh404@gmail.com',
+        to: 'abhisheksanthoshofficial19@gmail.com',
+        subject: 'Welcome to NoteNest - Your Note Management Companion',
+        text: 'Hello there!\n\nWelcome to NoteNest, your new destination for effortless note management and collaboration.',
+        html: `<p>Hello there!</p>
+               <p>Welcome to NoteNest, your new destination for effortless note management and collaboration.</p>
+               <p>NoteNest is a web application designed to simplify the way you store and manage your notes online. With NoteNest, you can:</p>
+               <ul>
+                 <li>Create and store notes securely in one place.</li>
+                 <li>Collaborate seamlessly with your team or colleagues.</li>
+                 <li>Organize your information in a user-friendly and efficient manner.</li>
+                 <li>Foster productivity and teamwork through easy information sharing.</li>
+               </ul>
+               <p>We're thrilled to have you on board! Your journey with NoteNest begins now. Get started by logging into your account and experience the future of note management.</p>
+               <p>If you have any questions or need assistance, don't hesitate to contact our friendly support team. We're here to help you make the most of NoteNest.</p>
+               <p>Thank you for choosing NoteNest. Let's make note-taking a breeze!</p>`
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Error:', error);
+        } else {
+            console.log('Email sent:', info.response);
+        }
+    });
+    res.send({
+        status: 200,
+        message: "Hey, Welcome to NoteNest! Developed by Abhishek Santhosh."
+    })
+})
+
+//api to get all students
+router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
+    try {
+        const { role } = req.body;
+        let message;
+        if (role === "student") {
+            message = "All students";
+        } else if (role === "admin") {
+            message = "All admins";
+        } else if (role === "teacher") {
+            message = "All teachers";
+        } else {
+            message = "Invalid role";
+            data = null;
+        }
+        const users = await User.find({ role: role }).sort({ createdAt: 'desc' });
+        const sanitizedUserList = users.map(user => ({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            semester: user.semester,
+            department: user.department,
+            role: user.role,
+            createdAt: {
+                date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(user.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(user.createdAt).fromNow(),
+            },
+        }));
+        const successMsg = twohundredResponse({
+            message,
+            data: sanitizedUserList.length === 0 ? null : sanitizedUserList,
+            studentsCount: sanitizedUserList.length,
+            accessToken: req.acessToken
+        })
+        return res.status(200).json(successMsg)
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
 
 module.exports = router;
