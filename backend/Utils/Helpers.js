@@ -88,7 +88,7 @@ const resMessages = {
     sessionExpired: "Session expired",
     authFailed: "Authentication failed",
     rateLimit: "Too many requests. Please try after some time"
-}
+} 
 
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
