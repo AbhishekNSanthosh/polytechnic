@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     type: Date, default: new Date(0)
   },
   lastUpdatedBy: { type: mongoose.Types.ObjectId, ref: 'User', default: null },
-  resetTokenUsed: Boolean,
+  resetTokenUsed: { type: Boolean, default: false },
 }, { timestamps: true, versionKey: false });
 
 userSchema.set('toJSON', {
@@ -51,6 +51,11 @@ userSchema.set('toJSON', {
 
     return ret;
   }
+});
+
+userSchema.pre('save', function (next) {
+  this.updatedAt = new Date();
+  next();
 });
 
 const User = mongoose.model('User', userSchema);

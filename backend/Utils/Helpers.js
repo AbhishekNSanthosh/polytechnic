@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const moment = require('moment');
 const dotenv = require('dotenv');
+const { unsubscribe } = require('../Routes/admin');
 dotenv.config();
 
 const roles = {
@@ -82,6 +83,7 @@ const resMessages = {
     AccountLockedMsg: 'Account is locked. Try again later.',
     AuthSuccessMsg: "Authentication successfull",
     userAlreadyExistsMsg: "Username already exists. Choose a different username.",
+    emailAlreadyExistsMsg: "Email already exists. Choose a different username.",
     createdSuccessMsg: "Created successfully",
     tokenNotFound: "Token not found",
     unAuthorized: "Unauthorized access",
@@ -119,8 +121,21 @@ const sanitizedUserList = (users) => {
     return userList;
 }
 
-const abstractedUserData = () => {
-    
+const abstractedUserData = (userObj) => {
+    const { password, loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
+    const newData = {
+        username: userAbstractedObj?.username,
+        email: userAbstractedObj?.email,
+        password: userAbstractedObj?.password,
+        semester: userAbstractedObj?.semester,
+        department: userAbstractedObj.department,
+        role: userAbstractedObj.role,
+        createdAt: {
+            date: moment(userAbstractedObj.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(userAbstractedObj.createdAt).fromNow(),
+        },
+    }
+    return newData;
 }
 
 module.exports = {
@@ -134,6 +149,7 @@ module.exports = {
     fourNotNineResponse,
     fourHundredResponse,
     sanitizedUserList,
+    abstractedUserData,
     resMessages,
     transporter
 }

@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse } = require('../Utils/Helpers');
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse, abstractedUserData } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
 const XLSX = require('xlsx');
@@ -616,11 +616,13 @@ router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
         // Check if username or email already exists
         const existingUserByUsername = await User.findOne({ username });
         const existingByEmail = await User.findOne({ email });
+        console.log(existingByEmail)
+        console.log(existingUserByUsername)
         if (existingUserByUsername && existingUserByUsername._id.toString() !== userId) {
             const errorMessage = fourHundredResponse({ message: resMessages.userAlreadyExistsMsg })
             return res.status(400).json(errorMessage);
         } else if (existingByEmail && existingByEmail._id.toString() !== userId) {
-            const errorMessage = fourHundredResponse({ message: resMessages.userAlreadyExistsMsg })
+            const errorMessage = fourHundredResponse({ message: resMessages.emailAlreadyExistsMsg })
             return res.status(400).json(errorMessage);
         }
 
@@ -639,19 +641,20 @@ router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
             user.semester = semester;
             user.role = role;
             user.department = department;
-            user.lastUpdatedBy = req.userId
+            user.lastUpdatedBy = req.user._id
         } else {
             user.username = username;
             user.email = email;
             user.password = password;
             user.department = department;
             user.role = role;
-            user.lastUpdatedBy = req.userId
+            user.lastUpdatedBy = req.user._id
         }
 
         // Save updated user
         const updatedUser = await user.save();
-        const successMessage = twohundredResponse({ message: 'User details updated successfully', data: updatedUser })
+        const userData = abstractedUserData(updatedUser);
+        const successMessage = twohundredResponse({ message: 'User details updated successfully', data: userData })
         return res.status(200).json(successMessage);
     } catch (error) {
         console.log(error);
