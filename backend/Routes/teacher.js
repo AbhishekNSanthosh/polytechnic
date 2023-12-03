@@ -233,4 +233,44 @@ router.post('/forgotPassword', passwordlimiter, async (req, res) => {
     }
 });
 
+//api to validate token
+router.post('/resetPassword', async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+        if (validator.isEmpty(newPassword) || validator.matches(newPassword, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
+            return res.status(401).json(errorMessage);
+        }
+        const decoded = jwt.verify(token, 'carmelpoly');
+
+        const user = await User.findById(decoded.userId);
+        console.log(user)
+        if (!user) {
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
+            return res.status(404).json(errorMessage);
+        } else if (user.resetTokenUsed) {
+            const errorMessage = fourNotFourResponse({ message: "Password reset link expired! Please try after some time" });
+            return res.status(400).json(errorMessage);
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+        user.password = hashedPassword;
+        user.resetTokenUsed = true;
+        await user.save();
+
+        const successResponse = twohundredResponse({ message: resMessages.passwordReset })
+        return res.status(200).json(successResponse);
+    } catch (error) {
+        console.error(error);
+        if (error.name === 'TokenExpiredError') {
+            const errorResponse = fourNotOneResponse({ message: "Token has expired" })
+            return res.status(401).json(errorResponse);
+        }
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
+
 module.exports = router;
