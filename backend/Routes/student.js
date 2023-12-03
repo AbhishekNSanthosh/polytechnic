@@ -104,7 +104,7 @@ router.get('/getUserDetails', verifyStudentToken, async (req, res) => {
     try {
         if (req.user) {
             const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
-            
+
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
         }
@@ -291,5 +291,41 @@ router.post('/resetPassword', async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 });
+
+//api to delete a letter
+router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res) => {
+    try {
+        const letterId = req.params.letterId;
+
+        // Find the letter by ID
+        const letter = await Letter.findById(letterId).populate('sender');
+        if (!letter) {
+            const errorMessage = fourNotFourResponse({ message: resMessages.notFoundMsg })
+            return res.status(404).json(errorMessage);
+        }
+
+        // Check if the sender has the role 'student'
+        if (letter.sender !== 'student') {
+            return res.status(403).json({ error: 'Permission denied. Only students can delete letters.' });
+        }
+
+        // Check if it's within one hour of sending the letter
+        const oneHourAgo = new Date();
+        oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
+        if (letter.sentAt < oneHourAgo) {
+            return res.status(400).json({ error: 'Cannot delete the letter. More than one hour has passed since sending.' });
+        }
+
+        // Delete the letter
+        await Letter.findByIdAndDelete(letterId);
+
+        res.json({ message: 'Letter deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 module.exports = router;
