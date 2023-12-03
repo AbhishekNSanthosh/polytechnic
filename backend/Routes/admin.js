@@ -663,6 +663,24 @@ router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
     }
 });
 
-
+//api to delete a user by id
+router.delete('/deleteUserById/:id', verifyAdminToken, async (req, res) => {
+    try {
+        const userId = req.params.id
+        const userExists = await User.findOne({ _id: userId });
+        if (!userExists) {
+            const errorResponse = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
+            return res.status(400).json(errorResponse);
+        }
+        await userExists.deleteOne();
+        const deletedUser = abstractedUserData(userExists);
+        const successMessage = twohundredResponse({ message: 'User deleted successfully', data: deletedUser })
+        return res.status(200).json(successMessage);
+    } catch (error) {
+        console.log(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
 
 module.exports = router;
