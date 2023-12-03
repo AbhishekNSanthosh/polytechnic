@@ -168,4 +168,69 @@ router.get('/getAllLetters', verifyTeacherToken, async (req, res) => {
     }
 })
 
+//teacher forgot password feature
+router.post('/forgotPassword', passwordlimiter, async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (validator.isEmpty(email) || validator.matches(email, /[/\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
+            return res.status(401).json(errorMessage);
+        }
+
+        const user = await User.findOne({ email, role: "teacher" });
+        if (!user) {
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
+            return res.status(404).json(errorMessage);
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign({ userId: user._id, department: user?.department }, 'carmelpoly', { expiresIn: '1h' });
+
+        // Send reset password email
+        const resetPasswordUrl = `http://localhost:5172/reset-password?token=${token}`;
+
+        const mailOptions = {
+            from: 'abhisheksanthosh404@gmail.com',
+            to: user.email,
+            subject: 'Reset Your Carmel Polytechnic Grievances Password',
+            html: `
+                <p style="font-size: 14px; color: #333;">Hello <i>${user?.username}</i>,</p>
+                <p style="font-size: 14px; color: #333;">You've requested to reset your password for Carmel Polytechnic Grievances.</p>
+                <p style="font-size: 14px; color: #333;">Click the following link to reset your password:</p>
+                <a href="${resetPasswordUrl}" style="font-size: 14px; color: #007BFF;">Reset Password</a>
+                <p style="font-size: 14px; color: #333;">If you didn't request a password reset, you can ignore this email.</p>
+                
+                <hr style="border: 1px solid #ddd;">
+        
+                <p style="font-size: 14px; color: #333;"><strong>Instructions:</strong></p>
+                <ul style="font-size: 14px; color: #333;">
+                    <li>Click the "Reset Password" link above to set a new password.</li>
+                    <li>Ensure that your new password is strong and secure.</li>
+                    <li>If you continue to experience issues, please contact our support team.</li>
+                </ul>
+        
+                <hr style="border: 1px solid #ddd;">
+        
+                <p style="font-size: 14px; color: #333;">Thank you for choosing Carmel Polytechnic Grievances. If you have any questions or need further assistance, please don't hesitate to contact our support team at:</p>
+                
+                <p style="font-size: 14px; color: #333;"><strong>Email:</strong> support@carmelpoly-grievances.com</p>
+                <p style="font-size: 14px; color: #333;"><strong>Phone:</strong> +1 (555) 123-4567</p>
+        
+                <p style="font-size: 14px; color: #333;">Best regards,</p>
+                <p style="font-size: 14px; color: #333;">The Carmel Polytechnic Grievances Team</p>
+            `
+        };
+
+        user.resetTokenUsed = false;
+        await user.save();
+        await transporter.sendMail(mailOptions);
+        const successMsg = twohundredResponse({ message: ['Reset password email sent successfully.', 'Please check your inbox'] })
+        return res.status(200).json(successMsg);
+    } catch (error) {
+        console.error(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
 module.exports = router;

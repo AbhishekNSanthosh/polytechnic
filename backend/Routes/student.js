@@ -196,7 +196,7 @@ router.post('/forgotPassword', passwordlimiter, async (req, res) => {
             return res.status(401).json(errorMessage);
         }
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email, role: "student" });
         if (!user) {
             const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
