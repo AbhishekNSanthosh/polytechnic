@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
   lockUntil: {
     type: Date, default: new Date(0)
   },
+  lastUpdatedBy: { type: mongoose.Types.ObjectId, ref: 'User', default: null },
   resetTokenUsed: Boolean,
 }, { timestamps: true, versionKey: false });
 

@@ -14,6 +14,16 @@ const limiter = rateLimit({
     message: 'Too many login attempts. Your account is locked for 10 minutes.',
 });
 
+const passwordlimiter = rateLimit({
+    store: new rateLimit.MemoryStore({
+        points: 3, // Number of attempts allowed
+        duration: 3600, // 1 hour in seconds
+    }),
+    max: 3, // Max attempts per hour
+    windowMs: 60 * 60 * 1000, // 1 hour in milliseconds
+    message: "Too many password reset attempts. Please try again later.",
+});
+
 //api to login student
 router.post('/teacherLogin', limiter, async (req, res) => {
     try {

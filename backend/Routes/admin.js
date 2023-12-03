@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList } = require('../Utils/Helpers');
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
 const XLSX = require('xlsx');
@@ -607,5 +607,59 @@ router.post('/searchUser', verifyAdminToken, limiter, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 });
+
+//api to  update a user details by id (based on role)
+router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
+    try {
+        const { username, email, password, semester, role, department } = req.body;
+        const userId = req.params.id;
+        // Check if username or email already exists
+        const existingUserByUsername = await User.findOne({ username });
+        const existingByEmail = await User.findOne({ email });
+        if (existingUserByUsername && existingUserByUsername._id.toString() !== userId) {
+            const errorMessage = fourHundredResponse({ message: resMessages.userAlreadyExistsMsg })
+            return res.status(400).json(errorMessage);
+        } else if (existingByEmail && existingByEmail._id.toString() !== userId) {
+            const errorMessage = fourHundredResponse({ message: resMessages.userAlreadyExistsMsg })
+            return res.status(400).json(errorMessage);
+        }
+
+        // Find user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg })
+            return res.status(404).json(errorMessage);
+        }
+
+        // Update user details based on role
+        if (user.role === 'student') {
+            user.username = username;
+            user.email = email;
+            user.password = password;
+            user.semester = semester;
+            user.role = role;
+            user.department = department;
+            user.lastUpdatedBy = req.userId
+        } else {
+            user.username = username;
+            user.email = email;
+            user.password = password;
+            user.department = department;
+            user.role = role;
+            user.lastUpdatedBy = req.userId
+        }
+
+        // Save updated user
+        const updatedUser = await user.save();
+        const successMessage = twohundredResponse({ message: 'User details updated successfully', data: updatedUser })
+        return res.status(200).json(successMessage);
+    } catch (error) {
+        console.log(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
+
 
 module.exports = router;

@@ -104,6 +104,7 @@ router.get('/getUserDetails', verifyStudentToken, async (req, res) => {
     try {
         if (req.user) {
             const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
+            
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
         }

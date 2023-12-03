@@ -119,6 +119,10 @@ const sanitizedUserList = (users) => {
     return userList;
 }
 
+const abstractedUserData = () => {
+    
+}
+
 module.exports = {
     roles,
     twoNotOneResponse,
