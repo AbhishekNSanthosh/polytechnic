@@ -51,10 +51,10 @@ router.post('/studentLogin', limiter, async (req, res) => {
             const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
         }
-        // if (user.lockUntil > new Date()) {
-        //     const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
-        //     return res.status(401).json(errorMessage);
-        // }
+        if (user.lockUntil > new Date()) {
+            const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
+            return res.status(401).json(errorMessage);
+        }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
