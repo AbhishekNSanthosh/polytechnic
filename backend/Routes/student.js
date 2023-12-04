@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyStudentToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse } = require('../Utils/Helpers');
+const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse } = require('../Utils/Helpers');
 const moment = require('moment');
 // const MemoryStore = require("rate-limit-memory");
 
@@ -315,7 +315,8 @@ router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res
         oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
         if (letter.sentAt < oneHourAgo) {
-            return res.status(400).json({ error: 'Cannot delete the letter. More than one hour has passed since sending.' });
+            const errorMessage = fourHundredResponse({ message: 'Cannot delete the letter. More than one hour has passed since sending.' })
+            return res.status(404).json(errorMessage);
         }
 
         // Delete the letter
