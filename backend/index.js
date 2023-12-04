@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 app.use("/api/v2/admin", adminRoute, limiter);
 app.use("/api/v2/student", studentRoute, limiter);
 app.use("/api/v2/teacher", teacherRoute, limiter);
+
 app.use('/api/v2/', limiter, (req, res) => {
     return res.status(200).json({
         resCode: 200,
