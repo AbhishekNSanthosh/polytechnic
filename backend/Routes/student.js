@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyStudentToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter } = require('../Utils/Helpers');
+const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse } = require('../Utils/Helpers');
 const moment = require('moment');
 // const MemoryStore = require("rate-limit-memory");
 
@@ -306,7 +306,8 @@ router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res
 
         // Check if the sender has the role 'student'
         if (letter.sender !== 'student') {
-            return res.status(403).json({ error: 'Permission denied. Only students can delete letters.' });
+            const errorMessage = fourNotThreeResponse({ message: 'Permission denied. Only students can delete letters.' })
+            return res.status(403).json(errorMessage);
         }
 
         // Check if it's within one hour of sending the letter
