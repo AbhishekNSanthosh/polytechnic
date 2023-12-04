@@ -322,10 +322,11 @@ router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res
         // Delete the letter
         await Letter.findByIdAndDelete(letterId);
 
-        res.json({ message: 'Letter deleted successfully' });
+        const successResponseMsg = twohundredResponse({ message: 'Letter deleted successfully' })
+        return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
