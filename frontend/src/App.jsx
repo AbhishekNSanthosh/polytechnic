@@ -3,12 +3,13 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import LoginPage from './modules/LoginPage/LoginPage';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: "hii"
+      element: <LoginPage />
     }
   ]);
   return (
