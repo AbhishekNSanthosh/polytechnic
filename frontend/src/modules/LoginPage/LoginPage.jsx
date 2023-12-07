@@ -11,7 +11,9 @@ const LoginPage = () => {
                     <img src={collegeImages.collegelogosvg} alt="" className={styles.loginPageLogo} />
                 </div>
                 <div className={styles.loginRightCol}>
-                    <LoginNav />
+                    <div className={styles.loginNavWrap}>
+                        <LoginNav />
+                    </div>
                 </div>
             </div>
         </div>

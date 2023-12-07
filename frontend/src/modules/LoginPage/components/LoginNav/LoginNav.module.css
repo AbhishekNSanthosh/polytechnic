@@ -1,0 +1,76 @@
+.LoginNavContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    gap: 2rem;
+    border-radius: 10px;
+    height: 70%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.BtnCol{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.LoginNavRow {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.LoginNavAdminButton{
+    display: flex;
+    width: 100%;
+    font-size: 1rem;
+    padding: 16px 10px;
+    background-color: red;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.LoginNavTeacherButton{
+    display: flex;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 16px 10px;
+    border-radius: 10px;
+    background-color: blue;
+    outline: none;
+    color: #fff;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.LoginNavStudentButton{
+    display: flex;
+    width: 100%;
+    color: #fff;
+    font-size: 1rem;
+    padding: 16px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    outline: none;
+    background-color: green;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
