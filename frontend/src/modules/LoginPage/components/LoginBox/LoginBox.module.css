@@ -1,0 +1,68 @@
+.LoginBoxContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    gap: 2rem;
+    border-radius: 15px;
+    height: 70%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.inputCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.LoginBoxRow {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.LoginBoxTitleBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.loginInput {
+    width: 95%;
+    padding: 1rem;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(247, 247, 247);
+}
+
+.LoginBoxStudentButton {
+    display: flex;
+    width: 94%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 12px 0px;
+    font-weight: 600;
+    border-radius: 10px;
+    outline: none;
+    background: #3658cf;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.LoginNavTitleName{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
