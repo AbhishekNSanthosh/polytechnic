@@ -16,8 +16,8 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 </div>
             </div>
             <div className={styles.inputCol}>
-                <input type="text" className={styles.loginInput} placeholder='Username' />
-                <input type="text" className={styles.loginInput} placeholder='Password' />
+                <input type="text" required className={styles.loginInput} placeholder='Username' />
+                <input type="password" required className={styles.loginInput} placeholder='Password' />
                 {user === "admin" && <button className={styles.LoginBoxAdminButton} >Login</button>}
                 {user === "faculty" && <button className={styles.LoginBoxFacultyButton} >Login</button>}
                 {user === "student" && <button className={styles.LoginBoxStudentButton} >Login</button>}
