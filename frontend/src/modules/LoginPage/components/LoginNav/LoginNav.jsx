@@ -13,7 +13,7 @@ const LoginNav = ({ handleLoginUser }) => {
                     handleLoginUser("admin")
                 }}>Admin Login</button>
                 <button className={styles.LoginNavTeacherButton} onClick={() => {
-                    handleLoginUser("teacher")
+                    handleLoginUser("faculty")
                 }}>Teacher Login</button>
                 <button className={styles.LoginNavStudentButton} onClick={() => {
                     handleLoginUser("student")

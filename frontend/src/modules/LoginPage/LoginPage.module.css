@@ -72,3 +72,25 @@
     justify-content: center;
 }
 
+
+.icon{
+    border-radius: 50%;
+    padding: 3px;
+}
+
+.icon:hover{
+    background-color: rgb(223, 223, 223);
+    color: red;
+}
+
+.icon{
+    position: absolute;
+    top: 3rem;
+    left: 3rem;
+    
+}
+
+.backIcon{
+    font-size: 2rem;
+    cursor: pointer;   
+}
