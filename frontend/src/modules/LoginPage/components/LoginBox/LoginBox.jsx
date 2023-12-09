@@ -1,9 +1,15 @@
 import React from 'react'
 import styles from './LoginBox.module.css'
+import { IoMdArrowBack } from "react-icons/io";
 
 const LoginBox = ({ handleLoginUser, user }) => {
     return (
         <div className={styles.LoginBoxContainer}>
+            <div className={styles.icon} title='Back button'>
+                <IoMdArrowBack onClick={() => {
+                    handleLoginUser("root");
+                }} className={styles.backIcon} />
+            </div>
             <div className={styles.LoginBoxRow}>
                 <span className={styles.LoginNavTitle}>CARMEL</span>
                 <span className={styles.LoginNavTitle}>POLYTECHNIC COLLEGE</span>
@@ -21,6 +27,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 {user === "admin" && <button className={styles.LoginBoxAdminButton} >Login</button>}
                 {user === "faculty" && <button className={styles.LoginBoxFacultyButton} >Login</button>}
                 {user === "student" && <button className={styles.LoginBoxStudentButton} >Login</button>}
+                <span className={styles.forgot}>Forgot password ?</span>
             </div>
         </div>
     )
