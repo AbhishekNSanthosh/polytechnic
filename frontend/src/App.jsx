@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import LoginPage from './modules/LoginPage/LoginPage';
 import Dashboard from './modules/Dashboard/Dashboard';
+import Layout from './modules/Layout/Layout'
 
 function App() {
   const router = createBrowserRouter([
@@ -13,9 +14,19 @@ function App() {
       element: <LoginPage />
     },
     {
-      path: "/dashboard",
-      element: <Dashboard />
-    }
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: '/dashboard',
+          element: <Dashboard />
+        },
+        {
+          path: '/',
+          // element: <Profile />
+        }
+      ]
+    },
   ]);
   return (
     <RouterProvider router={router} />

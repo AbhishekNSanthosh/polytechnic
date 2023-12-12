@@ -1,9 +1,8 @@
 import React, { Suspense } from 'react'
 import styles from './Layout.module.css'
-import SideNavBar from '../components/SideNavBar/SideNavBar'
 import { Outlet } from 'react-router-dom'
-import TopNavBar from '../components/TopNavBar/TopNavBar'
-
+import SideNavBar from '../../components/SideNavbar/SideNavbar'
+import TopNavBar from '../../components/TopNavBar/TopNavBar'
 const Layout = () => {
     return (
         <div className={styles.fullPage}>

@@ -3,7 +3,7 @@ import styles from './TopNavBar.module.css'
 
 const TopNavBar = () => {
     return (
-        <div>TopNavBar</div>
+        <div className={styles.container}>TopNavBar</div>
     )
 }
 
