@@ -15,10 +15,10 @@ a{
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #0051ff;
+  background-color:rgb(255, 219, 219);;
   border-radius: 5px;
 }
 
 *::-webkit-scrollbar-track:hover {
-  background-color: #10ff247c;
+  background-color:rrgba(255, 194, 194, 0.486)
 }

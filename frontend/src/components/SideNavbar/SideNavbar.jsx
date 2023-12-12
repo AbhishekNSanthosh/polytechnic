@@ -38,7 +38,8 @@ const SideNavBar = () => {
               navigate(item.link)
             }} style={{
               backgroundColor: selectedTab === item.id
-                && 'rgb(248, 204, 204)'
+                && '#ffe8e8',
+                color:selectedTab === item.id && 'red'
             }}>
               {item.icon}
               <span className={styles.navtitle}>{item.title}</span>

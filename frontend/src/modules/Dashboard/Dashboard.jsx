@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './Dashboard.module.css'
 import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
+import LetterList from './components/LetterList';
 
 const Dashboard = () => {
     return (
@@ -33,7 +34,17 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.dashboardRow}></div>
+            <div className={styles.dashboardRow}>
+                <LetterList/>
+                <LetterList/>
+                <LetterList/>
+                <LetterList/>
+                <LetterList/>
+                <LetterList/>
+                <LetterList/>
+                <LetterList/>
+                <LetterList/>
+            </div>
         </div>
     )
 }
