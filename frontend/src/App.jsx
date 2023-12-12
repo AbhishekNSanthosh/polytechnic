@@ -8,6 +8,7 @@ import Dashboard from './modules/Dashboard/Dashboard';
 import Layout from './modules/Layout/Layout'
 import Profile from './modules/Profile/Profile';
 import Management from './modules/Management/Management';
+import ListUser from './modules/ListUser/ListUser';
 
 function App() {
   const router = createBrowserRouter([
@@ -29,8 +30,20 @@ function App() {
         },
         {
           path: '/user-management',
-          element: <Management />
-        }
+          element: <Management />,
+        },
+        {
+          path: '/user-management/list-student',
+          element: <ListUser />
+        },
+        {
+          path: '/user-management/list-faculty',
+          element: <ListUser />
+        },
+        {
+          path: '/user-management/list-admin',
+          element: <ListUser />
+        },
       ]
     },
   ]);
