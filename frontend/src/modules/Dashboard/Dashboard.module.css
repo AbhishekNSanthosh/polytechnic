@@ -98,6 +98,7 @@
 .read{
     color: red;
     font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .countNo{
@@ -106,4 +107,5 @@
 
 .actionIcon{
     font-size: 1.5rem;
+    cursor: pointer;
 }
