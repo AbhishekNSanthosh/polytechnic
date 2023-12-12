@@ -7,6 +7,7 @@ import LoginPage from './modules/LoginPage/LoginPage';
 import Dashboard from './modules/Dashboard/Dashboard';
 import Layout from './modules/Layout/Layout'
 import Profile from './modules/Profile/Profile';
+import Management from './modules/Management/Management';
 
 function App() {
   const router = createBrowserRouter([
@@ -25,6 +26,10 @@ function App() {
         {
           path: '/profile',
           element: <Profile />
+        },
+        {
+          path: '/user-management',
+          element: <Management />
         }
       ]
     },

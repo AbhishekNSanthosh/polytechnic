@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color:#7a7a7a;
+    height: 100%;
+    padding: 1rem;
+}
+
+.wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    width: 100%;
+}
+
+.actions {
+    flex: 4;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 13rem;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.actionRow {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.icon{
+    font-size: 3.6rem;
+    color: rgb(255, 151, 151);
+}
