@@ -6,6 +6,7 @@ import {
 import LoginPage from './modules/LoginPage/LoginPage';
 import Dashboard from './modules/Dashboard/Dashboard';
 import Layout from './modules/Layout/Layout'
+import Profile from './modules/Profile/Profile';
 
 function App() {
   const router = createBrowserRouter([
@@ -22,8 +23,8 @@ function App() {
           element: <Dashboard />
         },
         {
-          path: '/',
-          // element: <Profile />
+          path: '/profile',
+          element: <Profile />
         }
       ]
     },

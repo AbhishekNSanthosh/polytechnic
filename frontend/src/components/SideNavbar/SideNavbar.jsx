@@ -4,21 +4,24 @@ import { collegeImages } from '../../utils/helpers'
 import { LuMails } from "react-icons/lu";
 import { RiAccountPinBoxLine } from "react-icons/ri";
 import { SlLogout } from "react-icons/sl";
+import { useNavigate } from 'react-router-dom'
 
 const SideNavBar = () => {
-
   const [selectedTab, setSelectedTab] = useState(1);
+  const navigate = useNavigate()
 
   const navItem = [
     {
       id: 1,
       title: "All letters",
-      icon: <LuMails />
+      icon: <LuMails />,
+      link: "dashboard"
     },
     {
       id: 2,
       title: "Profile",
-      icon: <RiAccountPinBoxLine />
+      icon: <RiAccountPinBoxLine />,
+      link: "profile"
     },
   ]
 
@@ -31,10 +34,11 @@ const SideNavBar = () => {
         <div className={styles.navCol}>
           {navItem.map((item) => (
             <div className={styles.navItemBox} key={item.id} onClick={() => {
-              setSelectedTab(item.id)
+              setSelectedTab(item.id);
+              navigate(item.link)
             }} style={{
               backgroundColor: selectedTab === item.id
-                && '#ffb5b5'
+                && 'rgb(248, 204, 204)'
             }}>
               {item.icon}
               <span className={styles.navtitle}>{item.title}</span>
