@@ -1,5 +1,33 @@
 .container{
     display: flex;
-    background-color: blue;
     height: 13vh;
+    align-items: center;
+    justify-content: center;
+}
+.TopNavBarWrap{
+    padding: 1rem 2rem;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    height: 100%;
+}
+
+.dpImg{
+    object-fit: cover;
+    height: 3rem;
+    border-radius: 50%;
+}
+
+.dp{
+border: 2px solid red;
+    padding: 0.12rem;
+    border-radius: 50%;
+}
+
+.welcome{
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: red;
 }

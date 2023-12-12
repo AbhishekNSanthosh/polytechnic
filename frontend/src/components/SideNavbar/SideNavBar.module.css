@@ -1,15 +1,19 @@
 .SideNavBar {
-    flex: 2.5;
+    flex: 2.2;
     width: 100%;
+    padding: 1rem;
 }
 
 .navWrap {
     width: 100%;
     height: 100%;
-    background-color: red;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: start;
+}
+
+.logo{
+    height: 4rem;
 }

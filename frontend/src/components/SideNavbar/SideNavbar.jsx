@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './SideNavBar.module.css'
+import { collegeImages } from '../../utils/helpers'
 
 const SideNavBar = () => {
 
@@ -11,7 +12,9 @@ const SideNavBar = () => {
   return (
     <div className={styles.SideNavBar}>
       <div className={styles.navWrap}>
-        hi
+        <div className={styles.navItem}>
+          <img src={collegeImages.collegeLogonew} alt="" className={styles.logo} />
+        </div>
       </div>
     </div>
   )
