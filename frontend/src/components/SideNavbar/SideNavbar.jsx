@@ -5,9 +5,12 @@ import { LuMails } from "react-icons/lu";
 import { RiAccountPinBoxLine } from "react-icons/ri";
 import { SlLogout } from "react-icons/sl";
 import { useNavigate } from 'react-router-dom'
+import { MdManageAccounts } from "react-icons/md";
+import { FaAngleDown } from "react-icons/fa6";
 
 const SideNavBar = () => {
   const [selectedTab, setSelectedTab] = useState(1);
+  const [expand, setExpanded] = useState(false);
   const navigate = useNavigate()
 
   const navItem = [
@@ -22,6 +25,12 @@ const SideNavBar = () => {
       title: "Profile",
       icon: <RiAccountPinBoxLine />,
       link: "profile"
+    },
+    {
+      id: 3,
+      title: "Management",
+      icon: <MdManageAccounts />,
+      link: "user-management"
     },
   ]
 
@@ -39,7 +48,7 @@ const SideNavBar = () => {
             }} style={{
               backgroundColor: selectedTab === item.id
                 && '#ffe8e8',
-                color:selectedTab === item.id && 'red'
+              color: selectedTab === item.id && 'red'
             }}>
               {item.icon}
               <span className={styles.navtitle}>{item.title}</span>
