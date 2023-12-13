@@ -14,13 +14,13 @@ const SideNavBar = () => {
   const navigate = useNavigate();
   const toast = useToast()
 
-  const navItem = [ 
-    { 
+  const navItem = [
+    {
       id: 1,
       title: 'All letters',
-      icon: <LuMails />, 
-      link: 'dashboard', 
-    },  
+      icon: <LuMails />,
+      link: 'dashboard',
+    },
     {
       id: 2,
       title: 'Profile',
