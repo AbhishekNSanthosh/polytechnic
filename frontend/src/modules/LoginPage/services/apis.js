@@ -18,7 +18,7 @@ export const loginUser = async (
             title: 'Login successfull',
             description: "Redirecting to dashboard",
             status: 'success',
-            duration: 2000,
+            duration: 2000, 
             isClosable: true,
         })
         const token = response.data?.accessToken
