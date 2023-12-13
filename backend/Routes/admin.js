@@ -31,6 +31,7 @@ const limiter = rateLimit({
 
 //api to login admin
 router.post('/adminLogin', async (req, res) => {
+    console.log(req.body)
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
@@ -43,6 +44,7 @@ router.post('/adminLogin', async (req, res) => {
             return res.status(401).json(errorMessage);
         }
         const user = await User.findOne({ username });
+        console.log(user)
         if (!user) {
             const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
             return res.status(404).json(errorMessage);
@@ -138,7 +140,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
         const userWithoutPassword = {
             _id: savedUser._id,
             username: savedUser.username,
-            username: savedUser.email,
+            email: savedUser.email,
             role: savedUser.role,
             semester: savedUser.semester,
             department: savedUser.department

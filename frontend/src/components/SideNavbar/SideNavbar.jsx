@@ -6,8 +6,6 @@ import { RiAccountPinBoxLine } from 'react-icons/ri';
 import { SlLogout } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
-import { FaAngleDown } from 'react-icons/fa6';
-import backendUrl from '../../Urls/Urls';
 
 const SideNavBar = () => {
   const storedTab = localStorage.getItem('selectedTab');

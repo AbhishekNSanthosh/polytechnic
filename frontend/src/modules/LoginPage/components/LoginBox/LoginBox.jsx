@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './LoginBox.module.css'
 import { IoMdArrowBack } from "react-icons/io";
+import { loginUser } from '../../services/apis';
 
 const LoginBox = ({ handleLoginUser, user }) => {
+    const [emailOrUsername, setEmailOrUsername] = useState(null);
+    const [passsword, setPassword] = useState(null); console.log(emailOrUsername, passsword);
+
+    const handleLogin = async () => {
+        const result = await loginUser(emailOrUsername, passsword);
+    }
     return (
         <div className={styles.LoginBoxContainer}>
             <div className={styles.icon} title='Back button'>
@@ -22,11 +29,17 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 </div>
             </div>
             <div className={styles.inputCol}>
-                <input type="text" required className={styles.loginInput} placeholder='Username' />
-                <input type="password" required className={styles.loginInput} placeholder='Password' />
-                {user === "admin" && <button className={styles.LoginBoxAdminButton} >Login</button>}
-                {user === "faculty" && <button className={styles.LoginBoxFacultyButton} >Login</button>}
-                {user === "student" && <button className={styles.LoginBoxStudentButton} >Login</button>}
+                <input type="text" required className={styles.loginInput} placeholder='Username' value={emailOrUsername} onChange={(e) => {
+                    e.preventDefault();
+                    setEmailOrUsername(e.target.value);
+                }} />
+                <input type="password" required className={styles.loginInput} placeholder='Password' value={passsword} onChange={(e) => {
+                    e.preventDefault();
+                    setPassword(e.target.value);
+                }} />
+                {user === "admin" && <button className={styles.LoginBoxAdminButton} onClick={handleLogin}>Login</button>}
+                {user === "faculty" && <button className={styles.LoginBoxFacultyButton} onClick={handleLogin}>Login</button>}
+                {user === "student" && <button className={styles.LoginBoxStudentButton} onClick={handleLogin}>Login</button>}
                 <span className={styles.forgot}>Forgot password ?</span>
             </div>
         </div>

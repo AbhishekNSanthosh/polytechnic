@@ -30,6 +30,12 @@ app.use("/api/v2/admin", adminRoute, limiter);
 app.use("/api/v2/student", studentRoute, limiter);
 app.use("/api/v2/teacher", teacherRoute, limiter);
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "htttp://localhost:5173");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.use('/api/v2/', limiter, (req, res) => {
     return res.status(200).json({
         resCode: 200,
