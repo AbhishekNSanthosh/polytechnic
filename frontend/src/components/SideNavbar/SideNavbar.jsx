@@ -15,7 +15,7 @@ const SideNavBar = () => {
   const toast = useToast()
 
   const navItem = [ 
-    {
+    { 
       id: 1,
       title: 'All letters',
       icon: <LuMails />, 
