@@ -55,7 +55,7 @@ const SideNavBar = () => {
                 navigate(item.link);
               }}
               style={{
-                backgroundColor: selectedTab === item.id && '#ffe8e8',
+                backgroundColor: selectedTab === item.id && '#fff2f2',
                 color: selectedTab === item.id && 'red',
               }}
             >

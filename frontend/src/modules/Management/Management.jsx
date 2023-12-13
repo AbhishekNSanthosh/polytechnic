@@ -29,15 +29,21 @@ const Management = () => {
                     </div>
                 </div>
                 <div className={styles.actionRow}>
-                    <div className={styles.actions}>
+                    <div className={styles.actions} onClick={() => {
+                        navigate('/user-management/create-student')
+                    }}>
                         <MdGroupAdd className={styles.icon} />
                         Add new student
                     </div>
-                    <div className={styles.actions}>
+                    <div className={styles.actions} onClick={() => {
+                        navigate('/user-management/create-faculty')
+                    }}>
                         <MdGroupAdd className={styles.icon} />
                         Add new faculty
                     </div>
-                    <div className={styles.actions}>
+                    <div className={styles.actions} onClick={() => {
+                        navigate('/user-management/create-admin')
+                    }}>
                         <MdGroupAdd className={styles.icon} />
                         Add new admin
                     </div>

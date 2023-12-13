@@ -58,7 +58,7 @@
 }
 
 .navItemBoxAuto:hover {
-    background-color: rgb(255, 225, 225);
+    background-color:#fac0c0
 }
 
 .expandBox {
@@ -95,7 +95,7 @@
     bottom: 1rem;
     color: red;
     width: 100%;
-    background-color: rgb(255 239 239);
+    background-color:#fff2f2
 }
 
 .navtitle {
