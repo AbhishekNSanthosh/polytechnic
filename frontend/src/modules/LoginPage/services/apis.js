@@ -5,11 +5,12 @@ export const loginUser = async (
     username,
     password,
     toast,
-    navigate
+    navigate,
+    url,
+    userDetails
 ) => {
-    console.log("called")
     try {
-        const response = await axios.post(backendApiUrl + loginUrls.login, {
+        const response = await axios.post(backendApiUrl + url, {
             username,
             password
         })
@@ -20,12 +21,20 @@ export const loginUser = async (
             duration: 2000,
             isClosable: true,
         })
+        const token = response.data?.accessToken
         localStorage.setItem('accessType', response.data?.accessType)
         localStorage.setItem('accessToken', response.data?.accessToken)
         setTimeout(() => {
             navigate('/dashboard')
         }, 1000);
-        return response
+        await axios.get(backendApiUrl + userDetails, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }).then((res) => {
+            console.log(res)
+            localStorage.setItem('user', JSON.stringify(res.data.data))
+        })
     } catch (error) {
         toast({
             title: error?.response?.data.message,

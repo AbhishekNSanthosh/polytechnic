@@ -4,6 +4,7 @@ import { IoMdArrowBack } from "react-icons/io";
 import { loginUser } from '../../services/apis';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react'
+import { dashboardUrls, loginUrls } from '../../../../utils/helpers';
 
 const LoginBox = ({ handleLoginUser, user }) => {
     const [emailOrUsername, setEmailOrUsername] = useState(null);
@@ -19,7 +20,32 @@ const LoginBox = ({ handleLoginUser, user }) => {
     }, [])
 
     const handleLogin = async () => {
-        await loginUser(emailOrUsername, passsword, toast,navigate);
+        if (user === "admin") {
+            await loginUser(
+                emailOrUsername,
+                passsword,
+                toast,
+                navigate,
+                loginUrls.adminLogin,
+                dashboardUrls.getAdminDetials
+            );
+        } else if (user === "student") {
+            await loginUser(
+                emailOrUsername,
+                passsword, toast,
+                navigate,
+                loginUrls.studentLogin,
+                dashboardUrls.getStudentDetials
+            );
+        } else if (user === "faculty") {
+            await loginUser(emailOrUsername,
+                passsword,
+                toast,
+                navigate,
+                loginUrls.facultyLogin,
+                dashboardUrls.getFacultyDetials
+            );
+        }
     }
 
     return (

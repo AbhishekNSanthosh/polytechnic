@@ -24,8 +24,8 @@ const rateLimitError = (req, res) => {
 };
 
 const limiter = rateLimit({
-    windowMs: 2 * 1000, // 2 seconds
-    max: 3, // 3 attempts
+    windowMs: 5 * 1000, // 2 seconds
+    max: 5, // 3 attempts
     handler: rateLimitError,
 });
 
@@ -100,6 +100,7 @@ router.post('/adminLogin', async (req, res) => {
 //api to get admin info && token is valid or not
 router.get('/getUserDetails', verifyAdminToken, async (req, res) => {
     try {
+        console.log("test", req.user)
         if (req.user) {
             const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
@@ -583,7 +584,7 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
 });
 
 //api to search for user based on the role
-router.post('/searchUser', verifyAdminToken, limiter, async (req, res) => {
+router.post('/searchUser', verifyAdminToken, async (req, res) => {
     try {
         const { role, query } = req.body;
 
