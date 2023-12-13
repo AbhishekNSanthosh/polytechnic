@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { backendApiUrl, loginUrls } from '../../../utils/helpers'
-
 export const loginUser = async (
     username,
     password
@@ -13,7 +12,6 @@ export const loginUser = async (
         })
         localStorage.setItem('accessType', response.data?.accessType)
         localStorage.setItem('accessToken', response.data?.accessToken)
-        console.log(response.datak)
         return response
     } catch (error) {
         console.log(error)

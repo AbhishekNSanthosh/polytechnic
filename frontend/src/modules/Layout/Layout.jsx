@@ -1,9 +1,18 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import styles from './Layout.module.css'
 import { Outlet } from 'react-router-dom'
 import SideNavBar from '../../components/SideNavbar/SideNavbar'
 import TopNavBar from '../../components/TopNavBar/TopNavBar'
+import { useNavigate } from 'react-router-dom'
+
 const Layout = () => {
+    const token = localStorage.getItem('accessToken')
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!token) {
+            navigate('/')
+        }
+    }, [])
     return (
         <div className={styles.fullPage}>
             <SideNavBar />
