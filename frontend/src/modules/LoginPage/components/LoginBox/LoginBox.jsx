@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import styles from './LoginBox.module.css'
 import { IoMdArrowBack } from "react-icons/io";
 import { loginUser } from '../../services/apis';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react'
 
 const LoginBox = ({ handleLoginUser, user }) => {
     const [emailOrUsername, setEmailOrUsername] = useState(null);
     const [passsword, setPassword] = useState(null); console.log(emailOrUsername, passsword);
     const navigate = useNavigate();
+    const toast = useToast()
+
     const token = localStorage.getItem('accessToken')
     useEffect(() => {
         if (!token) {
@@ -16,10 +19,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
     }, [])
 
     const handleLogin = async () => {
-        const result = await loginUser(emailOrUsername, passsword);
-        if (result.status === 200) {
-            navigate('/dashboard')
-        }
+        await loginUser(emailOrUsername, passsword, toast,navigate);
     }
 
     return (
