@@ -37,6 +37,16 @@ const ListUser = () => {
         </div>
         <div className={styles.dashboardRow}>
           <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
+          <UserList />
         </div>
       </div>
     </div>
