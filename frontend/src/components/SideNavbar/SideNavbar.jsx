@@ -18,7 +18,7 @@ const SideNavBar = () => {
     {
       id: 1,
       title: 'All letters',
-      icon: <LuMails />,
+      icon: <LuMails />, 
       link: 'dashboard',
     },
     {
