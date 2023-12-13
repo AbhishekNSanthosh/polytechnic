@@ -1,0 +1,119 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrap {
+    padding: 1rem;
+}
+
+.dashboardTopRow {
+    display: flex;
+    width: 100%;
+    padding: 0 0 1rem 0;
+    border-bottom: 1px solid rgb(255, 213, 213);
+}
+
+.dashboardRowLeft {
+    display: flex;
+    flex: 4;
+    width: 100%;
+}
+
+.dashboardRowRight {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.5rem;
+    flex: 8;
+}
+
+.searchWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 10px;
+    background-color: rgb(255, 242, 242);
+    border-radius: 30px;
+    width: 90%;
+}
+
+.icon {
+    font-size: 1.8rem;
+}
+
+.dashboardRowLeftSearch {
+    height: 3rem;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: rgb(255, 242, 242);
+    border-radius: 10px;
+
+}
+
+.apllyBtn {
+    display: flex;
+    padding: 9px 15px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.92rem;
+    background-color: red;
+    border-radius: 10px;
+}
+
+.dashboardRow {
+    height: 82%;
+    overflow-y: auto;
+    align-items: center;
+    display: flex;
+}
+
+.left{
+    padding: 0rem 1.5rem;
+}
+
+.listContainer{
+    width: 100%;
+    height: 4.3rem;
+    padding: 0 1.3rem;
+    border-radius: 10px;
+    border-bottom: 1px solid rgb(255, 217, 217);
+    display: flex;
+    align-items: center;
+}
+
+.left{
+    display: flex;
+    flex: 0.5;
+}
+
+.right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 2;
+}
+
+.center{
+    display: flex;
+    justify-content: space-between;
+    flex: 8;
+}
+
+.read{
+    color: red;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.countNo{
+    font-size: 1rem;
+}
+
+.actionIcon{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
