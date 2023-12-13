@@ -1,9 +1,12 @@
 // api.js
 import axios from 'axios';
+import backendUrl from '../Urls/Urls';
+import { useEffect } from 'react';
 
 const instance = axios.create({
-    baseURL: 'YOUR_API_BASE_URL',
+    baseURL: backendUrl,
 });
+
 
 // Set the authorization token from localStorage
 const setAuthToken = () => {
