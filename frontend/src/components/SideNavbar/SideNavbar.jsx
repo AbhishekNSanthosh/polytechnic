@@ -6,12 +6,14 @@ import { RiAccountPinBoxLine } from 'react-icons/ri';
 import { SlLogout } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
+import { useToast } from '@chakra-ui/react'
 
 const SideNavBar = () => {
   const storedTab = localStorage.getItem('selectedTab');
   const [selectedTab, setSelectedTab] = useState(storedTab ? parseInt(storedTab) : 1);
   const [expand, setExpanded] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast()
 
   const navItem = [
     {
@@ -62,7 +64,19 @@ const SideNavBar = () => {
               <span className={styles.navtitle}>{item.title}</span>
             </div>
           ))}
-          <div className={styles.logoutBox} onClick={() => localStorage.removeItem('selectedTab')}>
+          <div className={styles.logoutBox} onClick={() => {
+            localStorage.clear();
+            toast({
+              title: 'Logout successfull',
+              description: "Redirecting to login page",
+              status: 'error',
+              duration: 2000,
+              isClosable: true,
+            })
+            setTimeout(() => {
+              navigate('/')
+            }, 2000)
+          }}>
             <SlLogout className={styles.navtitle} />
             <span className={styles.navtitle}>Logout</span>
           </div>
