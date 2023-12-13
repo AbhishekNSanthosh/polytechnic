@@ -11,7 +11,6 @@ import { useToast } from '@chakra-ui/react'
 const SideNavBar = () => {
   const storedTab = localStorage.getItem('selectedTab');
   const [selectedTab, setSelectedTab] = useState(storedTab ? parseInt(storedTab) : 1);
-  const [expand, setExpanded] = useState(false);
   const navigate = useNavigate();
   const toast = useToast()
 
