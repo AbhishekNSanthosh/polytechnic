@@ -9,6 +9,7 @@ import Layout from './modules/Layout/Layout'
 import Profile from './modules/Profile/Profile';
 import Management from './modules/Management/Management';
 import ListUser from './modules/ListUser/ListUser';
+import CreateUser from './modules/CreateUser/CreateUser';
 
 function App() {
   const router = createBrowserRouter([
@@ -43,6 +44,18 @@ function App() {
         {
           path: '/user-management/list-admin',
           element: <ListUser />
+        },
+        {
+          path: '/user-management/create-student',
+          element: <CreateUser />
+        },
+        {
+          path: '/user-management/create-faculty',
+          element: <CreateUser />
+        },
+        {
+          path: '/user-management/create-admin',
+          element: <CreateUser />
         },
       ]
     },
