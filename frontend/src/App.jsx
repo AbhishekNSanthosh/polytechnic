@@ -23,7 +23,10 @@ function App() {
       children: [
         {
           path: '/dashboard',
-          element: <Dashboard />
+          element: <Dashboard />,
+          children:[
+            
+          ]
         },
         {
           path: '/profile',
