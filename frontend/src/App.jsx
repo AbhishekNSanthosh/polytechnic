@@ -10,7 +10,7 @@ import Profile from './modules/Profile/Profile';
 import Management from './modules/Management/Management';
 import ListUser from './modules/ListUser/ListUser';
 import CreateUser from './modules/CreateUser/CreateUser';
-import { useEffect } from 'react';
+
 function App() {
   const router = createBrowserRouter([
     {
