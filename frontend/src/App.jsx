@@ -10,6 +10,7 @@ import Profile from './modules/Profile/Profile';
 import Management from './modules/Management/Management';
 import ListUser from './modules/ListUser/ListUser';
 import CreateUser from './modules/CreateUser/CreateUser';
+import DisplayLetter from './modules/DisplayLetter/DisplayLetter';
 
 function App() {
   const router = createBrowserRouter([
@@ -27,7 +28,7 @@ function App() {
           children:[
             {
               path: '/letter/:id',
-              element: <Profile />
+              element: <DisplayLetter />
             },
           ]
         },
