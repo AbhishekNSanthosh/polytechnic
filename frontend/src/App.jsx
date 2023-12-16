@@ -27,7 +27,7 @@ function App() {
           element: <Dashboard />,
           children:[
             {
-              path: '/letter/:id',
+              path: '/dashboard/letter/:id',
               element: <DisplayLetter />
             },
           ]
