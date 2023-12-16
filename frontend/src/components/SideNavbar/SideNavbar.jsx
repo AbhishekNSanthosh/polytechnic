@@ -10,9 +10,11 @@ import { useToast } from '@chakra-ui/react'
 
 const SideNavBar = () => {
   const storedTab = localStorage.getItem('selectedTab');
+  const userRole = localStorage.getItem('accessType');
   const [selectedTab, setSelectedTab] = useState(storedTab ? parseInt(storedTab) : 1);
   const navigate = useNavigate();
   const toast = useToast()
+  console.log(userRole)
 
   const navItem = [
     {
@@ -20,18 +22,21 @@ const SideNavBar = () => {
       title: 'All letters',
       icon: <LuMails />,
       link: 'dashboard',
+      adminOnly: false
     },
     {
       id: 2,
       title: 'Profile',
       icon: <RiAccountPinBoxLine />,
       link: 'profile',
+      adminOnly: false
     },
     {
       id: 3,
       title: 'Management',
       icon: <MdManageAccounts />,
       link: 'user-management',
+      adminOnly: true
     },
   ];
 
@@ -47,21 +52,41 @@ const SideNavBar = () => {
         </div>
         <div className={styles.navCol}>
           {navItem.map((item) => (
-            <div
-              className={styles.navItemBox}
-              key={item.id}
-              onClick={() => {
-                setSelectedTab(item.id);
-                navigate(item.link);
-              }}
-              style={{
-                backgroundColor: selectedTab === item.id && '#fff2f2',
-                color: selectedTab === item.id && 'red',
-              }}
-            >
-              {item.icon}
-              <span className={styles.navtitle}>{item.title}</span>
-            </div>
+            <>
+              {
+                item?.adminOnly === true && userRole === "admin" ?
+                  <div
+                    className={styles.navItemBox}
+                    key={item.id}
+                    onClick={() => {
+                      setSelectedTab(item.id);
+                      navigate(item.link);
+                    }}
+                    style={{
+                      backgroundColor: selectedTab === item.id && '#fff2f2',
+                      color: selectedTab === item.id && 'red',
+                    }}
+                  >
+                    {item.icon}
+                    <span className={styles.navtitle}>{item.title}</span>
+                  </div>
+                  : <div
+                    className={styles.navItemBox}
+                    key={item.id}
+                    onClick={() => {
+                      setSelectedTab(item.id);
+                      navigate(item.link);
+                    }}
+                    style={{
+                      backgroundColor: selectedTab === item.id && '#fff2f2',
+                      color: selectedTab === item.id && 'red',
+                    }}
+                  >
+                    {item.icon}
+                    <span className={styles.navtitle}>{item.title}</span>
+                  </div>
+              }
+            </>
           ))}
           <div className={styles.logoutBox} onClick={() => {
             localStorage.clear();
