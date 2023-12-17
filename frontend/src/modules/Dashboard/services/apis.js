@@ -16,7 +16,16 @@ export const getAllLettersForAdmin = async (
         console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        }
     }
 }
 
@@ -33,8 +42,15 @@ export const getAllLettersForStudent = async (
         console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
-        if (error.response.data.resCode === 401) {
-
+        console.log(error.response.data.error === "TokenExpiredError")
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
         }
     }
 }
@@ -52,6 +68,14 @@ export const getAllLettersForTeacher = async (
         console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
-        console.log(error)
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        }
     }
 }
