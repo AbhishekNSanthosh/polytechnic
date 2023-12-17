@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './Dashboard.module.css'
 import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
 import LetterList from './components/LetterList';
+import { useEffect } from 'react';
+import { getAllLettersForAdmin } from './services/apis';
 
 const Dashboard = () => {
+    const [letters, setLetters] = useState([]);
+    useEffect(() => {
+        getAllLettersForAdmin(setLetters);
+    }, [])
+
     return (
         <div className={styles.container}>
             <div className={styles.dashboardTopRow}>
@@ -35,15 +42,8 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className={styles.dashboardRow}>
-                <LetterList/>
-                <LetterList/>
-                <LetterList/>
-                <LetterList/>
-                <LetterList/>
-                <LetterList/>
-                <LetterList/>
-                <LetterList/>
-                <LetterList/>
+                <LetterList />
+
             </div>
         </div>
     )
