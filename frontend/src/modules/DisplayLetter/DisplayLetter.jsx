@@ -9,7 +9,8 @@ const DisplayLetter = () => {
     const [letterData, setLetterData] = useState({});
     const accessType = localStorage.getItem('accessType');
     const params = useParams();
-    console.log(letterData)
+    const navigate = useNavigate();
+    
     useEffect(() => {
         if (accessType === "admin") {
             getLetterDetails(params?.id, setLetterData, adminApi.getLetterData);
