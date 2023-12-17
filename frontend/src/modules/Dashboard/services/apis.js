@@ -50,7 +50,10 @@ export const getAllLettersForStudent = async (
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-            })
+            });
+            setTimeout(() => {
+                localStorage.clear();
+            }, 2000)
         }
     }
 }
