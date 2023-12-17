@@ -25,12 +25,10 @@ function App() {
         {
           path: '/dashboard',
           element: <Dashboard />,
-          children:[
-            {
-              path: '/dashboard/letter/:id',
-              element: <DisplayLetter />
-            },
-          ]
+        },
+        {
+          path: '/view-letter/:id',
+          element: <DisplayLetter />
         },
         {
           path: '/profile',

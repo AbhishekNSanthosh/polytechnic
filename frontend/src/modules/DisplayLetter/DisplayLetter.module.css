@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.letterWrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 1rem;
+}
+
+.letterTopRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.letterBox {
+    margin-top: 1rem;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    border-radius: 10px;
+    gap: 0.5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.letterRow {
+    display: flex;
+}
+
+.left {
+    flex: 1.2;
+}
+
+.right {
+    flex: 10.8;
+    display: flex;
+    gap: 0.3rem;
+    flex-direction: column;
+}
+
+.subtitle {
+    font-size: 1.05rem;
+}
+
+.letterDetails {
+    font-size: 1.05rem;
+}
+
+.letterBodyRow {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
