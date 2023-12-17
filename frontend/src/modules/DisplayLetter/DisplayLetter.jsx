@@ -3,6 +3,8 @@ import styles from './DisplayLetter.module.css'
 import { useParams } from 'react-router-dom'
 import { getLetterDetails } from './services/apis';
 import { adminApi } from '../../utils/helpers';
+import { useNavigate } from 'react-router-dom'
+
 const DisplayLetter = () => {
     const [letterData, setLetterData] = useState({});
     const accessType = localStorage.getItem('accessType');
