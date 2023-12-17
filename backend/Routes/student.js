@@ -99,6 +99,40 @@ router.post('/studentLogin', limiter, async (req, res) => {
     }
 });
 
+router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
+    try {
+        const letterId = req.params.id;
+        const letter = await Letter.findOne({ _id:letterId}).populate('from','username email semester department');
+        const sanitizedLetter = {
+            ...letter.toObject(),
+            from: {
+                username: letter.from.username,
+                email: letter.from.email,
+                semester: letter.from.semester,
+                department: letter.from.department,
+                role: letter.from.role,
+            },
+            createdAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+        }
+        const successResponseMsg = twohundredResponse({
+            message:"Letter from ",
+            data: sanitizedLetter,
+        });
+        return res.status(200).json(successResponseMsg);
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
+
 //api to get admin info && token is valid or not
 router.get('/getUserDetails', verifyStudentToken, async (req, res) => {
     try {
