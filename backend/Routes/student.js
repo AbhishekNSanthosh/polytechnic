@@ -154,12 +154,12 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
 
     try {
         if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[/\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: "Invalid body" });
+            const errorMessage = fourHundredResponse({ message: "Invalid body" });
             return res.status(400).json(errorMessage);
         }
 
         if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[/\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: "Invalid subject" });
+            const errorMessage = fourHundredResponse({ message: "Invalid subject" });
             return res.status(400).json(errorMessage);
         }
         const newLetter = new Letter({
