@@ -280,6 +280,17 @@ router.get('/getAllLetters', verifyAdminToken, async (req, res) => {
     }
 })
 
+//api to get single letter
+router.get('getUserLetterById',verifyAdminToken,async (req,res)=>{
+    try {
+        
+    } catch (error) {
+        console.log(error)
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+})
+
 //api to get all letters send by the student
 router.get('/getAllStudentLetters', verifyAdminToken, async (req, res) => {
     try {
