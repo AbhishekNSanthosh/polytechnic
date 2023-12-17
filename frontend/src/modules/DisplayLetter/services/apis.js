@@ -14,7 +14,7 @@ export const getLetterDetails = async (
                 Authorization:"Bearer "+authToken
             }
         })
-        console.log(response)
+        console.log(response.data.data)
         setLetterData(response?.data?.data)
     } catch (error) {
         console.log(error)

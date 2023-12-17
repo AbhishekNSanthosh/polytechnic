@@ -30,8 +30,8 @@ const DisplayLetter = () => {
                             <span className={styles.subtitle}>From:</span>
                         </div>
                         <div className={styles.right}>
-                            <span className={styles.letterDetails}>Abhishek S</span>
-                            <span className={styles.letterDetails}>S3 CSE</span>
+                            <span className={styles.letterDetails}>{letterData?.from?.username}</span>
+                            <span className={styles.letterDetails}>{letterData?.from?.semester} {letterData?.from?.department}</span>
                         </div>
                     </div>
                     <div className={styles.letterRow}>
@@ -39,7 +39,7 @@ const DisplayLetter = () => {
                             <span className={styles.subtitle}>Date:</span>
                         </div>
                         <div className={styles.right}>
-                            <span className={styles.letterDetails}>20 / 12 / 2023</span>
+                            <span className={styles.letterDetails}>{letterData?.createdAt?.date}</span>
                         </div>
                     </div>
                     <div className={styles.letterRow}>
@@ -56,18 +56,19 @@ const DisplayLetter = () => {
                             <span className={styles.subtitle}>Subject:</span>
                         </div>
                         <div className={styles.right}>
-                            <span className={styles.letterDetails}>Principal</span>
+                            <span className={styles.letterDetails}>{letterData?.subject}</span>
                         </div>
                     </div>
                     <div className={styles.letterBodyRow}>
                         <div className={styles.content}>
                             <span className={styles.subtitle}>Respected Sir ,</span>
-                            <span className={styles.subtitle}>hey</span>
+                            <span className={styles.subtitle}>{letterData?.body}</span>
                         </div>
                     </div>
                     <div className={styles.letterBodyRow}>
                         <div className={styles.content}>
                             <span className={styles.subtitle}>with regards ,</span>
+                            <span className={styles.subtitle}>{letterData?.from?.username}</span>
                             <span className={styles.subtitle}>Thank you</span>
                         </div>
                     </div>
