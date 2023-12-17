@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './CreateUser.module.css'
 import { useLocation } from 'react-router-dom'
 import { TbUsersPlus } from "react-icons/tb";
 const CreateUser = () => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [semester, setSemester] = useState("");
+    const [department, setDepartment] = useState("");
     const location = useLocation();
     const path = location.pathname;
     const lastPart = path.split('/').pop();
     const userValue = lastPart.split('-').pop();
-    console.log(userValue);
+
 
     return (
         <div className={styles.container}>
@@ -23,18 +28,26 @@ const CreateUser = () => {
                 <div className={styles.actionBox}>
                     <div className={styles.row}>
                         <div className={styles.item}>
-                            <input type="text" className={styles.txtInput} placeholder='Username' />
+                            <input type="text" className={styles.txtInput} placeholder='Username*' onChange={(e) => {
+                                setUsername(e.target.value);
+                            }} />
                         </div>
                         <div className={styles.item}>
-                            <input type="text" className={styles.txtInput} placeholder='Email' />
+                            <input type="text" className={styles.txtInput} placeholder='Email*' onChange={(e) => {
+                                setEmail(e.target.value);
+                            }} />
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.item}>
-                            <input type="text" className={styles.txtInput} placeholder='Password' />
+                            <input type="text" className={styles.txtInput} placeholder='Password*' onChange={(e) => {
+                                setPassword(e.target.value);
+                            }} />
                         </div>
                         <div className={styles.item}>
-                            {userValue !== "admin" && <input type="text" className={styles.txtInput} placeholder='Department' />}
+                            {userValue !== "admin" && <input type="text" className={styles.txtInput} placeholder='Department*' onChange={(e) => {
+                                setDepartment(e.target.value);
+                            }} />}
                         </div>
                     </div>
                     {userValue === "student" &&
@@ -42,7 +55,9 @@ const CreateUser = () => {
                             div className={styles.row}>
                             <div className={styles.item}>
                                 <div className={styles.item}>
-                                    <input type="text" className={styles.txtInput} placeholder='Semester' />
+                                    <input type="text" className={styles.txtInput} placeholder='Semester*' onChange={(e) => {
+                                        setSemester(e.target.value);
+                                    }} />
                                 </div>
                             </div>
                         </div>
