@@ -3,23 +3,34 @@ import { adminApi, backendApiUrl } from '../../../utils/helpers'
 
 export const createFaculty = async (
     username,
-    email,
     password,
+    email,
     department,
+    authToken,
     navigate,
     toast,
-    authToken
 ) => {
     try {
         const response = await axios.post(backendApiUrl + adminApi.createTeacher, {
-            username, email,
-            department, password
+            username,
+            password,
+            email,
+            department
         }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
         })
-        console.log(response)
+        console.log(response);
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+        setTimeout(() => {
+            navigate('/user-management');
+        }, 1000)
     } catch (error) {
         console.log(error);
         toast({
@@ -90,22 +101,29 @@ export const createStudent = async (
 
 export const createAdmin = async (
     username,
-    email,
     password,
+    authToken,
     navigate,
     toast,
-    authToken
 ) => {
     try {
         const response = await axios.post(backendApiUrl + adminApi.createAdmin, {
-            username, email,
-            department, semester, password
+            username, password
         }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
         })
-        console.log(response)
+        console.log(response);
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+        setTimeout(() => {
+            navigate('/user-management');
+        }, 1000)
     } catch (error) {
         console.log(error);
         toast({
