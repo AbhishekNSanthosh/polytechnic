@@ -281,9 +281,34 @@ router.get('/getAllLetters', verifyAdminToken, async (req, res) => {
 })
 
 //api to get single letter
-router.get('getUserLetterById',verifyAdminToken,async (req,res)=>{
+router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
+    const letterId = req.params.id;
+    console.log(letterId)
     try {
-        
+        const letter = await Letter.findOne({ _id:letterId}).populate('from','username email semester department');
+        const sanitizedLetter = {
+            ...letter.toObject(),
+            from: {
+                username: letter.from.username,
+                email: letter.from.email,
+                semester: letter.from.semester,
+                department: letter.from.department,
+                role: letter.from.role,
+            },
+            createdAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+            updatedAt: {
+                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+                ago: moment(letter.createdAt).fromNow(),
+            },
+        }
+        const successResponseMsg = twohundredResponse({
+            message:"Letter from ",
+            data: sanitizedLetter,
+        });
+        return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.log(error)
         const errorResponse = fiveHundredResponse();
