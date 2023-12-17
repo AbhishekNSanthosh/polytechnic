@@ -26,6 +26,7 @@ export const getAllLettersForAdmin = async (
                 duration: 3000,
                 isClosable: true,
             });
+            localStorage.clear();
             setTimeout(() => {
                 navigate('/')
             }, 2000);
@@ -56,6 +57,7 @@ export const getAllLettersForStudent = async (
                 duration: 3000,
                 isClosable: true,
             });
+            localStorage.clear();
             setTimeout(() => {
                 navigate('/')
             }, 2000);
@@ -85,6 +87,7 @@ export const getAllLettersForTeacher = async (
                 duration: 3000,
                 isClosable: true,
             });
+            localStorage.clear();
             setTimeout(() => {
                 navigate('/')
             }, 2000);

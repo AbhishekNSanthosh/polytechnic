@@ -27,6 +27,7 @@ export const getLetterDetails = async (
                 duration: 3000,
                 isClosable: true,
             })
+            localStorage.clear();
             setTimeout(() => {
                 navigate('/')
             }, 2000)
