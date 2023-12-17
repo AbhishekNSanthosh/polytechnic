@@ -18,5 +18,14 @@ export const getLetterDetails = async (
         setLetterData(response?.data?.data)
     } catch (error) {
         console.log(error)
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        }
     }
 }
