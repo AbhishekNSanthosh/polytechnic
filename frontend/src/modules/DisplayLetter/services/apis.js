@@ -9,9 +9,9 @@ export const getLetterDetails = async (
     url
 ) => {
     try {
-        const response = await axios.get(backendApiUrl+url+letterId,{
-            headers:{
-                Authorization:"Bearer "+authToken
+        const response = await axios.get(backendApiUrl + url + letterId, {
+            headers: {
+                Authorization: "Bearer " + authToken
             }
         })
         console.log(response.data.data)
@@ -26,6 +26,9 @@ export const getLetterDetails = async (
                 duration: 3000,
                 isClosable: true,
             })
+            setTimeout(() => {
+                localStorage.clear();
+            }, 2000)
         }
     }
 }
