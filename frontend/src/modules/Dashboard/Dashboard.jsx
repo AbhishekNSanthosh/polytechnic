@@ -4,7 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
 import LetterList from './components/LetterList';
 import { useEffect } from 'react';
-import { getAllLettersForAdmin, getAllLettersForStudent } from './services/apis';
+import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher } from './services/apis';
 import { useToast } from '@chakra-ui/react'
 
 const Dashboard = () => {
@@ -12,10 +12,12 @@ const Dashboard = () => {
     const accessType = localStorage.getItem('accessType')
     const toast = useToast()
     useEffect(() => {
-        if(accessType === "admin"){
-            getAllLettersForAdmin(setLetters,toast);
-        }else if(accessType === "student"){
-            getAllLettersForStudent(setLetters,toast);
+        if (accessType === "admin") {
+            getAllLettersForAdmin(setLetters, toast);
+        } else if (accessType === "student") {
+            getAllLettersForStudent(setLetters, toast);
+        } else if (accessType === "teacher") {
+            getAllLettersForTeacher(setLetters, toast)
         }
     }, [])
     return (
@@ -50,7 +52,7 @@ const Dashboard = () => {
             <div className={styles.dashboardRow}>
                 {letters && letters.map((letter, index) => (
                     <div key={index}>
-                        <LetterList index={index} letter={letter}/>
+                        <LetterList index={index} letter={letter} />
                     </div>
                 ))}
             </div>
