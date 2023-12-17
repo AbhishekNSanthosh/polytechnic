@@ -21,3 +21,15 @@ export const collegeImages = {
     collegeLogopng: collegeLogopng,
     collegeLogonew: collegeLogonew
 }
+
+export const studentApi = {
+
+}
+
+export const facultyApi = {
+
+}
+
+export const adminApi = {
+    getAllLetters: '/api/v2/admin/getAllLetters'
+}
