@@ -4,12 +4,17 @@ import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
 import LetterList from './components/LetterList';
 import { useEffect } from 'react';
-import { getAllLettersForAdmin } from './services/apis';
+import { getAllLettersForAdmin, getAllLettersForStudent } from './services/apis';
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
+    const accessType = localStorage.getItem('accessType')
     useEffect(() => {
-        getAllLettersForAdmin(setLetters);
+        if(accessType === "admin"){
+            getAllLettersForAdmin(setLetters);
+        }else if(accessType === "student"){
+            getAllLettersForStudent(setLetters);
+        }
     }, [])
     return (
         <div className={styles.container}>
