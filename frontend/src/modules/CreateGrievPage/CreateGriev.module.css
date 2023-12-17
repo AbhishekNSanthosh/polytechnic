@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background-color: red;
+    background-color: #fff;
 }
 
 .topRow {
@@ -23,26 +23,32 @@
     margin: 1rem 1rem;
     width: 96%;
     height: 100%;
-    background-color: green;
     align-items: center;
 }
 
 .grievBox{
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 2rem;
+    /* justify-content: center; */
     flex-direction: column;
     width: 70%;
     height: 70%;
     gap: 1rem;
-    background-color: aqua;
+}
+
+.subject{
+    height: 4rem;
+    width: 80%;
+    border-radius: 10px;
+    border: 1px solid red;
+    outline: none;
 }
 
 .grievBoxRow{
     display: flex;
     width: 100%;
-    height: 5rem;
-    background-color: blue;
+    height: auto;
     align-items: center;
     justify-content: center;
 }
