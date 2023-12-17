@@ -10,14 +10,14 @@ const DisplayLetter = () => {
     const accessType = localStorage.getItem('accessType');
     const params = useParams();
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         if (accessType === "admin") {
-            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData);
+            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData,navigate);
         } else if (accessType === "student") {
-            getLetterDetails(params?.id, setLetterData);
+            getLetterDetails(params?.id, setLetterData,navigate);
         } else {
-            getLetterDetails(params?.id, setLetterData);
+            getLetterDetails(params?.id, setLetterData,navigate);
         }
     }, [])
 

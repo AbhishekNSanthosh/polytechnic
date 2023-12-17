@@ -6,7 +6,8 @@ const authToken = localStorage.getItem("accessToken")
 export const getLetterDetails = async (
     letterId,
     setLetterData,
-    url
+    url,
+    navigate
 ) => {
     try {
         const response = await axios.get(backendApiUrl + url + letterId, {
@@ -27,7 +28,7 @@ export const getLetterDetails = async (
                 isClosable: true,
             })
             setTimeout(() => {
-                localStorage.clear();
+                navigate('/')
             }, 2000)
         }
     }
