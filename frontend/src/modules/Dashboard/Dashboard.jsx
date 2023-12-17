@@ -10,18 +10,21 @@ import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
-    const accessType = localStorage.getItem('accessType')
+    const accessType = localStorage.getItem('accessType');
+    const authToken = localStorage.getItem('accessToken');
     const toast = useToast();
     const navigate = useNavigate();
     useEffect(() => {
-        if (accessType === "admin") {
-            getAllLettersForAdmin(setLetters, toast, navigate);
-        } else if (accessType === "student") {
-            getAllLettersForStudent(setLetters, toast, navigate);
-        } else if (accessType === "teacher") {
-            getAllLettersForTeacher(setLetters, toast, navigate)
+        if (authToken !== "") {
+            if (accessType === "admin") {
+                getAllLettersForAdmin(setLetters, toast, navigate);
+            } else if (accessType === "student") {
+                getAllLettersForStudent(setLetters, toast, navigate);
+            } else if (accessType === "teacher") {
+                getAllLettersForTeacher(setLetters, toast, navigate)
+            }
         }
-    }, [])
+    }, [authToken])
     return (
         <div className={styles.container}>
             <div className={styles.dashboardTopRow}>

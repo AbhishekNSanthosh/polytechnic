@@ -8,6 +8,7 @@ export const getAllLettersForAdmin = async (
     toast,
     navigate
 ) => {
+    console.log(authToken)
     try {
         const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {
             headers: {

@@ -102,7 +102,8 @@ const SideNavBar = () => {
               isClosable: true,
             });
             setTimeout(() => {
-              navigate('/');
+              window.location.reload();
+              // navigate('/');
             }, 2000);
           }}>
             <SlLogout className={styles.navtitle} />
