@@ -23,10 +23,12 @@ export const collegeImages = {
 }
 
 export const studentApi = {
-    getLetterData:"/api/v2/student/getUserLetterById/"
+    getLetterData:"/api/v2/student/getUserLetterById/",
+    getAllLetters: '/api/v2/student/getAllLetters',
 }
 
 export const facultyApi = {
+    getAllLetters: '/api/v2/teacher/getAllLetters',
     getLetterData:"/api/v2/teacher/getUserLetterById/"
 }
 
