@@ -45,7 +45,7 @@ const verifyAdminToken = async (req, res, next) => {
 // Middleware to verify JWT tokens for checking student authorization
 const verifyStudentToken = async (req, res, next) => {
     if (!req.headers.authorization) {
-        const errorMessage = fourNotThreeResponse({ message: resMessages.invalidMsg });
+        const errorMessage = fourNotThreeResponse({ message: resMessages.accessDenied });
         return res.status(403).json(errorMessage);
     }
     let token = req.headers.authorization.split(" ")[1];

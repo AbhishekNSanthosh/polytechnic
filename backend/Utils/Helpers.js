@@ -77,6 +77,7 @@ const fourHundredResponse = (data = {}) => {
 
 const resMessages = {
     invalidMsg: "Invalid username or password!",
+    accessDenied:"Access Denied",
     userNotfoundMsg: "User not found",
     notFoundMsg: "Requested data not found",
     internalErrorMsg: "Internal server error. Please try again!",

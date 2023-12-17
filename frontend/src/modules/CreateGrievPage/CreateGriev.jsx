@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import styles from './CreateGriev.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
+import { addLetter } from './services/apis'
+import { facultyApi, studentApi } from '../../utils/helpers'
 
 const CreateGriev = () => {
     const [subject, setSubject] = useState("");
@@ -9,7 +11,14 @@ const CreateGriev = () => {
     const accessType = localStorage.getItem('accessType');
     const navigate = useNavigate();
     const toast = useToast();
-    
+
+    const handleSubmit = async () => {
+        if (accessType === "student") {
+            await addLetter(toast, navigate, subject, desc, studentApi.createLetter);
+        } else if (accessType === "teacher") {
+            await addLetter(toast, navigate, facultyApi.createLetter);
+        }
+    }
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -30,7 +39,10 @@ const CreateGriev = () => {
                     <div className={styles.grievBtnRow}>
                         <button className={styles.cancel}>Cancel</button>
                         <button className={styles.save}>Save as draft</button>
-                        <button className={styles.submit}>Submit</button>
+                        <button className={styles.submit} onClick={(e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }}>Submit</button>
                     </div>
                     <div className={styles.grievPreRow}>
                         <button className={styles.preview}>Preview</button>
