@@ -23,11 +23,11 @@ export const collegeImages = {
 }
 
 export const studentApi = {
-
+    getLetterData:"/api/v2/student/getUserLetterById/"
 }
 
 export const facultyApi = {
-
+    getLetterData:"/api/v2/teacher/getUserLetterById/"
 }
 
 export const adminApi = {
