@@ -11,6 +11,7 @@ import Management from './modules/Management/Management';
 import ListUser from './modules/ListUser/ListUser';
 import CreateUser from './modules/CreateUser/CreateUser';
 import DisplayLetter from './modules/DisplayLetter/DisplayLetter';
+import CreateGriev from './modules/CreateGrievPage/CreateGriev';
 
 function App() {
   const router = createBrowserRouter([
@@ -33,6 +34,10 @@ function App() {
         {
           path: '/profile',
           element: <Profile />
+        },
+        {
+          path: '/dashboard/create-grievance',
+          element: <CreateGriev />
         },
         {
           path: '/user-management',
