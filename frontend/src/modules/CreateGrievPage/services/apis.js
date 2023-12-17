@@ -19,7 +19,16 @@ export const addLetter = async (
                 Authorization: "Bearer " + authToken
             }
         })
-        console.log(response)
+        toast({
+            title: 'Grievance created successfully',
+            // description: "Redirecting to Login page",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+        setTimeout(() => {
+            navigate('/dashboard')
+        }, 1000)
     } catch (error) {
         console.log(error);
         toast({
