@@ -13,6 +13,9 @@ const CreateUser = () => {
         <div className={styles.container}>
             <div className={styles.wrap}>
                 <div className={styles.topRow}>
+                    <button className={styles.bulk}>Add bulk users ?</button>
+                </div>
+                <div className={styles.topRow}>
                     {userValue === "student" && <span className={styles.title}>Add Student</span>}
                     {userValue === "admin" && <span className={styles.title}>Add Admin</span>}
                     {userValue === "faculty" && <span className={styles.title}>Add Faculty</span>}
