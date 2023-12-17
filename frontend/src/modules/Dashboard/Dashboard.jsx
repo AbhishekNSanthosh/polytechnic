@@ -6,18 +6,20 @@ import LetterList from './components/LetterList';
 import { useEffect } from 'react';
 import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher } from './services/apis';
 import { useToast } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
     const accessType = localStorage.getItem('accessType')
-    const toast = useToast()
+    const toast = useToast();
+    const navigate = useNavigate();
     useEffect(() => {
         if (accessType === "admin") {
-            getAllLettersForAdmin(setLetters, toast);
+            getAllLettersForAdmin(setLetters, toast, navigate);
         } else if (accessType === "student") {
-            getAllLettersForStudent(setLetters, toast);
+            getAllLettersForStudent(setLetters, toast, navigate);
         } else if (accessType === "teacher") {
-            getAllLettersForTeacher(setLetters, toast)
+            getAllLettersForTeacher(setLetters, toast, navigate)
         }
     }, [])
     return (

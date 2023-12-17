@@ -1,7 +1,7 @@
 import collegeLogo from '../assets/Logos/carmelpolytechniclogo.svg'
 import collegeLogopng from '../assets/Logos/carmelpolylogo.png'
 import collegeLogonew from '../assets/Logos/carmellogo.png'
-import { useNavigate } from 'react-router-dom'
+
 export const backendApiUrl = import.meta.env.VITE_APP_BACKEND_API
 // Add more URLs as needed
 
@@ -37,5 +37,3 @@ export const adminApi = {
     getAllLetters: '/api/v2/admin/getAllLetters',
     getLetterData: "/api/v2/admin/getUserLetterById/"
 }
-
-export const navigate = useNavigate()

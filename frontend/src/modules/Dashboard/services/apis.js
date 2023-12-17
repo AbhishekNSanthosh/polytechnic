@@ -5,7 +5,8 @@ const authToken = localStorage.getItem('accessToken');
 
 export const getAllLettersForAdmin = async (
     setLetters,
-    toast
+    toast,
+    navigate
 ) => {
     try {
         const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {
@@ -31,7 +32,8 @@ export const getAllLettersForAdmin = async (
 
 export const getAllLettersForStudent = async (
     setLetters,
-    toast
+    toast,
+    navigate
 ) => {
     try {
         const response = await axios.get(backendApiUrl + studentApi.getAllLetters, {
@@ -52,7 +54,7 @@ export const getAllLettersForStudent = async (
                 isClosable: true,
             });
             setTimeout(() => {
-                localStorage.clear();
+                navigate('/')
             }, 2000)
         }
     }
@@ -60,7 +62,8 @@ export const getAllLettersForStudent = async (
 
 export const getAllLettersForTeacher = async (
     setLetters,
-    toast
+    toast,
+    navigate
 ) => {
     try {
         const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {
