@@ -3,8 +3,10 @@ import styles from '../Dashboard.module.css'
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoMailUnreadOutline } from "react-icons/io5";
+import {useNavigate} from 'react-router-dom';
 const LetterList = (props) => {
-    const {index,letter} = props
+    const {index,letter} = props;
+    const navigate = useNavigate();
     return (
         <div className={styles.LetterListContainer} key={index+1}>
             <div className={styles.left}>
