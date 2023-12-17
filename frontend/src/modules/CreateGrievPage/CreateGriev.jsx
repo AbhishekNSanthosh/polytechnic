@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import styles from './CreateGriev.module.css'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
 
 const CreateGriev = () => {
     const [subject, setSubject] = useState("");
     const [desc, setDesc] = useState("");
+
+    const navigate = useNavigate();
+    const toast = useToast();
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
