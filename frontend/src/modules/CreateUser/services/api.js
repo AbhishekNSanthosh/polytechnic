@@ -57,13 +57,13 @@ export const createFaculty = async (
 
 export const createStudent = async (
     username,
-    email,
     password,
-    department,
+    email,
     semester,
+    department,
+    authToken,
     navigate,
     toast,
-    authToken
 ) => {
     try {
         const response = await axios.post(backendApiUrl + adminApi.createStudent, {
@@ -75,6 +75,15 @@ export const createStudent = async (
             }
         })
         console.log(response)
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+        setTimeout(() => {
+            navigate('/user-management');
+        }, 1000)
     } catch (error) {
         console.log(error);
         toast({
