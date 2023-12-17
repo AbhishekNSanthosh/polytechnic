@@ -4,7 +4,7 @@ import { collegeImages } from '../../utils/helpers';
 import { LuMails } from 'react-icons/lu';
 import { RiAccountPinBoxLine } from 'react-icons/ri';
 import { SlLogout } from 'react-icons/sl';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
 import { useToast } from '@chakra-ui/react'
 import { IoCreateOutline } from "react-icons/io5";
@@ -17,6 +17,8 @@ const SideNavBar = () => {
   const [selectedTab, setSelectedTab] = useState(storedTab ? parseInt(storedTab) : 1);
   const navigate = useNavigate();
   const toast = useToast();
+  const location = useLocation();
+  console.log(location.pathname)
 
   const navItem = [
     {
@@ -48,6 +50,17 @@ const SideNavBar = () => {
       adminOnly: true,
     },
   ];
+  useEffect(() => {
+    if (location.pathname === "/dashboard") {
+      setSelectedTab(1);
+    } else if (location.pathname === "/profile") {
+      setSelectedTab(2);
+    } else if (location.pathname === "/dashboard/create-grievance") {
+      setSelectedTab(3);
+    } else if (location.pathname === "/user-management") {
+      setSelectedTab(4);
+    }
+  }, [location.pathname]);
 
   const filteredNavItem = userRole === 'admin' ? navItem : navItem.filter(item => !item.adminOnly);
 

@@ -27,7 +27,8 @@ export const addLetter = async (
             isClosable: true,
         });
         setTimeout(() => {
-            navigate('/dashboard')
+            navigate('/dashboard');
+            localStorage.setItem('selectedTab', JSON.stringify(1));
         }, 1000)
     } catch (error) {
         console.log(error);
