@@ -2,12 +2,20 @@ import React, { useEffect, useState } from 'react'
 import styles from './DisplayLetter.module.css'
 import { useParams } from 'react-router-dom'
 import { getLetterDetails } from './services/apis';
+import { adminApi } from '../../utils/helpers';
 const DisplayLetter = () => {
     const [letterData, setLetterData] = useState({});
+    const accessType = localStorage.getItem('accessType');
     const params = useParams();
 
     useEffect(() => {
-        getLetterDetails(params?.id, setLetterData);
+        if(accessType === "admin"){
+            getLetterDetails(params?.id, setLetterData,adminApi.getLetterData);
+        }else if(accessType === "student"){
+            getLetterDetails(params?.id, setLetterData);
+        }else{
+            getLetterDetails(params?.id, setLetterData);
+        }
     }, [])
 
     return (
