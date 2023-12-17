@@ -119,12 +119,12 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
-        if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[/\[\]{}<>]/)) {
             const errorMessage = fourNotOneResponse({ message: "Invalid body" });
             return res.status(400).json(errorMessage);
         }
 
-        if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[/\[\]{}<>]/)) {
             const errorMessage = fourNotOneResponse({ message: "Invalid subject" });
             return res.status(400).json(errorMessage);
         }
