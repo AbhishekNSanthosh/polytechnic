@@ -15,6 +15,7 @@ export const getLetterDetails = async (
             }
         })
         console.log(response)
+        setLetterData(response?.data?.data)
     } catch (error) {
         console.log(error)
     }

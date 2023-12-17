@@ -7,13 +7,13 @@ const DisplayLetter = () => {
     const [letterData, setLetterData] = useState({});
     const accessType = localStorage.getItem('accessType');
     const params = useParams();
-
+    console.log(letterData)
     useEffect(() => {
-        if(accessType === "admin"){
-            getLetterDetails(params?.id, setLetterData,adminApi.getLetterData);
-        }else if(accessType === "student"){
+        if (accessType === "admin") {
+            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData);
+        } else if (accessType === "student") {
             getLetterDetails(params?.id, setLetterData);
-        }else{
+        } else {
             getLetterDetails(params?.id, setLetterData);
         }
     }, [])
