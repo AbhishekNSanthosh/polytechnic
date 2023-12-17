@@ -32,7 +32,7 @@ const verifyAdminToken = async (req, res, next) => {
         }
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired });
+            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired, error: 'TokenExpiredError' });
             return res.status(401).json(errorMessage);
         } else {
             const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
@@ -72,7 +72,7 @@ const verifyStudentToken = async (req, res, next) => {
         }
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired });
+            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired ,error: 'TokenExpiredError'});
             return res.status(401).json(errorMessage);
         } else {
             const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
@@ -115,7 +115,7 @@ const verifyTeacherToken = async (req, res, next) => {
         }
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired });
+            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired,error: 'TokenExpiredError' });
             return res.status(401).json(errorMessage);
         } else {
             const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });

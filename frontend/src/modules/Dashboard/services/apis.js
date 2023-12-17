@@ -33,7 +33,7 @@ export const getAllLettersForStudent = async (
         console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
-        if(error.response.data.resCode){
+        if (error.response.data.resCode === 401) {
 
         }
     }
