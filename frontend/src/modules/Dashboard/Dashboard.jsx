@@ -5,15 +5,17 @@ import { Select } from '@chakra-ui/react'
 import LetterList from './components/LetterList';
 import { useEffect } from 'react';
 import { getAllLettersForAdmin, getAllLettersForStudent } from './services/apis';
+import { useToast } from '@chakra-ui/react'
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
     const accessType = localStorage.getItem('accessType')
+    const toast = useToast()
     useEffect(() => {
         if(accessType === "admin"){
-            getAllLettersForAdmin(setLetters);
+            getAllLettersForAdmin(setLetters,toast);
         }else if(accessType === "student"){
-            getAllLettersForStudent(setLetters);
+            getAllLettersForStudent(setLetters,toast);
         }
     }, [])
     return (

@@ -4,7 +4,8 @@ import { adminApi, backendApiUrl, studentApi } from "../../../utils/helpers";
 const authToken = localStorage.getItem('accessToken');
 
 export const getAllLettersForAdmin = async (
-    setLetters
+    setLetters,
+    toast
 ) => {
     try {
         const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {
@@ -20,7 +21,8 @@ export const getAllLettersForAdmin = async (
 }
 
 export const getAllLettersForStudent = async (
-    setLetters
+    setLetters,
+    toast
 ) => {
     try {
         const response = await axios.get(backendApiUrl + studentApi.getAllLetters, {
@@ -31,12 +33,15 @@ export const getAllLettersForStudent = async (
         console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
-        console.log(error)
+        if(error.response.data.resCode){
+
+        }
     }
 }
 
 export const getAllLettersForTeacher = async (
-    setLetters
+    setLetters,
+    toast
 ) => {
     try {
         const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {
