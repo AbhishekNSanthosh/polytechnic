@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './CreateUser.module.css'
 import { useLocation } from 'react-router-dom'
-
+import { TbUsersPlus } from "react-icons/tb";
 const CreateUser = () => {
     const location = useLocation();
     const path = location.pathname;
@@ -13,7 +13,7 @@ const CreateUser = () => {
         <div className={styles.container}>
             <div className={styles.wrap}>
                 <div className={styles.topRow}>
-                    <button className={styles.bulk}>Add bulk users ?</button>
+                    <button className={styles.bulk}> <TbUsersPlus />Add bulk users ?</button>
                 </div>
                 <div className={styles.topRow}>
                     {userValue === "student" && <span className={styles.title}>Add Student</span>}
