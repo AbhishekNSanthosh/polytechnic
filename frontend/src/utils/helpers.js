@@ -26,11 +26,12 @@ export const collegeImages = {
 export const studentApi = {
     getLetterData: "/api/v2/student/getUserLetterById/",
     getAllLetters: '/api/v2/student/getAllLetters',
+    createLetter: '/api/v2/student/addLetter',
 }
 
 export const facultyApi = {
     getAllLetters: '/api/v2/teacher/getAllLetters',
-    getLetterData: "/api/v2/teacher/getUserLetterById/"
+    createLetter: "/api/v2/teacher/addLetter"
 }
 
 export const adminApi = {
