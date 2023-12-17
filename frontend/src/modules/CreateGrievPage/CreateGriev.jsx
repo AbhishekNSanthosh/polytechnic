@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './CreateGriev.module.css'
+import { useNavigate } from 'react-router-dom'
 
 const CreateGriev = () => {
+    const [subject, setSubject] = useState("");
+    const [desc, setDesc] = useState("");
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -10,10 +13,14 @@ const CreateGriev = () => {
                 </div>
                 <div className={styles.grievBox}>
                     <div className={styles.grievBoxRow}>
-                        <input type="text" className={styles.subject} placeholder='Subject' />
+                        <input type="text" className={styles.subject} placeholder='Subject' onChange={(e) => {
+                            setSubject(e.target.value);
+                        }} />
                     </div>
                     <div className={styles.grievBoxRow}>
-                        <textarea type="text" className={styles.desc} placeholder='Description' />
+                        <textarea type="text" className={styles.desc} placeholder='Description' onChange={(e) => {
+                            setDesc(e.target.value);
+                        }} />
                     </div>
                     <div className={styles.grievBtnRow}>
                         <button className={styles.cancel}>Cancel</button>
