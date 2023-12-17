@@ -17,11 +17,11 @@ const Dashboard = () => {
     useEffect(() => {
         if (authToken !== "") {
             if (accessType === "admin") {
-                getAllLettersForAdmin(setLetters, toast, navigate);
+                getAllLettersForAdmin(setLetters, toast, navigate,authToken);
             } else if (accessType === "student") {
-                getAllLettersForStudent(setLetters, toast, navigate);
+                getAllLettersForStudent(setLetters, toast, navigate,authToken);
             } else if (accessType === "teacher") {
-                getAllLettersForTeacher(setLetters, toast, navigate)
+                getAllLettersForTeacher(setLetters, toast, navigate,authToken)
             }
         }
     }, [authToken])

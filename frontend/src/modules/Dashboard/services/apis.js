@@ -1,12 +1,13 @@
 import axios from "axios";
 import { adminApi, backendApiUrl, studentApi } from "../../../utils/helpers";
 
-const authToken = localStorage.getItem('accessToken');
+// const authToken = localStorage.getItem('accessToken');
 
 export const getAllLettersForAdmin = async (
     setLetters,
     toast,
-    navigate
+    navigate,
+    authToken
 ) => {
     console.log(authToken)
     try {
@@ -38,7 +39,8 @@ export const getAllLettersForAdmin = async (
 export const getAllLettersForStudent = async (
     setLetters,
     toast,
-    navigate
+    navigate,
+    authToken
 ) => {
     try {
         const response = await axios.get(backendApiUrl + studentApi.getAllLetters, {
@@ -69,7 +71,8 @@ export const getAllLettersForStudent = async (
 export const getAllLettersForTeacher = async (
     setLetters,
     toast,
-    navigate
+    navigate,
+    authToken
 ) => {
     try {
         const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {

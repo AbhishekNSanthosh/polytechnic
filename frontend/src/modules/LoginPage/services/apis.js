@@ -18,22 +18,22 @@ export const loginUser = async (
             title: 'Login successfull',
             description: "Redirecting to dashboard",
             status: 'success',
-            duration: 2000,
+            duration: 3000,
             isClosable: true,
         })
         const token = response.data?.accessToken
         localStorage.setItem('accessType', response.data?.accessType)
         localStorage.setItem('accessToken', response.data?.accessToken)
-        setTimeout(() => {
-            navigate('/dashboard')
-        }, 1000);
         await axios.get(backendApiUrl + userDetails, {
             headers: {
                 Authorization: "Bearer " + token
             }
         }).then((res) => {
+            localStorage.setItem('user', JSON.stringify(res.data.data));
             console.log(res)
-            localStorage.setItem('user', JSON.stringify(res.data.data))
+            setTimeout(() => {
+                navigate('/dashboard')
+            }, 1000);
         })
     } catch (error) {
         toast({
