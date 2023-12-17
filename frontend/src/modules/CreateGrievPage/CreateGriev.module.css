@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: red;
+}
+
+.topRow {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 1rem;
+    width: 96%;
+    height: 100%;
+    background-color: green;
+    align-items: center;
+}
+
+.grievBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 70%;
+    height: 70%;
+    gap: 1rem;
+    background-color: aqua;
+}
+
+.grievBoxRow{
+    display: flex;
+    width: 100%;
+    height: 5rem;
+    background-color: blue;
+    align-items: center;
+    justify-content: center;
+}
