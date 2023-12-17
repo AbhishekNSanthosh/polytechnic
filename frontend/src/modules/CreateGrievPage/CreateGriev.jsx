@@ -15,9 +15,13 @@ const CreateGriev = () => {
                     <div className={styles.grievBoxRow}>
                         <textarea type="text" className={styles.desc} placeholder='Description' />
                     </div>
-                    <div className={styles.grievBoxRow}>
-                        <button className=""></button>
-                        <button className=""></button>
+                    <div className={styles.grievBtnRow}>
+                        <button className={styles.cancel}>Cancel</button>
+                        <button className={styles.save}>Save as draft</button>
+                        <button className={styles.submit}>Submit</button>
+                    </div>
+                    <div className={styles.grievPreRow}>
+                        <button className={styles.preview}>Preview</button>
                     </div>
                 </div>
             </div>
