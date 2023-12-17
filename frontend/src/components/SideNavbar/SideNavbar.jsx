@@ -27,6 +27,7 @@ const SideNavBar = () => {
       icon: <LuMails />,
       link: 'dashboard',
       adminOnly: false,
+      adminVisible: true
     },
     {
       id: 2,
@@ -34,6 +35,7 @@ const SideNavBar = () => {
       icon: <RiAccountPinBoxLine />,
       link: 'profile',
       adminOnly: false,
+      adminVisible: true
     },
     {
       id: 3,
@@ -41,6 +43,7 @@ const SideNavBar = () => {
       icon: <IoCreateOutline />,
       link: '/dashboard/create-grievance',
       adminOnly: false,
+      adminVisible: false
     },
     {
       id: 4,
@@ -48,6 +51,7 @@ const SideNavBar = () => {
       icon: <MdManageAccounts />,
       link: 'user-management',
       adminOnly: true,
+      adminVisible: true
     },
   ];
   useEffect(() => {
@@ -62,7 +66,7 @@ const SideNavBar = () => {
     }
   }, [location.pathname]);
 
-  const filteredNavItem = userRole === 'admin' ? navItem : navItem.filter(item => !item.adminOnly);
+  const filteredNavItem = userRole === 'admin' ? navItem.filter(item => item.adminVisible) : navItem.filter(item => !item.adminOnly);
 
   useEffect(() => {
     localStorage.setItem('selectedTab', selectedTab.toString());

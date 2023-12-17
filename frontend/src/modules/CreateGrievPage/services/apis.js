@@ -1,14 +1,13 @@
 import axios from 'axios'
 import { backendApiUrl } from '../../../utils/helpers'
 
-const authToken = localStorage.getItem('accessToken');
-
 export const addLetter = async (
     toast,
     navigate,
     subject,
     desc,
-    url
+    url,
+    authToken
 ) => {
     try {
         const response = await axios.post(backendApiUrl + url, {

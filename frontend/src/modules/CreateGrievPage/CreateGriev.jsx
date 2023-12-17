@@ -9,14 +9,16 @@ const CreateGriev = () => {
     const [subject, setSubject] = useState("");
     const [desc, setDesc] = useState("");
     const accessType = localStorage.getItem('accessType');
+    const authToken = localStorage.getItem('accessToken');
+
     const navigate = useNavigate();
     const toast = useToast();
 
     const handleSubmit = async () => {
         if (accessType === "student") {
-            await addLetter(toast, navigate, subject, desc, studentApi.createLetter);
+            await addLetter(toast, navigate, subject, desc, studentApi.createLetter,authToken);
         } else if (accessType === "teacher") {
-            await addLetter(toast, navigate, facultyApi.createLetter);
+            await addLetter(toast, navigate, facultyApi.createLetter,authToken);
         }
     }
     return (
