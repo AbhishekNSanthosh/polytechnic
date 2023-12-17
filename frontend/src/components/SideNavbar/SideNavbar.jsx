@@ -34,6 +34,13 @@ const SideNavBar = () => {
     },
     {
       id: 3,
+      title: 'Create new',
+      icon: <MdManageAccounts />,
+      link: 'create-grievance',
+      adminOnly: true,
+    },
+    {
+      id: 4,
       title: 'Management',
       icon: <MdManageAccounts />,
       link: 'user-management',
