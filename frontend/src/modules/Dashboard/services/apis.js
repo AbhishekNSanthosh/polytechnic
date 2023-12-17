@@ -25,7 +25,10 @@ export const getAllLettersForAdmin = async (
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-            })
+            });
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
         }
     }
 }
@@ -44,7 +47,7 @@ export const getAllLettersForStudent = async (
         console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
-        console.log(error.response.data.error === "TokenExpiredError")
+        console.log(error);
         if (error?.response?.data?.error === "TokenExpiredError") {
             toast({
                 title: 'Session Expired',
@@ -55,7 +58,7 @@ export const getAllLettersForStudent = async (
             });
             setTimeout(() => {
                 navigate('/')
-            }, 2000)
+            }, 2000);
         }
     }
 }
@@ -81,7 +84,10 @@ export const getAllLettersForTeacher = async (
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-            })
+            });
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
         }
     }
 }
