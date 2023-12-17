@@ -11,7 +11,7 @@ const Dashboard = () => {
     useEffect(() => {
         getAllLettersForAdmin(setLetters);
     }, [])
-
+console.log(letters)
     return (
         <div className={styles.container}>
             <div className={styles.dashboardTopRow}>
@@ -42,8 +42,9 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className={styles.dashboardRow}>
-                <LetterList />
-
+                {letters && letters.map((letter, index) => (
+                    <LetterList index={index}/>
+                ))}
             </div>
         </div>
     )
