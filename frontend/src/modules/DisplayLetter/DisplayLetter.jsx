@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './DisplayLetter.module.css'
-
+import { useParams } from 'react-router-dom'
+import { getLetterDetails } from './services/apis';
 const DisplayLetter = () => {
+    const [letterData, setLetterData] = useState({});
+    const params = useParams();
+
+    useEffect(() => {
+        getLetterDetails(params?.id, setLetterData);
+    }, [])
+
     return (
         <div className={styles.container}>
             <div className={styles.letterWrap}>
