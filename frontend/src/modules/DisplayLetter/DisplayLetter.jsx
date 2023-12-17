@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './DisplayLetter.module.css'
 import { useParams } from 'react-router-dom'
 import { getLetterDetails } from './services/apis';
-import { adminApi } from '../../utils/helpers';
+import { adminApi, facultyApi, studentApi } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom'
 
 const DisplayLetter = () => {
@@ -13,11 +13,11 @@ const DisplayLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin") {
-            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData,navigate);
+            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate);
         } else if (accessType === "student") {
-            getLetterDetails(params?.id, setLetterData,navigate);
-        } else {
-            getLetterDetails(params?.id, setLetterData,navigate);
+            getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate);
+        } else if (accessType === "faculty") {
+            getLetterDetails(params?.id, setLetterData, facultyApi.getLetterData, navigate);
         }
     }, [])
 
