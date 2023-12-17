@@ -6,9 +6,10 @@ import { useToast } from '@chakra-ui/react'
 const CreateGriev = () => {
     const [subject, setSubject] = useState("");
     const [desc, setDesc] = useState("");
-
+    const accessType = localStorage.getItem('accessType');
     const navigate = useNavigate();
     const toast = useToast();
+    
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
