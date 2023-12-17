@@ -282,9 +282,8 @@ router.get('/getAllLetters', verifyAdminToken, async (req, res) => {
 
 //api to get single letter
 router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
-    const letterId = req.params.id;
-    console.log(letterId)
     try {
+        const letterId = req.params.id;
         const letter = await Letter.findOne({ _id:letterId}).populate('from','username email semester department');
         const sanitizedLetter = {
             ...letter.toObject(),
