@@ -36,5 +36,8 @@ export const facultyApi = {
 
 export const adminApi = {
     getAllLetters: '/api/v2/admin/getAllLetters',
-    getLetterData: "/api/v2/admin/getUserLetterById/"
+    getLetterData: "/api/v2/admin/getUserLetterById/",
+    createStudent: "/api/v2/admin/createNewStudent",
+    createAdmin: "/api/v2/admin/createNewAdmin",
+    createTeacher: "/api/v2/admin/createNewTeacher",
 }

@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import styles from './CreateUser.module.css'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { TbUsersPlus } from "react-icons/tb";
+import { createAdmin, createFaculty, createStudent } from './services/api';
+import { useToast } from '@chakra-ui/react'
+
 const CreateUser = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -12,8 +15,19 @@ const CreateUser = () => {
     const path = location.pathname;
     const lastPart = path.split('/').pop();
     const userValue = lastPart.split('-').pop();
+    const authToken = localStorage.getItem("accessToken");
+    const navigate = useNavigate();
+    const toast = useToast();
 
-
+    const handleSubmit = async () => {
+        if (userValue === "student") {
+            await createStudent(username, password, email, semester, department, authToken, navigate, toast)
+        } else if (userValue === "admin") {
+            await createAdmin(username, password, authToken, navigate, toast)
+        } if (userValue === "faculty") {
+            await createFaculty(username, password, email, department, authToken, navigate, toast)
+        }
+    }
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -33,16 +47,17 @@ const CreateUser = () => {
                             }} />
                         </div>
                         <div className={styles.item}>
-                            <input type="text" className={styles.txtInput} placeholder='Email*' onChange={(e) => {
-                                setEmail(e.target.value);
+                            <input type="text" className={styles.txtInput} placeholder='Password*' onChange={(e) => {
+                                setPassword(e.target.value);
                             }} />
+
                         </div>
                     </div>
                     <div className={styles.row}>
                         <div className={styles.item}>
-                            <input type="text" className={styles.txtInput} placeholder='Password*' onChange={(e) => {
-                                setPassword(e.target.value);
-                            }} />
+                            {userValue !== "admin" && <input type="text" className={styles.txtInput} placeholder='Email*' onChange={(e) => {
+                                setEmail(e.target.value);
+                            }} />}
                         </div>
                         <div className={styles.item}>
                             {userValue !== "admin" && <input type="text" className={styles.txtInput} placeholder='Department*' onChange={(e) => {
@@ -63,8 +78,12 @@ const CreateUser = () => {
                         </div>
                     }
                     <div className={styles.row}>
-                        <button className={styles.cancel}>Cancel</button>
-                        <button className={styles.submit}>Submit</button>
+                        <button className={styles.cancel} onClick={() => {
+                            navigate('/user-management')
+                        }}>Cancel</button>
+                        <button className={styles.submit} onClick={() => {
+                            handleSubmit();
+                        }}>Submit</button>
                     </div>
                 </div>
             </div>
