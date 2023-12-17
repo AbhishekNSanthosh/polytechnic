@@ -7,6 +7,7 @@ import { SlLogout } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
 import { useToast } from '@chakra-ui/react'
+import { IoCreateOutline } from "react-icons/io5";
 
 // ... (existing imports)
 
@@ -35,9 +36,9 @@ const SideNavBar = () => {
     {
       id: 3,
       title: 'Create new',
-      icon: <MdManageAccounts />,
-      link: 'create-grievance',
-      adminOnly: true,
+      icon: <IoCreateOutline />,
+      link: '/dashboard/create-grievance',
+      adminOnly: false,
     },
     {
       id: 4,
