@@ -82,7 +82,7 @@ const ListUser = () => {
         <div className={styles.dashboardRow}>
           {users && users.map((user, index) => (
             <div key={index}>
-              <UserList user={user}/>
+              <UserList user={user} index={index}/>
             </div>
           ))}
         </div>
