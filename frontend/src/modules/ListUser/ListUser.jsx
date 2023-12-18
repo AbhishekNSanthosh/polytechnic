@@ -20,16 +20,16 @@ const ListUser = () => {
   const [role, setRole] = useState(userValue);
 
 
-  console.log(department)
   useEffect(() => {
     if (userValue === "student") {
-      getUsersByAdmin("", "", "student", authToken)
+      getUsersByAdmin("", "", role, authToken)
     } else if (userValue === "admin") {
       getUsersByAdmin("", "", "", authToken)
     } else if (userValue === "faculty") {
       getUsersByAdmin("", "CE", "", authToken)
     }
-  }, [])
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.wrap}>
