@@ -17,7 +17,7 @@ const DisplayLetter = () => {
             getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate,authToken);
         } else if (accessType === "student") {
             getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate,authToken);
-        } else if (accessType === "faculty") {
+        } else if (accessType === "teacher") {
             getLetterDetails(params?.id, setLetterData, facultyApi.getLetterData, navigate,authToken);
         }
     }, [])
