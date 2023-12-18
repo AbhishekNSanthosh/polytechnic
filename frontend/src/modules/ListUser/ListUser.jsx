@@ -19,6 +19,8 @@ const ListUser = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
+
+  console.log(department)
   useEffect(() => {
     if (userValue === "student") {
       getUsersByAdmin("", "", "student", authToken)
@@ -44,16 +46,29 @@ const ListUser = () => {
                 e.preventDefault();
                 setDepartment(e.target.value);
               }}>
-                <option value='option1'>CE</option>
-                <option value='option2'>CSE</option>
-                <option value='option3'>ME</option>
-                <option value='option3'>EEE</option>
+                <option value='CE'>CE</option>
+                <option value='CS'>CSE</option>
+                <option value='ME'>ME</option>
+                <option value='EEE'>EEE</option>
               </Select>
             </div>
+            {userValue === "student" &&
+              <div className={styles.rightItem}>
+                <Select placeholder='Filter Dep wise' onChange={(e) => {
+                  e.preventDefault();
+                  setDepartment(e.target.value);
+                }}>
+                  <option value='CE'>CE</option>
+                  <option value='CS'>CSE</option>
+                  <option value='ME'>ME</option>
+                  <option value='EEE'>EEE</option>
+                </Select>
+              </div>
+            }
             <div className={styles.rightItem}>
               <Select placeholder='Sort'>
                 <option value='desc'>Newest on top</option>
-                <option value='asce'>Oldest on top</option>
+                <option value='asc'>Oldest on top</option>
               </Select>
             </div>
             <div className={styles.rightItem}>
