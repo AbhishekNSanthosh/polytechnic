@@ -20,7 +20,7 @@ const ListUser = () => {
   const toast = useToast();
   const [role, setRole] = useState(userValue);
 
-
+console.log(users)
   useEffect(() => {
     if (userValue === "student") {
       getUsersByAdmin(semester, department, role, authToken,setUsers)
@@ -80,16 +80,6 @@ const ListUser = () => {
           </div>
         </div>
         <div className={styles.dashboardRow}>
-          <UserList />
-          <UserList />
-          <UserList />
-          <UserList />
-          <UserList />
-          <UserList />
-          <UserList />
-          <UserList />
-          <UserList />
-          <UserList />
           <UserList />
         </div>
       </div>
