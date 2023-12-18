@@ -1,5 +1,5 @@
 import axios from "axios";
-import { adminApi, backendApiUrl, studentApi } from "../../../utils/helpers";
+import { adminApi, backendApiUrl, facultyApi, studentApi } from "../../../utils/helpers";
 
 // const authToken = localStorage.getItem('accessToken');
 
@@ -75,7 +75,7 @@ export const getAllLettersForTeacher = async (
     authToken
 ) => {
     try {
-        const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {
+        const response = await axios.get(backendApiUrl + facultyApi.getAllLetters, {
             headers: {
                 Authorization: "Bearer " + authToken
             }

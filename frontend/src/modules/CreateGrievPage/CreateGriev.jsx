@@ -18,7 +18,7 @@ const CreateGriev = () => {
         if (accessType === "student") {
             await addLetter(toast, navigate, subject, desc, studentApi.createLetter,authToken);
         } else if (accessType === "teacher") {
-            await addLetter(toast, navigate, facultyApi.createLetter,authToken);
+            await addLetter(toast, navigate,subject,desc, facultyApi.createLetter,authToken);
         }
     }
     return (

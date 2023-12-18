@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyTeacherToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
+const moment = require('moment');
 const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles } = require('../Utils/Helpers');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
@@ -110,7 +111,7 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
-        if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[./[]{}<>]/)) {
             const errorMessage = fourNotOneResponse({ message: "Invalid body" });
             return res.status(400).json(errorMessage);
         }
