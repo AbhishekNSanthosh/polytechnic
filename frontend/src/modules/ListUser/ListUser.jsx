@@ -40,7 +40,10 @@ const ListUser = () => {
           </div>
           <div className={styles.dashboardRowRight}>
             <div className={styles.rightItem}>
-              <Select placeholder='Filter Dep wise'>
+              <Select placeholder='Filter Dep wise' onChange={(e) => {
+                e.preventDefault();
+                setDepartment(e.target.value);
+              }}>
                 <option value='option1'>CE</option>
                 <option value='option2'>CSE</option>
                 <option value='option3'>ME</option>
