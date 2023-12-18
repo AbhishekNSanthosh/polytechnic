@@ -24,7 +24,7 @@ const ListUser = () => {
     if (userValue === "student") {
       getUsersByAdmin(semester, department, role, authToken)
     } else if (userValue === "admin") {
-      getUsersByAdmin("", department, role, authToken)
+      getUsersByAdmin(semester, department, role, authToken)
     } else if (userValue === "faculty") {
       getUsersByAdmin("", department, role, authToken)
     }
