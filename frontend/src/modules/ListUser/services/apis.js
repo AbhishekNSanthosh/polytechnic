@@ -5,7 +5,8 @@ export const getUsersByAdmin = async (
     semester,
     department,
     role,
-    authToken
+    authToken,
+    setUsers
 ) => {
     try {
         const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
@@ -17,7 +18,7 @@ export const getUsersByAdmin = async (
                 Authorization: "Bearer " + authToken
             }
         });
-
+        setUsers(response?.data?.data);
         console.log(response)
     } catch (error) {
         console.log(error)
