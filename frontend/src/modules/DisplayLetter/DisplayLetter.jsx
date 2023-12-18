@@ -82,4 +82,4 @@ const DisplayLetter = () => {
     )
 }
 
-export default DisplayLetter
+export default DisplayLetter;
