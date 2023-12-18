@@ -104,19 +104,19 @@ const transporter = nodemailer.createTransport({
 
 const sanitizedUserList = (users) => {
     const userList = users.map(user => ({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        semester: user.semester,
-        department: user.department,
-        role: user.role,
+        _id: user?._id,
+        username: user?.username,
+        email: user?.email,
+        semester: user?.semester,
+        department: user?.department,
+        role: user?.role,
         createdAt: {
-            date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(user.createdAt).fromNow(),
+            date: moment(user?.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(user?.createdAt).fromNow(),
         },
         updatedAt: {
-            date: moment(user.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(user.createdAt).fromNow(),
+            date: moment(user?.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(user?.createdAt).fromNow(),
         },
     }));
     return userList;

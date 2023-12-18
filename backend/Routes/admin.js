@@ -571,6 +571,7 @@ router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
 //api to filter students by sem dep etc
 router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
     try {
+        console.log(req.body)
         const { role, semester, department } = req.body;
         let message;
         let users;

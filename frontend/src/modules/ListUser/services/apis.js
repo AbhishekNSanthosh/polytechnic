@@ -9,8 +9,10 @@ export const getUsersByAdmin = async (
 ) => {
     try {
         const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
-
-        },{
+            semester,
+            department,
+            role
+        }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
