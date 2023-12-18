@@ -41,4 +41,5 @@ export const adminApi = {
     createStudent: "/api/v2/admin/createNewStudent",
     createAdmin: "/api/v2/admin/createNewAdmin",
     createTeacher: "/api/v2/admin/createNewTeacher",
+    getAllUsers: "/api/v2/admin/getUserListByFilters",
 }
