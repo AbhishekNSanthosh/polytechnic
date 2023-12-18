@@ -31,7 +31,8 @@ export const studentApi = {
 
 export const facultyApi = {
     getAllLetters: '/api/v2/teacher/getAllLetters',
-    createLetter: "/api/v2/teacher/addLetter"
+    createLetter: "/api/v2/teacher/addLetter",
+    getLetterData: "/api/v2/teacher/getUserLetterById/",
 }
 
 export const adminApi = {
