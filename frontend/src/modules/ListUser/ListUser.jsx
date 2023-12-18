@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './ListUser.module.css'
 import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
 import UserList from './components/UserList';
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
+import { getUsersByAdmin } from './services/apis';
 
 const ListUser = () => {
+  const location = useLocation();
+  const path = location.pathname;
+  const lastPart = path.split('/').pop();
+  const userValue = lastPart.split('-').pop();
+  const authToken = localStorage.getItem("accessToken");
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  useEffect(() => {
+    if (userValue === "student") {
+      getUsersByAdmin("", "CE", "", authToken)
+    }else if (userValue === "admin") {
+      getUsersByAdmin("", "", "", authToken)
+    }else if (userValue === "faculty") {
+      getUsersByAdmin("", "CE", "", authToken)
+    }
+  }, [])
   return (
     <div className={styles.container}>
       <div className={styles.wrap}>
