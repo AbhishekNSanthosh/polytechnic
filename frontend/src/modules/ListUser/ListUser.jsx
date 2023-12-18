@@ -58,10 +58,12 @@ const ListUser = () => {
                   e.preventDefault();
                   setDepartment(e.target.value);
                 }}>
-                  <option value='CE'>CE</option>
-                  <option value='CS'>CSE</option>
-                  <option value='ME'>ME</option>
-                  <option value='EEE'>EEE</option>
+                  <option value='S1'>S1</option>
+                  <option value='S2'>S2</option>
+                  <option value='S3'>S3</option>
+                  <option value='S4'>S4</option>
+                  <option value='S5'>S5</option>
+                  <option value='S6'>S6</option>
                 </Select>
               </div>
             }
