@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ListUser.module.css'
 import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
@@ -8,6 +8,7 @@ import { useToast } from '@chakra-ui/react'
 import { getUsersByAdmin } from './services/apis';
 
 const ListUser = () => {
+  const [role, setRole] = useState("student");
   const location = useLocation();
   const path = location.pathname;
   const lastPart = path.split('/').pop();
@@ -19,9 +20,9 @@ const ListUser = () => {
   useEffect(() => {
     if (userValue === "student") {
       getUsersByAdmin("", "", "student", authToken)
-    }else if (userValue === "admin") {
+    } else if (userValue === "admin") {
       getUsersByAdmin("", "", "", authToken)
-    }else if (userValue === "faculty") {
+    } else if (userValue === "faculty") {
       getUsersByAdmin("", "CE", "", authToken)
     }
   }, [])
