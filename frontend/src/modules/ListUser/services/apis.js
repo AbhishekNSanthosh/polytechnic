@@ -8,7 +8,7 @@ export const getUsersByAdmin = async (
     authToken
 ) => {
     try {
-        const response = await axios.get(backendApiUrl + adminApi.getAllUsers, {
+        const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
 
         },{
             headers: {
