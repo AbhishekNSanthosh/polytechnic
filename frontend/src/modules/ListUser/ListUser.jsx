@@ -20,14 +20,14 @@ const ListUser = () => {
   const toast = useToast();
   const [role, setRole] = useState(userValue);
 
-console.log(users)
+  console.log(users)
   useEffect(() => {
     if (userValue === "student") {
-      getUsersByAdmin(semester, department, role, authToken,setUsers)
+      getUsersByAdmin(semester, department, role, authToken, setUsers)
     } else if (userValue === "admin") {
-      getUsersByAdmin(semester, department, role, authToken,setUsers)
+      getUsersByAdmin(semester, department, role, authToken, setUsers)
     } else if (userValue === "faculty") {
-      getUsersByAdmin(semester, department, role, authToken,setUsers)
+      getUsersByAdmin(semester, department, role, authToken, setUsers)
     }
   }, []);
 
@@ -80,7 +80,11 @@ console.log(users)
           </div>
         </div>
         <div className={styles.dashboardRow}>
-          <UserList />
+          {users && users.map((user, index) => (
+            <div key={index}>
+              <UserList user={user}/>
+            </div>
+          ))}
         </div>
       </div>
     </div>
