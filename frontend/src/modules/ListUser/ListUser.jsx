@@ -22,7 +22,7 @@ const ListUser = () => {
 
   useEffect(() => {
     if (userValue === "student") {
-      getUsersByAdmin("", department, role, authToken)
+      getUsersByAdmin(semester, department, role, authToken)
     } else if (userValue === "admin") {
       getUsersByAdmin("", department, role, authToken)
     } else if (userValue === "faculty") {
