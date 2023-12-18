@@ -10,6 +10,7 @@ import { getUsersByAdmin } from './services/apis';
 const ListUser = () => {
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
+  const [users, setUsers] = useState([]);
   const location = useLocation();
   const path = location.pathname;
   const lastPart = path.split('/').pop();
