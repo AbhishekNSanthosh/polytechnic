@@ -8,7 +8,6 @@ import { useToast } from '@chakra-ui/react'
 import { getUsersByAdmin } from './services/apis';
 
 const ListUser = () => {
-  const [role, setRole] = useState("student");
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
   const location = useLocation();
@@ -18,6 +17,7 @@ const ListUser = () => {
   const authToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
   const toast = useToast();
+  const [role, setRole] = useState(userValue);
 
 
   console.log(department)
@@ -56,7 +56,7 @@ const ListUser = () => {
               <div className={styles.rightItem}>
                 <Select placeholder='Filter Dep wise' onChange={(e) => {
                   e.preventDefault();
-                  setDepartment(e.target.value);
+                  setSemester(e.target.value);
                 }}>
                   <option value='S1'>S1</option>
                   <option value='S2'>S2</option>
