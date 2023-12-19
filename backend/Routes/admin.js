@@ -728,6 +728,10 @@ router.delete('/deleteUserById/:id', verifyAdminToken, async (req, res) => {
 router.post('/searchLetter', verifyAdminToken, async (req, res) => {
     try {
         const { query } = req.body;
+        if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: "Invalid characters" });
+            return res.status(401).json(errorMessage);
+        }
 
         const letters = await Letter.find({
             $or: [

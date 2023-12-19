@@ -30,7 +30,9 @@ const Dashboard = () => {
 
     const handleQueryChange = (e) => {
         setQuery(e.target.value);
-        getSearchResults(query, authToken, setLetters,setIsApiOnCall);
+        if (!isApiOnCall && query !== "") {
+            getSearchResults(query, authToken, setLetters, setIsApiOnCall,toast);
+        }
     }
     return (
         <div className={styles.container}>
