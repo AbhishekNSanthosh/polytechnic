@@ -285,7 +285,7 @@ router.get('/getAllLetters', verifyAdminToken, async (req, res) => {
 router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        const letter = await Letter.findOne({ _id:letterId}).populate('from','username email semester department');
+        const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         const sanitizedLetter = {
             ...letter.toObject(),
             from: {
@@ -305,7 +305,7 @@ router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
             },
         }
         const successResponseMsg = twohundredResponse({
-            message:"Letter from ",
+            message: "Letter from ",
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
@@ -722,5 +722,31 @@ router.delete('/deleteUserById/:id', verifyAdminToken, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 })
+
+
+//api to search letter
+router.post('/searchLetter', verifyAdminToken, async (req, res) => {
+    try {
+        const { query } = req.body;
+
+        const letters = await Letter.find({
+            $or: [
+                { subject: { $regex: query, $options: 'i' } },
+                { content: { $regex: query, $options: 'i' } },
+            ],
+        }).sort({ createdAt: "desc" });
+
+        const sanitizedLetters = letters;
+        const searchResCount = letters.length
+        const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
+        return res.status(200).json(successResponse);
+    } catch (error) {
+        console.log(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
+
 
 module.exports = router;
