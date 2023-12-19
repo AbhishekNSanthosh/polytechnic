@@ -16,10 +16,14 @@ const LetterList = (props) => {
                 navigate('/view-letter/' + letter?._id)
             }}>
                 <span className={styles.subject}>{letter?.subject}</span>
-                <IoMailUnreadOutline className={styles.read} title='unread' />
+                <div className={styles.hoverIcon}>
+                    <IoMailUnreadOutline className={styles.read} title='unread' />
+                </div>
             </div>
             <div className={styles.right}>
-                <MdDeleteOutline title='delete' className={styles.actionIcon} />
+                <div className={styles.hoverIcon}>
+                    <MdDeleteOutline title='delete' className={styles.actionIcon} />
+                </div>
             </div>
         </div>
     )

@@ -115,3 +115,13 @@
 .subject {
     text-transform: capitalize;
 }
+
+.hoverIcon {
+    padding: 0.7rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+}
+
+.hoverIcon:hover {
+    background-color: #e6e6e6;
+}
