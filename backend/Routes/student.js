@@ -214,7 +214,7 @@ router.get('/getAllLetters', verifyStudentToken, async (req, res) => {
             data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
             letterCount: letters.length
         });
-        return res.status(201).json(successResponseMsg);
+        return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.log(error)
         const errorResponse = fiveHundredResponse();
