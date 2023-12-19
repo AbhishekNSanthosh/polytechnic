@@ -102,8 +102,10 @@ export const getAllLettersForTeacher = async (
 export const getSearchResults = async (
     query,
     authToken,
-    setLetters
+    setLetters,
+    setIsApiOnCall
 ) => {
+    setIsApiOnCall(true);
     try {
         const response = await axios.post(backendApiUrl + adminApi.searchLetters, {
             query
@@ -112,8 +114,10 @@ export const getSearchResults = async (
                 Authorization: "Bearer " + authToken
             }
         })
-        setLetters(response.data.data)
+        setLetters(response.data.data);
+        setIsApiOnCall(false);
     } catch (error) {
+        setIsApiOnCall(false);
         if (error?.response?.data?.error === "TokenExpiredError") {
             toast({
                 title: 'Session Expired',

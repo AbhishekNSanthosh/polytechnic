@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
     const [query, setQuery] = useState("");
+    const [isApiOnCall, setIsApiOnCall] = useState(false);
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
     const toast = useToast();
@@ -27,9 +28,9 @@ const Dashboard = () => {
         }
     }, [authToken]);
 
-    const handleQueryChange = (e) =>{
+    const handleQueryChange = (e) => {
         setQuery(e.target.value);
-        getSearchResults(query,authToken,setLetters)
+        getSearchResults(query, authToken, setLetters,setIsApiOnCall);
     }
     return (
         <div className={styles.container}>
