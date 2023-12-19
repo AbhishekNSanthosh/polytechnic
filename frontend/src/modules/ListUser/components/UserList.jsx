@@ -2,6 +2,7 @@ import React from 'react'
 import styles from '../ListUser.module.css'
 import { MdDeleteOutline } from "react-icons/md";
 import { IoMailUnreadOutline } from "react-icons/io5";
+import { FiEdit } from "react-icons/fi";
 
 const UserList = ({ user, index }) => {
     return (
@@ -15,7 +16,12 @@ const UserList = ({ user, index }) => {
                 {/* <IoMailUnreadOutline className={styles.read} title='unread' /> */}
             </div>
             <div className={styles.right}>
-                <MdDeleteOutline title='delete' className={styles.actionIcon} />
+                <div className={styles.hover}>
+                    <FiEdit title='Edit' className={styles.edit} />
+                </div>
+                <div className={styles.hover}>
+                    <MdDeleteOutline title='Delete' className={styles.actionIcon} />
+                </div>
             </div>
         </div>
     )

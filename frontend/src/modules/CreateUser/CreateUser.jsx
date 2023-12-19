@@ -69,11 +69,12 @@ const CreateUser = () => {
                         <div
                             div className={styles.row}>
                             <div className={styles.item}>
-                                <div className={styles.item}>
-                                    <input type="text" className={styles.txtInput} placeholder='Semester*' onChange={(e) => {
-                                        setSemester(e.target.value);
-                                    }} />
-                                </div>
+                                <input type="text" className={styles.txtInput} placeholder='Semester*' onChange={(e) => {
+                                    setSemester(e.target.value);
+                                }} />
+                            </div>
+                            <div className={styles.item}>
+
                             </div>
                         </div>
                     }

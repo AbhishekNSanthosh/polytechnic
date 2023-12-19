@@ -99,14 +99,14 @@
 .right {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex: 2;
+    justify-content: space-evenly;
+    flex: 3;
 }
 
 .center {
     display: flex;
     justify-content: space-between;
-    flex: 8;
+    flex: 7;
 }
 
 .read {
@@ -122,4 +122,19 @@
 .actionIcon {
     font-size: 1.5rem;
     cursor: pointer;
+}
+
+.edit{
+    font-size: 1.18rem;
+    cursor: pointer;
+}
+
+.hover{
+    padding: 0.7rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.hover:hover{
+    background-color: rgb(233, 233, 233);
 }
