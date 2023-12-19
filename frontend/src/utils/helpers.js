@@ -42,4 +42,5 @@ export const adminApi = {
     createAdmin: "/api/v2/admin/createNewAdmin",
     createTeacher: "/api/v2/admin/createNewTeacher",
     getAllUsers: "/api/v2/admin/getUserListByFilters",
+    searchLetters:"/api/v2/admin/searchLetter"
 }
