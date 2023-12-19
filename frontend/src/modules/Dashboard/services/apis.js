@@ -98,3 +98,26 @@ export const getAllLettersForTeacher = async (
         }
     }
 }
+
+export const getSearchResults = async (
+    query,
+    authToken
+) => {
+    try {
+
+    } catch (error) {
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}

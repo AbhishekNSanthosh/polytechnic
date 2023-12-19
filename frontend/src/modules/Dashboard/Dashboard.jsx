@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
+    const [query, setQuery] = useState("");
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
     const toast = useToast();
@@ -17,21 +18,27 @@ const Dashboard = () => {
     useEffect(() => {
         if (authToken !== "") {
             if (accessType === "admin") {
-                getAllLettersForAdmin(setLetters, toast, navigate,authToken);
+                getAllLettersForAdmin(setLetters, toast, navigate, authToken);
             } else if (accessType === "student") {
-                getAllLettersForStudent(setLetters, toast, navigate,authToken);
+                getAllLettersForStudent(setLetters, toast, navigate, authToken);
             } else if (accessType === "teacher") {
-                getAllLettersForTeacher(setLetters, toast, navigate,authToken)
+                getAllLettersForTeacher(setLetters, toast, navigate, authToken)
             }
         }
-    }, [authToken])
+    }, [authToken]);
+
+    const handleQueryChange = (e) =>{
+        setQuery(e.target.value);
+    }
     return (
         <div className={styles.container}>
             <div className={styles.dashboardTopRow}>
                 <div className={styles.dashboardRowLeft}>
                     <div className={styles.searchWrap}>
                         <IoIosSearch className={styles.icon} />
-                        <input type="text" className={styles.dashboardRowLeftSearch} placeholder='Search' />
+                        <input type="text" onChange={(e) => {
+                            handleQueryChange(e)
+                        }} className={styles.dashboardRowLeftSearch} placeholder='Search' />
                     </div>
                 </div>
                 <div className={styles.dashboardRowRight}>
