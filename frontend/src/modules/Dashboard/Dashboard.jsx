@@ -4,7 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
 import LetterList from './components/LetterList';
 import { useEffect } from 'react';
-import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher } from './services/apis';
+import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher, getSearchResults } from './services/apis';
 import { useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 
@@ -29,6 +29,7 @@ const Dashboard = () => {
 
     const handleQueryChange = (e) =>{
         setQuery(e.target.value);
+        getSearchResults(query,authToken,setLetters)
     }
     return (
         <div className={styles.container}>

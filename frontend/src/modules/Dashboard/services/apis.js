@@ -101,10 +101,18 @@ export const getAllLettersForTeacher = async (
 
 export const getSearchResults = async (
     query,
-    authToken
+    authToken,
+    setLetters
 ) => {
     try {
-
+        const response = await axios.post(backendApiUrl + adminApi.searchLetters, {
+            query
+        }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        setLetters(response.data.data)
     } catch (error) {
         if (error?.response?.data?.error === "TokenExpiredError") {
             toast({
