@@ -28,7 +28,11 @@ const DisplayLetter = () => {
         <div className={styles.container}>
             <div className={styles.letterWrap}>
                 <div className={styles.letterTopBtn}>
-                    <button className={styles.manageBtn}>Manage</button>
+                    <button className={styles.manageBtn}
+                        onClick={() => {
+                            navigate(`/view-letter/${letterData?._id}/manage`);
+                        }}
+                    >Manage</button>
                 </div>
                 <div className={styles.letterTopRow}>
                     <span className={styles.title}>Grievance</span>

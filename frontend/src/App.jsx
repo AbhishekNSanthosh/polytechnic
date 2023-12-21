@@ -12,6 +12,7 @@ import ListUser from './modules/ListUser/ListUser';
 import CreateGriev from './modules/CreateGrievPage/CreateGriev';
 import DisplayLetter from './modules/DisplayLetter/DisplayLetter';
 import CreateUser from './modules/CreateUser/CreateUser';
+import ManageLetter from './modules/ManageLetter/ManageLetter';
 
 function App() {
   const router = createBrowserRouter([
@@ -33,7 +34,7 @@ function App() {
         },
         {
           path: '/view-letter/:id/manage',
-          element: <DisplayLetter />
+          element: <ManageLetter />
         },
         {
           path: '/profile',
