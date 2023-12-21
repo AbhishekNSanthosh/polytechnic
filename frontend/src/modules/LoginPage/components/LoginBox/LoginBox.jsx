@@ -37,7 +37,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 loginUrls.studentLogin,
                 dashboardUrls.getStudentDetials
             );
-        } else if (user === "faculty") {
+        } else if (user === "teacher") {
             await loginUser(emailOrUsername,
                 passsword,
                 toast,
@@ -61,7 +61,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 <div className={styles.LoginBoxTitleBox}>
                     <span className={styles.LoginNavTitleName}>
                         {user === "admin" && "Admin Login"}
-                        {user === "faculty" && "Faculty Login"}
+                        {user === "teacher" && "teacher Login"}
                         {user === "student" && "Student Login"}
                     </span>
                 </div>
@@ -76,7 +76,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                     setPassword(e.target.value);
                 }} />
                 {user === "admin" && <button className={styles.LoginBoxAdminButton} onClick={handleLogin}>Login</button>}
-                {user === "faculty" && <button className={styles.LoginBoxFacultyButton} onClick={handleLogin}>Login</button>}
+                {user === "teacher" && <button className={styles.LoginBoxFacultyButton} onClick={handleLogin}>Login</button>}
                 {user === "student" && <button className={styles.LoginBoxStudentButton} onClick={handleLogin}>Login</button>}
                 <span className={styles.forgot}>Forgot password ?</span>
             </div>

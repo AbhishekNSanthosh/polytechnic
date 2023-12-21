@@ -24,7 +24,7 @@ const CreateUser = () => {
             await createStudent(username, password, email, semester, department, authToken, navigate, toast)
         } else if (userValue === "admin") {
             await createAdmin(username, password, authToken, navigate, toast)
-        } if (userValue === "faculty") {
+        } if (userValue === "teacher") {
             await createFaculty(username, password, email, department, authToken, navigate, toast)
         }
     }
@@ -37,7 +37,7 @@ const CreateUser = () => {
                 <div className={styles.topRow}>
                     {userValue === "student" && <span className={styles.title}>Add Student</span>}
                     {userValue === "admin" && <span className={styles.title}>Add Admin</span>}
-                    {userValue === "faculty" && <span className={styles.title}>Add Faculty</span>}
+                    {userValue === "teacher" && <span className={styles.title}>Add teacher</span>}
                 </div>
                 <div className={styles.actionBox}>
                     <div className={styles.row}>

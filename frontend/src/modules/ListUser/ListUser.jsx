@@ -5,12 +5,13 @@ import { Select } from '@chakra-ui/react'
 import UserList from './components/UserList';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { getUsersByAdmin } from './services/apis';
+import { getUsersByAdmin, searchUser } from './services/apis';
 
 const ListUser = () => {
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
   const [users, setUsers] = useState([]);
+  const [isApiOnCall, setIsApiOnCall] = useState(false);
   const [query, setQuery] = useState("");
   const location = useLocation();
   const path = location.pathname;
@@ -27,10 +28,16 @@ const ListUser = () => {
       getUsersByAdmin(semester, department, role, authToken, setUsers)
     } else if (userValue === "admin") {
       getUsersByAdmin(semester, department, role, authToken, setUsers)
-    } else if (userValue === "faculty") {
+    } else if (userValue === "teacher") {
       getUsersByAdmin(semester, department, "teacher", authToken, setUsers)
     }
   }, []);
+
+  const handleChange = async (e) => {
+    e.preventDefault();
+    setDepartment(e.target.value);
+    searchUser(query,role)
+  }
 
   return (
     <div className={styles.container}>
@@ -47,8 +54,7 @@ const ListUser = () => {
           <div className={styles.dashboardRowRight}>
             <div className={styles.rightItem}>
               <Select placeholder='Filter Dep wise' onChange={(e) => {
-                e.preventDefault();
-                setDepartment(e.target.value);
+                handleChange(e)
               }}>
                 <option value='CE'>CE</option>
                 <option value='CS'>CSE</option>
@@ -94,4 +100,4 @@ const ListUser = () => {
   )
 }
 
-export default ListUser
+export default ListUser;

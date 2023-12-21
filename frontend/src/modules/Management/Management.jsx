@@ -16,7 +16,7 @@ const Management = () => {
                         List all students
                     </div>
                     <div className={styles.actions} onClick={() => {
-                        navigate('/user-management/list-faculty')
+                        navigate('/user-management/list-teacher')
                     }}>
                         <MdGroups className={styles.icon} />
                         List all faculties
@@ -36,10 +36,10 @@ const Management = () => {
                         Add new student
                     </div>
                     <div className={styles.actions} onClick={() => {
-                        navigate('/user-management/create-faculty')
+                        navigate('/user-management/create-teacher')
                     }}>
                         <MdGroupAdd className={styles.icon} />
-                        Add new faculty
+                        Add new teacher
                     </div>
                     <div className={styles.actions} onClick={() => {
                         navigate('/user-management/create-admin')

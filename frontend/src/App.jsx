@@ -9,9 +9,9 @@ import Layout from './modules/Layout/Layout'
 import Profile from './modules/Profile/Profile';
 import Management from './modules/Management/Management';
 import ListUser from './modules/ListUser/ListUser';
-import CreateUser from './modules/CreateUser/CreateUser';
 import CreateGriev from './modules/CreateGrievPage/CreateGriev';
 import DisplayLetter from './modules/DisplayLetter/DisplayLetter';
+import CreateUser from './modules/CreateUser/CreateUser';
 
 function App() {
   const router = createBrowserRouter([
@@ -48,7 +48,7 @@ function App() {
           element: <ListUser />
         },
         {
-          path: '/user-management/list-faculty',
+          path: '/user-management/list-teacher',
           element: <ListUser />
         },
         {
@@ -57,10 +57,10 @@ function App() {
         },
         {
           path: '/user-management/create-student',
-          element: <CreateUser />
+          element: <CreateUser/>
         },
         {
-          path: '/user-management/create-faculty',
+          path: '/user-management/create-teacher',
           element: <CreateUser />
         },
         {

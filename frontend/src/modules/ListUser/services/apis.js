@@ -45,9 +45,22 @@ export const getUsersByAdmin = async (
     }
 }
 
-export const searchUser = async () => {
+export const searchUser = async (
+    query,
+    role,
+    authToken,
+    setUsers
+) => {
     try {
-
+        const response = await axios.post(backendApiUrl + adminApi.searchUsers, {
+            query,
+            role
+        },{
+            headers:{
+                Authorization:"Bearer "+authToken
+            }
+        })
+        console.log(response)
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
