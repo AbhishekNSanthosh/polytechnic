@@ -27,6 +27,9 @@ const DisplayLetter = () => {
     return (
         <div className={styles.container}>
             <div className={styles.letterWrap}>
+                <div className={styles.letterTopBtn}>
+                    <button className={styles.manageBtn}>Manage</button>
+                </div>
                 <div className={styles.letterTopRow}>
                     <span className={styles.title}>Grievance</span>
                 </div>
