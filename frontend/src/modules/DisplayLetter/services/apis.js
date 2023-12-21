@@ -17,7 +17,14 @@ export const getLetterDetails = async (
         console.log(response.data.data)
         setLetterData(response?.data?.data)
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
         if (error?.response?.data?.error === "TokenExpiredError") {
             toast({
                 title: 'Session Expired',
@@ -25,11 +32,11 @@ export const getLetterDetails = async (
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
-            })
+            });
             localStorage.clear();
             setTimeout(() => {
                 navigate('/')
-            }, 2000)
+            }, 2000);
         }
     }
 }
