@@ -5,6 +5,7 @@ import { adminApi, backendApiUrl, facultyApi, studentApi } from "../../../utils/
 
 export const getAllLettersForAdmin = async (
     setLetters,
+    sortOrder,
     toast,
     navigate,
     authToken
@@ -12,6 +13,8 @@ export const getAllLettersForAdmin = async (
     console.log(authToken)
     try {
         const response = await axios.post(backendApiUrl + adminApi.getAllLetters, {
+            sortOrder
+        }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
