@@ -32,6 +32,10 @@ function App() {
           element: <DisplayLetter />
         },
         {
+          path: '/view-letter/:id/manage',
+          element: <DisplayLetter />
+        },
+        {
           path: '/profile',
           element: <Profile />
         },
