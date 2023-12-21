@@ -17,7 +17,7 @@ const LetterList = (props) => {
             <div className={styles.center} onClick={() => {
                 navigate('/view-letter/' + letter?._id)
             }}>
-                <span className={styles.subject}>{letterSub}</span>
+                <span className={styles.subject}>{letterSub}...</span>
             </div>
             <div className={styles.centertwo}>
                 <span className={styles.subject}>{letter?.createdAt?.ago}</span>
