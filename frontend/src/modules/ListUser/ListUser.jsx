@@ -22,7 +22,6 @@ const ListUser = () => {
   const toast = useToast();
   const [role, setRole] = useState(userValue);
 
-  console.log(users)
   useEffect(() => {
     if (userValue === "student") {
       getUsersByAdmin(semester, department, role, authToken, setUsers)
@@ -34,27 +33,41 @@ const ListUser = () => {
   }, []);
 
   const handleChange = async (e) => {
-    e.preventDefault();
-    setDepartment(e.target.value);
-    searchUser(query,role)
+    setQuery(e.target.value)
+    if (!isApiOnCall && query !== "") {
+      await searchUser(query, role, authToken, setUsers, setIsApiOnCall)
+    } else {
+      if (userValue === "student") {
+        getUsersByAdmin(semester, department, role, authToken, setUsers)
+      } else if (userValue === "admin") {
+        getUsersByAdmin(semester, department, role, authToken, setUsers)
+      } else if (userValue === "teacher") {
+        getUsersByAdmin(semester, department, "teacher", authToken, setUsers)
+      }
+    }
   }
+
+
 
   return (
     <div className={styles.container}>
       <div className={styles.wrap}>
+        <div className={styles.top}>
+          <span className={styles.topTitle}> All {userValue}s</span>
+        </div>
         <div className={styles.dashboardTopRow}>
           <div className={styles.dashboardRowLeft}>
             <div className={styles.searchWrap}>
               <IoIosSearch className={styles.icon} />
               <input type="text" className={styles.dashboardRowLeftSearch} placeholder='Search' onChange={(e) => {
-                setQuery(e.target.value);
+                handleChange(e)
               }} />
             </div>
           </div>
           <div className={styles.dashboardRowRight}>
             <div className={styles.rightItem}>
               <Select placeholder='Filter Dep wise' onChange={(e) => {
-                handleChange(e)
+                setDepartment(e.target.value)
               }}>
                 <option value='CE'>CE</option>
                 <option value='CS'>CSE</option>

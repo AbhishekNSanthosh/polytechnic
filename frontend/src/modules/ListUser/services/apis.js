@@ -49,19 +49,25 @@ export const searchUser = async (
     query,
     role,
     authToken,
-    setUsers
+    setUsers,
+    setIsApiOnCall
 ) => {
+    console.log("first")
+    setIsApiOnCall(true);
     try {
         const response = await axios.post(backendApiUrl + adminApi.searchUsers, {
             query,
             role
-        },{
-            headers:{
-                Authorization:"Bearer "+authToken
+        }, {
+            headers: {
+                Authorization: "Bearer " + authToken
             }
         })
+        setUsers(response?.data?.data)
+        setIsApiOnCall(false);
         console.log(response)
     } catch (error) {
+        setIsApiOnCall(false);
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",
