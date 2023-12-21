@@ -22,7 +22,7 @@ const ListUser = () => {
   const toast = useToast();
   const [role, setRole] = useState(userValue);
 
-  useEffect(() => {
+  const getUserData = () => {
     if (userValue === "student") {
       getUsersByAdmin(semester, department, role, authToken, setUsers)
     } else if (userValue === "admin") {
@@ -30,6 +30,10 @@ const ListUser = () => {
     } else if (userValue === "teacher") {
       getUsersByAdmin(semester, department, "teacher", authToken, setUsers)
     }
+  }
+
+  useEffect(() => {
+
   }, []);
 
   const handleChange = async (e) => {
