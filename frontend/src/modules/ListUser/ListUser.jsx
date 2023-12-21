@@ -14,6 +14,8 @@ const ListUser = () => {
   const [users, setUsers] = useState([]);
   const [isApiOnCall, setIsApiOnCall] = useState(false);
   const [query, setQuery] = useState("");
+  const [applyFilter, setApplyFilter] = useState(false);
+
   const location = useLocation();
   const path = location.pathname;
   const lastPart = path.split('/').pop();
@@ -76,7 +78,7 @@ const ListUser = () => {
                   setDepartment(e.target.value)
                 }}>
                   <option value='CE'>CE</option>
-                  <option value='CS'>CSE</option>
+                  <option value='CS'>CS</option>
                   <option value='ME'>ME</option>
                   <option value='EEE'>EEE</option>
                 </Select>
@@ -84,7 +86,7 @@ const ListUser = () => {
             }
             {userValue === "student" &&
               <div className={styles.rightItem}>
-                <Select placeholder='Filter Dep wise' onChange={(e) => {
+                <Select placeholder='Filter Sem wise' onChange={(e) => {
                   e.preventDefault();
                   setSemester(e.target.value);
                 }}
@@ -110,10 +112,17 @@ const ListUser = () => {
             <div className={styles.rightItem}>
               <button className={styles.apllyBtn} onClick={() => {
                 getUserData()
+                setApplyFilter(true);
               }}>Apply filter</button>
-              <button className={styles.apllyBtn} onClick={() => {
-                getUserData()
-              }}>Remove filter</button>
+              {
+                applyFilter &&
+                <button className={styles.apllyBtn} onClick={() => {
+                  setDepartment("");
+                  setSemester("");
+                  setSortOrder("desc");
+                  setApplyFilter(false);
+                }}>Remove filter</button>
+              }
             </div>
           </div>
         </div>
