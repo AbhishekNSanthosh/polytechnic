@@ -5,13 +5,17 @@ export const getUsersByAdmin = async (
     semester,
     department,
     role,
+    sortOrder,
     authToken,
-    setUsers
+    setUsers,
+    navigate,
+    toast
 ) => {
     try {
         const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
             semester,
             department,
+            sortOrder,
             role
         }, {
             headers: {
@@ -50,7 +54,9 @@ export const searchUser = async (
     role,
     authToken,
     setUsers,
-    setIsApiOnCall
+    setIsApiOnCall,
+    navigate,
+    toast
 ) => {
     console.log("first")
     setIsApiOnCall(true);

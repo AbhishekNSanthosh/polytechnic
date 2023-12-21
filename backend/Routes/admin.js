@@ -572,30 +572,30 @@ router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
 router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
     try {
         console.log(req.body)
-        const { role, semester, department } = req.body;
+        const { role, semester, department, sortOrder } = req.body;
         let message;
         let users;
 
         if (role === "student") {
             if (semester && department) {
-                users = await User.find({ role, semester, department }).sort({ createdAt: 'desc' });
+                users = await User.find({ role, semester, department }).sort({ createdAt: sortOrder });
             } else if (semester) {
-                users = await User.find({ role, semester }).sort({ createdAt: 'desc' });
+                users = await User.find({ role, semester }).sort({ createdAt: sortOrder });
             } else if (department) {
-                users = await User.find({ role, department }).sort({ createdAt: 'desc' });
+                users = await User.find({ role, department }).sort({ createdAt: sortOrder });
             } else {
-                users = await User.find({ role }).sort({ createdAt: 'desc' });
+                users = await User.find({ role }).sort({ createdAt: sortOrder });
             }
 
             message = "All students";
         } else if (role === "admin") {
-            users = await User.find({ role }).sort({ createdAt: 'desc' });
+            users = await User.find({ role }).sort({ createdAt: sortOrder });
             message = "All admins";
         } else if (role === "teacher") {
             if (department) {
-                users = await User.find({ role, department }).sort({ createdAt: 'desc' });
+                users = await User.find({ role, department }).sort({ createdAt: sortOrder });
             } else {
-                users = await User.find({ role }).sort({ createdAt: 'desc' });
+                users = await User.find({ role }).sort({ createdAt: sortOrder });
             }
 
             message = "All teachers";

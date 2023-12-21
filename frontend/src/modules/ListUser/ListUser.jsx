@@ -10,6 +10,7 @@ import { getUsersByAdmin, searchUser } from './services/apis';
 const ListUser = () => {
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
   const [users, setUsers] = useState([]);
   const [isApiOnCall, setIsApiOnCall] = useState(false);
   const [query, setQuery] = useState("");
@@ -24,29 +25,29 @@ const ListUser = () => {
 
   const getUserData = () => {
     if (userValue === "student") {
-      getUsersByAdmin(semester, department, role, authToken, setUsers)
+      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
     } else if (userValue === "admin") {
-      getUsersByAdmin(semester, department, role, authToken, setUsers)
+      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
     } else if (userValue === "teacher") {
-      getUsersByAdmin(semester, department, "teacher", authToken, setUsers)
+      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
     }
   }
 
   useEffect(() => {
-
+    getUserData();
   }, []);
 
   const handleChange = async (e) => {
     setQuery(e.target.value)
     if (!isApiOnCall && query !== "") {
-      await searchUser(query, role, authToken, setUsers, setIsApiOnCall)
+      await searchUser(query, role, authToken, setUsers, setIsApiOnCall, navigate, toast)
     } else {
       if (userValue === "student") {
-        getUsersByAdmin(semester, department, role, authToken, setUsers)
+        getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
       } else if (userValue === "admin") {
-        getUsersByAdmin(semester, department, role, authToken, setUsers)
+        getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
       } else if (userValue === "teacher") {
-        getUsersByAdmin(semester, department, "teacher", authToken, setUsers)
+        getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
       }
     }
   }
@@ -95,13 +96,17 @@ const ListUser = () => {
               </div>
             }
             <div className={styles.rightItem}>
-              <Select placeholder='Sort'>
+              <Select placeholder='Sort' onChange={(e) => {
+                setSortOrder(e.target.value);
+              }}>
                 <option value='desc'>Newest on top</option>
                 <option value='asc'>Oldest on top</option>
               </Select>
             </div>
             <div className={styles.rightItem}>
-              <button className={styles.apllyBtn}>Apply filter</button>
+              <button className={styles.apllyBtn} onClick={() => {
+                getUserData()
+              }}>Apply filter</button>
             </div>
           </div>
         </div>
