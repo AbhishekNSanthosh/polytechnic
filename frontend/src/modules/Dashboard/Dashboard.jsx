@@ -34,7 +34,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         getLetterData();
-    }, [authToken]);
+    }, [authToken,applyFilter]);
 
     const handleQueryChange = (e) => {
         setQuery(e.target.value);
@@ -78,10 +78,15 @@ const Dashboard = () => {
                             getLetterData();
                             setApplyFilter(true);
                         }}>Apply filter</button>
-                        <button className={styles.removeBtn} onClick={() => {
-                            getLetterData();
-                            setApplyFilter(true);
-                        }}>Remove filter</button>
+                        {applyFilter &&
+                            <button className={styles.removeBtn} onClick={() => {
+                                setSortOrder("desc");
+                                // setTimeout(() => {
+                                //     getLetterData();
+                                // }, 1000)
+                                setApplyFilter(false);
+                            }}>Remove filter</button>
+                        }
                     </div>
                 </div>
             </div>
