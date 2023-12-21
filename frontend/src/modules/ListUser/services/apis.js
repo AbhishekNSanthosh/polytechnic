@@ -24,3 +24,11 @@ export const getUsersByAdmin = async (
         console.log(error)
     }
 }
+
+export const searchUser = async () => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}

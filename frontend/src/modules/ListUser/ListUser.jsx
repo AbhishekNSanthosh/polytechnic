@@ -11,6 +11,7 @@ const ListUser = () => {
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
   const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState("");
   const location = useLocation();
   const path = location.pathname;
   const lastPart = path.split('/').pop();
@@ -27,7 +28,7 @@ const ListUser = () => {
     } else if (userValue === "admin") {
       getUsersByAdmin(semester, department, role, authToken, setUsers)
     } else if (userValue === "faculty") {
-      getUsersByAdmin(semester, department, role, authToken, setUsers)
+      getUsersByAdmin(semester, department, "teacher", authToken, setUsers)
     }
   }, []);
 
@@ -38,7 +39,9 @@ const ListUser = () => {
           <div className={styles.dashboardRowLeft}>
             <div className={styles.searchWrap}>
               <IoIosSearch className={styles.icon} />
-              <input type="text" className={styles.dashboardRowLeftSearch} placeholder='Search' />
+              <input type="text" className={styles.dashboardRowLeftSearch} placeholder='Search' onChange={(e) => {
+                setQuery(e.target.value);
+              }} />
             </div>
           </div>
           <div className={styles.dashboardRowRight}>
@@ -82,7 +85,7 @@ const ListUser = () => {
         <div className={styles.dashboardRow}>
           {users && users.map((user, index) => (
             <div key={index}>
-              <UserList user={user} index={index}/>
+              <UserList user={user} index={index} />
             </div>
           ))}
         </div>
