@@ -6,7 +6,8 @@ export const getLetterDetails = async (
     setLetterData,
     url,
     navigate,
-    authToken
+    authToken,
+    toast
 ) => {
     try {
         const response = await axios.get(backendApiUrl + url + letterId, {

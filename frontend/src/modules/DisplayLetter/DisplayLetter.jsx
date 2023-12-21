@@ -4,21 +4,23 @@ import { useParams } from 'react-router-dom'
 import { getLetterDetails } from './services/apis';
 import { adminApi, facultyApi, studentApi } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
 
 const DisplayLetter = () => {
     const [letterData, setLetterData] = useState({});
     const accessType = localStorage.getItem('accessType');
     const params = useParams();
     const navigate = useNavigate();
+    const toast = useToast();
     const authToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
         if (accessType === "admin") {
-            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate,authToken);
+            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate, authToken, toast);
         } else if (accessType === "student") {
-            getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate,authToken);
+            getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate, authToken, toast);
         } else if (accessType === "teacher") {
-            getLetterDetails(params?.id, setLetterData, facultyApi.getLetterData, navigate,authToken);
+            getLetterDetails(params?.id, setLetterData, facultyApi.getLetterData, navigate, authToken, toast);
         }
     }, [])
 
