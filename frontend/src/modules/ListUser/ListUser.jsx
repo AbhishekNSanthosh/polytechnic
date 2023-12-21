@@ -72,7 +72,7 @@ const ListUser = () => {
           <div className={styles.dashboardRowRight}>
             {userValue !== "admin" &&
               <div className={styles.rightItem}>
-                <Select placeholder='Filter Dep wise' onChange={(e) => {
+                <Select style={{ width: '8rem' }} placeholder='Filter Dep wise' onChange={(e) => {
                   setDepartment(e.target.value)
                 }}>
                   <option value='CE'>CE</option>
@@ -87,7 +87,9 @@ const ListUser = () => {
                 <Select placeholder='Filter Dep wise' onChange={(e) => {
                   e.preventDefault();
                   setSemester(e.target.value);
-                }}>
+                }}
+                  style={{ width: '8rem' }}
+                >
                   <option value='S1'>S1</option>
                   <option value='S2'>S2</option>
                   <option value='S3'>S3</option>
@@ -98,7 +100,7 @@ const ListUser = () => {
               </div>
             }
             <div className={styles.rightItem}>
-              <Select placeholder='Sort' value={sortOrder} onChange={(e) => {
+              <Select style={{ width: '8rem' }} placeholder='Sort' value={sortOrder} onChange={(e) => {
                 setSortOrder(e.target.value);
               }}>
                 <option value='desc'>Newest on top</option>
@@ -109,6 +111,9 @@ const ListUser = () => {
               <button className={styles.apllyBtn} onClick={() => {
                 getUserData()
               }}>Apply filter</button>
+              <button className={styles.apllyBtn} onClick={() => {
+                getUserData()
+              }}>Remove filter</button>
             </div>
           </div>
         </div>
