@@ -12,7 +12,10 @@ const UserList = ({ user, index }) => {
             </div>
             <div className={styles.center}>
                 <span className={styles.subject}>{user?.username}</span>
-                <span className={styles.subject}>{user?.semester}</span>
+                <div className={styles.centerCol}>
+                    <span className={styles.subject}>{user?.department}</span>
+                    <span className={styles.subject}>{user?.semester}</span>
+                </div>
                 {/* <IoMailUnreadOutline className={styles.read} title='unread' /> */}
             </div>
             <div className={styles.right}>
