@@ -37,7 +37,7 @@ const ListUser = () => {
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [authToken, applyFilter]);
 
   const handleChange = async (e) => {
     setQuery(e.target.value)
@@ -74,7 +74,7 @@ const ListUser = () => {
           <div className={styles.dashboardRowRight}>
             {userValue !== "admin" &&
               <div className={styles.rightItem}>
-                <Select style={{ width: '8rem' }} placeholder='Filter Dep wise' onChange={(e) => {
+                <Select style={{ width: '8rem' }} value={department} placeholder='Filter Dep wise' onChange={(e) => {
                   setDepartment(e.target.value)
                 }}>
                   <option value='CE'>CE</option>
@@ -86,7 +86,7 @@ const ListUser = () => {
             }
             {userValue === "student" &&
               <div className={styles.rightItem}>
-                <Select placeholder='Filter Sem wise' onChange={(e) => {
+                <Select placeholder='Filter Sem wise' value={semester} onChange={(e) => {
                   e.preventDefault();
                   setSemester(e.target.value);
                 }}
