@@ -132,3 +132,21 @@
 .hoverIcon:hover {
     background-color: #e6e6e6;
 }
+
+.rightItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.removeBtn{
+    display: flex;
+    padding: 9px 15px;
+    color: #ff0000;
+    font-weight: 600;
+    border: 0.5px solid red;
+    font-size: 0.92rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}

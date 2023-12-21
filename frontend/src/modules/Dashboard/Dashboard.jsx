@@ -13,6 +13,8 @@ const Dashboard = () => {
     const [query, setQuery] = useState("");
     const [isApiOnCall, setIsApiOnCall] = useState(false);
     const [sortOrder, setSortOrder] = useState("desc");
+    const [applyFilter, setApplyFilter] = useState(false);
+
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
     const toast = useToast();
@@ -36,8 +38,10 @@ const Dashboard = () => {
 
     const handleQueryChange = (e) => {
         setQuery(e.target.value);
-        if (!isApiOnCall && query !== "") {
+        if (!isApiOnCall && query !== "" && query !== " ") {
             getSearchResults(query, authToken, setLetters, setIsApiOnCall, toast);
+        } else {
+            getLetterData();
         }
     }
 
@@ -72,7 +76,12 @@ const Dashboard = () => {
                     <div className={styles.rightItem}>
                         <button className={styles.apllyBtn} onClick={() => {
                             getLetterData();
+                            setApplyFilter(true);
                         }}>Apply filter</button>
+                        <button className={styles.removeBtn} onClick={() => {
+                            getLetterData();
+                            setApplyFilter(true);
+                        }}>Remove filter</button>
                     </div>
                 </div>
             </div>
