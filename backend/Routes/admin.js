@@ -247,9 +247,10 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
 });
 
 //api to get all letters
-router.get('/getAllLetters', verifyAdminToken, async (req, res) => {
+router.post('/getAllLetters', verifyAdminToken, async (req, res) => {
     try {
-        const letters = await Letter.find().sort({ createdAt: 'desc' }).populate('from', 'username email department semester role');
+        const { sortOrder } = req.body
+        const letters = await Letter.find().sort({ createdAt: sortOrder }).populate('from', 'username email department semester role');
         const sanitizedLetters = letters.map(letter => ({
             ...letter.toObject(),
             from: {
