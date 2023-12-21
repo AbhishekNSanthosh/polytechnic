@@ -11,7 +11,7 @@ export const getAllLettersForAdmin = async (
 ) => {
     console.log(authToken)
     try {
-        const response = await axios.get(backendApiUrl + adminApi.getAllLetters, {
+        const response = await axios.post(backendApiUrl + adminApi.getAllLetters, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
@@ -20,6 +20,13 @@ export const getAllLettersForAdmin = async (
         setLetters(response.data.data)
     } catch (error) {
         console.log(error);
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
         if (error?.response?.data?.error === "TokenExpiredError") {
             toast({
                 title: 'Session Expired',
@@ -52,6 +59,13 @@ export const getAllLettersForStudent = async (
         setLetters(response.data.data)
     } catch (error) {
         console.log(error);
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
         if (error?.response?.data?.error === "TokenExpiredError") {
             toast({
                 title: 'Session Expired',
@@ -83,6 +97,13 @@ export const getAllLettersForTeacher = async (
         console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
         if (error?.response?.data?.error === "TokenExpiredError") {
             toast({
                 title: 'Session Expired',
