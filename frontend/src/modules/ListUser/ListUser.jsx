@@ -10,7 +10,7 @@ import { getUsersByAdmin, searchUser } from './services/apis';
 const ListUser = () => {
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [users, setUsers] = useState([]);
   const [isApiOnCall, setIsApiOnCall] = useState(false);
   const [query, setQuery] = useState("");
@@ -39,7 +39,7 @@ const ListUser = () => {
 
   const handleChange = async (e) => {
     setQuery(e.target.value)
-    if (!isApiOnCall && query !== "") {
+    if (query !== "" && query !== " ") {
       await searchUser(query, role, authToken, setUsers, setIsApiOnCall, navigate, toast)
     } else {
       if (userValue === "student") {
@@ -70,16 +70,18 @@ const ListUser = () => {
             </div>
           </div>
           <div className={styles.dashboardRowRight}>
-            <div className={styles.rightItem}>
-              <Select placeholder='Filter Dep wise' onChange={(e) => {
-                setDepartment(e.target.value)
-              }}>
-                <option value='CE'>CE</option>
-                <option value='CS'>CSE</option>
-                <option value='ME'>ME</option>
-                <option value='EEE'>EEE</option>
-              </Select>
-            </div>
+            {userValue !== "admin" &&
+              <div className={styles.rightItem}>
+                <Select placeholder='Filter Dep wise' onChange={(e) => {
+                  setDepartment(e.target.value)
+                }}>
+                  <option value='CE'>CE</option>
+                  <option value='CS'>CSE</option>
+                  <option value='ME'>ME</option>
+                  <option value='EEE'>EEE</option>
+                </Select>
+              </div>
+            }
             {userValue === "student" &&
               <div className={styles.rightItem}>
                 <Select placeholder='Filter Dep wise' onChange={(e) => {
@@ -96,7 +98,7 @@ const ListUser = () => {
               </div>
             }
             <div className={styles.rightItem}>
-              <Select placeholder='Sort' onChange={(e) => {
+              <Select placeholder='Sort' value={sortOrder} onChange={(e) => {
                 setSortOrder(e.target.value);
               }}>
                 <option value='desc'>Newest on top</option>
