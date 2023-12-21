@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 const LetterList = (props) => {
     const { index, letter } = props;
     const navigate = useNavigate();
+
+    const letterSub = letter?.subject.slice(0, 25)
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>
@@ -15,7 +17,10 @@ const LetterList = (props) => {
             <div className={styles.center} onClick={() => {
                 navigate('/view-letter/' + letter?._id)
             }}>
-                <span className={styles.subject}>{letter?.subject}</span>
+                <span className={styles.subject}>{letterSub}</span>
+            </div>
+            <div className={styles.centertwo}>
+                <span className={styles.subject}>{letter?.createdAt?.ago}</span>
                 <div className={styles.hoverIcon}>
                     <IoMailUnreadOutline className={styles.read} title='unread' />
                 </div>

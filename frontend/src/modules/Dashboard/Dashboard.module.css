@@ -92,9 +92,16 @@
 .center {
     display: flex;
     justify-content: space-between;
-    flex: 8;
+    flex: 6;
     height: 100%;
     align-items: center;
+}
+
+.centertwo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex:2 ;
 }
 
 .read {
