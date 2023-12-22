@@ -5,6 +5,7 @@ import ManageLetterUserList from './components/ManageLetterUserList'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { getTeachersByAdmin } from './services/apis'
+import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 
 const ManageLetter = () => {
     const [applyFilter, setApplyFilter] = useState(false);
@@ -69,8 +70,20 @@ const ManageLetter = () => {
                             </div>
                             <div className={styles.listContainer}>
                                 {teachers && teachers.map((teacher, index) => (
-                                    <div key={index}>
-                                        <ManageLetterUserList teacher={teacher} index={index} />
+                                    <div className={styles.userListContainer}>
+                                        <div className={styles.left}>
+                                            <div className={styles.leftItem}>
+                                                <span className={styles.count}>{index + 1}.</span>
+                                            </div>
+                                            <div className={styles.leftItem}>
+                                                <Checkbox colorScheme='red' defaultChecked isInvalid />
+                                            </div>
+
+                                        </div>
+                                        <div className={styles.center}>
+                                            {teacher?.username}
+                                        </div>
+                                        <div className={styles.right}>{teacher?.department}</div>
                                     </div>
                                 ))}
                             </div>
@@ -81,7 +94,25 @@ const ManageLetter = () => {
                                 <span className={styles.itemtitle}>Current View Access Permissions :</span>
                             </div>
                             <div className={styles.manageRight}>
-                                <ManageLetterUserList list={"list"} />
+                                <div className={styles.listContainer}>
+                                    {teachers && teachers.map((teacher, index) => (
+                                        <div className={styles.userListContainer}>
+                                            <div className={styles.left}>
+                                                <div className={styles.leftItem}>
+                                                    <span className={styles.count}>{index + 1}.</span>
+                                                </div>
+                                                <div className={styles.leftItem}>
+                                                    <Checkbox colorScheme='red' defaultChecked isInvalid />
+                                                </div>
+
+                                            </div>
+                                            <div className={styles.center}>
+                                                {teacher?.username}
+                                            </div>
+                                            <div className={styles.right}>{teacher?.department}</div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
