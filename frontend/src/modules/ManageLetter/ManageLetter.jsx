@@ -20,15 +20,22 @@ const ManageLetter = () => {
 
     const params = useParams();
     const authToken = localStorage.getItem("accessToken");
+    const accessType = localStorage.getItem('accessType');
     const navigate = useNavigate();
     const toast = useToast();
     const letterId = params.id;
 
     const getUserData = () => {
         if (authToken !== "") {
-            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers,selectedUsers, navigate, toast)
+            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast);
         }
     }
+
+    useEffect(() => {
+        if (accessType === "admin") {
+            getLetterDetails(letterId,setSelectedUsers, navigate, authToken, toast);
+        }
+    }, [])
 
     useEffect(() => {
         getUserData();
