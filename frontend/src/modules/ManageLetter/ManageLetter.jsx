@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './ManageLetter.module.css'
 import { Select } from '@chakra-ui/react'
 import ManageLetterUserList from './components/ManageLetterUserList'
 
 const ManageLetter = () => {
+    const [applyFilter, setApplyFilter] = useState(false);
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -32,10 +33,14 @@ const ManageLetter = () => {
                                         </Select>
                                     </div>
                                     <div className={styles.manageTopActionItem}>
-                                        <button className={styles.actionBtn}>Apply Filter</button>
+                                        <button className={styles.actionBtn} onClick={() => {
+                                            setApplyFilter(true);
+                                        }}>Apply Filter</button>
                                     </div>
                                     <div className={styles.manageTopActionItem}>
-                                        <button className={styles.actionBtn}>Remove Filter</button>
+                                        <button className={styles.actionBtn} onClick={() => {
+                                            setApplyFilter(false);
+                                        }}>Remove Filter</button>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +60,7 @@ const ManageLetter = () => {
                                 <span className={styles.itemtitle}>Current View Access Permissions :</span>
                             </div>
                             <div className={styles.manageRight}>
-                                <ManageLetterUserList list={"list"}/>
+                                <ManageLetterUserList list={"list"} />
                             </div>
                         </div>
                     </div>

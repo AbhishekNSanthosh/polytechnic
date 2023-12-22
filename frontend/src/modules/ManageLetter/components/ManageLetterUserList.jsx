@@ -1,6 +1,6 @@
 import styles from '../ManageLetter.module.css'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
 
 const ManageLetterUserList = ({ list }) => {
     return (
@@ -10,7 +10,7 @@ const ManageLetterUserList = ({ list }) => {
                     <span className={styles.count}>1.</span>
                 </div>
                 {
-                    list !== "list"  && <div className={styles.leftItem}>
+                    list !== "list" && <div className={styles.leftItem}>
                         <Checkbox colorScheme='red' defaultChecked isInvalid />
                     </div>
                 }
