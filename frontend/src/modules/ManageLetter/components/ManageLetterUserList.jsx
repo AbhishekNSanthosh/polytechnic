@@ -6,9 +6,11 @@ const ManageLetterUserList = ({ list }) => {
     return (
         <div className={styles.userListContainer}>
             <div className={styles.left}>
-                <div className={styles.leftItem}></div>
+                <div className={styles.leftItem}>
+                    <span className={styles.count}>1.</span>
+                </div>
                 {
-                    list && <div className={styles.leftItem}>
+                    list !== "list"  && <div className={styles.leftItem}>
                         <Checkbox colorScheme='red' defaultChecked isInvalid />
                     </div>
                 }

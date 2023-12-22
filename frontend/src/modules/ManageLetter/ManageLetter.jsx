@@ -55,7 +55,7 @@ const ManageLetter = () => {
                                 <span className={styles.itemtitle}>Current View Access Permissions :</span>
                             </div>
                             <div className={styles.manageRight}>
-                                <ManageLetterUserList list={false}/>
+                                <ManageLetterUserList list={"list"}/>
                             </div>
                         </div>
                     </div>

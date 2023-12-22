@@ -139,7 +139,8 @@
     flex: 2;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 0 10px;
+    justify-content: space-evenly;
 }
 
 .center {
@@ -160,4 +161,14 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.count{
+    font-size: 1rem;
+}
+
+.leftItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
