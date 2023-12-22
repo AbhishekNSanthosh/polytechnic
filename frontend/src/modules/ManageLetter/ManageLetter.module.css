@@ -79,11 +79,17 @@
 
 .manageTopActions{
     flex: 8;
-    background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }
 
 .search{
     background-color: rgb(255, 237, 237);
     padding: 15px;
     border-radius: 50px;
+}
+
+.actionBtn{
+    padding: 15px;
 }

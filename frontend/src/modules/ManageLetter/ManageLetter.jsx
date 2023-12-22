@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './ManageLetter.module.css'
+import { Select } from '@chakra-ui/react'
 
 const ManageLetter = () => {
     return (
@@ -16,10 +17,18 @@ const ManageLetter = () => {
                         <div className={styles.manageItemLeft}>
                             <div className={styles.manageItemTop}>
                                 <div className={styles.searchBox}>
-                                    <input type="text" placeholder='Search faculty' className={styles.search}/>
+                                    <input type="text" placeholder='Search faculty' className={styles.search} />
                                 </div>
                                 <div className={styles.manageTopActions}>
-                                    <input type="text" className={styles.search}/>
+                                    <div className={styles.manageTopActionItem}>
+                                        <Select placeholder='Sort'>
+                                            <option value='desc'>Newest on top</option>
+                                            <option value='asc'>Oldest on top</option>
+                                        </Select>
+                                    </div>
+                                    <div className={styles.manageTopActionItem}>
+                                       <button className={styles.actionBtn}>Apply Filter</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
