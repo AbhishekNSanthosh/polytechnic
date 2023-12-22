@@ -100,3 +100,80 @@
     justify-content: center;
     outline: none;
 }
+
+.createTop {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.innWrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.createTitle {
+    font-weight: 500;
+    color: red;
+    font-size: 1.2rem;
+}
+
+.uploadBox {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.uploadTxt {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.upload {
+    width: 70%;
+    border-radius: 20px;
+    border: 2px dashed rgb(255, 173, 173);
+    height: 17rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.selectBtn {
+    border: 1px solid red;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.actionBtnRow {
+    display: flex;
+    width: 70%;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.uploadBtn {
+    border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    background-color: red;
+}
+
+.cancelBtn {
+    border-radius: 10px;
+    width: 100%;
+    border: 1px solid red;
+    padding: 10px;
+}
