@@ -68,13 +68,11 @@ const ManageLetter = () => {
                                 </div>
                             </div>
                             <div className={styles.listContainer}>
-                                <ManageLetterUserList />
-                                <ManageLetterUserList />
-                                <ManageLetterUserList />
-                                <ManageLetterUserList />
-                                <ManageLetterUserList />
-                                <ManageLetterUserList />
-                                <ManageLetterUserList />
+                                {teachers && teachers.map((teacher, index) => (
+                                    <div key={index}>
+                                        <ManageLetterUserList teacher={teacher} index={index} />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                         <div className={styles.verticalLine}></div>
