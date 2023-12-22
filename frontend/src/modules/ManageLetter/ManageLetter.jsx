@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import styles from './ManageLetter.module.css'
 import { Select } from '@chakra-ui/react'
 import ManageLetterUserList from './components/ManageLetterUserList'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { getTeachersByAdmin, searchUser } from './services/apis'
+import { getTeachersByAdmin, searchUser, updateAccess } from './services/apis'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 
 const ManageLetter = () => {
@@ -18,13 +18,16 @@ const ManageLetter = () => {
     const [apiOnCall, setApiOnCall] = useState(false);
     const [showNoResults, setShowNoResults] = useState(false);
 
+    const params = useParams();
     const authToken = localStorage.getItem("accessToken");
     const navigate = useNavigate();
     const toast = useToast();
+    const letterId = params.id;
 
     const getUserData = () => {
-        if (authToken !== "")
-            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast)
+        if (authToken !== "") {
+            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers,selectedUsers, navigate, toast)
+        }
     }
 
     useEffect(() => {
@@ -47,14 +50,14 @@ const ManageLetter = () => {
         searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, setShowNoResults, navigate, toast)
     }, [query])
 
-    console.log(showNoResults)
-
     const selectedUserNames = selectedUsers.map((userId) => {
         const teacher = teachers.find((teacher) => teacher._id === userId);
         return teacher ? { username: teacher?.username, department: teacher?.department } : 'Unknown User';
     });
 
-    console.log("selected names: ", selectedUserNames)
+    const handleViewAccess = () => {
+        updateAccess(letterId, selectedUsers, authToken, navigate, toast);
+    }
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -127,7 +130,11 @@ const ManageLetter = () => {
                                         ))}
                                     </div>
                                     <div className={styles.btnRow}>
-                                        <button className={styles.submitBtn}>Update view access permission</button>
+                                        <button className={styles.submitBtn} onClick={() => {
+                                            if (selectedUsers.length !== 0) {
+                                                handleViewAccess();
+                                            }
+                                        }}>Update view access permission</button>
                                     </div>
                                 </div>
                             }

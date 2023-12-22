@@ -8,6 +8,7 @@ export const getTeachersByAdmin = async (
     sortOrder,
     authToken,
     setTeachers,
+    selectedUsers,
     navigate,
     toast
 ) => {
@@ -23,6 +24,7 @@ export const getTeachersByAdmin = async (
             }
         });
         setTeachers(response?.data?.data);
+        selectedUsers(response?.data?.data?.viewAccessids)
         console.log(response)
     } catch (error) {
         console.log(error);
@@ -105,9 +107,21 @@ export const searchUser = async (
     }
 }
 
-export const updateAccess = async () => {
+export const updateAccess = async (
+    letterId,
+    userIds,
+    authToken,
+    navigate,
+    toast
+) => {
     try {
-
+        await axios.post(backendApiUrl + adminApi.updateViewAccess + letterId, {
+            userIds
+        }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
