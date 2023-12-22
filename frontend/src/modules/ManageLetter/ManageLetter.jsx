@@ -148,9 +148,7 @@ const ManageLetter = () => {
                                     </div>
                                     <div className={styles.btnRow}>
                                         <button className={styles.submitBtn} onClick={() => {
-                                            if (selectedUsers.length !== 0) {
                                                 handleViewAccess();
-                                            }
                                         }}>Update view access permission</button>
                                     </div>
                                 </div>
