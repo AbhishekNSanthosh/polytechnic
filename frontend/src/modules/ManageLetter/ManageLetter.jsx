@@ -115,21 +115,23 @@ const ManageLetter = () => {
                                 <span className={styles.itemtitle}>Current View Access Permissions :</span>
                             </div>
                             <div className={styles.manageRight}>
-                                <div className={styles.listContainer}>
-                                    {selectedUserNames && selectedUserNames.map((teacher, index) => (
-                                        <div className={styles.userListContainer}>
-                                            <div className={styles.left}>
-                                                <div className={styles.leftItem}>
-                                                    <span className={styles.count}>{index + 1}.</span>
+                                {selectedUserNames &&
+                                    <div className={styles.listContainer}>
+                                        {selectedUserNames && selectedUserNames.map((teacher, index) => (
+                                            <div className={styles.userListContainer}>
+                                                <div className={styles.left}>
+                                                    <div className={styles.leftItem}>
+                                                        <span className={styles.count}>{index + 1}.</span>
+                                                    </div>
                                                 </div>
+                                                <div className={styles.center}>
+                                                    <span className={styles.listUsername}> {teacher?.username}</span>
+                                                </div>
+                                                <div className={styles.right}>{teacher?.department}</div>
                                             </div>
-                                            <div className={styles.center}>
-                                                <span className={styles.listUsername}> {teacher?.username}</span>
-                                            </div>
-                                            <div className={styles.right}>{teacher?.department}</div>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
