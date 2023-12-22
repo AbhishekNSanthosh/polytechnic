@@ -12,7 +12,8 @@ const ManageLetter = () => {
     const [teachers, setTeachers] = useState([]);
     const [department, setDepartment] = useState("");
     const [role, setRole] = useState("teacher");
-    const [sortOrder, setSortOrder] = useState("desc")
+    const [sortOrder, setSortOrder] = useState("desc");
+    const [selectedUsers, setSelectedUsers] = useState([]);
 
     const authToken = localStorage.getItem("accessToken");
     const navigate = useNavigate();
@@ -27,6 +28,26 @@ const ManageLetter = () => {
         getUserData();
     }, [])
 
+    const handleCheckboxChange = (userId) => {
+        const isSelected = selectedUsers.includes(userId);
+
+        if (isSelected) {
+            // If user is already selected, remove from the array
+            setSelectedUsers(selectedUsers.filter((id) => id !== userId));
+        } else {
+            // If user is not selected, add to the array
+            setSelectedUsers([...selectedUsers, userId]);
+        }
+    };
+
+    console.log("select: ", selectedUsers)
+
+    const selectedUserNames = selectedUsers.map((userId) => {
+        const teacher = teachers.find((teacher) => teacher._id === userId);
+        return teacher ? teacher?.username : 'Unknown User';
+    });
+
+    console.log("selected names: ",selectedUserNames)
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -76,7 +97,7 @@ const ManageLetter = () => {
                                                 <span className={styles.count}>{index + 1}.</span>
                                             </div>
                                             <div className={styles.leftItem}>
-                                                <Checkbox colorScheme='red' defaultChecked isInvalid />
+                                                <Checkbox checked={selectedUsers.includes(teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
                                             </div>
 
                                         </div>
@@ -95,7 +116,7 @@ const ManageLetter = () => {
                             </div>
                             <div className={styles.manageRight}>
                                 <div className={styles.listContainer}>
-                                    {teachers && teachers.map((teacher, index) => (
+                                    {selectedUserNames && selectedUserNames.map((username, index) => (
                                         <div className={styles.userListContainer}>
                                             <div className={styles.left}>
                                                 <div className={styles.leftItem}>
@@ -107,9 +128,9 @@ const ManageLetter = () => {
 
                                             </div>
                                             <div className={styles.center}>
-                                                {teacher?.username}
+                                                {username}
                                             </div>
-                                            <div className={styles.right}>{teacher?.department}</div>
+                                            {/* <div className={styles.right}>{teacher?.department}</div> */}
                                         </div>
                                     ))}
                                 </div>
