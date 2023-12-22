@@ -110,19 +110,22 @@ export const searchUser = async (
 export const updateAccess = async (
     letterId,
     userIds,
+    setSelectedUsers,
     authToken,
     navigate,
     toast
 ) => {
     try {
-        await axios.post(backendApiUrl + adminApi.updateViewAccess + letterId, {
+        const response = await axios.post(backendApiUrl + adminApi.updateViewAccess + letterId, {
             userIds
         }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
-        })
+        });
+        setSelectedUsers(response?.data?.data?.viewAccessids)
     } catch (error) {
+        console.log(error)
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",

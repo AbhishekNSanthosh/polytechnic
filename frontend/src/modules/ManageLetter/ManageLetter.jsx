@@ -32,7 +32,7 @@ const ManageLetter = () => {
     }
 
     useEffect(() => {
-        if (accessType === "admin") {
+        if (accessType === "admin" && authToken !== "") {
             getLetterDetailsByAdmin(letterId, setSelectedUsers, navigate, authToken, toast);
         }
     }, [])
@@ -71,7 +71,7 @@ const ManageLetter = () => {
 
     const handleViewAccess = () => {
         if (authToken !== "" && accessType === "admin") {
-            updateAccess(letterId, selectedUsers, authToken, navigate, toast);
+            updateAccess(letterId, selectedUsers,setSelectedUsers, authToken, navigate, toast);
         }
     }
     return (
