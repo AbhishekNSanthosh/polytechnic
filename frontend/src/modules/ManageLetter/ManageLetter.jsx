@@ -44,10 +44,10 @@ const ManageLetter = () => {
 
     const selectedUserNames = selectedUsers.map((userId) => {
         const teacher = teachers.find((teacher) => teacher._id === userId);
-        return teacher ? teacher?.username : 'Unknown User';
+        return teacher ? { username: teacher?.username, department: teacher?.department } : 'Unknown User';
     });
 
-    console.log("selected names: ",selectedUserNames)
+    console.log("selected names: ", selectedUserNames)
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -116,21 +116,17 @@ const ManageLetter = () => {
                             </div>
                             <div className={styles.manageRight}>
                                 <div className={styles.listContainer}>
-                                    {selectedUserNames && selectedUserNames.map((username, index) => (
+                                    {selectedUserNames && selectedUserNames.map((teacher, index) => (
                                         <div className={styles.userListContainer}>
                                             <div className={styles.left}>
                                                 <div className={styles.leftItem}>
                                                     <span className={styles.count}>{index + 1}.</span>
                                                 </div>
-                                                <div className={styles.leftItem}>
-                                                    <Checkbox colorScheme='red' defaultChecked isInvalid />
-                                                </div>
-
                                             </div>
                                             <div className={styles.center}>
-                                                {username}
+                                                {teacher?.username}
                                             </div>
-                                            {/* <div className={styles.right}>{teacher?.department}</div> */}
+                                            <div className={styles.right}>{teacher?.department}</div>
                                         </div>
                                     ))}
                                 </div>
