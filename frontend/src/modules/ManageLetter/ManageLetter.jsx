@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './ManageLetter.module.css'
 import { Select } from '@chakra-ui/react'
 import ManageLetterUserList from './components/ManageLetterUserList'
@@ -20,6 +20,11 @@ const ManageLetter = () => {
         if (authToken !== "")
             getUsersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast)
     }
+
+    useEffect(() => {
+        getUserData();
+    }, [])
+
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
