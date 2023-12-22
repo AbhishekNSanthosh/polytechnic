@@ -4,6 +4,7 @@ import { Select } from '@chakra-ui/react'
 import ManageLetterUserList from './components/ManageLetterUserList'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
+import { getTeachersByAdmin } from './services/apis'
 
 const ManageLetter = () => {
     const [applyFilter, setApplyFilter] = useState(false);
@@ -18,7 +19,7 @@ const ManageLetter = () => {
 
     const getUserData = () => {
         if (authToken !== "")
-            getUsersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast)
+            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast)
     }
 
     useEffect(() => {
