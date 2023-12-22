@@ -26,7 +26,7 @@ const ManageLetter = () => {
 
     useEffect(() => {
         getUserData();
-    }, [])
+    }, [applyFilter])
 
     const handleCheckboxChange = (userId) => {
         const isSelected = selectedUsers.includes(userId);
@@ -66,7 +66,7 @@ const ManageLetter = () => {
                                 </div>
                                 <div className={styles.manageTopActions}>
                                     <div className={styles.manageTopActionItem}>
-                                        <Select placeholder='Filter Department' onChange={(e) => {
+                                        <Select placeholder='Filter Department' value={department} onChange={(e) => {
                                             setDepartment(e.target.value);
                                         }} style={{
                                             width: '8rem'
@@ -82,11 +82,14 @@ const ManageLetter = () => {
                                             setApplyFilter(true);
                                         }}>Apply Filter</button>
                                     </div>
-                                    <div className={styles.manageTopActionItem}>
-                                        <button className={styles.actionBtn} onClick={() => {
-                                            setApplyFilter(false);
-                                        }}>Remove Filter</button>
-                                    </div>
+                                    {applyFilter &&
+                                        <div className={styles.manageTopActionItem}>
+                                            <button className={styles.actionBtn} onClick={() => {
+                                                setDepartment("");
+                                                setApplyFilter(false);
+                                            }}>Remove Filter</button>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             <div className={styles.listContainer}>
