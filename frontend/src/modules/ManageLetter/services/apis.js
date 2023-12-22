@@ -26,6 +26,56 @@ export const getTeachersByAdmin = async (
         console.log(response)
     } catch (error) {
         console.log(error);
+        setTeachers([]);
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}
+
+export const searchUser = async (
+    query,
+    role,
+    authToken,
+    setTeachers,
+    setIsApiOnCall,
+    navigate,
+    toast
+) => {
+    console.log("first")
+    setIsApiOnCall(true);
+    try {
+        const response = await axios.post(backendApiUrl + adminApi.searchUsers, {
+            query,
+            role
+        }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        setTeachers(response?.data?.data)
+        setIsApiOnCall(false);
+        console.log(response)
+    } catch (error) {
+        setIsApiOnCall(false);
+        setTeachers([]);
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",
