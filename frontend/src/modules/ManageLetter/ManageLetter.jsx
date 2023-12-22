@@ -102,7 +102,7 @@ const ManageLetter = () => {
 
                                         </div>
                                         <div className={styles.center}>
-                                            {teacher?.username}
+                                            <span className={styles.listUsername}> {teacher?.username}</span>
                                         </div>
                                         <div className={styles.right}>{teacher?.department}</div>
                                     </div>
@@ -124,7 +124,7 @@ const ManageLetter = () => {
                                                 </div>
                                             </div>
                                             <div className={styles.center}>
-                                                {teacher?.username}
+                                                <span className={styles.listUsername}> {teacher?.username}</span>
                                             </div>
                                             <div className={styles.right}>{teacher?.department}</div>
                                         </div>
