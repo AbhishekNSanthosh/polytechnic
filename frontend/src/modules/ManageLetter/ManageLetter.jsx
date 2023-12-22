@@ -64,14 +64,16 @@ const ManageLetter = () => {
         }
     }
 
-    const selectedUserNames = selectedUsers.map((userId) => {
+    const users = selectedUsers
+
+    const selectedUserNames = users.map((userId) => {
         const teacher = teachers.find((teacher) => teacher._id === userId);
         return teacher ? { username: teacher?.username, department: teacher?.department } : 'Unknown User';
     });
 
     const handleViewAccess = () => {
         if (authToken !== "" && accessType === "admin") {
-            updateAccess(letterId, selectedUsers,setSelectedUsers, authToken, navigate, toast);
+            updateAccess(letterId, selectedUsers, setSelectedUsers, authToken, navigate, toast);
         }
     }
     return (
@@ -148,7 +150,7 @@ const ManageLetter = () => {
                                     </div>
                                     <div className={styles.btnRow}>
                                         <button className={styles.submitBtn} onClick={() => {
-                                                handleViewAccess();
+                                            handleViewAccess();
                                         }}>Update view access permission</button>
                                     </div>
                                 </div>
