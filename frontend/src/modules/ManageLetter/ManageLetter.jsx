@@ -17,17 +17,24 @@ const ManageLetter = () => {
                         <div className={styles.manageItemLeft}>
                             <div className={styles.manageItemTop}>
                                 <div className={styles.searchBox}>
-                                    <input type="text" placeholder='Search faculty' className={styles.search} />
+                                    <input type="text" placeholder='Search faculty...' className={styles.search} />
                                 </div>
                                 <div className={styles.manageTopActions}>
                                     <div className={styles.manageTopActionItem}>
-                                        <Select placeholder='Sort'>
-                                            <option value='desc'>Newest on top</option>
-                                            <option value='asc'>Oldest on top</option>
+                                        <Select placeholder='Filter Department' style={{
+                                            width:'8rem'
+                                        }}>
+                                            <option value='CE'>CE</option>
+                                            <option value='CS'>CS</option>
+                                            <option value='ME'>ME</option>
+                                            <option value='EEE'>EEE</option>
                                         </Select>
                                     </div>
                                     <div className={styles.manageTopActionItem}>
-                                       <button className={styles.actionBtn}>Apply Filter</button>
+                                        <button className={styles.actionBtn}>Apply Filter</button>
+                                    </div>
+                                    <div className={styles.manageTopActionItem}>
+                                        <button className={styles.actionBtn}>Remove Filter</button>
                                     </div>
                                 </div>
                             </div>
