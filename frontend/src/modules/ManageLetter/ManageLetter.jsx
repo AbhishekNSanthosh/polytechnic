@@ -2,9 +2,15 @@ import React, { useState } from 'react'
 import styles from './ManageLetter.module.css'
 import { Select } from '@chakra-ui/react'
 import ManageLetterUserList from './components/ManageLetterUserList'
+import { useNavigate } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
 
 const ManageLetter = () => {
     const [applyFilter, setApplyFilter] = useState(false);
+    const [teachers, setTeacher] = useState([]);
+
+    const navigate = useNavigate();
+    const toast = useToast();
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
