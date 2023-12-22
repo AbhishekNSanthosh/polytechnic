@@ -2,12 +2,12 @@ import styles from '../ManageLetter.module.css'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
-const ManageLetterUserList = ({ list }) => {
+const ManageLetterUserList = ({ list, teacher, index }) => {
     return (
         <div className={styles.userListContainer}>
             <div className={styles.left}>
                 <div className={styles.leftItem}>
-                    <span className={styles.count}>1.</span>
+                    <span className={styles.count}>{index + 1}.</span>
                 </div>
                 {
                     list !== "list" && <div className={styles.leftItem}>
@@ -15,8 +15,10 @@ const ManageLetterUserList = ({ list }) => {
                     </div>
                 }
             </div>
-            <div className={styles.center}>Abhishek</div>
-            <div className={styles.right}>CE</div>
+            <div className={styles.center}>
+                {teacher?.username}
+            </div>
+            <div className={styles.right}>{teacher?.department}</div>
         </div>
     )
 }
