@@ -50,7 +50,14 @@ const ManageLetter = () => {
                             </div>
                         </div>
                         <div className={styles.verticalLine}></div>
-                        <div className={styles.manageItemRight}>hi</div>
+                        <div className={styles.manageItemRight}>
+                            <div className={styles.manageItemTitle}>
+                                <span className={styles.itemtitle}>Current View Access Permissions :</span>
+                            </div>
+                            <div className={styles.manageRight}>
+                                <ManageLetterUserList list={false}/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

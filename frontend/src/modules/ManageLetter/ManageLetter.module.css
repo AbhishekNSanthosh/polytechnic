@@ -41,34 +41,41 @@
     justify-content: start;
 }
 
-.itemtitle{
+.itemtitle {
     font-size: 1.09rem;
 }
 
 .manageItemRow {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-  }
-  
-  .verticalLine {
-    height: 100%;
-    border-left: 1px solid #000; /* You can change the color as needed */
-    margin: 0 10px; /* Adjust the margin as needed */
-  }  
+    align-items: start;
+    gap: 1rem;
+}
 
-.manageItemLeft{
+.verticalLine {
+    height: 100%;
+    border-left: 1px solid #ffd2d2;
+    /* You can change the color as needed */
+    margin: 0 10px;
+    /* Adjust the margin as needed */
+}
+
+.manageItemLeft {
     flex: 8;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.manageItemRight{
+.manageItemRight {
     flex: 4;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.manageItemTop{
+.manageItemTop {
     display: flex;
     align-items: center;
     width: 100%;
@@ -78,12 +85,12 @@
     justify-content: space-between;
 }
 
-.searchBox{
+.searchBox {
     flex: 4.5;
     width: 100%;
 }
 
-.manageTopActions{
+.manageTopActions {
     flex: 7.5;
     display: flex;
     align-items: center;
@@ -91,7 +98,7 @@
     gap: 0.5rem;
 }
 
-.search{
+.search {
     background-color: rgb(255, 237, 237);
     padding: 10px;
     border-radius: 50px;
@@ -100,11 +107,11 @@
     border: none;
 }
 
-.search::placeholder{
+.search::placeholder {
     letter-spacing: 1px;
 }
 
-.actionBtn{
+.actionBtn {
     padding: 8px 10px;
     border: none;
     background-color: red;
@@ -114,12 +121,12 @@
     font-weight: 500;
 }
 
-.listContainer{
+.listContainer {
     max-height: 20rem;
     overflow-y: auto;
 }
 
-.userListContainer{
+.userListContainer {
     display: flex;
     width: 100%;
     height: 4rem;
@@ -128,23 +135,29 @@
     border-bottom: 1px solid rgb(255, 213, 213);
 }
 
-.left{
-    flex: 1;
+.left {
+    flex: 2;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.center{
-    flex: 7;
+.center {
+    flex: 6;
     display: flex;
     align-items: center;
     justify-content: start;
 }
 
-.right{
+.right {
     flex: 4;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.manageRight{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
