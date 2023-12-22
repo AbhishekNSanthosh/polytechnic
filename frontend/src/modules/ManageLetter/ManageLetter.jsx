@@ -16,6 +16,7 @@ const ManageLetter = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [query, setQuery] = useState("");
     const [apiOnCall, setApiOnCall] = useState(false);
+    const [showNoResults, setShowNoResults] = useState(false);
 
     const authToken = localStorage.getItem("accessToken");
     const navigate = useNavigate();
@@ -43,10 +44,10 @@ const ManageLetter = () => {
     };
 
     useEffect(() => {
-        searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, navigate, toast)
+        searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, setShowNoResults, navigate, toast)
     }, [query])
 
-    console.log("select: ", selectedUsers)
+    console.log(showNoResults)
 
     const selectedUserNames = selectedUsers.map((userId) => {
         const teacher = teachers.find((teacher) => teacher._id === userId);
@@ -100,25 +101,36 @@ const ManageLetter = () => {
                                     }
                                 </div>
                             </div>
-                            <div className={styles.listContainer}>
-                                {teachers && teachers.map((teacher, index) => (
-                                    <div className={styles.userListContainer}>
-                                        <div className={styles.left}>
-                                            <div className={styles.leftItem}>
-                                                <span className={styles.count}>{index + 1}.</span>
-                                            </div>
-                                            <div className={styles.leftItem}>
-                                                <Checkbox checked={selectedUsers.includes(teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
-                                            </div>
+                            {showNoResults ?
+                                <div className={styles.listContainerSpl}>
+                                    <span className={styles.none}>No search results !!!</span>
+                                </div>
+                                :
+                                <div className={styles.listTopContainer}>
+                                    <div className={styles.listContainer}>
+                                        {teachers && teachers.map((teacher, index) => (
+                                            <div className={styles.userListContainer}>
+                                                <div className={styles.left}>
+                                                    <div className={styles.leftItem}>
+                                                        <span className={styles.count}>{index + 1}.</span>
+                                                    </div>
+                                                    <div className={styles.leftItem}>
+                                                        <Checkbox checked={selectedUsers.includes(teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
+                                                    </div>
 
-                                        </div>
-                                        <div className={styles.center}>
-                                            <span className={styles.listUsername}> {teacher?.username}</span>
-                                        </div>
-                                        <div className={styles.right}>{teacher?.department}</div>
+                                                </div>
+                                                <div className={styles.center}>
+                                                    <span className={styles.listUsername}> {teacher?.username}</span>
+                                                </div>
+                                                <div className={styles.right}>{teacher?.department}</div>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
+                                    <div className={styles.btnRow}>
+                                        <button className={styles.submitBtn}>Update view access permission</button>
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <div className={styles.verticalLine}></div>
                         <div className={styles.manageItemRight}>

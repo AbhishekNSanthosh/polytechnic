@@ -640,7 +640,8 @@ router.post('/searchUser', verifyAdminToken, async (req, res) => {
             ],
         }).sort({ createdAt: "desc" });
         const sanitizedUsers = sanitizedUserList(users);
-        const successResponse = twohundredResponse({ message: "Search results :", data: sanitizedUsers })
+        const searchResults = sanitizedUsers.length;
+        const successResponse = twohundredResponse({ message: "Search results :", data: sanitizedUsers, searchResults })
         return res.status(200).json(successResponse);
     } catch (error) {
         console.log(error)

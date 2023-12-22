@@ -56,6 +56,7 @@ export const searchUser = async (
     authToken,
     setTeachers,
     setIsApiOnCall,
+    setShowNoResults,
     navigate,
     toast
 ) => {
@@ -72,6 +73,11 @@ export const searchUser = async (
         })
         setTeachers(response?.data?.data)
         setIsApiOnCall(false);
+        if (response.data.searchResults === 0) {
+            setShowNoResults(true);
+        } else {
+            setShowNoResults(false);
+        }
         console.log(response)
     } catch (error) {
         setIsApiOnCall(false);
