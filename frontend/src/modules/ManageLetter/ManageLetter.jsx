@@ -4,7 +4,7 @@ import { Select } from '@chakra-ui/react'
 import ManageLetterUserList from './components/ManageLetterUserList'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { getTeachersByAdmin } from './services/apis'
+import { getTeachersByAdmin, searchUser } from './services/apis'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 
 const ManageLetter = () => {
@@ -14,6 +14,8 @@ const ManageLetter = () => {
     const [role, setRole] = useState("teacher");
     const [sortOrder, setSortOrder] = useState("desc");
     const [selectedUsers, setSelectedUsers] = useState([]);
+    const [query, setQuery] = useState("");
+    const [apiOnCall, setApiOnCall] = useState(false);
 
     const authToken = localStorage.getItem("accessToken");
     const navigate = useNavigate();
@@ -40,6 +42,10 @@ const ManageLetter = () => {
         }
     };
 
+    useEffect(() => {
+        searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, navigate, toast)
+    }, [query])
+
     console.log("select: ", selectedUsers)
 
     const selectedUserNames = selectedUsers.map((userId) => {
@@ -62,7 +68,9 @@ const ManageLetter = () => {
                         <div className={styles.manageItemLeft}>
                             <div className={styles.manageItemTop}>
                                 <div className={styles.searchBox}>
-                                    <input type="text" placeholder='Search faculty...' className={styles.search} />
+                                    <input onChange={(e) => {
+                                        setQuery(e.target.value);
+                                    }} type="text" placeholder='Search faculty...' className={styles.search} />
                                 </div>
                                 <div className={styles.manageTopActions}>
                                     <div className={styles.manageTopActionItem}>
