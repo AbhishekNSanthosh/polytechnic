@@ -4,7 +4,7 @@ import { Select } from '@chakra-ui/react'
 import ManageLetterUserList from './components/ManageLetterUserList'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { getTeachersByAdmin, searchUser, updateAccess } from './services/apis'
+import { getLetterDetailsByAdmin, getTeachersByAdmin, searchUser, updateAccess } from './services/apis'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 
 const ManageLetter = () => {
@@ -33,7 +33,7 @@ const ManageLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin") {
-            getLetterDetails(letterId,setSelectedUsers, navigate, authToken, toast);
+            getLetterDetailsByAdmin(letterId, setSelectedUsers, navigate, authToken, toast);
         }
     }, [])
 
@@ -53,9 +53,9 @@ const ManageLetter = () => {
         }
     };
 
-    useEffect(() => {
-        searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, setShowNoResults, navigate, toast)
-    }, [query])
+    // useEffect(() => {
+    //     searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, setShowNoResults, navigate, toast)
+    // }, [query])
 
     const selectedUserNames = selectedUsers.map((userId) => {
         const teacher = teachers.find((teacher) => teacher._id === userId);
@@ -65,6 +65,10 @@ const ManageLetter = () => {
     const handleViewAccess = () => {
         updateAccess(letterId, selectedUsers, authToken, navigate, toast);
     }
+
+    const ids = selectedUsers.some(selected => selected.id === teachers[1].id)
+
+    console.log(ids)
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -125,7 +129,8 @@ const ManageLetter = () => {
                                                         <span className={styles.count}>{index + 1}.</span>
                                                     </div>
                                                     <div className={styles.leftItem}>
-                                                        <Checkbox checked={selectedUsers.includes(teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
+                                                        {console.log("hii", selectedUsers.some(selected => selected.id === teacher?.id))}
+                                                        <Checkbox isChecked={selectedUsers.some(selected => selected === teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
                                                     </div>
 
                                                 </div>

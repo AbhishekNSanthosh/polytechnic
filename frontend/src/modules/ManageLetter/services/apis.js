@@ -154,7 +154,13 @@ export const getLetterDetailsByAdmin = async (
     toast
 ) => {
     try {
-
+        const response = await axios.get(backendApiUrl + adminApi.getLetterData + letterId, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response);
+        setSelectedUsers(response?.data?.data.viewAccessids)
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
