@@ -9,6 +9,8 @@ const ManageLetter = () => {
     const [applyFilter, setApplyFilter] = useState(false);
     const [teachers, setTeacher] = useState([]);
     const [department, setDepartment] = useState("");
+    const [role, setRole] = useState("teacher");
+    const [sortOrder,setSortOrder] = useState("desc")
 
     const authToken = localStorage.getItem("accessToken");
     const navigate = useNavigate();
