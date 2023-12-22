@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './ManageLetter.module.css'
 import { Select } from '@chakra-ui/react'
+import ManageLetterUserList from './components/ManageLetterUserList'
 
 const ManageLetter = () => {
     return (
@@ -39,7 +40,13 @@ const ManageLetter = () => {
                                 </div>
                             </div>
                             <div className={styles.listContainer}>
-                                
+                                <ManageLetterUserList />
+                                <ManageLetterUserList />
+                                <ManageLetterUserList />
+                                <ManageLetterUserList />
+                                <ManageLetterUserList />
+                                <ManageLetterUserList />
+                                <ManageLetterUserList />
                             </div>
                         </div>
                         <div className={styles.verticalLine}></div>
