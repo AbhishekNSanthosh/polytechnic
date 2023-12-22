@@ -53,9 +53,16 @@ const ManageLetter = () => {
         }
     };
 
-    // useEffect(() => {
-    //     searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, setShowNoResults, navigate, toast)
-    // }, [query])
+    const handleSearch = async (e) => {
+        setQuery(e.target.value);
+        if (authToken !== "" && accessType === "admin") {
+            if (query !== "" && query !== " ") {
+                await searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, setShowNoResults, navigate, toast)
+            } else {
+                getUserData();
+            }
+        }
+    }
 
     const selectedUserNames = selectedUsers.map((userId) => {
         const teacher = teachers.find((teacher) => teacher._id === userId);
@@ -63,12 +70,10 @@ const ManageLetter = () => {
     });
 
     const handleViewAccess = () => {
-        updateAccess(letterId, selectedUsers, authToken, navigate, toast);
+        if (authToken !== "" && accessType === "admin") {
+            updateAccess(letterId, selectedUsers, authToken, navigate, toast);
+        }
     }
-
-    const ids = selectedUsers.some(selected => selected.id === teachers[1].id)
-
-    console.log(ids)
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -84,7 +89,7 @@ const ManageLetter = () => {
                             <div className={styles.manageItemTop}>
                                 <div className={styles.searchBox}>
                                     <input onChange={(e) => {
-                                        setQuery(e.target.value);
+                                        handleSearch(e)
                                     }} type="text" placeholder='Search faculty...' className={styles.search} />
                                 </div>
                                 <div className={styles.manageTopActions}>
