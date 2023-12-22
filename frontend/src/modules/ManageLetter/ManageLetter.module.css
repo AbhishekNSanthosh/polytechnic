@@ -122,7 +122,20 @@
 }
 
 .listContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-height: 20rem;
+    overflow-y: auto;
+}
+
+.listContainerRight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 20rem;
+    min-height: 12rem;
     overflow-y: auto;
 }
 
@@ -157,23 +170,29 @@
     justify-content: center;
 }
 
-.manageRight{
+.manageRight {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.count{
+.count {
     font-size: 1rem;
 }
 
-.leftItem{
+.leftItem {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.listUsername{
+.listUsername {
     font-size: 1rem;
     text-transform: capitalize;
+}
+
+.none {
+    font-size: 1rem;
+    font-weight: 500;
+    color: red;
 }

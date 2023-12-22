@@ -115,7 +115,7 @@ const ManageLetter = () => {
                                 <span className={styles.itemtitle}>Current View Access Permissions :</span>
                             </div>
                             <div className={styles.manageRight}>
-                                {selectedUserNames &&
+                                {selectedUserNames.length !== 0 ?
                                     <div className={styles.listContainer}>
                                         {selectedUserNames && selectedUserNames.map((teacher, index) => (
                                             <div className={styles.userListContainer}>
@@ -130,6 +130,10 @@ const ManageLetter = () => {
                                                 <div className={styles.right}>{teacher?.department}</div>
                                             </div>
                                         ))}
+                                    </div>
+                                    :
+                                    <div className={styles.listContainerRight}>
+                                        <span className={styles.none}>No one is granted permission to glimpse the letter!!!</span>
                                     </div>
                                 }
                             </div>
