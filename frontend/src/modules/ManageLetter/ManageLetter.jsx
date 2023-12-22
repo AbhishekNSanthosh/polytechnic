@@ -22,7 +22,7 @@ const ManageLetter = () => {
                                 <div className={styles.manageTopActions}>
                                     <div className={styles.manageTopActionItem}>
                                         <Select placeholder='Filter Department' style={{
-                                            width:'8rem'
+                                            width: '8rem'
                                         }}>
                                             <option value='CE'>CE</option>
                                             <option value='CS'>CS</option>
@@ -37,6 +37,9 @@ const ManageLetter = () => {
                                         <button className={styles.actionBtn}>Remove Filter</button>
                                     </div>
                                 </div>
+                            </div>
+                            <div className={styles.listContainer}>
+                                
                             </div>
                         </div>
                         <div className={styles.verticalLine}></div>
