@@ -104,3 +104,30 @@ export const searchUser = async (
         }
     }
 }
+
+export const updateAccess = async () => {
+    try {
+
+    } catch (error) {
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}
