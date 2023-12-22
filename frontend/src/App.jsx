@@ -13,6 +13,7 @@ import CreateGriev from './modules/CreateGrievPage/CreateGriev';
 import DisplayLetter from './modules/DisplayLetter/DisplayLetter';
 import CreateUser from './modules/CreateUser/CreateUser';
 import ManageLetter from './modules/ManageLetter/ManageLetter';
+import CreateBulkUser from './modules/CreateUser/components/CreateBulkUser';
 
 function App() {
   const router = createBrowserRouter([
@@ -63,6 +64,10 @@ function App() {
         {
           path: '/user-management/create-student',
           element: <CreateUser/>
+        },
+        {
+          path: '/user-management/create-student/bulk',
+          element: <CreateBulkUser/>
         },
         {
           path: '/user-management/create-teacher',
