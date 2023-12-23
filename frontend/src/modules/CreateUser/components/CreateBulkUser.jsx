@@ -10,6 +10,7 @@ const VALID_FILE_EXTENSION = '.xlsx';
 const CreateBulkUser = () => {
     const [file, setFile] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const [duplicateData, setDuplicateData] = useState([]);
     const inputRef = useRef();
     const navigate = useNavigate();
     const toast = useToast();
@@ -43,7 +44,7 @@ const CreateBulkUser = () => {
 
     const handleUploadStudents = () => {
         if (authToken !== '' && accessType === 'admin' && file) {
-            uploadBulkStudentData(file, authToken,setModalOpen, navigate, toast);
+            uploadBulkStudentData(file, authToken, setModalOpen,setDuplicateData, navigate, toast);
         }
     };
 
@@ -100,7 +101,7 @@ const CreateBulkUser = () => {
                 }}>
                     <CreaTeBulkUserModal modalOpen={modalOpen} onClose={onClose} />
                 </div>
-                }
+            }
         </div>
     );
 };

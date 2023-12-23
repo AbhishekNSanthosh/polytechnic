@@ -161,6 +161,7 @@ export const uploadBulkStudentData = async (
     file,
     authToken,
     setModalOpen,
+    setDuplicateData,
     navigate,
     toast
 ) => {
@@ -185,7 +186,10 @@ export const uploadBulkStudentData = async (
         navigate('/user-management/list-student');
     } catch (error) {
         console.log(error);
-        setModalOpen(error?.response?.data?.showModal)
+        if (error?.response?.data?.showModal) {
+            setModalOpen(error?.response?.data?.showModal);
+            setDuplicateData(error?.response?.data?.duplicates)
+        }
         toast({
             title: error?.response?.data?.title,
             description: error?.response?.data?.message,
