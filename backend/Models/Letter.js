@@ -5,7 +5,7 @@ const letterSchema = new mongoose.Schema({
   from: { type: mongoose.Types.ObjectId, ref: 'User' },
   to: {
     type: String,
-    default: "admin"
+    default: 'admin'
   },
   subject: {
     type: String,
@@ -24,10 +24,27 @@ const letterSchema = new mongoose.Schema({
     default: null
   },
   status: {
-    type: String, enum: ['PENDING', 'APPROVED', 'REJECTED'], default: "PENDING",
+    type: String,
+    enum: ['PENDING', 'APPROVED', 'REJECTED'],
+    default: 'PENDING',
   },
-  viewAccessids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  viewAccessIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  actions: {
+    type: String,
+    default: null
+  },
+  comments: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+      text: String,
+      createdAt: { type: Date, default: Date.now },
+    },
+  ],
 }, { timestamps: true, versionKey: false });
+
 
 letterSchema.set('toJSON', {
   transform: function (doc, ret, options) {

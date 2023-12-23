@@ -601,7 +601,7 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
 
         if (error.message.includes('Password field missing') || error.message.includes('Semester field missing') || error.message.includes('Email field missing') || error.message.includes('Username field missing') || error.message.includes('Department field missing')) {
             // Password field missing for some users
-            const errorMessage = fourHundredResponse({message: error.message})
+            const errorMessage = fourHundredResponse({ message: error.message })
             return res.status(400).json(errorMessage);
         }
 
@@ -870,5 +870,14 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
     }
 });
 
+//api to add action by admin
+router.post('/addActions/:id', verifyAdminToken, async (req, res) => {
+    try {
+        const { letterId } = req.params.id;;
+
+    } catch (error) {
+
+    }
+})
 
 module.exports = router;
