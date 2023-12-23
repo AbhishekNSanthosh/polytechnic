@@ -714,7 +714,6 @@ router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
 //api to filter students by sem dep etc
 router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
     try {
-        console.log(req.body)
         const { role, semester, department, sortOrder } = req.body;
         let message;
         let users;
@@ -754,12 +753,14 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
             studentsCount: usersData.length,
             accessToken: req.accessToken
         });
-
         return res.status(200).json(successMsg);
+        
     } catch (error) {
-        console.log(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
