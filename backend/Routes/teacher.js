@@ -362,7 +362,7 @@ router.get('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
 
         // Find letters where viewaccessIds array contains the requesting user's ID
         const letters = await Letter.find().sort({ updatedAt: 'desc' });
-console.log(letters)
+        console.log(letters)
         // Filter out the letters for which the requesting user's ID is not in the viewaccessIds array
         const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
 
@@ -383,7 +383,30 @@ console.log(letters)
     }
 });
 
-module.exports = router;
+//api to search letter
+router.post('/searchLetter', verifyTeacherToken, async (req, res) => {
+    try {
+        const { query } = req.body;
+        if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: "Invalid characters" });
+            return res.status(401).json(errorMessage);
+        }
 
+        const letters = await Letter.find({
+            $or: [
+                { subject: { $regex: query, $options: 'i' } },
+                { content: { $regex: query, $options: 'i' } },
+            ],
+        }).sort({ createdAt: "desc" });
 
+        const sanitizedLetters = letters;
+        const searchResCount = letters.length
+        const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
+        return res.status(200).json(successResponse);
+    } catch (error) {
+        console.log(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
 module.exports = router;
