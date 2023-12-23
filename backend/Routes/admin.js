@@ -6,9 +6,18 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse, abstractedUserData, customError, sanitizedLetterList, sanitizedLetterData } = require('../Utils/Helpers');
+const {
+    roles,
+    twohundredResponse,
+    resMessages,
+    twoNotOneResponse,
+    sanitizedUserList,
+    abstractedUserData,
+    customError,
+    sanitizedLetterList,
+    sanitizedLetterData
+} = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
-const moment = require('moment');
 const XLSX = require('xlsx');
 const multer = require('multer');
 const { validationResult } = require('express-validator');
@@ -843,7 +852,6 @@ router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
         letter.isRead = true
 
         await letter.save();
-
         return res.json(twohundredResponse({ message: 'Read status updated successfully' }));
     } catch (error) {
         console.error(error);
