@@ -871,13 +871,48 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
 });
 
 //api to add action by admin
-router.post('/addActions/:id', verifyAdminToken, async (req, res) => {
+router.post('/addActions', verifyAdminToken, async (req, res) => {
     try {
-        const { letterId } = req.params.id;;
+        const { letterId, actions } = req.body;
+        
+        // Validate actions
+        if (validator.isEmpty(actions) || validator.matches(actions, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
+            throw { errorMessage };
+        }
 
+        if (!letterId) {
+            throw { status: 400, message: 'Letter ID is required' };
+        }
+
+        // Fetch the letter by ID from the database
+        const letter = await Letter.findById(letterId);
+
+        if (!letter) {
+            throw { status: 404, message: 'Letter not found' };
+        }
+
+        // Perform the actions based on the request body
+        // Example: Add actions to the letter
+
+        // Append actions to the existing array
+        letter.actions = actions
+
+        // Save the updated letter to the database
+        await letter.save();
+
+        const successMessage = twohundredResponse({ message: 'Actions added successfully' });
+        return res.json(successMessage);
     } catch (error) {
+        console.error(error)
 
+        // Check if the error has a status property, otherwise default to 500
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+
+        return res.status(status).json({ error: message });
     }
-})
+});
+
 
 module.exports = router;

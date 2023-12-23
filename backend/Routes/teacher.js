@@ -362,7 +362,7 @@ router.get('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
 
         // Find letters where viewaccessIds array contains the requesting user's ID
         const letters = await Letter.find().sort({ updatedAt: 'desc' });
-
+console.log(letters)
         // Filter out the letters for which the requesting user's ID is not in the viewaccessIds array
         const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
 
