@@ -36,24 +36,26 @@ router.post('/adminLogin', async (req, res) => {
     console.log(req.body)
     try {
         const { username, password } = req.body;
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+        if (!username) {
+            throw { status: 400, message: "Username field is required" }
+        } else if (!password) {
+            throw { status: 400, message: "Password field is required" }
         }
 
-        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid username" }
         }
+        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid password" }
+        }
+
         const user = await User.findOne({ username });
         console.log(user)
         if (!user) {
-            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.userNotfoundMsg }
         }
         if (user.lockUntil > new Date()) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
-            return res.status(401).json(errorMessage);
+            throw { status: 404, message: resMessages.AccountLockedMsg }
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -66,13 +68,12 @@ router.post('/adminLogin', async (req, res) => {
             }
 
             await user.save();
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+
+            throw { status: 401, message: "Invalid password" }
         }
 
         if (user?.role !== "admin") {
-            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.userNotfoundMsg }
         }
 
         user.loginAttempts = 0;
@@ -93,24 +94,28 @@ router.post('/adminLogin', async (req, res) => {
         const successResponseMsg = twohundredResponse(responseMsg);
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
 //api to get admin info && token is valid or not
 router.get('/getUserDetails', verifyAdminToken, async (req, res) => {
     try {
-        console.log("test", req.user)
         if (req.user) {
-            const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
+            const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
         }
     } catch (error) {
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
