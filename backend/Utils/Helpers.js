@@ -160,6 +160,28 @@ const sanitizedLetterList = (letters) => {
     return sanitizedLetters;
 }
 
+const sanitizedLetterData = (letter) => {
+    const sanitizedLetter = {
+        ...letter.toObject(),
+        from: {
+            username: letter.from.username,
+            email: letter.from.email,
+            semester: letter.from.semester,
+            department: letter.from.department,
+            role: letter.from.role,
+        },
+        createdAt: {
+            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter.createdAt).fromNow(),
+        },
+        updatedAt: {
+            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter.createdAt).fromNow(),
+        },
+    }
+    return sanitizedLetter
+}
+
 const abstractedUserData = (userObj) => {
     const { password, loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
     const newData = {
@@ -190,6 +212,7 @@ module.exports = {
     sanitizedUserList,
     abstractedUserData,
     sanitizedLetterList,
+    sanitizedLetterData,
     customError,
     resMessages,
     transporter
