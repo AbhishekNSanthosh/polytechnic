@@ -522,6 +522,99 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
     }
 });
 
+//api to upload bulk user data via xlsx
+router.post('/uploadManyTeacher', verifyAdminToken, upload.single('file'), async (req, res) => {
+    try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            // Validation errors in the request body
+            throw { status: 400, message: errors.array() }
+        }
+
+        if (!req.file) {
+            // No file uploaded
+            throw { status: 400, message: 'File not provided' }
+        }
+
+        // Get the buffer containing the file data
+        const fileData = req.file.buffer;
+
+        // Process Excel file (assuming single sheet for simplicity)
+        const workbook = XLSX.read(fileData, { type: 'buffer' });
+        const sheetName = workbook.SheetNames[0];
+
+        if (!sheetName) {
+            // No sheet found in the Excel file
+            throw { status: 400, message: 'No sheet found in the Excel file' }
+        }
+
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        if (!jsonData || jsonData.length === 0) {
+            // No data found in the Excel sheet
+            throw { status: 400, message: "No data found in the Excel sheet" }
+        }
+
+        const existingUsers = await User.find({
+            $and: [
+                { role: 'teacher' },
+                { username: { $in: jsonData.map(teacher => teacher.username) } }
+            ]
+        });
+
+        if (existingUsers.length > 0) {
+
+            const duplicates = existingUsers.map(user => ({
+                username: user.username,
+                semester: user.semester,
+                department: user.department,
+            }));
+
+            throw { status: 409, title: 'Duplicate data found!', message: 'Some usernames are already taken. Please choose unique usernames.', showModal: true, duplicates, }
+        }
+
+        const studentsToInsert = await Promise.all(jsonData.map(async (teacher) => {
+            if (!teacher.username) {
+                throw { status: 400, message: `Username field missing for user: ${teacher.username}` }
+            }
+            if (!teacher.email) {
+                throw { status: 400, message: `Email field missing for user: ${teacher.username}` }
+            }
+            if (!teacher.department) {
+                throw { status: 400, message: `Department field missing for user: ${teacher.username}` }
+            }
+            if (!teacher.password) {
+                throw { status: 400, message: `Password field missing for user: ${teacher.username}` }
+            }
+
+            const pass = JSON.stringify(teacher.password);
+            const hashedPassword = await bcrypt.hash(pass, 12);
+
+            return {
+                ...teacher,
+                password: hashedPassword,
+            };
+        }));
+
+        // Insert students into MongoDB
+        const students = await User.insertMany(studentsToInsert);
+
+        // Respond with success message
+        const successResponse = twoNotOneResponse({ message: `${students.length} students data added successfully`, accessToken: req.accessToken });
+        return res.status(201).json(successResponse);
+    } catch (error) {
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const showModal = error.showModal
+        const duplicates = error.duplicates
+        const errorMessage = customError({ resCode: status, message, showModal, duplicates })
+        return res.status(status).json(errorMessage);
+    }
+});
+
 //api to send mail to share the email and password to students
 // router.get('/shareUserCredentials', async (req, res) => {
 //     try {
