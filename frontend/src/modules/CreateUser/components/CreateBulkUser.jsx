@@ -99,7 +99,8 @@ const CreateBulkUser = () => {
                     handleOverlayClick(e);
                 }}>
                     <CreaTeBulkUserModal modalOpen={modalOpen} onClose={onClose} />
-                </div>}
+                </div>
+                }
         </div>
     );
 };
