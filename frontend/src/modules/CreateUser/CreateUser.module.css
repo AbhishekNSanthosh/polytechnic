@@ -217,26 +217,54 @@
     width: 100%;
 }
 
-.duplicate {
+.duplicateTitle {
     font-size: 1rem;
+    color: red;
     font-weight: 500;
+}
+
+.duplicateInfo{
+    font-size: 0.8rem;
+    color: red;
+    font-weight: 400;
 }
 
 .modalItemRow {
     display: flex;
     width: 100%;
+    border-radius: 10px;
+    padding: 15px 15px;
+    border-bottom: 0.5px solid rgb(255, 204, 204);
     align-items: center;
     justify-self: start;
 }
 
-.modalLeft{
+.modalLeft {
     flex: 1;
 }
 
-.modalCenter{
+.modalCenter {
     flex: 8;
 }
 
-.modalRight{
+.modalRight {
     flex: 3;
+    display: flex;
+    gap: 1rem;
+}
+
+.closeBtn{
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    outline: none;
+    background-color: red;
+    color: #fff;
+}
+
+.modalItem{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
