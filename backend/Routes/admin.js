@@ -514,12 +514,12 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
 
         if (!errors.isEmpty()) {
             // Validation errors in the request body
-            return res.status(400).json({ errors: errors.array() });
+            throw { status: 400, message: errors.array() }
         }
 
         if (!req.file) {
             // No file uploaded
-            throw new Error('File not provided');
+            throw { status: 400, message: 'File not provided' }
         }
 
         // Get the buffer containing the file data
@@ -531,7 +531,7 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
 
         if (!sheetName) {
             // No sheet found in the Excel file
-            throw new Error('No sheet found in the Excel file');
+            throw { status: 400, message: 'No sheet found in the Excel file' }
         }
 
         const sheet = workbook.Sheets[sheetName];
@@ -539,10 +539,9 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
 
         if (!jsonData || jsonData.length === 0) {
             // No data found in the Excel sheet
-            throw new Error('No data found in the Excel sheet');
+            throw { status: 400, message: "No data found in the Excel sheet" }
         }
 
-        // Check if users with the same name and role as "student" already exist
         const existingUsers = await User.find({
             $and: [
                 { role: 'student' },
@@ -551,44 +550,31 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
         });
 
         if (existingUsers.length > 0) {
-            // Respond with error message if usernames are already taken
+
             const duplicates = existingUsers.map(user => ({
                 username: user.username,
                 semester: user.semester,
                 department: user.department,
             }));
 
-            const errorResponse = fourHundredResponse({
-                title: 'Duplicate data found!',
-                message: 'Some usernames are already taken. Please choose unique usernames.',
-                showModal: true,
-                duplicates,
-            });
-
-            return res.status(409).json(errorResponse);
+            throw { status: 409, title: 'Duplicate data found!', message: 'Some usernames are already taken. Please choose unique usernames.', showModal: true, duplicates, }
         }
 
-        // Hash passwords before inserting students into MongoDB
         const studentsToInsert = await Promise.all(jsonData.map(async (student) => {
             if (!student.username) {
-                // Check if username field is missing
-                throw new Error(`Username field missing for user: ${student.username}`);
+                throw { status: 400, message: `Username field missing for user: ${student.username}` }
             }
             if (!student.email) {
-                // Check if email field is missing
-                throw new Error(`Email field missing for user: ${student.username}`);
+                throw { status: 400, message: `Email field missing for user: ${student.username}` }
             }
             if (!student.semester) {
-                // Check if semester field is missing
-                throw new Error(`Semester field missing for user: ${student.username}`);
+                throw { status: 400, message: `Semester field missing for user: ${student.username}` }
             }
             if (!student.department) {
-                // Check if department field is missing
-                throw new Error(`Department field missing for user: ${student.username}`);
+                throw { status: 400, message: `Department field missing for user: ${student.username}` }
             }
             if (!student.password) {
-                // Check if password field is missing
-                throw new Error(`Password field missing for user: ${student.username}`);
+                throw { status: 400, message: `Password field missing for user: ${student.username}` }
             }
 
             const pass = JSON.stringify(student.password);
@@ -608,31 +594,35 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
         return res.status(201).json(successResponse);
     } catch (error) {
         console.error(error.message);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
+        // if (error.message.includes('File not provided')) {
+        //     // File not provided error
+        //     return res.status(400).json({ message: 'File not provided' });
+        // }
 
-        if (error.message.includes('File not provided')) {
-            // File not provided error
-            return res.status(400).json({ message: 'File not provided' });
-        }
+        // if (error.message.includes('No sheet found')) {
+        //     // No sheet found in the Excel file
+        //     return res.status(400).json({ message: 'No sheet found in the Excel file' });
+        // }
 
-        if (error.message.includes('No sheet found')) {
-            // No sheet found in the Excel file
-            return res.status(400).json({ message: 'No sheet found in the Excel file' });
-        }
+        // if (error.message.includes('No data found')) {
+        //     // No data found in the Excel sheet
+        //     return res.status(400).json({ message: 'No data found in the Excel sheet' });
+        // }
 
-        if (error.message.includes('No data found')) {
-            // No data found in the Excel sheet
-            return res.status(400).json({ message: 'No data found in the Excel sheet' });
-        }
+        // if (error.message.includes('Password field missing') || error.message.includes('Semester field missing') || error.message.includes('Email field missing') || error.message.includes('Username field missing') || error.message.includes('Department field missing')) {
+        //     // Password field missing for some users
+        //     const errorMessage = fourHundredResponse({ message: error.message })
+        //     return res.status(400).json(errorMessage);
+        // }
 
-        if (error.message.includes('Password field missing') || error.message.includes('Semester field missing') || error.message.includes('Email field missing') || error.message.includes('Username field missing') || error.message.includes('Department field missing')) {
-            // Password field missing for some users
-            const errorMessage = fourHundredResponse({ message: error.message })
-            return res.status(400).json(errorMessage);
-        }
-
-        // Other unexpected errors
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        // // Other unexpected errors
+        // const errorResponse = fiveHundredResponse();
+        // return res.status(500).json(errorResponse);
     }
 });
 
