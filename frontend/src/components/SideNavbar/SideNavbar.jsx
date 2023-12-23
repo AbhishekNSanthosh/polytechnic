@@ -61,11 +61,13 @@ const SideNavBar = () => {
     if (location.pathname === "/dashboard") {
       setSelectedTab(1);
     } else if (location.pathname === "/profile") {
-      setSelectedTab(2);
-    } else if (location.pathname === "/dashboard/create-grievance") {
       setSelectedTab(3);
-    } else if (location.pathname === "/user-management") {
+    } else if (location.pathname === "/dashboard/create-grievance") {
       setSelectedTab(4);
+    } else if (location.pathname === "/user-management") {
+      setSelectedTab(5);
+    }else if (location.pathname === "/dashboard/permitted-grievances") {
+      setSelectedTab(2);
     }
   }, [location.pathname]);
 
