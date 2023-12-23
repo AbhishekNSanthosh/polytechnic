@@ -873,8 +873,7 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
     try {
         const { query } = req.body;
         if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: "Invalid characters" });
-            return res.status(401).json(errorMessage);
+            throw { status: 400, message: "Invalid characters" }
         }
 
         const letters = await Letter.find({
@@ -888,10 +887,14 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
         const searchResCount = letters.length
         const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
         return res.status(200).json(successResponse);
+
     } catch (error) {
-        console.log(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 

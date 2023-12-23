@@ -29,7 +29,9 @@ const Dashboard = () => {
     const getLetterData = () => {
         if (authToken !== "") {
             if (lastPart === "permitted-grievances") {
-                getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast)
+                if (accessType === "teacher" && authToken !== "") {
+                    getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast)
+                }
             } else {
                 if (accessType === "admin") {
                     getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken);

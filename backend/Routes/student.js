@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyStudentToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse } = require('../Utils/Helpers');
+const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse, abstractedUserData } = require('../Utils/Helpers');
 const moment = require('moment');
 // const MemoryStore = require("rate-limit-memory");
 
@@ -137,8 +137,7 @@ router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
 router.get('/getUserDetails', verifyStudentToken, async (req, res) => {
     try {
         if (req.user) {
-            const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
-
+            const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
         }

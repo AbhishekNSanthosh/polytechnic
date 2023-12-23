@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const { verifyTeacherToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
-const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles } = require('../Utils/Helpers');
+const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, abstractedUserData } = require('../Utils/Helpers');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -96,7 +96,7 @@ router.post('/teacherLogin', limiter, async (req, res) => {
 router.get('/getUserDetails', verifyTeacherToken, async (req, res) => {
     try {
         if (req.user) {
-            const { password, loginAttempts, lockUntil, updatedAt, ...userData } = req.user._doc
+            const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
         }
