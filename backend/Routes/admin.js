@@ -118,20 +118,23 @@ router.get('/getUserDetails', verifyAdminToken, async (req, res) => {
 router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+
+        if (!username) {
+            throw { status: 400, message: "Username field is required" }
+        } else if (!password) {
+            throw { status: 400, message: "Password field is required" }
         }
 
+        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid username" }
+        }
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+            throw { status: 400, message: "Invalid password" }
         }
 
         const existingAdmin = await User.findOne({ username, role: "admin" });
         if (existingAdmin) {
-            const errorMessage = fourNotNineResponse({ message: resMessages.userAlreadyExistsMsg });
-            return res.status(409).json(errorMessage);
+            throw { status: 409, message: resMessages.userAlreadyExistsMsg }
         }
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
@@ -158,8 +161,11 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
         const successResponseMsg = twoNotOneResponse(responseMsg);
         return res.status(201).json(successResponseMsg);
     } catch (error) {
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
