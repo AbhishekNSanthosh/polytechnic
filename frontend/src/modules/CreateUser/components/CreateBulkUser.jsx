@@ -82,6 +82,7 @@ const CreateBulkUser = () => {
           </div>
         </div>
       </div>
+      <CreaTeBulkUserModal/>
     </div>
   );
 };
