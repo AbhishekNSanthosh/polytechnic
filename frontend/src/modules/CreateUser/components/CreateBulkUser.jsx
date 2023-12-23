@@ -9,6 +9,7 @@ const VALID_FILE_EXTENSION = '.xlsx';
 
 const CreateBulkUser = () => {
     const [file, setFile] = useState(null);
+    const [modalOpen, setModalOpen] = useState(true);
     const inputRef = useRef();
     const navigate = useNavigate();
     const toast = useToast();
@@ -46,6 +47,16 @@ const CreateBulkUser = () => {
         }
     };
 
+    const onClose = () => {
+        setModalOpen(false);
+    }
+
+    const handleOverlayClick = (e) => {
+        if (e.target.classList.contains(styles.modalWrap)) {
+            onClose();
+        }
+        console.log(e.target.classList.contains(styles.modalWrap));
+    };
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
@@ -83,9 +94,11 @@ const CreateBulkUser = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.modalWrap}>
-                <CreaTeBulkUserModal />
-            </div>
+            {modalOpen && <div className={styles.modalWrap} onClick={(e) => {
+                handleOverlayClick(e);
+            }}>
+                <CreaTeBulkUserModal modalOpen={modalOpen} onClose={onClose} />
+            </div>}
         </div>
     );
 };
