@@ -11,6 +11,8 @@ const Letter = require('../Models/Letter');
 const moment = require('moment');
 const XLSX = require('xlsx');
 const multer = require('multer');
+const { validationResult } = require('express-validator');
+
 
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
@@ -483,14 +485,37 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
 //api to upload bulk user data via xlsx
 router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), async (req, res) => {
     try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            // Validation errors in the request body
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        if (!req.file) {
+            // No file uploaded
+            throw new Error('File not provided');
+        }
+
         // Get the buffer containing the file data
         const fileData = req.file.buffer;
 
         // Process Excel file (assuming single sheet for simplicity)
         const workbook = XLSX.read(fileData, { type: 'buffer' });
         const sheetName = workbook.SheetNames[0];
+
+        if (!sheetName) {
+            // No sheet found in the Excel file
+            throw new Error('No sheet found in the Excel file');
+        }
+
         const sheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        if (!jsonData || jsonData.length === 0) {
+            // No data found in the Excel sheet
+            throw new Error('No data found in the Excel sheet');
+        }
 
         // Check if users with the same name and role as "student" already exist
         const existingUsers = await User.find({
@@ -509,22 +534,41 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
             }));
 
             const errorResponse = fourHundredResponse({
-                title: "Duplicate data found !",
+                title: 'Duplicate data found!',
                 message: 'Some usernames are already taken. Please choose unique usernames.',
                 showModal: true,
                 duplicates,
             });
-            return res.status(500).json(errorResponse);
+
+            return res.status(409).json(errorResponse);
         }
 
         // Hash passwords before inserting students into MongoDB
         const studentsToInsert = await Promise.all(jsonData.map(async (student) => {
+            if (!student.username) {
+                // Check if username field is missing
+                throw new Error(`Username field missing for user: ${student.username}`);
+            }
+            if (!student.email) {
+                // Check if email field is missing
+                throw new Error(`Email field missing for user: ${student.username}`);
+            }
+            if (!student.semester) {
+                // Check if semester field is missing
+                throw new Error(`Semester field missing for user: ${student.username}`);
+            }
+            if (!student.department) {
+                // Check if department field is missing
+                throw new Error(`Department field missing for user: ${student.username}`);
+            }
             if (!student.password) {
                 // Check if password field is missing
                 throw new Error(`Password field missing for user: ${student.username}`);
             }
-            const pass = JSON.stringify(student.password)
+
+            const pass = JSON.stringify(student.password);
             const hashedPassword = await bcrypt.hash(pass, 12);
+
             return {
                 ...student,
                 password: hashedPassword,
@@ -538,12 +582,34 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
         const successResponse = twoNotOneResponse({ message: `${students.length} students data added successfully`, accessToken: req.accessToken });
         return res.status(201).json(successResponse);
     } catch (error) {
-        console.log(error.message)
+        console.error(error.message);
+
+        if (error.message.includes('File not provided')) {
+            // File not provided error
+            return res.status(400).json({ message: 'File not provided' });
+        }
+
+        if (error.message.includes('No sheet found')) {
+            // No sheet found in the Excel file
+            return res.status(400).json({ message: 'No sheet found in the Excel file' });
+        }
+
+        if (error.message.includes('No data found')) {
+            // No data found in the Excel sheet
+            return res.status(400).json({ message: 'No data found in the Excel sheet' });
+        }
+
+        if (error.message.includes('Password field missing') || error.message.includes('Semester field missing') || error.message.includes('Email field missing') || error.message.includes('Username field missing') || error.message.includes('Department field missing')) {
+            // Password field missing for some users
+            const errorMessage = fourHundredResponse({message: error.message})
+            return res.status(400).json(errorMessage);
+        }
+
+        // Other unexpected errors
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
     }
 });
-
 //api to send mail to share the email and password to students
 // router.get('/shareUserCredentials', async (req, res) => {
 //     try {

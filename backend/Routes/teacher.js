@@ -354,14 +354,14 @@ router.post('/resetPassword', async (req, res) => {
 
 router.get('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
     try {
-        const requestingUserId = req.userId; // Assuming userId is passed in the query parameters
+        // Extracting user ID from the token, assuming it's stored in req.userId by verifyTeacherToken middleware
+        const requestingUserId = req.userId;
         if (!requestingUserId) {
-            return res.status(400).json({ error: 'userId is required in the query parameters' });
+            throw { status: 400, message: 'Invalid or missing user ID in the token' };
         }
-        console.log(requestingUserId)
+
         // Find letters where viewaccessIds array contains the requesting user's ID
-        const letters = await Letter.find().sort({ updatedAt: "desc" });
-        console.log(letters)
+        const letters = await Letter.find().sort({ updatedAt: 'desc' });
 
         // Filter out the letters for which the requesting user's ID is not in the viewaccessIds array
         const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
@@ -369,8 +369,21 @@ router.get('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
         return res.json(filteredLetters);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+
+        // Handle different types of errors and send appropriate status codes and messages
+        if (error.status) {
+            return res.status(error.status).json({ error: error.message });
+        } else if (error.name === 'ValidationError') {
+            // Mongoose validation error
+            return res.status(400).json({ error: error.message });
+        } else {
+            // Other unexpected errors
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
 });
+
+module.exports = router;
+
 
 module.exports = router;
