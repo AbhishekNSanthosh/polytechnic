@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './DisplayLetter.module.css'
 import { useParams } from 'react-router-dom'
 import { getLetterDetails } from './services/apis';
-import { adminApi, facultyApi, studentApi } from '../../utils/helpers';
+import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 
@@ -20,7 +20,7 @@ const DisplayLetter = () => {
         } else if (accessType === "student") {
             getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate, authToken, toast);
         } else if (accessType === "teacher") {
-            getLetterDetails(params?.id, setLetterData, facultyApi.getLetterData, navigate, authToken, toast);
+            getLetterDetails(params?.id, setLetterData, teacherApi.getLetterData, navigate, authToken, toast);
         }
     }, [])
 

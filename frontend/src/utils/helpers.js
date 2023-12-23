@@ -29,7 +29,7 @@ export const studentApi = {
     createLetter: '/api/v2/student/addLetter',
 }
 
-export const facultyApi = {
+export const teacherApi = {
     getAllLetters: '/api/v2/teacher/getAllLetters',
     createLetter: "/api/v2/teacher/addLetter",
     getLetterData: "/api/v2/teacher/getUserLetterById/",

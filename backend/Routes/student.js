@@ -364,5 +364,32 @@ router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res
     }
 });
 
+//api to search letter
+router.post('/searchLetter', verifyStudentToken, async (req, res) => {
+    try {
+        const { query } = req.body;
+        if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
+            const errorMessage = fourNotOneResponse({ message: "Invalid characters" });
+            return res.status(401).json(errorMessage);
+        }
+
+        const letters = await Letter.find({
+            $or: [
+                { subject: { $regex: query, $options: 'i' } },
+                { content: { $regex: query, $options: 'i' } },
+            ],
+        }).sort({ createdAt: "desc" });
+
+        const sanitizedLetters = letters;
+        const searchResCount = letters.length
+        const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
+        return res.status(200).json(successResponse);
+    } catch (error) {
+        console.log(error);
+        const errorResponse = fiveHundredResponse();
+        return res.status(500).json(errorResponse);
+    }
+});
+
 
 module.exports = router;
