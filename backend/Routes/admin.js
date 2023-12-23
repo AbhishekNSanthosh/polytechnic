@@ -599,30 +599,6 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
         const message = error.message || 'Internal Server Error';
         const errorMessage = customError({ resCode: status, message })
         return res.status(status).json(errorMessage);
-        // if (error.message.includes('File not provided')) {
-        //     // File not provided error
-        //     return res.status(400).json({ message: 'File not provided' });
-        // }
-
-        // if (error.message.includes('No sheet found')) {
-        //     // No sheet found in the Excel file
-        //     return res.status(400).json({ message: 'No sheet found in the Excel file' });
-        // }
-
-        // if (error.message.includes('No data found')) {
-        //     // No data found in the Excel sheet
-        //     return res.status(400).json({ message: 'No data found in the Excel sheet' });
-        // }
-
-        // if (error.message.includes('Password field missing') || error.message.includes('Semester field missing') || error.message.includes('Email field missing') || error.message.includes('Username field missing') || error.message.includes('Department field missing')) {
-        //     // Password field missing for some users
-        //     const errorMessage = fourHundredResponse({ message: error.message })
-        //     return res.status(400).json(errorMessage);
-        // }
-
-        // // Other unexpected errors
-        // const errorResponse = fiveHundredResponse();
-        // return res.status(500).json(errorResponse);
     }
 });
 
