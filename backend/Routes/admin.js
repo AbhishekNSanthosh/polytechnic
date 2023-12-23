@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse, abstractedUserData, customError } = require('../Utils/Helpers');
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse, abstractedUserData, customError, sanitizedLetterList } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
 const XLSX = require('xlsx');
@@ -383,24 +383,8 @@ router.get('/getAllStudentLetters', verifyAdminToken, async (req, res) => {
 router.get('/getAllTeacherLetters', verifyAdminToken, async (req, res) => {
     try {
         const letters = await Letter.find({ sender: "teacher" }).sort({ createdAt: 'desc' }).populate('from', 'username email department semester role');
-        const sanitizedLetters = letters.map(letter => ({
-            ...letter.toObject(),
-            from: {
-                username: letter.from.username,
-                email: letter.from.email,
-                semester: letter.from.semester,
-                department: letter.from.department,
-                role: letter.from.role,
-            },
-            createdAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-            updatedAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-        }));
+        const sanitizedLetters = sanitizedLetterList(letters)
+        
         const successResponseMsg = twohundredResponse({
             message: letters.length === 0 ? "No letters send by teacher" : "All teacher letters",
             data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
@@ -408,9 +392,11 @@ router.get('/getAllTeacherLetters', verifyAdminToken, async (req, res) => {
         });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
@@ -452,7 +438,6 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
         return res.status(201).json(successResponseMsg);
 
     } catch (error) {
-        console.error(error.message);
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
@@ -548,7 +533,6 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
         const successResponse = twoNotOneResponse({ message: `${students.length} students data added successfully`, accessToken: req.accessToken });
         return res.status(201).json(successResponse);
     } catch (error) {
-        console.error(error.message);
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';

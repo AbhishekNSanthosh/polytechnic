@@ -138,6 +138,28 @@ const sanitizedUserList = (users) => {
     return userList;
 }
 
+const sanitizedLetterList = (letters) => {
+    const sanitizedLetters = letters.map(letter => ({
+        ...letter.toObject(),
+        from: {
+            username: letter.from.username,
+            email: letter.from.email,
+            semester: letter.from.semester,
+            department: letter.from.department,
+            role: letter.from.role,
+        },
+        createdAt: {
+            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter.createdAt).fromNow(),
+        },
+        updatedAt: {
+            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter.createdAt).fromNow(),
+        },
+    }));
+    return sanitizedLetters;
+}
+
 const abstractedUserData = (userObj) => {
     const { password, loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
     const newData = {
@@ -167,6 +189,7 @@ module.exports = {
     fourHundredResponse,
     sanitizedUserList,
     abstractedUserData,
+    sanitizedLetterList,
     customError,
     resMessages,
     transporter
