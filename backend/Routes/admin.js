@@ -509,9 +509,9 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
             }));
 
             const errorResponse = fourHundredResponse({
-                title:"Duplicate data found !",
+                title: "Duplicate data found !",
                 message: 'Some usernames are already taken. Please choose unique usernames.',
-                showModal:true,
+                showModal: true,
                 duplicates,
             });
             return res.status(500).json(errorResponse);
@@ -538,7 +538,7 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
         const successResponse = twoNotOneResponse({ message: `${students.length} students data added successfully`, accessToken: req.accessToken });
         return res.status(201).json(successResponse);
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
         const errorResponse = fiveHundredResponse();
         return res.status(500).json(errorResponse);
     }
@@ -802,7 +802,6 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
         return res.status(500).json(errorResponse);
     }
 });
-
 
 
 module.exports = router;

@@ -147,7 +147,7 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
 router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        const letter = await Letter.findOne({ _id:letterId}).populate('from','username email semester department');
+        const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         const sanitizedLetter = {
             ...letter.toObject(),
             from: {
@@ -167,7 +167,7 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
             },
         }
         const successResponseMsg = twohundredResponse({
-            message:"Letter from ",
+            message: "Letter from ",
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
@@ -217,7 +217,7 @@ router.get('/getAllLetters', verifyTeacherToken, async (req, res) => {
 router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        const letter = await Letter.findOne({ _id:letterId}).populate('from','username email semester department');
+        const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         const sanitizedLetter = {
             ...letter.toObject(),
             from: {
@@ -237,7 +237,7 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
             },
         }
         const successResponseMsg = twohundredResponse({
-            message:"Letter from ",
+            message: "Letter from ",
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
@@ -352,5 +352,25 @@ router.post('/resetPassword', async (req, res) => {
     }
 });
 
+router.get('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
+    try {
+        const requestingUserId = req.userId; // Assuming userId is passed in the query parameters
+        if (!requestingUserId) {
+            return res.status(400).json({ error: 'userId is required in the query parameters' });
+        }
+        console.log(requestingUserId)
+        // Find letters where viewaccessIds array contains the requesting user's ID
+        const letters = await Letter.find().sort({ updatedAt: "desc" });
+        console.log(letters)
+
+        // Filter out the letters for which the requesting user's ID is not in the viewaccessIds array
+        const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
+
+        return res.json(filteredLetters);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;

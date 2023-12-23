@@ -87,7 +87,9 @@ const CreateBulkUser = () => {
                             )}
                         </div>
                         <div className={styles.actionBtnRow}>
-                            <button className={styles.cancelBtn}>Cancel</button>
+                            <button className={styles.cancelBtn} onClick={()=>{
+                                navigate('/user-management/create-student')
+                            }}>Cancel</button>
                             <button className={styles.uploadBtn} onClick={handleUploadStudents}>
                                 Upload
                             </button>
