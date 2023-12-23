@@ -464,19 +464,15 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
 
     try {
         const letterId = req.params.letterId;
-
         const letter = await Letter.findById(letterId);
 
         if (!letter) {
-            const errorMessage = fourNotFourResponse({ message: resMessages.notFoundMsg });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.notFoundMsg }
         }
 
         const users = await User.find({ _id: { $in: userIds }, role: "teacher" });
-
         if (users.length !== userIds.length) {
-            const errorMessage = fourNotFourResponse({ message: 'Some users not found' });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: 'Some users not found' }
         }
 
         // Remove all existing viewAccessids
@@ -497,12 +493,15 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
             message: "View access IDs added successfully",
             data: updated
         });
-
         return res.status(201).json(successResponseMsg);
+
     } catch (error) {
-        console.log(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error.message);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
