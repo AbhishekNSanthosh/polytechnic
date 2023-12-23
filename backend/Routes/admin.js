@@ -767,11 +767,10 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
 router.post('/searchUser', verifyAdminToken, async (req, res) => {
     try {
         const { role, query } = req.body;
-
         const validRoles = ['student', 'admin', 'teacher'];
+
         if (!validRoles.includes(role)) {
-            const errorMessage = fourHundredResponse({ message: resMessages.notFoundMsg })
-            return res.status(400).json(errorMessage)
+            throw { status: 400, message: resMessages.notFoundMsg }
         }
 
         const users = await User.find({
@@ -786,9 +785,11 @@ router.post('/searchUser', verifyAdminToken, async (req, res) => {
         const successResponse = twohundredResponse({ message: "Search results :", data: sanitizedUsers, searchResults })
         return res.status(200).json(successResponse);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
@@ -797,6 +798,7 @@ router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
     try {
         const { username, email, password, semester, role, department } = req.body;
         const userId = req.params.id;
+
         // Check if username or email already exists
         const existingUserByUsername = await User.findOne({ username });
         const existingByEmail = await User.findOne({ email });
