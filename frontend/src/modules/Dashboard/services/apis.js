@@ -54,7 +54,7 @@ export const getAllLettersForStudent = async (
     authToken
 ) => {
     try {
-        const response = await axios.get(backendApiUrl + studentApi.getAllLetters, {
+        const response = await axios.post(backendApiUrl + studentApi.getAllLetters, {
             sortOrder
         }, {
             headers: {

@@ -30,6 +30,10 @@ function App() {
           element: <Dashboard />,
         },
         {
+          path: '/dashboard/permitted-grievances',
+          element: <Dashboard />,
+        },
+        {
           path: '/view-letter/:id',
           element: <DisplayLetter />
         },
@@ -63,11 +67,11 @@ function App() {
         },
         {
           path: '/user-management/create-student',
-          element: <CreateUser/>
+          element: <CreateUser />
         },
         {
           path: '/user-management/create-student/bulk',
-          element: <CreateBulkUser/>
+          element: <CreateBulkUser />
         },
         {
           path: '/user-management/create-teacher',

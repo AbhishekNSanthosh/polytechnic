@@ -102,7 +102,7 @@ router.post('/studentLogin', limiter, async (req, res) => {
 router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        const letter = await Letter.findOne({ _id:letterId}).populate('from','username email semester department');
+        const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         const sanitizedLetter = {
             ...letter.toObject(),
             from: {
@@ -122,7 +122,7 @@ router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
             },
         }
         const successResponseMsg = twohundredResponse({
-            message:"Letter from ",
+            message: "Letter from ",
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
@@ -187,9 +187,10 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
 });
 
 //api to get all letters send by the student
-router.get('/getAllLetters', verifyStudentToken, async (req, res) => {
+router.post('/getAllLetters', verifyStudentToken, async (req, res) => {
     try {
-        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: 'desc' }).populate('from', 'username email department semester role');
+        const { sortOrder } = req.body;
+        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', 'username email department semester role');
 
         const sanitizedLetters = letters.map(letter => ({
             ...letter.toObject(),
