@@ -360,7 +360,10 @@ router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res
         return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
@@ -369,8 +372,7 @@ router.post('/searchLetter', verifyStudentToken, async (req, res) => {
     try {
         const { query } = req.body;
         if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: "Invalid characters" });
-            return res.status(401).json(errorMessage);
+            throw { status: 400, message: "Invalid characters" }
         }
 
         const letters = await Letter.find({
@@ -385,9 +387,11 @@ router.post('/searchLetter', verifyStudentToken, async (req, res) => {
         const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
         return res.status(200).json(successResponse);
     } catch (error) {
-        console.log(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
