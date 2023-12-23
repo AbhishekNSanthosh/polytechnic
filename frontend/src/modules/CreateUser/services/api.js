@@ -185,6 +185,7 @@ export const uploadBulkStudentData = async (
         navigate('/user-management/list-student');
     } catch (error) {
         console.log(error);
+        setModalOpen(error?.response?.data?.showModal)
         toast({
             title: error?.response?.data?.title,
             description: error?.response?.data?.message,

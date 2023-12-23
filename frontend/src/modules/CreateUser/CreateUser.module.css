@@ -200,6 +200,43 @@
 
 .modalContainer {
     background: white;
-    padding: 20px;
+    padding: 1rem;
+    max-height: 80%;
+    height: auto;
+    width: 50%;
+    z-index: 999;
     border-radius: 8px;
+}
+
+.modalWrapItem {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    gap: 1rem;
+    width: 100%;
+}
+
+.duplicate {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.modalItemRow {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-self: start;
+}
+
+.modalLeft{
+    flex: 1;
+}
+
+.modalCenter{
+    flex: 8;
+}
+
+.modalRight{
+    flex: 3;
 }
