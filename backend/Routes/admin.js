@@ -610,6 +610,7 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
         return res.status(500).json(errorResponse);
     }
 });
+
 //api to send mail to share the email and password to students
 // router.get('/shareUserCredentials', async (req, res) => {
 //     try {
