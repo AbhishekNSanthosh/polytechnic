@@ -224,21 +224,30 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
 router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, department, email } = req.body;
+
+        if (!username) {
+            throw { status: 400, message: "Username field is required" }
+        } else if (!password) {
+            throw { status: 400, message: "Password field is required" }
+        } else if (!email) {
+            throw { status: 400, message: "Email field is required" }
+        } else if (!department) {
+            throw { status: 400, message: "Department field is required" }
+        }
+
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+            throw { status: 400, message: "Invalid username" }
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+            throw { status: 400, message: "Invalid password" }
         }
 
         const existingTeacher = await User.findOne({ username, role: "teacher" });
         if (existingTeacher) {
-            const errorMessage = fourNotNineResponse({ message: resMessages.userAlreadyExistsMsg });
-            return res.status(409).json(errorMessage);
+            throw { status: 409, message: resMessages.userAlreadyExistsMsg }
         }
+
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
             username,
@@ -256,9 +265,11 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
         const successResponseMsg = twoNotOneResponse(responseMsg);
         return res.status(201).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
