@@ -6,7 +6,7 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse, abstractedUserData } = require('../Utils/Helpers');
+const { roles, fiveHundredResponse, twohundredResponse, fourNotOneResponse, resMessages, fourNotFourResponse, twoNotOneResponse, fourNotNineResponse, fourHundredResponse, sanitizedUserList, fourNotThreeResponse, abstractedUserData, customError } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
 const XLSX = require('xlsx');
@@ -871,48 +871,53 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
 });
 
 //api to add action by admin
-router.post('/addActions', verifyAdminToken, async (req, res) => {
+router.post('/addActionsAndComments', verifyAdminToken, async (req, res) => {
     try {
-        const { letterId, actions } = req.body;
+        const { letterId, actions, comments } = req.body;
+
+        if (validator.matches(actions, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: 'Please enter a valid action' };
+        }
         
-        // Validate actions
-        if (validator.isEmpty(actions) || validator.matches(actions, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            throw { errorMessage };
+        if (validator.matches(comments, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: 'Please enter a valid comment' };
         }
 
-        if (!letterId) {
-            throw { status: 400, message: 'Letter ID is required' };
-        }
-
-        // Fetch the letter by ID from the database
         const letter = await Letter.findById(letterId);
 
         if (!letter) {
             throw { status: 404, message: 'Letter not found' };
         }
 
-        // Perform the actions based on the request body
-        // Example: Add actions to the letter
+        let successMessage;
 
-        // Append actions to the existing array
-        letter.actions = actions
+        if (actions !== "") {
+            letter.actions = actions;
+            successMessage = twohundredResponse({ message: 'Actions added successfully', data: { actions } });
+        }
 
-        // Save the updated letter to the database
+        if (comments !== "") {
+            letter.comments = comments;
+            successMessage = twohundredResponse({ message: 'Comments added successfully', data: { comments } });
+        }
+
+        if (actions !== "" && comments !== "") {
+            successMessage = twohundredResponse({ message: 'Actions & Comments added successfully', data: { actions, comments } });
+        }
+
         await letter.save();
 
-        const successMessage = twohundredResponse({ message: 'Actions added successfully' });
-        return res.json(successMessage);
+        return res.json(successMessage || twohundredResponse({ message: 'No changes made' }));
     } catch (error) {
-        console.error(error)
+        console.error(error);
 
-        // Check if the error has a status property, otherwise default to 500
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-
-        return res.status(status).json({ error: message });
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
+
 
 
 module.exports = router;

@@ -31,15 +31,10 @@ const letterSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  comments: [
-    {
-      userId: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'User',
-      },
-      text: String,
-      createdAt: { type: Date, default: Date.now },
-    },
-  ],
+  comments: {
+    type: String,
+    default: null
+  },
 }, { timestamps: true, versionKey: false });
 
 letterSchema.set('toJSON', {

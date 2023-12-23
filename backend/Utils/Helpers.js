@@ -12,6 +12,7 @@ const roles = {
 
 const twohundredResponse = (data = {}) => {
     return {
+        hasError: false,
         resCode: 200,
         status: "SUCCESS",
         ...data,
@@ -20,6 +21,7 @@ const twohundredResponse = (data = {}) => {
 
 const twoNotOneResponse = (data = {}) => {
     return {
+        hasError: false,
         resCode: 201,
         status: "SUCCESS",
         ...data,
@@ -28,6 +30,7 @@ const twoNotOneResponse = (data = {}) => {
 
 const fiveHundredResponse = () => {
     return {
+        hasError: true,
         resCode: 500,
         status: "FAILURE",
         message: "Internal server error. Please try again later."
@@ -36,6 +39,7 @@ const fiveHundredResponse = () => {
 
 const fourNotOneResponse = (data = {}) => {
     return {
+        hasError: true,
         resCode: 401,
         status: "FAILURE",
         ...data
@@ -44,6 +48,7 @@ const fourNotOneResponse = (data = {}) => {
 
 const fourNotFourResponse = (data = {}) => {
     return {
+        hasError: true,
         resCode: 404,
         status: "FAILURE",
         ...data
@@ -52,6 +57,7 @@ const fourNotFourResponse = (data = {}) => {
 
 const fourNotThreeResponse = (data = {}) => {
     return {
+        hasError: true,
         resCode: 403,
         status: "FAILURE",
         message: "Token not found. Authentication failed",
@@ -61,6 +67,7 @@ const fourNotThreeResponse = (data = {}) => {
 
 const fourNotNineResponse = (data = {}) => {
     return {
+        hasError: true,
         resCode: 409,
         status: "FAILURE",
         ...data
@@ -69,15 +76,24 @@ const fourNotNineResponse = (data = {}) => {
 
 const fourHundredResponse = (data = {}) => {
     return {
+        hasError: true,
         resCode: 400,
         status: "FAILURE",
         ...data
     };
 };
 
+const customError = (data = {}) => {
+    return {
+        hasError: true,
+        status: "FAILURE",
+        ...data
+    }
+}
+
 const resMessages = {
     invalidMsg: "Invalid username or password!",
-    accessDenied:"Access Denied",
+    accessDenied: "Access Denied",
     userNotfoundMsg: "User not found",
     notFoundMsg: "Requested data not found",
     internalErrorMsg: "Internal server error. Please try again!",
@@ -151,6 +167,7 @@ module.exports = {
     fourHundredResponse,
     sanitizedUserList,
     abstractedUserData,
+    customError,
     resMessages,
     transporter
 }
