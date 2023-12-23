@@ -800,21 +800,17 @@ router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
         // Check if username or email already exists
         const existingUserByUsername = await User.findOne({ username });
         const existingByEmail = await User.findOne({ email });
-        console.log(existingByEmail)
-        console.log(existingUserByUsername)
+
         if (existingUserByUsername && existingUserByUsername._id.toString() !== userId) {
-            const errorMessage = fourHundredResponse({ message: resMessages.userAlreadyExistsMsg })
-            return res.status(400).json(errorMessage);
+            throw { status: 400, message: resMessages.userAlreadyExistsMsg }
         } else if (existingByEmail && existingByEmail._id.toString() !== userId) {
-            const errorMessage = fourHundredResponse({ message: resMessages.emailAlreadyExistsMsg })
-            return res.status(400).json(errorMessage);
+            throw { status: 400, message: resMessages.emailAlreadyExistsMsg }
         }
 
         // Find user by ID
         const user = await User.findById(userId);
         if (!user) {
-            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg })
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.userNotfoundMsg }
         }
 
         // Update user details based on role
@@ -841,9 +837,11 @@ router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
         const successMessage = twohundredResponse({ message: 'User details updated successfully', data: userData })
         return res.status(200).json(successMessage);
     } catch (error) {
-        console.log(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
