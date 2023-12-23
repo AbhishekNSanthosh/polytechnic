@@ -179,9 +179,11 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
 })
 
 //api to get all letters send by the teacher
-router.get('/getAllLetters', verifyTeacherToken, async (req, res) => {
+router.post('/getAllLetters', verifyTeacherToken, async (req, res) => {
+    console.log("first")
     try {
-        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: 'desc' }).populate('from', 'username email semester department role');
+        const { sortOrder } = req.body;
+        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', 'username email semester department role');
         const sanitizedLetters = letters.map(letter => ({
             ...letter.toObject(),
             from: {
@@ -205,7 +207,7 @@ router.get('/getAllLetters', verifyTeacherToken, async (req, res) => {
             data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
             letterCount: letters.length
         });
-        return res.status(201).json(successResponseMsg);
+        return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.log(error)
         const errorResponse = fiveHundredResponse();

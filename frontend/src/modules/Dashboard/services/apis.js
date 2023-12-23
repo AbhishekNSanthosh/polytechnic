@@ -96,9 +96,8 @@ export const getAllLettersForTeacher = async (
     authToken
 ) => {
     try {
-        const response = await axios.get(backendApiUrl + teacherApi.getAllLetters, {
-            sortOrder
-        }, {
+        console.log("called")
+        const response = await axios.post(backendApiUrl + teacherApi.getAllLetters, { sortOrder }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }

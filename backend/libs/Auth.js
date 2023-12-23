@@ -89,6 +89,7 @@ const verifyStudentToken = async (req, res, next) => {
 // Middleware to verify JWT tokens for checking teacher authorization
 const verifyTeacherToken = async (req, res, next) => {
     if (!req.headers.authorization) {
+        console.log("auth")
         const errorMessage = fourNotThreeResponse({ message: resMessages.invalidMsg });
         return res.status(403).json(errorMessage);
     }
