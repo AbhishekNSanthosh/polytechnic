@@ -168,13 +168,11 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, email, semester, department } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: resMessages.invalidMsg }
         }
 
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: resMessages.invalidMsg }
         }
 
         const existingStudent = await User.findOne({ username, role: "student" });
