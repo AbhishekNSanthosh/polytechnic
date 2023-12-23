@@ -167,19 +167,32 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
     try {
         const { username, password, email, semester, department } = req.body;
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            throw { status: 401, message: resMessages.invalidMsg }
+
+        if (!username) {
+            throw { status: 400, message: "Username field is required" }
+        } else if (!password) {
+            throw { status: 400, message: "Password field is required" }
+        } else if (!email) {
+            throw { status: 400, message: "Email field is required" }
+        } else if (!department) {
+            throw { status: 400, message: "Department field is required" }
+        } else if (!semester) {
+            throw { status: 400, message: "Semester field is required" }
         }
 
+        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid username" }
+        }
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            throw { status: 401, message: resMessages.invalidMsg }
+            throw { status: 400, message: "Invalid password" }
         }
 
         const existingStudent = await User.findOne({ username, role: "student" });
+
         if (existingStudent) {
-            const errorMessage = fourNotNineResponse({ message: resMessages.userAlreadyExistsMsg });
-            return res.status(409).json(errorMessage);
+            throw { status: 409, message: resMessages.userAlreadyExistsMsg }
         }
+
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
             username,
@@ -200,7 +213,6 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
-
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
         const errorMessage = customError({ resCode: status, message })
