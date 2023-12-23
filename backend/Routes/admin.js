@@ -415,50 +415,6 @@ router.get('/getAllTeacherLetters', verifyAdminToken, async (req, res) => {
 })
 
 //api to allow view access to teacher
-// router.post('/addViewAccessIds/:letterId', async (req, res) => {
-//     const { userIds } = req.body;
-
-//     try {
-//         const letterId = req.params.letterId;
-
-//         const letter = await Letter.findById(letterId);
-
-//         if (!letter) {
-//             const errorMessage = fourNotFourResponse({ message: resMessages.notFoundMsg });
-//             return res.status(404).json(errorMessage);
-//         }
-
-//         const users = await User.find({ _id: { $in: userIds }, role: "teacher" });
-
-//         if (users.length !== userIds.length) {
-//             const errorMessage = fourNotFourResponse({ message: 'Some users not found' });
-//             return res.status(404).json(errorMessage);
-//         }
-
-//         // Add each user ID to the viewAccessids array
-//         userIds.forEach(userId => {
-//             if (!letter.viewAccessids.includes(userId)) {
-//                 letter.viewAccessids.push(userId);
-//             }
-//         });
-
-//         // Save the updated letter
-//         const updatedLetter = await letter.save();
-//         const updated = {
-//             viewAccessids: updatedLetter.viewAccessids
-//         }
-//         const successResponseMsg = twoNotOneResponse({
-//             message: "View access IDs added successfully",
-//             data: updated
-//         });
-//         return res.status(201).json(successResponseMsg);
-//     } catch (error) {
-//         console.log(error)
-//         const errorResponse = fiveHundredResponse();
-//         return res.status(500).json(errorResponse);
-//     }
-// });
-
 router.post('/addViewAccessIds/:letterId', async (req, res) => {
     const { userIds } = req.body;
 
