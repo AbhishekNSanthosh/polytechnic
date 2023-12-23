@@ -23,35 +23,38 @@ const SideNavBar = () => {
   const navItem = [
     {
       id: 1,
-      title: 'All letters',
+      title: 'All Grievances',
       icon: <LuMails />,
       link: 'dashboard',
-      adminOnly: false,
-      adminVisible: true
+      visibility: ['admin', 'teacher', 'student']
     },
     {
       id: 2,
-      title: 'Profile',
-      icon: <RiAccountPinBoxLine />,
-      link: 'profile',
-      adminOnly: false,
-      adminVisible: true
+      title: 'Permitted Grievances',
+      icon: <LuMails />,
+      link: 'dashboard/permitted-grievances',
+      visibility: ['teacher']
     },
     {
       id: 3,
-      title: 'Create new',
-      icon: <IoCreateOutline />,
-      link: '/dashboard/create-grievance',
-      adminOnly: false,
-      adminVisible: false
+      title: 'Profile',
+      icon: <RiAccountPinBoxLine />,
+      link: 'profile',
+      visibility: ['admin', 'teacher', 'student']
     },
     {
       id: 4,
+      title: 'Create new',
+      icon: <IoCreateOutline />,
+      link: '/dashboard/create-grievance',
+      visibility: ['teacher', 'student']
+    },
+    {
+      id: 5,
       title: 'Management',
       icon: <MdManageAccounts />,
       link: 'user-management',
-      adminOnly: true,
-      adminVisible: true
+      visibility: ['admin']
     },
   ];
   useEffect(() => {
@@ -66,7 +69,7 @@ const SideNavBar = () => {
     }
   }, [location.pathname]);
 
-  const filteredNavItem = userRole === 'admin' ? navItem.filter(item => item.adminVisible) : navItem.filter(item => !item.adminOnly);
+  const filteredNavItem = navItem.filter(item => item.visibility.includes(userRole));
 
   useEffect(() => {
     localStorage.setItem('selectedTab', selectedTab.toString());

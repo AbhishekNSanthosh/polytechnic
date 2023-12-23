@@ -97,11 +97,11 @@
     align-items: center;
 }
 
-.centertwo{
+.centertwo {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex:2.5 ;
+    flex: 2.5;
 }
 
 .read {
@@ -133,14 +133,14 @@
     background-color: #e6e6e6;
 }
 
-.rightItem{
+.rightItem {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
 }
 
-.removeBtn{
+.removeBtn {
     display: flex;
     padding: 9px 15px;
     color: #ff0000;
