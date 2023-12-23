@@ -853,17 +853,19 @@ router.delete('/deleteUserById/:id', verifyAdminToken, async (req, res) => {
         const userId = req.params.id
         const userExists = await User.findOne({ _id: userId });
         if (!userExists) {
-            const errorResponse = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
-            return res.status(400).json(errorResponse);
+            throw { status: 400, message: resMessages.userNotfoundMsg }
         }
+
         await userExists.deleteOne();
         const deletedUser = abstractedUserData(userExists);
         const successMessage = twohundredResponse({ message: 'User deleted successfully', data: deletedUser })
         return res.status(200).json(successMessage);
     } catch (error) {
-        console.log(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
@@ -890,7 +892,6 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
 
     } catch (error) {
         console.error(error);
-
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
         const errorMessage = customError({ resCode: status, message })
@@ -938,7 +939,6 @@ router.post('/addActionsAndComments', verifyAdminToken, async (req, res) => {
         return res.json(successMessage || twohundredResponse({ message: 'No changes made' }));
     } catch (error) {
         console.error(error);
-
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
         const errorMessage = customError({ resCode: status, message })
@@ -967,7 +967,6 @@ router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
         return res.json(twohundredResponse({ message: 'Read status updated successfully' }));
     } catch (error) {
         console.error(error);
-
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
         const errorMessage = customError({ resCode: status, message })
