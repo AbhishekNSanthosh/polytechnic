@@ -160,6 +160,7 @@ export const createAdmin = async (
 export const uploadBulkStudentData = async (
     file,
     authToken,
+    setModalOpen,
     navigate,
     toast
 ) => {
