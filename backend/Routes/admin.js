@@ -878,7 +878,7 @@ router.post('/addActionsAndComments', verifyAdminToken, async (req, res) => {
         if (validator.matches(actions, /[./\[\]{}<>]/)) {
             throw { status: 400, message: 'Please enter a valid action' };
         }
-        
+
         if (validator.matches(comments, /[./\[\]{}<>]/)) {
             throw { status: 400, message: 'Please enter a valid comment' };
         }
@@ -918,6 +918,33 @@ router.post('/addActionsAndComments', verifyAdminToken, async (req, res) => {
     }
 });
 
+//api to update read status of the letter
+router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
+    try {
+        const { letterId } = req.body;
+        const letter = await Letter.findOne({ _id: letterId });
 
+        if (!letter) {
+            throw { status: 404, message: "Letter does not exists !" }
+        }
+
+        if (letter.isRead) {
+            throw { status: 400, message: "Letter already read !" }
+        }
+
+        letter.isRead = true
+
+        await letter.save();
+
+        return res.json(twohundredResponse({ message: 'Read status updated successfully' }));
+    } catch (error) {
+        console.error(error);
+
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
+    }
+})
 
 module.exports = router;
