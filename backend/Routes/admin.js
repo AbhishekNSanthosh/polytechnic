@@ -278,24 +278,7 @@ router.post('/getAllLetters', verifyAdminToken, async (req, res) => {
     try {
         const { sortOrder } = req.body
         const letters = await Letter.find().sort({ createdAt: sortOrder }).populate('from', 'username email department semester role');
-        const sanitizedLetters = letters.map(letter => ({
-            ...letter.toObject(),
-            from: {
-                username: letter.from.username,
-                email: letter.from.email,
-                semester: letter.from.semester,
-                department: letter.from.department,
-                role: letter.from.role,
-            },
-            createdAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-            updatedAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-        }));
+        const sanitizedLetters = sanitizedLetterList(letters);
         const successResponseMsg = twohundredResponse({
             message: letters.length === 0 ? "No letters " : "All letters",
             data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
@@ -303,9 +286,11 @@ router.post('/getAllLetters', verifyAdminToken, async (req, res) => {
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
