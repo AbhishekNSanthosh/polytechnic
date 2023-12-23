@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import styles from '../CreateUser.module.css';
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
+import { uploadBulkStudentData } from '../services/api';
 
 
 const CreateBulkUser = () => {
@@ -9,6 +10,8 @@ const CreateBulkUser = () => {
     const inputRef = useRef();
     const navigate = useNavigate();
     const toast = useToast();
+    const authToken = localStorage.getItem("accessToken");
+    const accessType = localStorage.getItem("accessType");
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -38,7 +41,13 @@ const CreateBulkUser = () => {
         }
     }
 
-    console.log(file)
+    console.log(file);
+
+    const handleUploadStudents = () => {
+        if (authToken !== "" && accessType === "admin"){
+            uploadBulkStudentData(file,authToken,navigate,toast)
+        }
+    }
 
     return (
         <div className={styles.container}>
