@@ -705,9 +705,11 @@ router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
         })
         return res.status(200).json(successMsg)
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
@@ -754,7 +756,7 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
             accessToken: req.accessToken
         });
         return res.status(200).json(successMsg);
-        
+
     } catch (error) {
         console.error(error);
         const status = error.status || 500;
