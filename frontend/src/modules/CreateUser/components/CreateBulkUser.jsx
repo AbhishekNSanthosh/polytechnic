@@ -94,11 +94,12 @@ const CreateBulkUser = () => {
                     </div>
                 </div>
             </div>
-            {modalOpen && <div className={styles.modalWrap} onClick={(e) => {
-                handleOverlayClick(e);
-            }}>
-                <CreaTeBulkUserModal modalOpen={modalOpen} onClose={onClose} />
-            </div>}
+            {modalOpen &&
+                <div className={styles.modalWrap} onClick={(e) => {
+                    handleOverlayClick(e);
+                }}>
+                    <CreaTeBulkUserModal modalOpen={modalOpen} onClose={onClose} />
+                </div>}
         </div>
     );
 };
