@@ -44,5 +44,6 @@ export const adminApi = {
     getAllUsers: "/api/v2/admin/getUserListByFilters",
     searchLetters: "/api/v2/admin/searchLetter",
     searchUsers: "/api/v2/admin/searchUser",
-    updateViewAccess: "/api/v2/admin/addViewAccessIds/"
+    updateViewAccess: "/api/v2/admin/addViewAccessIds/",
+    createBulkStudent:"/api/v2/admin/uploadManyStudents"
 }
