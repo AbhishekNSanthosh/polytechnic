@@ -354,8 +354,9 @@ router.post('/resetPassword', async (req, res) => {
     }
 });
 
-router.get('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
+router.post('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
     try {
+        const { sortOrder } = req.body;
         // Extracting user ID from the token, assuming it's stored in req.userId by verifyTeacherToken middleware
         const requestingUserId = req.userId;
         if (!requestingUserId) {
@@ -363,12 +364,12 @@ router.get('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
         }
 
         // Find letters where viewaccessIds array contains the requesting user's ID
-        const letters = await Letter.find().sort({ updatedAt: 'desc' });
+        const letters = await Letter.find().sort({ updatedAt: sortOrder });
         console.log(letters)
         // Filter out the letters for which the requesting user's ID is not in the viewaccessIds array
         const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
-
-        return res.json(filteredLetters);
+        const successResponse = twohundredResponse({ message: "Here's your permitted grievances", data: filteredLetters })
+        return res.json(successResponse);
     } catch (error) {
         console.error(error);
 

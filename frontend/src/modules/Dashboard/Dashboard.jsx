@@ -4,9 +4,9 @@ import { IoIosSearch } from "react-icons/io";
 import { Select } from '@chakra-ui/react'
 import LetterList from './components/LetterList';
 import { useEffect } from 'react';
-import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher, getSearchResults } from './services/apis';
+import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher, getSearchResults, getTeacherPermittedLetters } from './services/apis';
 import { useToast } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
 
 const Dashboard = () => {
@@ -20,22 +20,31 @@ const Dashboard = () => {
     const authToken = localStorage.getItem('accessToken');
     const toast = useToast();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const pathArray = location.pathname.split('/');
+    const lastPart = pathArray[pathArray.length - 1];
+    console.log(lastPart)
 
     const getLetterData = () => {
         if (authToken !== "") {
-            if (accessType === "admin") {
-                getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken);
-            } else if (accessType === "student") {
-                getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken);
-            } else if (accessType === "teacher") {
-                getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken)
+            if (lastPart === "permitted-grievances") {
+                getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast)
+            } else {
+                if (accessType === "admin") {
+                    getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken);
+                } else if (accessType === "student") {
+                    getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken);
+                } else if (accessType === "teacher") {
+                    getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken)
+                }
             }
         }
     }
 
     useEffect(() => {
         getLetterData();
-    }, [authToken, applyFilter]);
+    }, [authToken, applyFilter, location]);
 
     const handleQueryChange = (e) => {
         setQuery(e.target.value);

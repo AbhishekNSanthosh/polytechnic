@@ -171,3 +171,45 @@ export const getSearchResults = async (
         }
     }
 }
+
+export const getTeacherPermittedLetters = async (
+    sortOrder,
+    setLetters,
+    authToken,
+    navigate,
+    toast
+) => {
+    try {
+        const response = await axios.post(backendApiUrl + teacherApi.getPermittedLetters, {
+            sortOrder,
+            authToken
+        }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response);
+        setLetters(response?.data?.data)
+    } catch (error) {
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}

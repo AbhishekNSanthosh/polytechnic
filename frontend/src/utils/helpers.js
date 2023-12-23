@@ -35,6 +35,7 @@ export const teacherApi = {
     createLetter: "/api/v2/teacher/addLetter",
     getLetterData: "/api/v2/teacher/getUserLetterById/",
     searchLetters: "/api/v2/teacher/searchLetter",
+    getPermittedLetters: "/api/v2/teacher/teacherPermittedLetters"
 }
 
 export const adminApi = {
@@ -47,5 +48,5 @@ export const adminApi = {
     searchLetters: "/api/v2/admin/searchLetter",
     searchUsers: "/api/v2/admin/searchUser",
     updateViewAccess: "/api/v2/admin/addViewAccessIds/",
-    createBulkStudent:"/api/v2/admin/uploadManyStudents"
+    createBulkStudent: "/api/v2/admin/uploadManyStudents"
 }
