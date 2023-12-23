@@ -509,6 +509,7 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
             }));
 
             const errorResponse = fourHundredResponse({
+                title:"Duplicate data found !",
                 message: 'Some usernames are already taken. Please choose unique usernames.',
                 duplicates,
             });

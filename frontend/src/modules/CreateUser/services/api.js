@@ -158,24 +158,35 @@ export const createAdmin = async (
 }
 
 export const uploadBulkStudentData = async (
-    userIds,
+    file,
     authToken,
     navigate,
     toast
 ) => {
+    console.log(file);
+    const formData = new FormData();
+    formData.append('file', file);
+
     try {
-        const response = await axios.post(backendApiUrl + adminApi.createBulkStudent, {
-            userIds
-        }, {
+        const response = await axios.post(backendApiUrl + adminApi.createBulkStudent, formData, {
             headers: {
-                Authorization: "Bearer " + authToken
-            }
+                Authorization: `Bearer ${authToken}`,
+                'Content-Type': 'multipart/form-data', // Important for handling multipart form data
+            },
         })
         console.log(response)
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+        navigate('/user-management/list-student');
     } catch (error) {
         console.log(error);
         toast({
-            title: error?.response?.data?.message,
+            title: error?.response?.data?.title,
+            description: error?.response?.data?.message,
             status: 'error',
             duration: 2000,
             isClosable: true,
