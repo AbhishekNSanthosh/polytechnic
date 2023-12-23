@@ -48,12 +48,15 @@ export const getAllLettersForAdmin = async (
 
 export const getAllLettersForStudent = async (
     setLetters,
+    sortOrder,
     toast,
     navigate,
     authToken
 ) => {
     try {
         const response = await axios.get(backendApiUrl + studentApi.getAllLetters, {
+            sortOrder
+        }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
@@ -87,12 +90,15 @@ export const getAllLettersForStudent = async (
 
 export const getAllLettersForTeacher = async (
     setLetters,
+    sortOrder,
     toast,
     navigate,
     authToken
 ) => {
     try {
         const response = await axios.get(backendApiUrl + teacherApi.getAllLetters, {
+            sortOrder
+        }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
@@ -124,6 +130,7 @@ export const getAllLettersForTeacher = async (
 }
 
 export const getSearchResults = async (
+    url,
     query,
     authToken,
     setLetters,
@@ -132,7 +139,7 @@ export const getSearchResults = async (
 ) => {
     setIsApiOnCall(true);
     try {
-        const response = await axios.post(backendApiUrl + adminApi.searchLetters, {
+        const response = await axios.post(backendApiUrl + url, {
             query
         }, {
             headers: {

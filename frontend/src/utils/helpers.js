@@ -26,6 +26,7 @@ export const collegeImages = {
 export const studentApi = {
     getLetterData: "/api/v2/student/getUserLetterById/",
     getAllLetters: '/api/v2/student/getAllLetters',
+    searchLetters: "/api/v2/student/searchLetter",
     createLetter: '/api/v2/student/addLetter',
 }
 
@@ -33,6 +34,7 @@ export const teacherApi = {
     getAllLetters: '/api/v2/teacher/getAllLetters',
     createLetter: "/api/v2/teacher/addLetter",
     getLetterData: "/api/v2/teacher/getUserLetterById/",
+    searchLetters: "/api/v2/teacher/searchLetter",
 }
 
 export const adminApi = {

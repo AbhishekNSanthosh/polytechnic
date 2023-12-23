@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher, getSearchResults } from './services/apis';
 import { useToast } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
@@ -34,12 +35,18 @@ const Dashboard = () => {
 
     useEffect(() => {
         getLetterData();
-    }, [authToken,applyFilter]);
+    }, [authToken, applyFilter]);
 
     const handleQueryChange = (e) => {
         setQuery(e.target.value);
         if (!isApiOnCall && query !== "" && query !== " ") {
-            getSearchResults(query, authToken, setLetters, setIsApiOnCall, toast);
+            if (accessType === "admin") {
+                getSearchResults(adminApi.searchLetters, query, authToken, setLetters, setIsApiOnCall, toast);
+            } else if (accessType === "teacher") {
+                getSearchResults(teacherApi.searchLetters, query, authToken, setLetters, setIsApiOnCall, toast);
+            } else if (accessType === "student") {
+                getSearchResults(studentApi.searchLetters, query, authToken, setLetters, setIsApiOnCall, toast);
+            }
         } else {
             getLetterData();
         }

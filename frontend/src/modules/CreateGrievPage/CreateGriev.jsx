@@ -3,7 +3,7 @@ import styles from './CreateGriev.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { addLetter } from './services/apis'
-import { facultyApi, studentApi } from '../../utils/helpers'
+import { studentApi, teacherApi } from '../../utils/helpers'
 
 const CreateGriev = () => {
     const [subject, setSubject] = useState("");
@@ -16,9 +16,9 @@ const CreateGriev = () => {
 
     const handleSubmit = async () => {
         if (accessType === "student") {
-            await addLetter(toast, navigate, subject, desc, studentApi.createLetter,authToken);
+            await addLetter(toast, navigate, subject, desc, studentApi.createLetter, authToken);
         } else if (accessType === "teacher") {
-            await addLetter(toast, navigate,subject,desc, facultyApi.createLetter,authToken);
+            await addLetter(toast, navigate, subject, desc, teacherApi.createLetter, authToken);
         }
     }
     return (
