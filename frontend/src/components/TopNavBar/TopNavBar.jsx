@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './TopNavBar.module.css'
+import { FcMenu } from "react-icons/fc";
 
 const TopNavBar = () => {
     const user = localStorage.getItem('user');
@@ -8,6 +9,12 @@ const TopNavBar = () => {
         <div className={styles.container}>
             <div className={styles.TopNavBarWrap}>
                 <div className={styles.navBox}>
+                    <FcMenu className={styles.more} style={{
+
+                        color: 'red',
+                    }} />
+                </div>
+                <div className={styles.navBoxTitle}>
                     <span className={styles.welcome}>Hello, {userObj?.username} 👋</span>
                 </div>
                 <div className={styles.navBox}>
