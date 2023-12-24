@@ -15,7 +15,9 @@ const Layout = () => {
     }, [])
     return (
         <div className={styles.fullPage}>
-            <SideNavBar />
+            <div className={styles.SideNavBarWrap}>
+                <SideNavBar />
+            </div>
             <div className={styles.rightSide}>
                 <TopNavBar />
                 <div className={styles.mainContent}>

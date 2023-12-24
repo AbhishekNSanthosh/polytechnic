@@ -1,6 +1,7 @@
 .SideNavBar {
     flex: 2.2;
     width: 100%;
+    height: 100%;
     padding: 1rem;
 }
 
@@ -58,7 +59,7 @@
 }
 
 .navItemBoxAuto:hover {
-    background-color:#fac0c0
+    background-color: #fac0c0
 }
 
 .expandBox {
@@ -95,9 +96,17 @@
     bottom: 1rem;
     color: red;
     width: 100%;
-    background-color:#fff2f2
+    background-color: #fff2f2
 }
 
 .navtitle {
     font-size: 1.05rem;
+}
+
+.selectedBackgroundColor {
+    background-color: #fff2f2;
+}
+
+.selectedColor {
+    color: red;
 }
