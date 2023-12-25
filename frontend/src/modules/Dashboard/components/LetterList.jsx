@@ -8,7 +8,8 @@ const LetterList = (props) => {
     const { index, letter } = props;
     const navigate = useNavigate();
 
-    const letterSub = letter?.subject.slice(0, 25)
+    const letterSub = letter?.subject.slice(0, 25);
+    const letterSubRes = letter?.subject.slice(0, 15);
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>
@@ -18,9 +19,10 @@ const LetterList = (props) => {
                 navigate('/view-letter/' + letter?._id)
             }}>
                 <span className={styles.subject}>{letterSub}...</span>
+                <span className={styles.subjectRes}>{letterSubRes}...</span>
             </div>
             <div className={styles.centertwo}>
-                <span className={styles.subject}>{letter?.createdAt?.ago}</span>
+                <span className={styles.date}>{letter?.createdAt?.ago}</span>
                 <div className={styles.hoverIcon}>
                     <IoMailUnreadOutline className={styles.read} title='unread' />
                 </div>
