@@ -140,6 +140,16 @@
     gap: 1rem;
 }
 
+@media only screen and (max-width: 767px) {
+    .rightItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        z-index: -11;
+    }
+}
+
 .removeBtn {
     display: flex;
     padding: 9px 15px;

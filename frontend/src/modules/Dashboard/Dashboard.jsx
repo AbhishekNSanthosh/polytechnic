@@ -84,7 +84,7 @@ const Dashboard = () => {
                         </Select>
                     </div> */}
                     <div className={styles.rightItem}>
-                        <Select placeholder='Sort' value={sortOrder} onChange={(e) => {
+                        <Select className={styles.select} placeholder='Sort' value={sortOrder} onChange={(e) => {
                             setSortOrder(e.target.value);
                         }}>
                             <option value='desc'>Newest on top</option>

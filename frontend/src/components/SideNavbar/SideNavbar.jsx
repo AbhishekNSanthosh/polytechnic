@@ -8,50 +8,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
 import { useToast } from '@chakra-ui/react';
 import { IoCreateOutline } from 'react-icons/io5';
+import { IoIosArrowForward } from "react-icons/io";
 
 const SideNavBar = () => {
   const storedTab = localStorage.getItem('selectedTab');
   const userRole = localStorage.getItem('accessType');
-
-  const [marginTop, setMarginTop] = useState('0px');
-  const [transform2, setTransform2] = useState('0deg');
-  const [transform3, setTransform3] = useState('0deg');
-  const [hamburgerIconDisplay, setHamburgerIconDisplay] = useState('block');
-
-  const [sideNavDisplay, setSideNavDisplay] = useState(
-    window.innerWidth > 830 ? 'flex' : 'none'
-  );
-
-  useEffect(() => {
-    const handleResize = () =>
-      setSideNavDisplay(window.innerWidth > 830 ? 'flex' : 'none');
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const animateHamburgerIcon = () => {
-    setMarginTop(sideNavDisplay === 'none' ? '-15px' : '0px');
-    setTransform2(sideNavDisplay === 'none' ? '45deg' : '0deg');
-    setTransform3(sideNavDisplay === 'none' ? '135deg' : '0deg');
-    setHamburgerIconDisplay(sideNavDisplay === 'none' ? 'none' : 'block');
-  };
-
-  const myElementRef = useRef < HTMLDivElement > (null);
-  const element = document.getElementById('right');
-
-  const toggleSideNavBar = () => {
-    if (window.innerWidth <= 830) {
-      animateHamburgerIcon();
-      setSideNavDisplay(sideNavDisplay === 'flex' ? 'none' : 'flex');
-
-      // Right side content transition
-      element.style.transition = '.3s ease-in-out';
-      element.style.transform === 'scale(1.1)'
-        ? (element.style.transform = 'unset')
-        : (element.style.transform = 'scale(1.1)');
-    }
-  };
 
   const [selectedTab, setSelectedTab] = useState(
     storedTab ? parseInt(storedTab) : 1
@@ -145,8 +106,13 @@ const SideNavBar = () => {
                   color: selectedTab === item.id && 'red',
                 }}
               >
-                {item.icon}
-                <span className={styles.navtitle}>{item.title}</span>
+                <div className={styles.itemLeft}>
+                  {item.icon}
+                  <span className={styles.navtitle}>{item.title}</span>
+                </div>
+                <div className={styles.itemRight}>
+                  <IoIosArrowForward fontSize={22}/>
+                </div>
               </div>
             ))}
             <div
