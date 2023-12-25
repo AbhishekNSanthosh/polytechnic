@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import styles from './TopNavBar.module.css'
 import { FiMenu } from "react-icons/fi";
 import SideNavBar from '../SideNavbar/SideNavbar';
+import { IoClose } from "react-icons/io5";
 
 const TopNavBar = () => {
-    const [isDrawerOpen,setIsDrawerOpen] = useState(false);
-    
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
     const user = localStorage.getItem('user');
     const userObj = JSON.parse(user);
     return (
@@ -13,7 +14,7 @@ const TopNavBar = () => {
             <div className={styles.container}>
                 <div className={styles.TopNavBarWrap}>
                     <div className={styles.navBox}>
-                        <FiMenu className={styles.more} color='red' />
+                        <FiMenu className={styles.more} color='red' onClick={() => setIsDrawerOpen(true)} />
                     </div>
                     <div className={styles.navBoxTitle}>
                         <span className={styles.welcome}>Hello, {userObj?.username} 👋</span>
