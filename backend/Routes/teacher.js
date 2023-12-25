@@ -111,13 +111,19 @@ router.post('/teacherLogin', async (req, res) => {
 router.get('/getUserDetails', verifyTeacherToken, async (req, res) => {
     try {
         if (req.user) {
+            if (!req.user) {
+                throw { status: 401, message: "Access denied" }
+            }
             const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
         }
     } catch (error) {
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
@@ -127,13 +133,11 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
 
     try {
         if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[./[]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: "Invalid body" });
-            return res.status(400).json(errorMessage);
+            throw { status: 400, message: "Invalid letter body" }
         }
 
         if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: "Invalid subject" });
-            return res.status(400).json(errorMessage);
+            throw { status: 400, message: "Invalid letter subject" }
         }
         const newLetter = new Letter({
             body,
@@ -153,15 +157,20 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
         const successResponseMsg = twoNotOneResponse(responseMsg);
         return res.status(201).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
 router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
+        if (!letterId) {
+            throw { status: 400, message: "Invalid letterId found" }
+        }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         const sanitizedLetter = {
             ...letter.toObject(),
@@ -187,17 +196,21 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
 //api to get all letters send by the teacher
 router.post('/getAllLetters', verifyTeacherToken, async (req, res) => {
-    console.log("first")
     try {
         const { sortOrder } = req.body;
+        if (!sortOrder) {
+            throw { status: 400, messsage: "Invalid sort method found" }
+        }
         const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', 'username email semester department role');
         const sanitizedLetters = letters.map(letter => ({
             ...letter.toObject(),
@@ -224,9 +237,11 @@ router.post('/getAllLetters', verifyTeacherToken, async (req, res) => {
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
@@ -234,7 +249,13 @@ router.post('/getAllLetters', verifyTeacherToken, async (req, res) => {
 router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
+        if (!letterId) {
+            throw { status: 400, message: "Invalid letterId" }
+        }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
+        if (!letter) {
+            throw { status: 404, message: "Requested resource does not exists" }
+        }
         const sanitizedLetter = {
             ...letter.toObject(),
             from: {
@@ -259,9 +280,11 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
@@ -372,32 +395,25 @@ router.post('/resetPassword', async (req, res) => {
 router.post('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
-        // Extracting user ID from the token, assuming it's stored in req.userId by verifyTeacherToken middleware
+        if (!requestingUserId) {
+            throw { status: 400, message: 'Invalid sorting method' };
+        }
+
         const requestingUserId = req.userId;
         if (!requestingUserId) {
             throw { status: 400, message: 'Invalid or missing user ID in the token' };
         }
 
-        // Find letters where viewaccessIds array contains the requesting user's ID
         const letters = await Letter.find().sort({ updatedAt: sortOrder });
-        console.log(letters)
-        // Filter out the letters for which the requesting user's ID is not in the viewaccessIds array
         const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
         const successResponse = twohundredResponse({ message: "Here's your permitted grievances", data: filteredLetters })
         return res.json(successResponse);
     } catch (error) {
         console.error(error);
-
-        // Handle different types of errors and send appropriate status codes and messages
-        if (error.status) {
-            return res.status(error.status).json({ error: error.message });
-        } else if (error.name === 'ValidationError') {
-            // Mongoose validation error
-            return res.status(400).json({ error: error.message });
-        } else {
-            // Other unexpected errors
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
@@ -406,8 +422,7 @@ router.post('/searchLetter', verifyTeacherToken, async (req, res) => {
     try {
         const { query } = req.body;
         if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: "Invalid characters" });
-            return res.status(401).json(errorMessage);
+            throw { status: 400, message: "Invalid characters in query" }
         }
 
         const letters = await Letter.find({
@@ -422,9 +437,11 @@ router.post('/searchLetter', verifyTeacherToken, async (req, res) => {
         const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
         return res.status(200).json(successResponse);
     } catch (error) {
-        console.log(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 module.exports = router;
