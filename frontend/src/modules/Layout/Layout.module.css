@@ -24,3 +24,13 @@
     height: 87%;
     overflow-y: auto;
 }
+
+@media only screen and (max-width: 767px) {
+    .mainContent {
+        background: rgb(255, 248, 248);
+        padding: 1rem 1rem 0 1rem;
+        width: 100%;
+        height: 87%;
+        overflow-y: auto;
+    }
+}
