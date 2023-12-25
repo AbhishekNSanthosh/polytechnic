@@ -3,6 +3,7 @@ import styles from './TopNavBar.module.css'
 import { FiMenu } from "react-icons/fi";
 import SideNavBar from '../SideNavbar/SideNavbar';
 import { IoClose } from "react-icons/io5";
+import banner from '../../assets/Logos/titleImg.svg'
 
 const TopNavBar = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -27,6 +28,9 @@ const TopNavBar = () => {
                     <div className={styles.navBoxTitle}>
                         <span className={styles.welcome}>Hello, {userObj?.username} 👋</span>
                     </div>
+                    <div className={styles.navBoxRes}>
+                        <img src={banner} alt="" className={styles.bannerLogo} />
+                    </div>
                     <div className={styles.navBox}>
                         <div className={styles.dp}>
                             <img src="https://img.freepik.com/premium-photo/astronaut-planet-with-red-background_909774-18.jpg" alt="" className={styles.dpImg} />
@@ -36,7 +40,7 @@ const TopNavBar = () => {
             </div>
             {isDrawerOpen &&
                 <div className={styles.navRes}>
-                    <SideNavBar drawerOpenStatus={drawerOpenStatus}/>
+                    <SideNavBar drawerOpenStatus={drawerOpenStatus} />
                 </div>
             }
         </>

@@ -89,7 +89,7 @@
 .navRes {
     position: absolute;
     background-color: #fff;
-    height: 87vh;
+    height: 88vh;
     width: 100%;
     display: none;
 }
@@ -114,4 +114,8 @@
     .navBoxRes {
         display: block;
     }
+}
+
+.bannerLogo{
+    height: 1.9rem;
 }

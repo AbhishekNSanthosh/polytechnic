@@ -138,6 +138,11 @@ const SideNavBar = ({ drawerOpenStatus }) => {
               <span className={styles.navtitle}>Logout</span>
             </div>
           </div>
+
+          <div className={styles.credits}>
+            <span className={styles.credit}>All rights reserved</span>
+            <span className={styles.credit}>Designed & Developed by Abhishek Santhosh</span>
+          </div>
         </div>
       </div>
     </>
