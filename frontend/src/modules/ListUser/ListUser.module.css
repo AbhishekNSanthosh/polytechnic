@@ -1,5 +1,7 @@
 .container {
     display: flex;
+    height: auto;
+    min-height: 87vh;
     flex-direction: column;
     background-color: #fff;
     border-radius: 10px;
@@ -29,7 +31,7 @@
     display: flex;
     width: 100%;
     padding: 0 0 1rem 0;
-    border-bottom: 1px solid rgb(255, 213, 213);
+    border-bottom:1px solid rgb(255, 248, 248);
 }
 
 @media only screen and (max-width: 767px) {
@@ -38,7 +40,7 @@
         flex-direction: column;
         width: 100%;
         padding: 0 0 1rem 0;
-        border-bottom: 1px solid rgb(255, 213, 213);
+        border-bottom: 1px solid rgb(255, 239, 239);
     }
 }
 
@@ -74,7 +76,7 @@
     justify-content: center;
     gap: 10px;
     padding: 0 10px;
-    background-color: rgb(255, 242, 242);
+    background-color: rgb(255, 249, 249);
     border-radius: 30px;
     width: 90%;
 }
@@ -86,7 +88,7 @@
         justify-content: center;
         gap: 10px;
         padding: 0 10px;
-        background-color: rgb(255, 242, 242);
+        background-color: rgb(255, 249, 249);
         border-radius: 30px;
         width: 100%;
     }
@@ -98,7 +100,8 @@
 }
 
 .dashboardRow {
-    height: 23rem;
+    height: auto;
+    max-height: 68vh;
     overflow: scroll;
     display: flex;
     flex-direction: column;
@@ -110,7 +113,7 @@
     width: 100%;
     outline: none;
     border: none;
-    background-color: rgb(255, 242, 242);
+    background-color:  rgb(255, 249, 249);
     border-radius: 10px;
 
 }
@@ -138,7 +141,7 @@
     min-height: 4.3rem;
     padding: 0 1.3rem;
     border-radius: 10px;
-    border-bottom: 1px solid rgb(255, 217, 217);
+    border-bottom: 1px solid rgb(255, 248, 248);
     display: flex;
     align-items: center;
 }
@@ -150,7 +153,7 @@
         min-height: 4.3rem;
         padding: 0 0rem;
         border-radius: 10px;
-        border-bottom: 1px solid rgb(255, 217, 217);
+        border-bottom: 1px solid rgb(255, 238, 238);
         display: flex;
         align-items: center;
     }
