@@ -101,4 +101,27 @@
     font-size: 0.92rem;
     background-color: red;
     border-radius: 10px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+    .letterTopBtn {
+        position: absolute;
+        right: 0.5rem;
+        top: 0.5rem;
+        display: flex;
+        padding: 7px 15px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.9rem;
+        background-color: red;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+}
+
+.manageBtn{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
