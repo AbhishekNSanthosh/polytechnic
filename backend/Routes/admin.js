@@ -869,7 +869,8 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
 
         const sanitizedLetters = letters;
         const searchResCount = letters.length
-        const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
+        const message = searchResCount === 0 ? "The requested resource could not be found." : "Search results:"
+        const successResponse = twohundredResponse({ message, data: sanitizedLetters, searchResCount });
         return res.status(200).json(successResponse);
 
     } catch (error) {

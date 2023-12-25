@@ -26,7 +26,7 @@ const passwordlimiter = rateLimit({
 });
 
 //api to login student
-router.post('/teacherLogin', limiter, async (req, res) => {
+router.post('/teacherLogin', async (req, res) => {
     try {
         const { username, password } = req.body;
         if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
@@ -167,7 +167,7 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
             },
         }
         const successResponseMsg = twohundredResponse({
-            message: "Letter from ",
+            message: "Letter from: "+letter?.from?.username,
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
