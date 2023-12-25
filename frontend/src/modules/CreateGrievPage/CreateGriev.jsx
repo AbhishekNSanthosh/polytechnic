@@ -47,7 +47,9 @@ const CreateGriev = () => {
                             e.preventDefault();
                             handleSubmit();
                         }}>Submit</button>
-                        <button className={styles.cancel}>Cancel</button>
+                        <button className={styles.cancel} onClick={() => {
+                            navigate('/dashboard')
+                        }}>Cancel</button>
                     </div>
                 </div>
             </div>

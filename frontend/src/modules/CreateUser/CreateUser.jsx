@@ -79,12 +79,12 @@ const CreateUser = () => {
                         </div>
                     }
                     <div className={styles.row}>
-                        <button className={styles.cancel} onClick={() => {
-                            navigate('/user-management')
-                        }}>Cancel</button>
                         <button className={styles.submit} onClick={() => {
                             handleSubmit();
                         }}>Submit</button>
+                        <button className={styles.cancel} onClick={() => {
+                            navigate('/user-management')
+                        }}>Cancel</button>
                     </div>
                 </div>
             </div>
