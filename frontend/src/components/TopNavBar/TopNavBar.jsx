@@ -9,6 +9,10 @@ const TopNavBar = () => {
 
     const user = localStorage.getItem('user');
     const userObj = JSON.parse(user);
+
+    const drawerOpenStatus = () => {
+        setIsDrawerOpen(false);
+    }
     return (
         <>
             <div className={styles.container}>
@@ -32,7 +36,7 @@ const TopNavBar = () => {
             </div>
             {isDrawerOpen &&
                 <div className={styles.navRes}>
-                    <SideNavBar />
+                    <SideNavBar drawerOpenStatus={drawerOpenStatus}/>
                 </div>
             }
         </>

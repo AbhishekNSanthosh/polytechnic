@@ -138,3 +138,13 @@
     justify-content: center;
     width: 100%;
 }
+
+.itemRight{
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .itemRight{
+        display: flex;
+    }
+}

@@ -10,7 +10,7 @@ import { useToast } from '@chakra-ui/react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { IoIosArrowForward } from "react-icons/io";
 
-const SideNavBar = () => {
+const SideNavBar = ({ drawerOpenStatus }) => {
   const storedTab = localStorage.getItem('selectedTab');
   const userRole = localStorage.getItem('accessType');
 
@@ -100,6 +100,7 @@ const SideNavBar = () => {
                 onClick={() => {
                   setSelectedTab(item.id);
                   navigate(item.link);
+                  drawerOpenStatus()
                 }}
                 style={{
                   backgroundColor: selectedTab === item.id && '#fff2f2',
@@ -111,7 +112,7 @@ const SideNavBar = () => {
                   <span className={styles.navtitle}>{item.title}</span>
                 </div>
                 <div className={styles.itemRight}>
-                  <IoIosArrowForward fontSize={22}/>
+                  <IoIosArrowForward fontSize={22} />
                 </div>
               </div>
             ))}
