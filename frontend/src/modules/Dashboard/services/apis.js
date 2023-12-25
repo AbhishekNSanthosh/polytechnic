@@ -10,7 +10,6 @@ export const getAllLettersForAdmin = async (
     navigate,
     authToken
 ) => {
-    console.log(authToken)
     try {
         const response = await axios.post(backendApiUrl + adminApi.getAllLetters, {
             sortOrder
@@ -19,7 +18,6 @@ export const getAllLettersForAdmin = async (
                 Authorization: "Bearer " + authToken
             }
         })
-        console.log(response.data)
         setLetters(response.data.data)
     } catch (error) {
         console.log(error);
@@ -133,10 +131,9 @@ export const getSearchResults = async (
     query,
     authToken,
     setLetters,
-    setIsApiOnCall,
     toast
 ) => {
-    setIsApiOnCall(true);
+    // setIsApiOnCall(true);
     try {
         const response = await axios.post(backendApiUrl + url, {
             query
@@ -146,9 +143,10 @@ export const getSearchResults = async (
             }
         })
         setLetters(response.data.data);
-        setIsApiOnCall(false);
+        // setIsApiOnCall(false);
     } catch (error) {
-        setIsApiOnCall(false);
+        console.log(error)
+        // setIsApiOnCall(false);
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",

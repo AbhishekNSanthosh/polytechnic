@@ -24,44 +24,57 @@ const Dashboard = () => {
 
     const pathArray = location.pathname.split('/');
     const lastPart = pathArray[pathArray.length - 1];
-    console.log(lastPart)
 
     const getLetterData = () => {
-        if (authToken !== "") {
-            if (lastPart === "permitted-grievances") {
-                if (accessType === "teacher" && authToken !== "") {
-                    getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast)
-                }
-            } else {
-                if (accessType === "admin") {
-                    getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken);
-                } else if (accessType === "student") {
-                    getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken);
-                } else if (accessType === "teacher") {
-                    getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken)
+        try {
+            if (authToken !== "") {
+                if (lastPart === "permitted-grievances") {
+                    if (accessType === "teacher" && authToken !== "") {
+                        getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast)
+                    }
+                } else {
+                    if (accessType === "admin") {
+                        getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken);
+                    } else if (accessType === "student") {
+                        getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken);
+                    } else if (accessType === "teacher") {
+                        getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken)
+                    }
                 }
             }
+        } catch (error) {
+            console.error('Error fetching letter data:', error);
+            toast({
+                title: 'Error',
+                description: 'Failed to fetch letter data. Please try again.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
         }
     }
 
     useEffect(() => {
         getLetterData();
-    }, [authToken, applyFilter, location]);
+    }, [authToken, applyFilter, sortOrder, lastPart]);
+
 
     const handleQueryChange = (e) => {
-        setQuery(e.target.value);
-        if (!isApiOnCall && query !== "" && query !== " ") {
-            if (accessType === "admin") {
-                getSearchResults(adminApi.searchLetters, query, authToken, setLetters, setIsApiOnCall, toast);
-            } else if (accessType === "teacher") {
-                getSearchResults(teacherApi.searchLetters, query, authToken, setLetters, setIsApiOnCall, toast);
-            } else if (accessType === "student") {
-                getSearchResults(studentApi.searchLetters, query, authToken, setLetters, setIsApiOnCall, toast);
+        const newQuery = e.target.value;
+        setQuery(newQuery);
+
+        if (newQuery.trim() !== '') {
+            if (accessType === 'admin') {
+                getSearchResults(adminApi.searchLetters, newQuery, authToken, setLetters, toast);
+            } else if (accessType === 'teacher') {
+                getSearchResults(teacherApi.searchLetters, newQuery, authToken, setLetters, toast);
+            } else if (accessType === 'student') {
+                getSearchResults(studentApi.searchLetters, newQuery, authToken, setLetters, toast);
             }
         } else {
             getLetterData();
         }
-    }
+    };
 
     return (
         <div className={styles.container}>
