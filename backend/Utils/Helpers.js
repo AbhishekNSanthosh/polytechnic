@@ -10,21 +10,43 @@ const roles = {
     teacherRole: "teacher"
 }
 
+const currentTime = new Date();
+    let greeting;
+
+    // Determine the appropriate greeting based on the time of day
+    if (currentTime.getHours() < 12) {
+        greeting = "Good morning";
+    } else if (currentTime.getHours() < 18) {
+        greeting = "Good afternoon";
+    } else {
+        greeting = "Good evening";
+    }
+
 const twohundredResponse = (data = {}) => {
     return {
+        greeting,
         hasError: false,
         resCode: 200,
         status: "SUCCESS",
         ...data,
+        timestamp: currentTime.toISOString(),
+        apiVersion: "V2",
+        createdBy: "Carmel Polytechnic Professional Security",
+        dev:"∞ Infinity ∞"
     };
 };
 
 const twoNotOneResponse = (data = {}) => {
     return {
+        greeting,
         hasError: false,
         resCode: 201,
         status: "SUCCESS",
         ...data,
+        timestamp: currentTime.toISOString(),
+        apiVersion: "V2",
+        createdBy: "Carmel Polytechnic Professional Security",
+        dev:"∞ Infinity ∞"
     };
 };
 
@@ -33,7 +55,8 @@ const fiveHundredResponse = () => {
         hasError: true,
         resCode: 500,
         status: "FAILURE",
-        message: "Internal server error. Please try again later."
+        message: "Internal server error. Please try again later.",
+        apiVersion: "V2"
     };
 };
 
@@ -42,7 +65,8 @@ const fourNotOneResponse = (data = {}) => {
         hasError: true,
         resCode: 401,
         status: "FAILURE",
-        ...data
+        ...data,
+        apiVersion: "V2"
     };
 };
 
@@ -51,7 +75,8 @@ const fourNotFourResponse = (data = {}) => {
         hasError: true,
         resCode: 404,
         status: "FAILURE",
-        ...data
+        ...data,
+        apiVersion: "V2"
     };
 };
 
@@ -61,7 +86,8 @@ const fourNotThreeResponse = (data = {}) => {
         resCode: 403,
         status: "FAILURE",
         message: "Token not found. Authentication failed",
-        ...data
+        ...data,
+        apiVersion: "V2"
     };
 };
 
@@ -70,7 +96,8 @@ const fourNotNineResponse = (data = {}) => {
         hasError: true,
         resCode: 409,
         status: "FAILURE",
-        ...data
+        ...data,
+        apiVersion: "V2"
     };
 };
 
@@ -79,15 +106,24 @@ const fourHundredResponse = (data = {}) => {
         hasError: true,
         resCode: 400,
         status: "FAILURE",
-        ...data
+        ...data,
+        apiVersion: "V2"
     };
 };
 
 const customError = (data = {}) => {
     return {
-        hasError: true,
+        greeting,
+        resCode: data.resCode || "UNKNOWN_ERROR",
         status: "FAILURE",
-        ...data
+        hasError: true,
+        errorDetails: data.errorDetails || null,
+        message: data.message || "An unknown error occurred.",
+        ...data,
+        timestamp: currentTime.toISOString(),
+        apiVersion: "V2",
+        createdBy: "Carmel Polytechnic Professional Security",
+        dev:"∞ Infinity ∞"
     }
 }
 

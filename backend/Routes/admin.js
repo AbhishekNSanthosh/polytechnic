@@ -324,7 +324,7 @@ router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
         }
         const sanitizedLetter = sanitizedLetterData(letter);
         const successResponseMsg = twohundredResponse({
-            message: "Letter from ",
+            message: "Letter from: "+letter?.from?.username,
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
