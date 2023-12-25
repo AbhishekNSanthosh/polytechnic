@@ -13,8 +13,12 @@ const TopNavBar = () => {
         <>
             <div className={styles.container}>
                 <div className={styles.TopNavBarWrap}>
-                    <div className={styles.navBox}>
-                        <FiMenu className={styles.more} color='red' onClick={() => setIsDrawerOpen(true)} />
+                    <div className={styles.navBoxRes}>
+                        {isDrawerOpen ?
+                            <IoClose className={styles.more} color='red' onClick={() => setIsDrawerOpen(false)} />
+                            :
+                            <FiMenu className={styles.more} color='red' onClick={() => setIsDrawerOpen(true)} />
+                        }
                     </div>
                     <div className={styles.navBoxTitle}>
                         <span className={styles.welcome}>Hello, {userObj?.username} 👋</span>
@@ -26,9 +30,11 @@ const TopNavBar = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.navRes}>
-                <SideNavBar />
-            </div>
+            {isDrawerOpen &&
+                <div className={styles.navRes}>
+                    <SideNavBar />
+                </div>
+            }
         </>
     )
 }
