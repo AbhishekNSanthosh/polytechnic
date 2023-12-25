@@ -1,5 +1,4 @@
 .container {
-    position: relative;
     background-color: #fff;
     height: 100%;
     padding: 1rem;
@@ -8,6 +7,8 @@
 
 .wrap {
     display: flex;
+    position: relative;
+    position: relative;
     align-items: center;
     height: 100%;
     flex-direction: column;
@@ -15,6 +16,7 @@
 
 .bulk {
     position: absolute;
+    right: 0;
     right: 0;
     background-color: #fff;
     border: 1px solid rgb(255, 157, 157);
@@ -27,9 +29,29 @@
     padding: 15px 27px;
 }
 
+
+@media only screen and (max-width: 767px) {
+    .bulk {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 0.8rem;
+        background-color: #fff;
+        border: 1px solid rgb(255, 234, 234);
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        border-radius: 10px;
+        padding: 10px 15px;
+        /* margin-bottom: 1rem; */
+    }
+}
+
 .topRow {
-    position: relative;
     width: 100%;
+    margin-top: 3rem;
     display: flex;
     height: 3rem;
     align-items: center;
@@ -50,6 +72,17 @@
     flex-direction: column;
 }
 
+@media only screen and (max-width: 767px) {
+    .actionBox {
+        display: flex;
+        margin-top: 1rem;
+        width: 100%;
+        gap: 1.8rem;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+}
+
 .left {
     flex: 5;
 }
@@ -61,10 +94,20 @@
     justify-content: space-between;
 }
 
+@media only screen and (max-width: 767px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        justify-content: space-between;
+    }
+}
+
 .txtInput {
     width: 100%;
     padding: 10px;
-    background-color: rgb(255, 245, 245);
+    background-color: rgb(255, 249, 249);
     height: 4rem;
     border-radius: 10px;
     outline: none;
@@ -72,6 +115,12 @@
 
 .item {
     flex: 6;
+}
+
+@media only screen and (max-width: 767px) {
+    .item {
+        width: 100%;
+    }
 }
 
 .cancel {
@@ -223,7 +272,7 @@
     font-weight: 500;
 }
 
-.duplicateInfo{
+.duplicateInfo {
     font-size: 0.8rem;
     color: red;
     font-weight: 400;
@@ -253,7 +302,7 @@
     gap: 1rem;
 }
 
-.closeBtn{
+.closeBtn {
     border-radius: 10px;
     padding: 10px;
     width: 100%;
@@ -262,7 +311,7 @@
     color: #fff;
 }
 
-.modalItem{
+.modalItem {
     width: 100%;
     display: flex;
     align-items: center;

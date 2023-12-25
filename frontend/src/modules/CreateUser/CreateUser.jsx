@@ -31,11 +31,9 @@ const CreateUser = () => {
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
-                <div className={styles.topRow}>
-                    <button className={styles.bulk} onClick={() => {
-                        navigate('/user-management/create-student/bulk')
-                    }}> <TbUsersPlus />Add bulk users ?</button>
-                </div>
+                <button className={styles.bulk} onClick={() => {
+                    navigate('/user-management/create-student/bulk')
+                }}> <TbUsersPlus />Add bulk users ?</button>
                 <div className={styles.topRow}>
                     {userValue === "student" && <span className={styles.title}>Add Student</span>}
                     {userValue === "admin" && <span className={styles.title}>Add Admin</span>}
