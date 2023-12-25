@@ -28,44 +28,52 @@ const passwordlimiter = rateLimit({
 //api to login student
 router.post('/teacherLogin', async (req, res) => {
     try {
+        console.log(req.body)
+        console.log(req.ip)
+        const userIpAddress = req.ip
         const { username, password } = req.body;
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+
+        if (!username) {
+            throw { status: 400, message: "Username field is required" }
+        } else if (!password) {
+            throw { status: 400, message: "Password field is required" }
         }
 
-        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid username" }
         }
+        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid password" }
+        }
+
         const user = await User.findOne({ username, role: "teacher" });
 
         if (!user) {
-            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.userNotfoundMsg }
         }
+
         if (user.lockUntil > new Date()) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
-            return res.status(401).json(errorMessage);
+            const timeDifferenceInMilliseconds = user.lockUntil - new Date();
+            const timeDifferenceInMinutes = Math.ceil(timeDifferenceInMilliseconds / (1000 * 60));
+            throw {
+                status: 403, message: resMessages.AccountLockedMsg, description: `Please try again after ${timeDifferenceInMinutes} minutes`
+            };
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
             user.loginAttempts += 1;
-
             if (user.loginAttempts >= 3) {
                 user.lockUntil = new Date(Date.now() + 10 * 60 * 1000); // Lock for 10 minutes
             }
-
             await user.save();
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+
+            throw { status: 400, message: "Invalid password" }
         }
 
         if (user?.role !== "teacher") {
-            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.userNotfoundMsg }
         }
 
         user.loginAttempts = 0;
@@ -81,15 +89,22 @@ router.post('/teacherLogin', async (req, res) => {
             message: resMessages.AuthSuccessMsg,
             accessType: roles.teacherRole,
             accessToken: token,
+            userIpAddress
         }
 
         const successResponseMsg = twohundredResponse(responseMsg);
         return res.status(200).json(successResponseMsg);
 
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        let description
+        if (error.description) {
+            description = error.description
+        }
+        const errorMessage = customError({ resCode: status, message, description, userIpAddress })
+        return res.status(status).json(errorMessage);
     }
 });
 
@@ -167,7 +182,7 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
             },
         }
         const successResponseMsg = twohundredResponse({
-            message: "Letter from: "+letter?.from?.username,
+            message: "Letter from: " + letter?.from?.username,
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
