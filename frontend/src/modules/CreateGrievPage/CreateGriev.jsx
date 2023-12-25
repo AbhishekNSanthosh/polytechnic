@@ -38,16 +38,16 @@ const CreateGriev = () => {
                             setDesc(e.target.value);
                         }} />
                     </div>
+                    {/* <div className={styles.grievPreRow}>
+                        <button className={styles.preview}>Preview</button>
+                    </div> */}
                     <div className={styles.grievBtnRow}>
-                        <button className={styles.cancel}>Cancel</button>
-                        <button className={styles.save}>Save as draft</button>
+                        {/* <button className={styles.save}>Save as draft</button> */}
                         <button className={styles.submit} onClick={(e) => {
                             e.preventDefault();
                             handleSubmit();
                         }}>Submit</button>
-                    </div>
-                    <div className={styles.grievPreRow}>
-                        <button className={styles.preview}>Preview</button>
+                        <button className={styles.cancel}>Cancel</button>
                     </div>
                 </div>
             </div>
