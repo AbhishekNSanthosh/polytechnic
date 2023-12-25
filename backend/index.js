@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/api/v2/', (req, res) => {
+app.get('/api/v2/', (req, res) => {
     return res.status(200).json({
         resCode: 200,
         status: "SUCCESS",
