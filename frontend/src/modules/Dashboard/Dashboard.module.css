@@ -12,10 +12,29 @@
     border-bottom: 1px solid rgb(255, 213, 213);
 }
 
+@media only screen and (max-width: 767px) {
+    .dashboardTopRow {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        padding: 0 0 1rem 0;
+        border-bottom: 1px solid rgb(255, 213, 213);
+    }
+}
+
 .dashboardRowLeft {
     display: flex;
     flex: 4;
     width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .dashboardRowLeft {
+        display: flex;
+        flex: 12;
+        width: 100%;
+    }
 }
 
 .dashboardRowRight {
@@ -27,6 +46,17 @@
     flex: 8;
 }
 
+@media only screen and (max-width: 767px) {
+    .dashboardRowRight {
+        width: 100%;
+        display: none;
+        align-items: center;
+        justify-content: end;
+        gap: 0.5rem;
+        flex: 8;
+    }
+}
+
 .searchWrap {
     display: flex;
     align-items: center;
@@ -36,6 +66,19 @@
     background-color: rgb(255, 242, 242);
     border-radius: 30px;
     width: 90%;
+}
+
+@media only screen and (max-width: 767px) {
+    .searchWrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 10px;
+        background-color: rgb(255, 242, 242);
+        border-radius: 30px;
+        width: 100%;
+    }
 }
 
 .icon {
