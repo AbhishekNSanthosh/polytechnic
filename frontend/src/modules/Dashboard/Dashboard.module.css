@@ -1,5 +1,5 @@
 .container {
-    height: 100%;
+    height: auto;
     background-color: #fff;
     border-radius: 10px;
     padding: 1rem;
@@ -7,7 +7,6 @@
 
 @media only screen and (max-width: 767px) {
     .container {
-        height: 100%;
         background-color: #fff;
         border-radius: 10px;
         padding: 0.4rem;
@@ -18,7 +17,7 @@
     display: flex;
     width: 100%;
     padding: 0 0 0rem 0;
-    border-bottom: 1px solid rgb(255, 213, 213);
+    border-bottom: 1px solid rgb(255, 237, 237);
 }
 
 @media only screen and (max-width: 767px) {
@@ -28,7 +27,7 @@
         gap: 1rem;
         width: 100%;
         padding: 0 0 0.7rem 0;
-        border-bottom: 1px solid rgb(255, 213, 213);
+        border-bottom: 1px solid rgb(255, 241, 241);
     }
 }
 
@@ -116,7 +115,7 @@
 }
 
 .dashboardRow {
-    height: 76.5vh;
+    height: auto;
     overflow-y: auto;
 }
 
@@ -125,7 +124,7 @@
     height: 4.3rem;
     padding: 0 1.3rem;
     border-radius: 10px;
-    border-bottom: 1px solid rgb(255, 217, 217);
+    border-bottom: 1px solid rgb(255, 241, 241);
     display: flex;
     align-items: center;
 }
@@ -136,7 +135,7 @@
         height: 5rem;
         padding: 0 0.5rem;
         border-radius: 10px;
-        border-bottom: 1px solid rgb(255, 217, 217);
+        border-bottom: 1px solid rgb(255, 241, 241);
         display: flex;
         align-items: center;
     }
