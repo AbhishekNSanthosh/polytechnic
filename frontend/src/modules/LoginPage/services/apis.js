@@ -36,13 +36,23 @@ export const loginUser = async (
             }, 1000);
         })
     } catch (error) {
-        toast({
-            title: error?.response?.data.message,
-            // description: "Redirecting to dashboard",
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-        })
+        if (error?.response?.data?.resCode === 403) {
+            toast({
+                title: error?.response?.data.message,
+                description: error?.response?.data?.description,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        } else {
+            toast({
+                title: error?.response?.data.message,
+                // description: error?.response?.data?.description,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        }
         console.log(error)
     }
 }

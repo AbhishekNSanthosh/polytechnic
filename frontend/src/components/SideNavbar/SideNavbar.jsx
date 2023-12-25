@@ -119,7 +119,6 @@ const SideNavBar = ({ drawerOpenStatus }) => {
             <div
               className={styles.logoutBox}
               onClick={() => {
-                drawerOpenStatus()
                 localStorage.clear();
                 toast({
                   title: 'Logout successful',
@@ -132,6 +131,7 @@ const SideNavBar = ({ drawerOpenStatus }) => {
                   window.location.reload();
                   // navigate('/');
                 }, 2000);
+                drawerOpenStatus()
               }}
             >
               <SlLogout className={styles.navtitle} />

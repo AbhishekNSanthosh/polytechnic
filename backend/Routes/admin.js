@@ -43,6 +43,8 @@ const limiter = rateLimit({
 //api to login admin
 router.post('/adminLogin', async (req, res) => {
     console.log(req.body)
+    console.log(req.ip)
+    const userIpAddress = req.ip
     try {
         const { username, password } = req.body;
         if (!username) {
@@ -64,7 +66,12 @@ router.post('/adminLogin', async (req, res) => {
             throw { status: 404, message: resMessages.userNotfoundMsg }
         }
         if (user.lockUntil > new Date()) {
-            throw { status: 404, message: resMessages.AccountLockedMsg }
+            const timeDifferenceInMilliseconds = user.lockUntil - new Date();
+            const timeDifferenceInMinutes = Math.ceil(timeDifferenceInMilliseconds / (1000 * 60));
+
+            throw {
+                status: 403, message: resMessages.AccountLockedMsg, description: `Please try again after ${timeDifferenceInMinutes} minutes`
+            };
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -78,7 +85,7 @@ router.post('/adminLogin', async (req, res) => {
 
             await user.save();
 
-            throw { status: 401, message: "Invalid password" }
+            throw { status: 400, message: "Invalid password" }
         }
 
         if (user?.role !== "admin") {
@@ -94,10 +101,11 @@ router.post('/adminLogin', async (req, res) => {
         }, "carmelpoly", { expiresIn: '1h' });
 
         const responseMsg = {
-            greetings: `Welcome ${user.username.toUpperCase()} !!!`,
+            welcomeMesssage: `Welcome ${user.username.toUpperCase()} !!!`,
             message: resMessages.AuthSuccessMsg,
             accessType: roles.adminRole,
             accessToken: token,
+            userIpAddress
         }
 
         const successResponseMsg = twohundredResponse(responseMsg);
@@ -106,7 +114,11 @@ router.post('/adminLogin', async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        let description
+        if (error.description) {
+            description = error.description
+        }
+        const errorMessage = customError({ resCode: status, message, description, userIpAddress })
         return res.status(status).json(errorMessage);
     }
 });
@@ -324,7 +336,7 @@ router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
         }
         const sanitizedLetter = sanitizedLetterData(letter);
         const successResponseMsg = twohundredResponse({
-            message: "Letter from: "+letter?.from?.username,
+            message: "Letter from: " + letter?.from?.username,
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
@@ -481,19 +493,19 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
 
         const studentsToInsert = await Promise.all(jsonData.map(async (student) => {
             if (!student.username) {
-                throw { status: 400, message: `Username field missing for user: ${student.username}` }
+                throw { status: 400, message: `Username field missing for user: ${student.username} ` }
             }
             if (!student.email) {
-                throw { status: 400, message: `Email field missing for user: ${student.username}` }
+                throw { status: 400, message: `Email field missing for user: ${student.username} ` }
             }
             if (!student.semester) {
-                throw { status: 400, message: `Semester field missing for user: ${student.username}` }
+                throw { status: 400, message: `Semester field missing for user: ${student.username} ` }
             }
             if (!student.department) {
-                throw { status: 400, message: `Department field missing for user: ${student.username}` }
+                throw { status: 400, message: `Department field missing for user: ${student.username} ` }
             }
             if (!student.password) {
-                throw { status: 400, message: `Password field missing for user: ${student.username}` }
+                throw { status: 400, message: `Password field missing for user: ${student.username} ` }
             }
 
             const pass = JSON.stringify(student.password);
@@ -577,16 +589,16 @@ router.post('/uploadManyTeacher', verifyAdminToken, upload.single('file'), async
 
         const studentsToInsert = await Promise.all(jsonData.map(async (teacher) => {
             if (!teacher.username) {
-                throw { status: 400, message: `Username field missing for user: ${teacher.username}` }
+                throw { status: 400, message: `Username field missing for user: ${teacher.username} ` }
             }
             if (!teacher.email) {
-                throw { status: 400, message: `Email field missing for user: ${teacher.username}` }
+                throw { status: 400, message: `Email field missing for user: ${teacher.username} ` }
             }
             if (!teacher.department) {
-                throw { status: 400, message: `Department field missing for user: ${teacher.username}` }
+                throw { status: 400, message: `Department field missing for user: ${teacher.username} ` }
             }
             if (!teacher.password) {
-                throw { status: 400, message: `Password field missing for user: ${teacher.username}` }
+                throw { status: 400, message: `Password field missing for user: ${teacher.username} ` }
             }
 
             const pass = JSON.stringify(teacher.password);
@@ -631,8 +643,8 @@ router.post('/uploadManyTeacher', verifyAdminToken, upload.single('file'), async
 //                 from: 'abhisheksanthosh404@gmail.com',
 //                 to: student.email,
 //                 subject: 'Welcome to NoteNest - Your Temporary Password',
-//                 text: `Hello ${student.username}!\n\nYour temporary password is: ${tempPassword}`,
-//                 html: `<p>Hello ${student.username}!</p>
+//                 text: `Hello ${ student.username } !\n\nYour temporary password is: ${ tempPassword } `,
+//                 html: `< p > Hello ${ student.username } !</p >
 //                  <p>Your temporary password is: ${tempPassword}</p>
 //                  <p>Please log in and reset your password as soon as possible.</p>`,
 //             };
