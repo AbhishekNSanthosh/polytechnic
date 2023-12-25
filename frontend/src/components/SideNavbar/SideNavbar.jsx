@@ -128,9 +128,8 @@ const SideNavBar = ({ drawerOpenStatus }) => {
                   isClosable: true,
                 });
                 setTimeout(() => {
-                  window.location.reload();
-                  // navigate('/');
-                }, 2000);
+                  navigate('/')
+                }, 1000);
                 drawerOpenStatus()
               }}
             >

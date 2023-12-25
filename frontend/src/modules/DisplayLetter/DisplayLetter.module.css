@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    height: 100%;
+    height: autp;
     border-radius: 10px;
     flex-direction: column;
     background-color: #fff;
@@ -9,7 +9,7 @@
 .letterWrap {
     display: flex;
     flex-direction: column;
-    height: 96%;
+    height: 100%;
     position: relative;
     margin: 1rem;
 }
