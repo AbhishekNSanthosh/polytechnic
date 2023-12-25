@@ -3,8 +3,21 @@
     flex-direction: column;
     background: #fff;
     color:#7a7a7a;
-    height: 100%;
+    height: auto;
     padding: 1rem;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        color:#7a7a7a;
+        height: auto;
+        padding: 0.5rem;
+        border-radius: 10px;
+    }
 }
 
 .wrap{
@@ -13,7 +26,6 @@
     align-items: center;
     justify-content: center;
     gap: 3rem;
-    width: 100%;
 }
 
 .actions {
