@@ -52,12 +52,31 @@
     gap: 1rem;
 }
 
+@media only screen and (max-width: 767px) {
+    .manageItemRow {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 .verticalLine {
     height: 100%;
     border-left: 1px solid #ffd2d2;
     /* You can change the color as needed */
     margin: 0 10px;
     /* Adjust the margin as needed */
+}
+
+@media only screen and (max-width: 767px) {
+    .verticalLine {
+        width: 100%;
+        border-bottom: 1px solid #ffd2d2;
+        /* You can change the color as needed */
+        margin-top: 3.5rem;
+        /* Adjust the margin as needed */
+    }
 }
 
 .manageItemLeft {
@@ -73,6 +92,7 @@
     align-items: start;
     flex-direction: column;
     gap: 0.5rem;
+    width: 100%;
 }
 
 .manageItemTop {
@@ -122,7 +142,7 @@
 }
 
 
-.listTopContainer{
+.listTopContainer {
     height: 20rem;
 }
 
@@ -140,6 +160,7 @@
     overflow-y: auto;
 }
 
+
 .listContainerRight {
     display: flex;
     flex-direction: column;
@@ -150,6 +171,17 @@
     overflow-y: auto;
 }
 
+@media only screen and (max-width: 767px) {
+    .listContainerRight {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 10rem;
+        min-height: 12rem;
+        overflow-y: auto;
+    }
+}
 .userListContainer {
     display: flex;
     width: 100%;
@@ -208,14 +240,14 @@
     color: red;
 }
 
-.btnRow{
+.btnRow {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: center;
 }
 
-.submitBtn{
+.submitBtn {
     display: flex;
     width: 100%;
     padding: 10px;
