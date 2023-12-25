@@ -10,14 +10,14 @@
         height: 100%;
         background-color: #fff;
         border-radius: 10px;
-        padding: 0.5rem;
+        padding: 0.4rem;
     }
 }
 
 .dashboardTopRow {
     display: flex;
     width: 100%;
-    padding: 0 0 1rem 0;
+    padding: 0 0 0rem 0;
     border-bottom: 1px solid rgb(255, 213, 213);
 }
 
@@ -72,7 +72,7 @@
     justify-content: center;
     gap: 10px;
     padding: 0 10px;
-    background-color: rgb(255, 242, 242);
+    background-color: rgb(255, 252, 252);
     border-radius: 30px;
     width: 90%;
 }
@@ -84,7 +84,7 @@
         justify-content: center;
         gap: 10px;
         padding: 0 10px;
-        background-color: rgb(255, 242, 242);
+        background-color:rgb(255, 252, 252);
         border-radius: 30px;
         width: 100%;
     }
@@ -92,6 +92,7 @@
 
 .icon {
     font-size: 1.8rem;
+    color: #949494;
 }
 
 .dashboardRowLeftSearch {
@@ -99,7 +100,7 @@
     width: 100%;
     outline: none;
     border: none;
-    background-color: rgb(255, 242, 242);
+    background-color: rgb(255, 252, 252);
     border-radius: 10px;
 
 }
@@ -115,7 +116,7 @@
 }
 
 .dashboardRow {
-    height: 75vh;
+    height: 76.5vh;
     overflow-y: auto;
 }
 
