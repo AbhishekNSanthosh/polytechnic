@@ -54,7 +54,7 @@ const DisplayLetter = () => {
                             <span className={styles.subtitle}>Date:</span>
                         </div>
                         <div className={styles.right}>
-                            <span className={styles.letterDetails}>{letterData?.createdAt?.date}</span>
+                            <span className={styles.letterDetails}>{letterData?.createdAt?.date.slice(0,11)}</span>
                         </div>
                     </div>
                     <div className={styles.letterRow}>
@@ -83,7 +83,7 @@ const DisplayLetter = () => {
                     <div className={styles.letterBodyRow}>
                         <div className={styles.content}>
                             <span className={styles.subtitle}>with regards ,</span>
-                            <span className={styles.subtitle}>{letterData?.from?.username}</span>
+                            <span className={styles.subtitleName}>{letterData?.from?.username}</span>
                             <span className={styles.subtitle}>Thank you</span>
                         </div>
                     </div>

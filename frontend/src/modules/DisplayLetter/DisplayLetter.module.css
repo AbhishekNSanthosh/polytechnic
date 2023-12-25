@@ -36,8 +36,21 @@
     height: 100%;
 }
 
+@media only screen and (max-width: 767px) {
+    .letterBox {
+        margin-top: 1rem;
+        display: flex;
+        padding: 10px;
+        flex-direction: column;
+        border-radius: 10px;
+        gap: 1rem;
+        height: 100%;
+    }
+}
+
 .letterRow {
     display: flex;
+    gap: 1rem;
 }
 
 .left {
@@ -55,8 +68,14 @@
     font-size: 1.05rem;
 }
 
+.subtitleName{
+    font-size: 1.05rem;
+    text-transform: capitalize;
+}
+
 .letterDetails {
     font-size: 1.05rem;
+    text-transform: capitalize;
 }
 
 .letterBodyRow {
