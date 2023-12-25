@@ -81,7 +81,7 @@
 
 .more {
     display: flex;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: red;
 
     cursor: pointer;
@@ -100,14 +100,10 @@
         position: absolute;
         background-color: #fff;
         z-index: 9999;
-        height: 87vh;
+        height: 91vh;
         width: 100%;
         display: block;
     }
-}
-
-.navBoxRes {
-    display: none;
 }
 
 
@@ -118,5 +114,5 @@
 }
 
 .bannerLogo{
-    height: 1.9rem;
+    height: 1.4rem;
 }
