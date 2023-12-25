@@ -7,16 +7,14 @@ import { FiEdit } from "react-icons/fi";
 const UserList = ({ user, index }) => {
     return (
         <div className={styles.listContainer}>
-            <div className={styles.left}>
-                <span className={styles.countNo}>{index + 1}.</span>
-            </div>
             <div className={styles.center}>
+                <span className={styles.countNo}>{index + 1}.</span>
                 <span className={styles.subject}>{user?.username}</span>
-                <div className={styles.centerCol}>
-                    <span className={styles.subject}>{user?.department}</span>
-                    <span className={styles.subject}>{user?.semester}</span>
-                </div>
                 {/* <IoMailUnreadOutline className={styles.read} title='unread' /> */}
+            </div>
+            <div className={styles.centerCol}>
+                <span className={styles.subject}>{user?.department ? user?.department : "Nill"}</span>
+                <span className={styles.subject}>{user?.semester ? user?.semester : "Nill"}</span>
             </div>
             <div className={styles.right}>
                 <div className={styles.hover}>

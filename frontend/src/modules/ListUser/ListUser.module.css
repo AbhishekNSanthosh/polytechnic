@@ -32,6 +32,16 @@
     border-bottom: 1px solid rgb(255, 213, 213);
 }
 
+@media only screen and (max-width: 767px) {
+    .dashboardTopRow {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0 0 1rem 0;
+        border-bottom: 1px solid rgb(255, 213, 213);
+    }
+}
+
 .dashboardRowLeft {
     display: flex;
     flex: 4;
@@ -47,6 +57,17 @@
     flex: 8;
 }
 
+@media only screen and (max-width: 767px) {
+    .dashboardRowRight {
+        width: 100%;
+        display: none;
+        align-items: center;
+        justify-content: end;
+        gap: 0.5rem;
+        flex: 8;
+    }
+}
+
 .searchWrap {
     display: flex;
     align-items: center;
@@ -58,8 +79,22 @@
     width: 90%;
 }
 
+@media only screen and (max-width: 767px) {
+    .searchWrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 10px;
+        background-color: rgb(255, 242, 242);
+        border-radius: 30px;
+        width: 100%;
+    }
+}
+
 .icon {
     font-size: 1.8rem;
+    color: rgb(182, 182, 182);
 }
 
 .dashboardRow {
@@ -108,9 +143,29 @@
     align-items: center;
 }
 
+@media only screen and (max-width: 767px) {
+    .listContainer {
+        width: 100%;
+        height: 4.3rem;
+        min-height: 4.3rem;
+        padding: 0 0rem;
+        border-radius: 10px;
+        border-bottom: 1px solid rgb(255, 217, 217);
+        display: flex;
+        align-items: center;
+    }
+}
+
 .left {
     display: flex;
     flex: 0.5;
+}
+
+@media only screen and (max-width: 767px) {
+    .left {
+        display: flex;
+        flex: 0;
+    }
 }
 
 .right {
@@ -120,9 +175,19 @@
     flex: 2;
 }
 
+@media only screen and (max-width: 767px) {
+    .right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 2;
+    }
+}
+
 .center {
     display: flex;
-    justify-content: space-between;
+    gap: 0.7rem;
+    justify-content: start;
     flex: 8;
 }
 
@@ -141,9 +206,23 @@
     cursor: pointer;
 }
 
+@media only screen and (max-width: 767px) {
+    .actionIcon {
+        font-size: 1.3rem;
+        cursor: pointer;
+    }
+}
+
 .edit {
     font-size: 1.18rem;
     cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+    .edit {
+        font-size: 1rem;
+        cursor: pointer;
+    }
 }
 
 .hover {
@@ -164,6 +243,17 @@
     justify-content: space-evenly;
 }
 
+@media only screen and (max-width: 767px) {
+    .centerCol {
+        width: 10rem;
+        flex: 1;
+        gap: 1rem;
+        margin-right: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
 .rightItem{
     display: flex;
     align-items: center;
