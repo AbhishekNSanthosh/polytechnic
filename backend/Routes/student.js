@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyStudentToken } = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse, abstractedUserData } = require('../Utils/Helpers');
+const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse, abstractedUserData, customError } = require('../Utils/Helpers');
 const moment = require('moment');
 // const MemoryStore = require("rate-limit-memory");
 

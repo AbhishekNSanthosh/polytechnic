@@ -29,8 +29,6 @@ const passwordlimiter = rateLimit({
 router.post('/teacherLogin', async (req, res) => {
     try {
         console.log(req.body)
-        console.log(req.ip)
-        const userIpAddress = req.ip
         const { username, password } = req.body;
 
         if (!username) {
@@ -103,7 +101,7 @@ router.post('/teacherLogin', async (req, res) => {
         if (error.description) {
             description = error.description
         }
-        const errorMessage = customError({ resCode: status, message, description, userIpAddress })
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
