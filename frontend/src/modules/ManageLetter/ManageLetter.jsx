@@ -152,6 +152,9 @@ const ManageLetter = () => {
                                         <button className={styles.submitBtn} onClick={() => {
                                             handleViewAccess();
                                         }}>Update view access permission</button>
+                                        <button className={styles.cancelBtn} onClick={() => {
+                                            navigate('/view-letter/'+letterId)
+                                        }}>Cancel</button>
                                     </div>
                                 </div>
                             }
@@ -163,7 +166,7 @@ const ManageLetter = () => {
                             </div>
                             <div className={styles.manageRight}>
                                 {selectedUserNames.length !== 0 ?
-                                    <div className={styles.listContainer}>
+                                    <div className={styles.listContainerLeft}>
                                         {selectedUserNames && selectedUserNames.map((teacher, index) => (
                                             <div className={styles.userListContainer}>
                                                 <div className={styles.left}>
