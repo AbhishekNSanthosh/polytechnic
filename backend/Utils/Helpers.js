@@ -117,7 +117,7 @@ const customError = (data = {}) => {
         resCode: data.resCode || "UNKNOWN_ERROR",
         status: "FAILURE",
         hasError: true,
-        errorDetails: data.errorDetails || null,
+        error: data.error || null,
         message: data.message || "An unknown error occurred.",
         ...data,
         timestamp: currentTime.toISOString(),

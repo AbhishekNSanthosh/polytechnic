@@ -1,26 +1,28 @@
 const jwt = require('jsonwebtoken');
 const User = require('../Models/User');
-const { resMessages, fourNotThreeResponse, fourNotOneResponse } = require('../Utils/Helpers');
+const { resMessages, customError } = require('../Utils/Helpers');
 
 // Middleware to verify JWT tokens for checking admin authorization
 const verifyAdminToken = async (req, res, next) => {
-    if (!req.headers.authorization) {
-        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
-        return res.status(403).json(errorMessage);
-    }
-    let token = req.headers.authorization.split(" ")[1];
-    console.log(token)
-    if (!token) {
-        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
-        return res.status(403).json(errorMessage);
-    }
     try {
+        if (!req.headers.authorization) {
+            throw { status: 403, message: resMessages.tokenNotFound }
+        }
+        let token = req.headers.authorization.split(" ")[1];
+
+        if (!token) {
+            throw { status: 403, message: resMessages.tokenNotFound }
+        }
+
         const decoded = jwt.verify(token, 'carmelpoly');
         const user = await User.findOne({ _id: decoded.userId })
-        console.log("Requesting user => \n", user)
+        console.log("Requesting user => \n", user);
+
+        if (!user) {
+            throw { status: 403, message: "Access denied" }
+        }
         if (decoded.username !== user?.username && decoded.role !== "admin") {
-            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: resMessages.unAuthorized }
         }
         if (decoded.role === "admin" && user?.role === "admin") {
             req.userId = decoded?.userId
@@ -28,41 +30,46 @@ const verifyAdminToken = async (req, res, next) => {
             req.user = user
             next();
         } else {
-            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: resMessages.unAuthorized }
         }
     } catch (error) {
         console.log(error)
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired, error: 'TokenExpiredError' });
-            return res.status(401).json(errorMessage);
-        } else {
-            const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
+            const errorMessage = customError({ resCode: 401, message: resMessages.sessionExpired, error: 'TokenExpiredError' })
             return res.status(401).json(errorMessage);
         }
+        const errorMessage = customError({ resCode: status, message })
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        return res.status(status).json(errorMessage);
     }
 };
 
 // Middleware to verify JWT tokens for checking student authorization
 const verifyStudentToken = async (req, res, next) => {
-    if (!req.headers.authorization) {
-        const errorMessage = fourNotThreeResponse({ message: resMessages.accessDenied });
-        return res.status(403).json(errorMessage);
-    }
-    let token = req.headers.authorization.split(" ")[1];
-    console.log(token)
-    if (!token) {
-        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
-        return res.status(403).json(errorMessage);
-    }
-    console.log(token)
     try {
+        if (!req.headers.authorization) {
+            throw { status: 403, message: resMessages.accessDenied }
+        }
+
+        let token = req.headers.authorization.split(" ")[1];
+        console.log(token)
+
+        if (!token) {
+            throw { status: 403, message: resMessages.tokenNotFound }
+        }
+        console.log(token)
         const decoded = jwt.verify(token, 'carmelpoly');
         const user = await User.findOne({ _id: decoded.userId })
+
+        if (!user) {
+            throw { status: 403, message: "Access denied" }
+        }
+
         console.log("Requesting user => \n", user)
+
         if (decoded.username !== user?.username && decoded.role !== "student") {
-            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: resMessages.unAuthorized }
         }
 
         if (decoded.role === "student" && user?.role === "student") {
@@ -71,40 +78,44 @@ const verifyStudentToken = async (req, res, next) => {
             req.user = user
             next();
         } else {
-            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: resMessages.unAuthorized }
         }
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired, error: 'TokenExpiredError' });
-            return res.status(401).json(errorMessage);
-        } else {
-            const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
+            const errorMessage = customError({ resCode: 401, message: resMessages.sessionExpired, error: 'TokenExpiredError' })
             return res.status(401).json(errorMessage);
         }
+        const errorMessage = customError({ resCode: status, message })
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        return res.status(status).json(errorMessage);
     }
 };
 
 // Middleware to verify JWT tokens for checking teacher authorization
 const verifyTeacherToken = async (req, res, next) => {
-    if (!req.headers.authorization) {
-        console.log("auth")
-        const errorMessage = fourNotThreeResponse({ message: resMessages.invalidMsg });
-        return res.status(403).json(errorMessage);
-    }
-    let token = req.headers.authorization.split(" ")[1];
-    if (!token) {
-        const errorMessage = fourNotThreeResponse({ message: resMessages.tokenNotFound });
-        return res.status(403).json(errorMessage);
-    }
     try {
+        if (!req.headers.authorization) {
+            throw { status: 403, message: resMessages.accessDenied }
+        }
+
+        let token = req.headers.authorization.split(" ")[1];
+        if (!token) {
+            throw { status: 403, message: resMessages.tokenNotFound }
+        }
+
         const decoded = jwt.verify(token, 'carmelpoly');
         const user = await User.findOne({ _id: decoded.userId })
+
+        if (!user) {
+            throw { status: 403, message: "Access denied" }
+        }
+
         console.log("Requesting user => \n", user)
+
         if (decoded.username !== user?.username && (user?.role !== "teacher" && decoded.role !== "teacher")) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.unAuthorized });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: resMessages.unAuthorized }
         }
 
         if (decoded.role === "teacher" && user?.role === "teacher") {
@@ -113,21 +124,18 @@ const verifyTeacherToken = async (req, res, next) => {
             req.user = user
             next();
         } else {
-            return res.status(401).json({
-                resCode: 401,
-                status: "FAILURE",
-                message: "Not Authorized",
-            });
+            throw { status: 401, message: resMessages.unAuthorized }
         }
     } catch (error) {
         console.log(error)
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = fourNotOneResponse({ message: resMessages.sessionExpired, error: 'TokenExpiredError' });
-            return res.status(401).json(errorMessage);
-        } else {
-            const errorMessage = fourNotOneResponse({ message: resMessages.authFailed });
+            const errorMessage = customError({ resCode: 401, message: resMessages.sessionExpired, error: 'TokenExpiredError' })
             return res.status(401).json(errorMessage);
         }
+        const errorMessage = customError({ resCode: status, message })
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        return res.status(status).json(errorMessage);
     }
 };
 
