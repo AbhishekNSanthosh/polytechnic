@@ -1,7 +1,6 @@
 .container {
     display: flex;
     height: auto;
-    min-height: 87vh;
     flex-direction: column;
     background-color: #fff;
     border-radius: 10px;
@@ -24,14 +23,22 @@
 
 .wrap {
     padding: 1rem;
-    height: 95%;
+    height: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .wrap {
+        padding: 0rem;
+        height: 100%;
+    }
+    
 }
 
 .dashboardTopRow {
     display: flex;
     width: 100%;
     padding: 0 0 1rem 0;
-    border-bottom:1px solid rgb(255, 248, 248);
+    border-bottom: 1px solid rgb(255, 248, 248);
 }
 
 @media only screen and (max-width: 767px) {
@@ -101,19 +108,32 @@
 
 .dashboardRow {
     height: auto;
-    max-height: 68vh;
+    max-height: 61vh;
     overflow: scroll;
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
 }
 
+@media only screen and (max-width: 767px) {
+    .dashboardRow {
+        height: auto;
+        max-height: 72vh;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+    }
+}
+
+
+
 .dashboardRowLeftSearch {
     height: 3rem;
     width: 100%;
     outline: none;
     border: none;
-    background-color:  rgb(255, 249, 249);
+    background-color: rgb(255, 249, 249);
     border-radius: 10px;
 
 }
@@ -257,9 +277,10 @@
         justify-content: space-around;
     }
 }
-.rightItem{
+
+.rightItem {
     display: flex;
     align-items: center;
-    justify-content:space-between;
+    justify-content: space-between;
     gap: 0.5rem;
 }

@@ -115,8 +115,15 @@
 }
 
 .dashboardRow {
-    height: 77vh;
+    height: 70vh;
     overflow-y: auto;
+}
+
+@media only screen and (max-width: 767px) {
+    .dashboardRow {
+        height: 77vh;
+        overflow-y: auto;
+    }
 }
 
 .LetterListContainer {
@@ -124,7 +131,7 @@
     height: 4.3rem;
     padding: 0 1.3rem;
     border-radius: 10px;
-    border-bottom: 1px solid rgb(255, 241, 241);
+    border-bottom: 1px solid rgb(255, 238, 238);
     display: flex;
     align-items: center;
 }
