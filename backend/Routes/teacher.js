@@ -87,7 +87,6 @@ router.post('/teacherLogin', async (req, res) => {
             message: resMessages.AuthSuccessMsg,
             accessType: roles.teacherRole,
             accessToken: token,
-            userIpAddress
         }
 
         const successResponseMsg = twohundredResponse(responseMsg);

@@ -28,7 +28,7 @@ const limiter = rateLimit({
 });
 
 //api to login student
-router.post('/studentLogin', limiter, async (req, res) => {
+router.post('/studentLogin', async (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username) {
@@ -43,21 +43,23 @@ router.post('/studentLogin', limiter, async (req, res) => {
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid password" }
         }
-        
+
         const isEmail = validator.isEmail(username);
 
         // Query the user based on either username or email
         const userQuery = isEmail ? { email: username, role: "student" } : { username, role: "student" };
         const user = await User.findOne(userQuery);
-        console.log(userQuery)
-        console.log(user);
+
         if (!user) {
-            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.userNotfoundMsg }
         }
+
         if (user.lockUntil > new Date()) {
-            const errorMessage = fourNotOneResponse({ message: resMessages.AccountLockedMsg });
-            return res.status(401).json(errorMessage);
+            const timeDifferenceInMilliseconds = user.lockUntil - new Date();
+            const timeDifferenceInMinutes = Math.ceil(timeDifferenceInMilliseconds / (1000 * 60));
+            throw {
+                status: 403, message: resMessages.AccountLockedMsg, description: `Please try again after ${timeDifferenceInMinutes} minutes`
+            };
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -69,13 +71,11 @@ router.post('/studentLogin', limiter, async (req, res) => {
             }
 
             await user.save();
-            const errorMessage = fourNotOneResponse({ message: resMessages.invalidMsg });
-            return res.status(401).json(errorMessage);
+            throw { status: 401, message: "Invalid password" }
         }
 
         if (user?.role !== "student") {
-            const errorMessage = fourNotFourResponse({ message: resMessages.userNotfoundMsg });
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.userNotfoundMsg }
         }
 
         user.loginAttempts = 0;
@@ -108,7 +108,13 @@ router.post('/studentLogin', limiter, async (req, res) => {
 router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
     try {
         const letterId = req.params.id;
+        if (!letterId) {
+            throw { status: 400, message: "Invalid letterid found" }
+        }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
+        if (!letter) {
+            throw { status: 404, message: "Letter does not exist" }
+        }
         const sanitizedLetter = {
             ...letter.toObject(),
             from: {
@@ -133,9 +139,11 @@ router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
@@ -143,13 +151,19 @@ router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
 router.get('/getUserDetails', verifyStudentToken, async (req, res) => {
     try {
         if (req.user) {
+            if (!req.user) {
+                throw { status: 404, message: "User does not exists" }
+            }
             const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
         }
     } catch (error) {
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
@@ -336,18 +350,18 @@ router.post('/resetPassword', async (req, res) => {
 router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res) => {
     try {
         const letterId = req.params.letterId;
-
+        if (!letterId) {
+            throw { status: 400, message: "Invalid letterId found" }
+        }
         // Find the letter by ID
         const letter = await Letter.findById(letterId).populate('sender');
         if (!letter) {
-            const errorMessage = fourNotFourResponse({ message: resMessages.notFoundMsg })
-            return res.status(404).json(errorMessage);
+            throw { status: 404, message: resMessages.notFoundMsg }
         }
 
         // Check if the sender has the role 'student'
         if (letter.sender !== 'student') {
-            const errorMessage = fourNotThreeResponse({ message: 'Permission denied. Only students can delete letters.' })
-            return res.status(403).json(errorMessage);
+            throw { status: 403, message: "Access denied" }
         }
 
         // Check if it's within one hour of sending the letter
@@ -355,8 +369,7 @@ router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res
         oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
         if (letter.sentAt < oneHourAgo) {
-            const errorMessage = fourHundredResponse({ message: 'Cannot delete the letter. More than one hour has passed since sending.' })
-            return res.status(404).json(errorMessage);
+            throw { status: 400, message: "Cannot delete the letter.", description: "More than one hour passed since sending" }
         }
 
         // Delete the letter
