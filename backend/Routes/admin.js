@@ -6,6 +6,9 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
+const pdfkit = require('pdfkit');
+
+
 const {
     roles,
     twohundredResponse,
@@ -15,7 +18,7 @@ const {
     abstractedUserData,
     customError,
     sanitizedLetterList,
-    sanitizedLetterData
+    sanitizedLetterData,
 } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const XLSX = require('xlsx');
@@ -884,7 +887,6 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
         const message = searchResCount === 0 ? "The requested resource could not be found." : "Search results:"
         const successResponse = twohundredResponse({ message, data: sanitizedLetters, searchResCount });
         return res.status(200).json(successResponse);
-
     } catch (error) {
         console.error(error);
         const status = error.status || 500;
@@ -967,5 +969,49 @@ router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
         return res.status(status).json(errorMessage);
     }
 })
+
+//api to generate pdf
+const generatePdfContent = (letters) => {
+    let html = '<html><body>';
+
+    letters.forEach((letter) => {
+        html += `
+            <div style="margin-bottom: 20px;">
+                <h2>${letter.subject}</h2>
+                <p><strong>From:</strong> ${letter.from}</p>
+                <p><strong>Date:</strong> ${letter.createdAt.date}</p>
+                <p>${letter.body}</p>
+            </div>
+        `;
+    });
+
+    html += '</body></html>';
+
+    return html;
+};
+
+router.post('/generate-pdf', async (req, res, next) => {
+    try {
+      const { startDate, endDate } = req.body;
+  
+      // Validate startDate and endDate as needed
+  
+      // Query letters from the specified date range
+      const letters = await Letter.find({ date: { $gte: startDate, $lte: endDate } });
+  
+      // Generate PDF
+      const pdfDoc = new pdfkit();
+      pdfDoc.pipe(res);
+  
+      letters.forEach((letter, index) => {
+        pdfDoc.text(`Letter ${index + 1}: ${letter.content}`);
+        pdfDoc.moveDown();
+      });
+  
+      pdfDoc.end();
+    } catch (error) {
+      next(error); // Pass the error to the next middleware
+    }
+  });
 
 module.exports = router;

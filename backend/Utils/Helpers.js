@@ -235,6 +235,25 @@ const abstractedUserData = (userObj) => {
     return newData;
 }
 
+const generatePdfContent = (letters) => {
+    let html = '<html><body>';
+  
+    letters.forEach((letter) => {
+      html += `
+        <div style="margin-bottom: 20px;">
+          <h2>${letter.subject}</h2>
+          <p><strong>From:</strong> ${letter.from}</p>
+          <p><strong>Date:</strong></p>
+          <p>${letter.body}</p>
+        </div>
+      `;
+    });
+  
+    html += '</body></html>';
+  
+    return { content: html };
+  };
+
 module.exports = {
     roles,
     twoNotOneResponse,
