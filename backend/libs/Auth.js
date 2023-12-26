@@ -39,8 +39,8 @@ const verifyAdminToken = async (req, res, next) => {
             return res.status(401).json(errorMessage);
         }
         const status = error.status || 500;
-        const errorMessage = customError({ resCode: status, message })
         const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
         return res.status(status).json(errorMessage);
     }
 };
@@ -87,8 +87,8 @@ const verifyStudentToken = async (req, res, next) => {
             return res.status(401).json(errorMessage);
         }
         const status = error.status || 500;
-        const errorMessage = customError({ resCode: status, message })
         const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
         return res.status(status).json(errorMessage);
     }
 };
@@ -133,8 +133,8 @@ const verifyTeacherToken = async (req, res, next) => {
             return res.status(401).json(errorMessage);
         }
         const status = error.status || 500;
-        const errorMessage = customError({ resCode: status, message })
         const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
         return res.status(status).json(errorMessage);
     }
 };
