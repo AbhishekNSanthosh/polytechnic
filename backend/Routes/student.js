@@ -172,15 +172,19 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
+        if (!subject) {
+            throw { status: 400, messsage: "Invalid letter subject" }
+        }
+        if (!body) {
+            throw { status: 400, message: "Invalid letter body" }
+        }
+        if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[/\[\]{}<>]/)) {
+            throw { status: 400, messsage: "Invalid characters in subject" }
+        }
         if (validator.isEmpty(body) || !validator.trim(body) || validator.matches(body, /[/\[\]{}<>]/)) {
-            const errorMessage = fourHundredResponse({ message: "Invalid body" });
-            return res.status(400).json(errorMessage);
+            throw { status: 400, messsage: "Invalid characters in body" }
         }
 
-        if (validator.isEmpty(subject) || !validator.trim(subject) || validator.matches(subject, /[/\[\]{}<>]/)) {
-            const errorMessage = fourHundredResponse({ message: "Invalid subject" });
-            return res.status(400).json(errorMessage);
-        }
         const newLetter = new Letter({
             body,
             from: req.userId,
@@ -199,9 +203,11 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
         const successResponseMsg = twoNotOneResponse(responseMsg);
         return res.status(201).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
@@ -209,6 +215,9 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
 router.post('/getAllLetters', verifyStudentToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
+        if (!sortOrder) {
+            throw { status: 400, message: "Invalid sorting method found" }
+        }
         const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', 'username email department semester role');
 
         const sanitizedLetters = letters.map(letter => ({
@@ -236,9 +245,11 @@ router.post('/getAllLetters', verifyStudentToken, async (req, res) => {
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.log(error)
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 })
 
