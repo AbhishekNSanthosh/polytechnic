@@ -11,16 +11,16 @@ const roles = {
 }
 
 const currentTime = new Date();
-    let greeting;
+let greeting;
 
-    // Determine the appropriate greeting based on the time of day
-    if (currentTime.getHours() < 12) {
-        greeting = "Good morning";
-    } else if (currentTime.getHours() < 18) {
-        greeting = "Good afternoon";
-    } else {
-        greeting = "Good evening";
-    }
+// Determine the appropriate greeting based on the time of day
+if (currentTime.getHours() < 12) {
+    greeting = "Good morning";
+} else if (currentTime.getHours() < 18) {
+    greeting = "Good afternoon";
+} else {
+    greeting = "Good evening";
+}
 
 const twohundredResponse = (data = {}) => {
     return {
@@ -32,7 +32,7 @@ const twohundredResponse = (data = {}) => {
         timestamp: currentTime.toISOString(),
         apiVersion: "V2",
         createdBy: "Carmel Polytechnic Professional Security",
-        dev:"∞ Infinity ∞"
+        dev: "∞ Infinity ∞"
     };
 };
 
@@ -46,7 +46,7 @@ const twoNotOneResponse = (data = {}) => {
         timestamp: currentTime.toISOString(),
         apiVersion: "V2",
         createdBy: "Carmel Polytechnic Professional Security",
-        dev:"∞ Infinity ∞"
+        dev: "∞ Infinity ∞"
     };
 };
 
@@ -123,7 +123,7 @@ const customError = (data = {}) => {
         timestamp: currentTime.toISOString(),
         apiVersion: "V2",
         createdBy: "Carmel Polytechnic Professional Security",
-        dev:"∞ Infinity ∞"
+        dev: "∞ Infinity ∞"
     }
 }
 
@@ -133,7 +133,7 @@ const resMessages = {
     userNotfoundMsg: "User not found",
     notFoundMsg: "Requested data not found",
     internalErrorMsg: "Internal server error. Please try again!",
-    AccountLockedMsg: 'Account is locked. Try again later.',
+    AccountLockedMsg: 'Account is locked.',
     AuthSuccessMsg: "Authentication successfull",
     userAlreadyExistsMsg: "Username already exists. Choose a different username.",
     emailAlreadyExistsMsg: "Email already exists. Choose a different username.",
@@ -237,9 +237,9 @@ const abstractedUserData = (userObj) => {
 
 const generatePdfContent = (letters) => {
     let html = '<html><body>';
-  
+
     letters.forEach((letter) => {
-      html += `
+        html += `
         <div style="margin-bottom: 20px;">
           <h2>${letter.subject}</h2>
           <p><strong>From:</strong> ${letter.from}</p>
@@ -248,13 +248,13 @@ const generatePdfContent = (letters) => {
         </div>
       `;
     });
-  
-    html += '</body></html>';
-  
-    return { content: html };
-  };
 
-  function formatDate(date) {
+    html += '</body></html>';
+
+    return { content: html };
+};
+
+function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
