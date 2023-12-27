@@ -392,7 +392,7 @@ router.post('/resetPassword', async (req, res) => {
 router.post('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
-        if (!requestingUserId) {
+        if (!sortOrder) {
             throw { status: 400, message: 'Invalid sorting method' };
         }
 
