@@ -26,8 +26,6 @@ const Letter = require('../Models/Letter');
 const XLSX = require('xlsx');
 const multer = require('multer');
 const { validationResult } = require('express-validator');
-const { fontSize, font } = require('pdfkit');
-
 
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
@@ -1092,16 +1090,31 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
 
         const pdfContent = {
             content: [
-                { text: 'Letters Report', style: 'header' },
+                { text: 'Grievances Report', alignment: 'center', style: 'header', margin: [0, 40, 0, 0] }, // Add margin top
                 { text: '\n\n' },
-                { text: `From: ${reversedStartDate} to ${reversedEndDate}`, style: 'date' },
+                {
+                    columns: [
+                        {
+                            width: '50%',
+                            text: `From: ${reversedStartDate} to ${reversedEndDate}`,
+                            style: 'date',
+                        },
+                        {
+                            width: '50%',
+                            alignment: 'right',
+                            text: `Downloaded by: ${req.user?.username}`, // Replace [username] with the actual username
+                            style: 'date',
+                        },
+                    ],
+                },
                 { text: '\n' },
                 { text: `${letterCount} grievances` },
                 { text: '\n' },
                 {
                     table: {
                         headerRows: 1,
-                        widths: [20, 50, 70, 150,50,50,60], // Adjust the widths as needed
+                        widths: [20, 50, 70, 150, 50, 50, 60],
+                        margin: [0, 5, 0, 15], // Adjust the table margin
                         body: [
                             [
                                 { text: 'Sl no.', style: 'tableHeader' },
@@ -1123,6 +1136,7 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                             ]),
                         ],
                     },
+                    style: 'table',
                 },
             ],
             styles: {
@@ -1130,8 +1144,67 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                 tableHeader: { bold: true, fontSize: 11, color: 'black' },
                 tableBody: { fontSize: 8, bold: false, font: 'Roboto', color: 'black', margin: [0, 3], width: 'wrap' },
                 date: { fontSize: 10, bold: false, font: 'Roboto' },
+                table: {
+                    margin: [0, 5, 0, 15], // Adjust the table margin
+                    fontSize: 8,
+                    color: 'black',
+                },
+                cell: {
+                    border: '1px solid gray', // Set the border style for each cell
+                },
+            },
+            footer: function (currentPage, pageCount) {
+                return {
+                    margin: [30, 10],
+                    columns: [
+                        {
+                            text: 'OBCYDIANS CCET', // Add your application credits here
+                            width: 'auto',
+                            fontSize: 8,
+                            color: 'gray',
+                        },
+                        {
+                            text: `Generated on: ${new Date().toLocaleString()}`, // Add generated date and time
+                            width: '*',
+                            alignment: 'center',
+                            fontSize: 8,
+                            color: 'gray',
+                        },
+                        {
+                            text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                            width: 'auto',
+                            alignment: 'right',
+                            fontSize: 8,
+                            color: 'gray',
+                        },
+                    ],
+                };
+            },
+
+            defaultStyle: {
+                fontSize: 10,
+            },
+            header: function (currentPage, pageCount, pageSize) {
+                // You can customize this based on your logo and positioning
+                if (currentPage === 1) {
+                    return [
+                        {
+                            image: path.resolve(__dirname, '../Utils/Images/carmellogo.png'),
+                            width: 140,
+                            height: 50,
+                            alignment: 'center',
+                            margin: [0, 10], // Centered at the top
+                            pageBreak: 'after', // Add page break after the header (logo)
+                        },
+                    ];
+                } else {
+                    return null; // No header on subsequent pages
+                }
             },
         };
+
+
+
 
         const pdfDoc = printer.createPdfKitDocument(pdfContent);
         const chunks = [];
