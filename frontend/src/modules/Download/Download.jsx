@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import styles from './Download.module.css'
 import axios from 'axios';
-import { generatePdf } from './services/apis';
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
+import { adminApi, backendApiUrl } from '../../utils/helpers';
+import { useEffect } from 'react';
 
 const Download = () => {
   const [startDate, setStartDate] = useState('');
@@ -14,47 +15,103 @@ const Download = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const handleDownloadPDF = async () => {
-    // try {
-    //   // Make a request to the API to download the CSV file
-    //   const response = await axios.post(`http://localhost:9000/api/v2/admin/generate-pdf`, { startDate, endDate }, { responseType: 'blob', });
-
-    //   const blob = new Blob([response.data], { type: 'text/csv' });
-
-    //   // Create a download link and trigger the download
-    //   const link = document.createElement('a');
-    //   link.href = window.URL.createObjectURL(blob);
-    //   link.download = 'all_letters.csv';
-    //   document.body.appendChild(link);
-    //   link.click();
-    //   document.body.removeChild(link);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    await generatePdf(startDate, endDate, authToken, navigate, toast)
-  };
-
   const handleDownloadCSV = async () => {
     try {
-      // Make a request to the API to generate and download the PDF file
-      const response = await axios.post('http://localhost:9000/api/v2/admin/generate', { startDate, endDate }, {
-        responseType: 'blob', // Specify response type as blob
-      });
+      const response = await axios.post(backendApiUrl + adminApi.adminGenerateCSV, {
+        startDate,
+        endDate
+      },
+        {
+          headers: {
+            Authorization: "Bearer " + authToken
+          }
+        },
+        {
+          responseType: 'blob',
+        });
 
-      // Create a Blob from the response data
+      const blob = new Blob([response.data], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = 'Grievances.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: error?.response?.data?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      if (error?.response?.data?.error === "TokenExpiredError") {
+        toast({
+          title: 'Session Expired',
+          description: "Redirecting to Login page",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+        localStorage.clear();
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+      }
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    try {
+      const response = await axios.post(
+        backendApiUrl + adminApi.adminGeneratePDF,
+        { startDate, endDate },
+        {
+          headers: {
+            Authorization: "Bearer " + authToken,
+          },
+          responseType: 'blob',
+        }
+      );
+
       const blob = new Blob([response.data], { type: 'application/pdf' });
 
       // Create a link element and trigger a download
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.download = 'letters.pdf';
+      link.download = 'Grievances.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error('Error downloading PDF:', error);
+      console.log(error);
+      toast({
+        title: error?.response?.data?.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      if (error?.response?.data?.error === "TokenExpiredError") {
+        toast({
+          title: 'Session Expired',
+          description: "Redirecting to Login page",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+        localStorage.clear();
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+      }
     }
   };
+
+  useEffect(() => {
+    if (accessType !== "admin") {
+      return null
+    }
+  }, [])
 
   return (
     <div className={styles.container}>

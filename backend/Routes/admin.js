@@ -1017,7 +1017,7 @@ router.post('/generate-csv', verifyAdminToken, async (req, res) => {
         const csv = json2csv(formattedLetters, { fields: ['from', 'subject', 'body', 'actions', 'comments', 'createdAt'] });
 
         // Set response headers for CSV download
-        res.setHeader('Content-disposition', 'attachment; filename=all_letters.csv');
+        res.setHeader('Content-disposition', 'attachment; filename=Grievances.csv');
         res.set('Content-Type', 'text/csv');
         res.status(200).send(csv);
     } catch (error) {
@@ -1033,7 +1033,7 @@ router.post('/generate-csv', verifyAdminToken, async (req, res) => {
 router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
-
+        console.log(req.body)
         if (!startDate) {
             throw { status: 400, message: "Start date is required" }
         }
@@ -1054,6 +1054,7 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
         const start = new Date(startDate);
         const end = new Date(endDate);
 
+        console.log(start, end)
         const letters = await Letter.find({ createdAt: { $gte: start, $lte: end } }).populate('from', 'username');
 
         if (letters.length === 0) {
@@ -1068,6 +1069,8 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
             comments: letter?.comments ? letter?.comments : "No comments added",
             createdAt: formatDate(letter.createdAt),
         }));
+
+        const letterCount = formattedLetters?.length
 
         // Generate PDF
         const fonts = {
@@ -1092,6 +1095,8 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                 { text: 'Letters Report', style: 'header' },
                 { text: '\n\n' },
                 { text: `From: ${reversedStartDate} to ${reversedEndDate}`, style: 'date' },
+                { text: '\n\n' },
+                { text: `${letterCount} grievances` },
                 { text: '\n\n' },
                 {
                     table: {
@@ -1122,8 +1127,8 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
             styles: {
                 header: { fontSize: 14, bold: false },
                 tableHeader: { bold: false, fontSize: 12 },
-                tableBody: { fontSize: 10, bold: false, font: 'Roboto' }, // Specify the font family
-                date: { fontSize: 12, bold: true, font: 'Roboto' }, // Specify the font family
+                tableBody: { fontSize: 10, bold: false, font: 'Roboto' },
+                date: { fontSize: 12, bold: true, font: 'Roboto' },
             },
         };
 
@@ -1132,7 +1137,7 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
         pdfDoc.on('data', (chunk) => chunks.push(chunk));
         pdfDoc.on('end', () => {
             const buffer = Buffer.concat(chunks);
-            res.setHeader('Content-Disposition', 'attachment; filename=all_letters.pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=Grievances.pdf');
             res.setHeader('Content-Type', 'application/pdf');
             res.send(buffer);
         });
