@@ -78,6 +78,8 @@ const SideNavBar = ({ drawerOpenStatus }) => {
       setSelectedTab(5);
     } else if (location.pathname === '/dashboard/permitted-grievances') {
       setSelectedTab(2);
+    } else if (location.pathname === '/download') {
+      setSelectedTab(6);
     }
   }, [location.pathname]);
 
