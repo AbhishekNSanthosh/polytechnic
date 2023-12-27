@@ -973,32 +973,26 @@ router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
     }
 })
 
-//api to generate pdf
-const generatePdfContent = (letters) => {
-    let html = '<html><body>';
-
-    letters.forEach((letter) => {
-        html += `
-            <div style="margin-bottom: 20px;">
-                <h2>${letter.subject}</h2>
-                <p><strong>From:</strong> ${letter.from}</p>
-                <p><strong>Date:</strong> ${letter.createdAt.date}</p>
-                <p>${letter.body}</p>
-            </div>
-        `;
-    });
-
-    html += '</body></html>';
-
-    return html;
-};
-
-router.post('/generate-pdf', async (req, res) => {
+//api to generate csv fot the grievances
+router.post('/generate-csv', async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
 
-        if (!startDate || !endDate) {
-            throw new Error('Invalid date range');
+        if (!startDate) {
+            throw { status: 400, message: "Start date is required" }
+        }
+        if (!endDate) {
+            throw { status: 400, message: "End date is required" }
+        }
+
+        const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (!startDate || !dateFormatRegex.test(startDate)) {
+            throw { status: 400, message: "Invalid start date format. It should be in the format 'yyyy-mm-dd'" };
+        }
+
+        if (!endDate || !dateFormatRegex.test(endDate)) {
+            throw { status: 400, message: "Invalid end date format. It should be in the format 'yyyy-mm-dd'" };
         }
 
         const start = new Date(startDate);
@@ -1006,10 +1000,16 @@ router.post('/generate-pdf', async (req, res) => {
 
         const letters = await Letter.find({ createdAt: { $gte: start, $lte: end } }).populate('from', 'username');
 
+        if (letters.length === 0) {
+            throw { status: 400, message: "No grievances in the selected time period" }
+        }
+
         const formattedLetters = letters.map(letter => ({
             from: letter.from.username,
             subject: letter.subject,
             body: letter.body,
+            actions: letter?.actions ? letter?.actions : "No actions taken",
+            comments: letter?.comments ? letter?.comments : "No comments added",
             createdAt: formatDate(letter.createdAt),
         }));
 
@@ -1022,23 +1022,43 @@ router.post('/generate-pdf', async (req, res) => {
         res.status(200).send(csv);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
-//
-router.post('/generate', async (req, res) => {
+//api to generate pdf fot the grievances
+router.post('/generate-pdf', async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
-        console.log(startDate, endDate)
-        // if (!startDate || !endDate) {
-        //     throw new Error('Invalid date range');
-        // }
+
+        if (!startDate) {
+            throw { status: 400, message: "Start date is required" }
+        }
+        if (!endDate) {
+            throw { status: 400, message: "End date is required" }
+        }
+
+        const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (!startDate || !dateFormatRegex.test(startDate)) {
+            throw { status: 400, message: "Invalid start date format. It should be in the format 'yyyy-mm-dd'" };
+        }
+
+        if (!endDate || !dateFormatRegex.test(endDate)) {
+            throw { status: 400, message: "Invalid end date format. It should be in the format 'yyyy-mm-dd'" };
+        }
 
         const start = new Date(startDate);
         const end = new Date(endDate);
-        console.log(start, end)
+
         const letters = await Letter.find({ createdAt: { $gte: start, $lte: end } }).populate('from', 'username');
+
+        if (letters.length === 0) {
+            throw { status: 400, message: "No grievances in the selected time period" }
+        }
 
         const formattedLetters = letters.map((letter) => ({
             from: letter.from.username,
@@ -1120,7 +1140,10 @@ router.post('/generate', async (req, res) => {
         pdfDoc.end();
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
     }
 });
 
