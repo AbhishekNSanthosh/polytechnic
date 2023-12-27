@@ -89,7 +89,7 @@ router.post('/adminLogin', async (req, res) => {
 
             await user.save();
 
-            throw { status: 400, message: "Invalid password" }
+            throw { status: 400, message: "Invalid username or password" }
         }
 
         if (user?.role !== "admin") {
