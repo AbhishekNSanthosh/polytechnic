@@ -9,6 +9,7 @@ import { MdManageAccounts } from 'react-icons/md';
 import { useToast } from '@chakra-ui/react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { IoIosArrowForward } from "react-icons/io";
+import { FiDownload } from "react-icons/fi";
 
 const SideNavBar = ({ drawerOpenStatus }) => {
   const storedTab = localStorage.getItem('selectedTab');
@@ -56,6 +57,13 @@ const SideNavBar = ({ drawerOpenStatus }) => {
       title: 'Management',
       icon: <MdManageAccounts />,
       link: 'user-management',
+      visibility: ['admin'],
+    },
+    {
+      id: 6,
+      title: 'Download',
+      icon: <FiDownload />,
+      link: 'download',
       visibility: ['admin'],
     },
   ];

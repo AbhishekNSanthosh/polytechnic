@@ -6,8 +6,9 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { verifyAdminToken } = require('../libs/Auth');
-const pdfkit = require('pdfkit');
-
+const json2csv = require('json2csv').parse;
+const pdfmake = require('pdfmake');
+const path = require('path');
 
 const {
     roles,
@@ -19,11 +20,13 @@ const {
     customError,
     sanitizedLetterList,
     sanitizedLetterData,
+    formatDate,
 } = require('../Utils/Helpers');
 const Letter = require('../Models/Letter');
 const XLSX = require('xlsx');
 const multer = require('multer');
 const { validationResult } = require('express-validator');
+const { fontSize, font } = require('pdfkit');
 
 
 const storage = multer.memoryStorage(); // Store the file in memory
@@ -990,28 +993,135 @@ const generatePdfContent = (letters) => {
     return html;
 };
 
-router.post('/generate-pdf', async (req, res, next) => {
+router.post('/generate-pdf', async (req, res) => {
     try {
-      const { startDate, endDate } = req.body;
-  
-      // Validate startDate and endDate as needed
-  
-      // Query letters from the specified date range
-      const letters = await Letter.find({ date: { $gte: startDate, $lte: endDate } });
-  
-      // Generate PDF
-      const pdfDoc = new pdfkit();
-      pdfDoc.pipe(res);
-  
-      letters.forEach((letter, index) => {
-        pdfDoc.text(`Letter ${index + 1}: ${letter.content}`);
-        pdfDoc.moveDown();
-      });
-  
-      pdfDoc.end();
+        const { startDate, endDate } = req.body;
+
+        if (!startDate || !endDate) {
+            throw new Error('Invalid date range');
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const letters = await Letter.find({ createdAt: { $gte: start, $lte: end } }).populate('from', 'username');
+
+        const formattedLetters = letters.map(letter => ({
+            from: letter.from.username,
+            subject: letter.subject,
+            body: letter.body,
+            createdAt: formatDate(letter.createdAt),
+        }));
+
+        // Convert letters to CSV
+        const csv = json2csv(formattedLetters, { fields: ['from', 'subject', 'body', 'actions', 'comments', 'createdAt'] });
+
+        // Set response headers for CSV download
+        res.setHeader('Content-disposition', 'attachment; filename=all_letters.csv');
+        res.set('Content-Type', 'text/csv');
+        res.status(200).send(csv);
     } catch (error) {
-      next(error); // Pass the error to the next middleware
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+});
+
+//
+router.post('/generate', async (req, res) => {
+    try {
+        const { startDate, endDate } = req.body;
+        console.log(startDate, endDate)
+        // if (!startDate || !endDate) {
+        //     throw new Error('Invalid date range');
+        // }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        console.log(start, end)
+        const letters = await Letter.find({ createdAt: { $gte: start, $lte: end } }).populate('from', 'username');
+
+        const formattedLetters = letters.map((letter) => ({
+            from: letter.from.username,
+            subject: letter?.subject,
+            body: letter?.body,
+            actions: letter?.actions ? letter?.actions : "No actions taken",
+            comments: letter?.comments ? letter?.comments : "No comments added",
+            createdAt: formatDate(letter.createdAt),
+        }));
+
+        // Generate PDF
+        const fonts = {
+            Roboto: {
+                normal: path.resolve(__dirname, '../Utils/fonts/Roboto-Regular.ttf'),
+                bold: path.resolve(__dirname, '../Utils/fonts/Roboto-Medium.ttf'),
+                italics: path.resolve(__dirname, '../Utils/fonts/Roboto-ThinItalic.ttf'),
+                bolditalics: path.resolve(__dirname, '../Utils/fonts/Roboto-MediumItalic.ttf'),
+            },
+        };
+
+        const originalStartDate = startDate
+        const reversedStartDate = originalStartDate.split('-').reverse().join('-');
+        const originalEndDate = endDate
+        const reversedEndDate = originalEndDate.split('-').reverse().join('-');
+
+
+        const printer = new pdfmake(fonts);
+
+        const pdfContent = {
+            content: [
+                { text: 'Letters Report', style: 'header' },
+                { text: '\n\n' },
+                { text: `From: ${reversedStartDate} to ${reversedEndDate}`, style: 'date' },
+                { text: '\n\n' },
+                {
+                    table: {
+                        headerRows: 1,
+                        body: [
+                            [
+                                { text: 'Sl no.', style: 'tableHeader' },
+                                { text: 'From', style: 'tableHeader' },
+                                { text: 'Subject', style: 'tableHeader' },
+                                { text: 'Body', style: 'tableHeader' },
+                                { text: 'Actions', style: 'tableHeader' },
+                                { text: 'Comments', style: 'tableHeader' },
+                                { text: 'Created At', style: 'tableHeader' },
+                            ],
+                            ...formattedLetters.map((letter, index) => [
+                                { text: index + 1, style: 'tableBody' },
+                                { text: letter.from, style: 'tableBody' },
+                                { text: letter.subject, style: 'tableBody' },
+                                { text: letter.body, style: 'tableBody' },
+                                { text: letter.actions, style: 'tableBody' },
+                                { text: letter.comments, style: 'tableBody' },
+                                { text: letter.createdAt, style: 'tableBody' },
+                            ]),
+                        ],
+                    },
+                },
+            ],
+            styles: {
+                header: { fontSize: 14, bold: false },
+                tableHeader: { bold: false, fontSize: 12 },
+                tableBody: { fontSize: 10, bold: false, font: 'Roboto' }, // Specify the font family
+                date: { fontSize: 12, bold: true, font: 'Roboto' }, // Specify the font family
+            },
+        };
+
+        const pdfDoc = printer.createPdfKitDocument(pdfContent);
+        const chunks = [];
+        pdfDoc.on('data', (chunk) => chunks.push(chunk));
+        pdfDoc.on('end', () => {
+            const buffer = Buffer.concat(chunks);
+            res.setHeader('Content-Disposition', 'attachment; filename=all_letters.pdf');
+            res.setHeader('Content-Type', 'application/pdf');
+            res.send(buffer);
+        });
+
+        pdfDoc.end();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;

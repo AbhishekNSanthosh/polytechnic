@@ -14,6 +14,7 @@ import DisplayLetter from './modules/DisplayLetter/DisplayLetter';
 import CreateUser from './modules/CreateUser/CreateUser';
 import ManageLetter from './modules/ManageLetter/ManageLetter';
 import CreateBulkUser from './modules/CreateUser/components/CreateBulkUser';
+import Download from './modules/Download/Download';
 
 function App() {
   const router = createBrowserRouter([
@@ -28,6 +29,10 @@ function App() {
         {
           path: '/dashboard',
           element: <Dashboard />,
+        },
+        {
+          path: '/download',
+          element: <Download />,
         },
         {
           path: '/dashboard/permitted-grievances',
