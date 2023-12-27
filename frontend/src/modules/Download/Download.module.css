@@ -122,3 +122,9 @@
 .info {
     font-size: 1.1rem;
 }
+
+.date{
+    outline: none;
+    border: none;
+    background-color: rgb(255, 244, 244);
+}

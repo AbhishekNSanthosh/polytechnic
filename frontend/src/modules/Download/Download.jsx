@@ -136,11 +136,11 @@ const Download = () => {
           <div className={styles.downloadItemRow}>
             <div className={styles.left}>
               <label>Start Date: </label>
-              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+              <input className={styles.date} type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
             </div>
             <div className={styles.right}>
               <label>End Date: </label>
-              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+              <input className={styles.date} type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
             </div>
           </div>
           <div className={styles.downloadItemRow}>
