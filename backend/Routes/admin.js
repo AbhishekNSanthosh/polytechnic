@@ -1095,12 +1095,13 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                 { text: 'Letters Report', style: 'header' },
                 { text: '\n\n' },
                 { text: `From: ${reversedStartDate} to ${reversedEndDate}`, style: 'date' },
-                { text: '\n\n' },
+                { text: '\n' },
                 { text: `${letterCount} grievances` },
-                { text: '\n\n' },
+                { text: '\n' },
                 {
                     table: {
                         headerRows: 1,
+                        widths: [20, 50, 70, 150,50,50,60], // Adjust the widths as needed
                         body: [
                             [
                                 { text: 'Sl no.', style: 'tableHeader' },
@@ -1125,10 +1126,10 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                 },
             ],
             styles: {
-                header: { fontSize: 14, bold: false },
-                tableHeader: { bold: false, fontSize: 12 },
-                tableBody: { fontSize: 10, bold: false, font: 'Roboto' },
-                date: { fontSize: 12, bold: true, font: 'Roboto' },
+                header: { fontSize: 12, bold: false },
+                tableHeader: { bold: true, fontSize: 11, color: 'black' },
+                tableBody: { fontSize: 8, bold: false, font: 'Roboto', color: 'black', margin: [0, 3], width: 'wrap' },
+                date: { fontSize: 10, bold: false, font: 'Roboto' },
             },
         };
 
@@ -1147,6 +1148,7 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
+        console.error('Full error object:', error);
         const errorMessage = customError({ resCode: status, message })
         return res.status(status).json(errorMessage);
     }
