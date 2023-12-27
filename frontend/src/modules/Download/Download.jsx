@@ -64,7 +64,7 @@ const Download = () => {
   const handleDownloadPDF = async () => {
     try {
       const response = await axios.post(
-        backendApiUrl + adminApi.adminGeneratePDF,
+        'http://localhost:9000' + adminApi.adminGeneratePDF,
         { startDate, endDate },
         {
           headers: {
@@ -91,30 +91,29 @@ const Download = () => {
       const reader = new FileReader();
       reader.onload = function () {
         const jsonData = JSON.parse(reader.result);
-        console.log('Error:', jsonData.message);
 
-        // Show an appropriate error message to the user
-        toast({
-          title: jsonData.message,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
+        if (jsonData.error === "TokenExpiredError") {
+          toast({
+            title: 'Session Expired',
+            description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+          localStorage.clear();
+          setTimeout(() => {
+            navigate('/');
+          }, 2000);
+        } else {
+          toast({
+            title: jsonData.message,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+          });
+        }
       };
       reader.readAsText(blob);
-      if (error?.response?.data?.error === "TokenExpiredError") {
-        toast({
-          title: 'Session Expired',
-          description: "Redirecting to Login page",
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
-        localStorage.clear();
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
-      }
     }
   };
 

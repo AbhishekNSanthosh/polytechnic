@@ -1113,7 +1113,7 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                 {
                     table: {
                         headerRows: 1,
-                        widths: [20, 50, 70, 150, 50, 50, 60],
+                        widths: [30, 65, 90, 150, 60, 55],
                         margin: [0, 5, 0, 15], // Adjust the table margin
                         body: [
                             [
@@ -1122,7 +1122,7 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                                 { text: 'Subject', style: 'tableHeader' },
                                 { text: 'Body', style: 'tableHeader' },
                                 { text: 'Actions', style: 'tableHeader' },
-                                { text: 'Comments', style: 'tableHeader' },
+                                // { text: 'Comments', style: 'tableHeader' },
                                 { text: 'Created At', style: 'tableHeader' },
                             ],
                             ...formattedLetters.map((letter, index) => [
@@ -1131,7 +1131,7 @@ router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
                                 { text: letter.subject, style: 'tableBody' },
                                 { text: letter.body, style: 'tableBody' },
                                 { text: letter.actions, style: 'tableBody' },
-                                { text: letter.comments, style: 'tableBody' },
+                                // { text: letter.comments, style: 'tableBody' },
                                 { text: letter.createdAt, style: 'tableBody' },
                             ]),
                         ],
