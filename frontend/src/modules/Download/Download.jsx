@@ -64,7 +64,7 @@ const Download = () => {
   const handleDownloadPDF = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:9000' + adminApi.adminGeneratePDF,
+        backendApiUrl + adminApi.adminGeneratePDF,
         { startDate, endDate },
         {
           headers: {
