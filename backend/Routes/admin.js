@@ -974,7 +974,7 @@ router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
 })
 
 //api to generate csv fot the grievances
-router.post('/generate-csv', async (req, res) => {
+router.post('/generate-csv', verifyAdminToken, async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
 
@@ -1030,7 +1030,7 @@ router.post('/generate-csv', async (req, res) => {
 });
 
 //api to generate pdf fot the grievances
-router.post('/generate-pdf', async (req, res) => {
+router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
 
