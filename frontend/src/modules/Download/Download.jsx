@@ -49,16 +49,34 @@ const Download = () => {
 
   return (
     <div className={styles.container}>
-      <div>
-        <label>Start Date: </label>
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-
-        <label>End Date: </label>
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-
-        <button onClick={handleDownload}>Download PDF</button>
+      <div className={styles.wrap}>
+        <div className={styles.downloadRow}>
+          <span className={styles.title}>Download Grievances</span>
+        </div>
+        <div className={styles.downloadWrap}>
+          <div className={styles.downloadRow}>
+            <span className={styles.info}>Please choose date range</span>
+          </div>
+          <div className={styles.downloadItemRow}>
+            <div className={styles.left}>
+              <label>Start Date: </label>
+              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            </div>
+            <div className={styles.right}>
+              <label>End Date: </label>
+              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            </div>
+          </div>
+          <div className={styles.downloadItemRow}>
+            <div className={styles.left}>
+              <button className={styles.download} onClick={handleDownload}>Generate CSV</button>
+            </div>
+            <div className={styles.left}>
+              <button className={styles.download} onClick={handleDownload}>Generate PDF</button>
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
   )
 }
