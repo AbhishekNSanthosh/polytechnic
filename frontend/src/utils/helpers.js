@@ -49,6 +49,7 @@ export const adminApi = {
     searchUsers: "/api/v2/admin/searchUser",
     updateViewAccess: "/api/v2/admin/addViewAccessIds/",
     createBulkStudent: "/api/v2/admin/uploadManyStudents",
+    createBulkTeacher: "/api/v2/admin/uploadManyTeacher",
     adminGeneratePDF: "/api/v2/admin/generate-pdf",
     adminGenerateCSV: "/api/v2/admin/generate-csv"
 }

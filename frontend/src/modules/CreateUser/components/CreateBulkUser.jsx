@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styles from '../CreateUser.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react';
-import { uploadBulkStudentData } from '../services/api';
+import { uploadBulkStudentData, uploadBulkTeacherData } from '../services/api';
 import CreaTeBulkUserModal from './CreaTeBulkUserModal';
 
 const VALID_FILE_EXTENSION = '.xlsx';
@@ -16,6 +16,11 @@ const CreateBulkUser = () => {
     const toast = useToast();
     const authToken = localStorage.getItem('accessToken');
     const accessType = localStorage.getItem('accessType');
+
+    const location = useLocation();
+    const path = location.pathname;
+    const lastPart = path.split('/').pop();
+    const userValue = lastPart.split('-').pop();
 
     const handleDragOver = (e) => {
         e.preventDefault();
@@ -42,9 +47,16 @@ const CreateBulkUser = () => {
         }
     };
 
+
+    console.log(userValue)
     const handleUploadStudents = () => {
         if (authToken !== '' && accessType === 'admin' && file) {
-            uploadBulkStudentData(file, authToken, setModalOpen,setDuplicateData, navigate, toast);
+            if (userValue === "student") {
+                uploadBulkStudentData(file, authToken, setModalOpen, setDuplicateData, navigate, toast);
+            }
+            if (userValue === "teacher") {
+                uploadBulkTeacherData(file, authToken, setModalOpen, setDuplicateData, navigate, toast);
+            }
         }
     };
 
@@ -63,10 +75,17 @@ const CreateBulkUser = () => {
             <div className={styles.wrap}>
                 <div className={styles.innWrap}>
                     <div className={styles.createTop}>
-                        <span className={styles.createTitle}>Create bulk user</span>
+                        {userValue === "student" &&
+                            <span className={styles.createTitle}>Create bulk student data</span>
+                        }
+                        {userValue === "teacher" &&
+                            <span className={styles.createTitle}>Create bulk teacher data</span>
+                        }
                     </div>
                     <div className={styles.uploadBox}>
-                        <div className={styles.upload} onDragOver={handleDragOver} onDrop={handleDrop}>
+                        <div className={styles.upload} style={{
+                            backgroundColor:file? "ffe0e0": "#fff" ,
+                        }} onDragOver={handleDragOver} onDrop={handleDrop}>
                             {!file ? (
                                 <>
                                     <span className={styles.uploadTxt}>Drag & Drop</span>
@@ -87,7 +106,7 @@ const CreateBulkUser = () => {
                             )}
                         </div>
                         <div className={styles.actionBtnRow}>
-                            <button className={styles.cancelBtn} onClick={()=>{
+                            <button className={styles.cancelBtn} onClick={() => {
                                 navigate('/user-management/create-student')
                             }}>Cancel</button>
                             <button className={styles.uploadBtn} onClick={handleUploadStudents}>

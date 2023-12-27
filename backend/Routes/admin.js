@@ -610,15 +610,16 @@ router.post('/uploadManyTeacher', verifyAdminToken, upload.single('file'), async
 
             return {
                 ...teacher,
+                role: "teacher",
                 password: hashedPassword,
             };
         }));
 
         // Insert students into MongoDB
         const students = await User.insertMany(studentsToInsert);
-
+        console.log(students)
         // Respond with success message
-        const successResponse = twoNotOneResponse({ message: `${students.length} students data added successfully`, accessToken: req.accessToken });
+        const successResponse = twoNotOneResponse({ message: `${students.length} teachers data added successfully`, accessToken: req.accessToken });
         return res.status(201).json(successResponse);
     } catch (error) {
         console.error(error);

@@ -67,10 +67,11 @@
 
 .download {
     width: 100%;
-    background-color: red;
+    background-color: #fff;
     padding: 15px;
+    border: 1px solid red;
     border-radius: 10px;
-    color: #fff;
+    color: red;
     font-size: 1rem;
     font-weight: 500;
 }
@@ -123,10 +124,22 @@
     font-size: 1.1rem;
 }
 
-.date{
+.sdate {
     outline: none;
     border: none;
     border-radius: 10px;
     padding: 10px;
     background-color: rgb(255, 248, 248);
+}
+
+.edate {
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(255, 248, 248);
+}
+
+@media only screen and (max-width: 767px) {
+    
 }

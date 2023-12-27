@@ -75,7 +75,11 @@ function App() {
           element: <CreateUser />
         },
         {
-          path: '/user-management/create-student/bulk',
+          path: '/user-management/create-student/bulk-student',
+          element: <CreateBulkUser />
+        },
+        {
+          path: '/user-management/create-student/bulk-teacher',
           element: <CreateBulkUser />
         },
         {

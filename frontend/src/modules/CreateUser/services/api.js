@@ -212,3 +212,59 @@ export const uploadBulkStudentData = async (
         }
     }
 }
+
+export const uploadBulkTeacherData = async (
+    file,
+    authToken,
+    setModalOpen,
+    setDuplicateData,
+    navigate,
+    toast
+) => {
+    console.log(file);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await axios.post(backendApiUrl + adminApi.createBulkTeacher, formData, {
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+                'Content-Type': 'multipart/form-data', // Important for handling multipart form data
+            },
+        })
+        console.log(response)
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+        navigate('/user-management/list-teacher');
+    } catch (error) {
+        console.log(error);
+        if (error?.response?.data?.showModal) {
+            setModalOpen(error?.response?.data?.showModal);
+            setDuplicateData(error?.response?.data?.duplicates)
+        }
+        toast({
+            title: error?.response?.data?.title,
+            description: error?.response?.data?.message,
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}
