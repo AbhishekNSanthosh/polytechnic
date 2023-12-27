@@ -71,7 +71,7 @@ router.post('/studentLogin', async (req, res) => {
             }
 
             await user.save();
-            throw { status: 401, message: "Invalid password" }
+            throw { status: 401, message: "Invalid username or password" }
         }
 
         if (user?.role !== "student") {
