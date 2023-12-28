@@ -187,3 +187,50 @@ export const getLetterDetailsByAdmin = async (
         }
     }
 }
+
+export const updateStatusByAdmin = async (
+    letterId,
+    status,
+    setStatus,
+    authToken,
+    navigate,
+    toast
+) => {
+    try {
+        const response = await axios.post("http://localhost:9000" + adminApi.adminUpdateGrievanceStatus, { letterId, status }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response);
+        // setStatus(response?.data?.data.status);
+         toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+    } catch (error) {
+        console.log(error)
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}

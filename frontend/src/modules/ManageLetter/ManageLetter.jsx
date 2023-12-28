@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styles from './ManageLetter.module.css'
 import { Select } from '@chakra-ui/react'
-import ManageLetterUserList from './components/ManageLetterUserList'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { getLetterDetailsByAdmin, getTeachersByAdmin, searchUser, updateAccess } from './services/apis'
-import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
+import { Checkbox } from '@chakra-ui/react'
+import ManageStatus from './components/ManageStatus'
 
 const ManageLetter = () => {
     const [applyFilter, setApplyFilter] = useState(false);
@@ -82,6 +82,7 @@ const ManageLetter = () => {
                 <div className={styles.titleRow}>
                     <span className={styles.title}>Manage Letter</span>
                 </div>
+                <ManageStatus />
                 <div className={styles.manageRow}>
                     <div className={styles.manageItemTitle}>
                         <span className={styles.itemtitle}>Manage View Access Permission :</span>
@@ -153,7 +154,7 @@ const ManageLetter = () => {
                                             handleViewAccess();
                                         }}>Update view access permission</button>
                                         <button className={styles.cancelBtn} onClick={() => {
-                                            navigate('/view-letter/'+letterId)
+                                            navigate('/view-letter/' + letterId)
                                         }}>Cancel</button>
                                     </div>
                                 </div>

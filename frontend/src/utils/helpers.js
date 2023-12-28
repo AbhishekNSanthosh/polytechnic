@@ -51,5 +51,6 @@ export const adminApi = {
     createBulkStudent: "/api/v2/admin/uploadManyStudents",
     createBulkTeacher: "/api/v2/admin/uploadManyTeacher",
     adminGeneratePDF: "/api/v2/admin/generate-pdf",
-    adminGenerateCSV: "/api/v2/admin/generate-csv"
+    adminGenerateCSV: "/api/v2/admin/generate-csv",
+    adminUpdateGrievanceStatus: "/api/v2/admin/updateGrievanceStatus",
 }

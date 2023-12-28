@@ -1204,9 +1204,6 @@ router.post('/generate-pdf', Auth.verifyAdminToken, async (req, res) => {
             },
         };
 
-
-
-
         const pdfDoc = printer.createPdfKitDocument(pdfContent);
         const chunks = [];
         pdfDoc.on('data', (chunk) => chunks.push(chunk));
@@ -1222,10 +1219,45 @@ router.post('/generate-pdf', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        console.error('Full error object:', error);
         const errorMessage = customError({ resCode: status, message })
         return res.status(status).json(errorMessage);
     }
 });
+
+//api to change the status of the grievances by admin
+router.post('/updateGrievanceStatus', Auth.verifyAdminToken, async (req, res) => {
+    try {
+        const { letterId, status } = req.body;
+        const validStatuses = ['PENDING', 'APPROVED', 'REJECTED']
+        if (!letterId) {
+            throw { status: 400, message: "Invalid grievance id" }
+        }
+        if (!status) {
+            throw { status: 400, message: "Status field is required" }
+        }
+        if (!validStatuses.includes(status)) {
+            throw { status: 400, message: "Invalid status entry", description: "Status should be either APPROVED or REJECTED" }
+        }
+        const letter = await Letter.findOne({ _id: letterId }).populate('from', '_id username email semester department');
+        if (!letter) {
+            throw { status: 404, message: "Grievance does not exists" }
+        }
+
+        if (letter.status === status) {
+            throw { status: 400, message: `Status already in ${status} state` }
+        }
+
+        letter.status = status
+        const updatedLetter = await letter.save();
+        return res.status(200).json(twohundredResponse({ message: `Status updated to ${updatedLetter.status}`, data: { status: updatedLetter.status } }))
+    } catch (error) {
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
+        return res.status(status).json(errorMessage);
+    }
+})
 
 module.exports = router;

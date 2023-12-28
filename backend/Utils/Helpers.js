@@ -112,19 +112,25 @@ const fourHundredResponse = (data = {}) => {
 };
 
 const customError = (data = {}) => {
-    return {
-        greeting,
-        resCode: data.resCode || "UNKNOWN_ERROR",
+    const errorObject = {
+        greeting: data?.greeting,
+        resCode: data?.resCode || "UNKNOWN_ERROR",
         status: "FAILURE",
         hasError: true,
-        error: data.error || null,
-        message: data.message || "An unknown error occurred.",
+        message: data?.message || "An unknown error occurred.",
         ...data,
         timestamp: currentTime.toISOString(),
         apiVersion: "V2",
         createdBy: "Carmel Polytechnic Professional Security",
         dev: "∞ Infinity ∞"
+    };
+
+    // Conditionally include the 'description' parameter if it has a value
+    if (data?.description) {
+        errorObject.description = data.description;
     }
+
+    return errorObject;
 }
 
 const resMessages = {
@@ -156,7 +162,7 @@ const transporter = nodemailer.createTransport({
 
 const sanitizedUserList = (users) => {
     const userList = users.map(user => ({
-        _id: user?._id,
+        userId: user?._id,
         username: user?.username,
         email: user?.email,
         semester: user?.semester,
@@ -178,19 +184,20 @@ const sanitizedLetterList = (letters) => {
     const sanitizedLetters = letters.map(letter => ({
         ...letter.toObject(),
         from: {
-            username: letter.from.username,
-            email: letter.from.email,
-            semester: letter.from.semester,
-            department: letter.from.department,
-            role: letter.from.role,
+            userId: letter?.from?._id,
+            username: letter?.from?.username,
+            email: letter?.from?.email,
+            semester: letter?.from?.semester,
+            department: letter?.from?.department,
+            role: letter?.from?.role,
         },
         createdAt: {
-            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(letter.createdAt).fromNow(),
+            date: moment(letter?.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter?.createdAt).fromNow(),
         },
         updatedAt: {
-            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(letter.createdAt).fromNow(),
+            date: moment(letter?.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter?.createdAt).fromNow(),
         },
     }));
     return sanitizedLetters;
@@ -200,11 +207,12 @@ const sanitizedLetterData = (letter) => {
     const sanitizedLetter = {
         ...letter.toObject(),
         from: {
-            username: letter.from.username,
-            email: letter.from.email,
-            semester: letter.from.semester,
-            department: letter.from.department,
-            role: letter.from.role,
+            userId: letter?.from?._id,
+            username: letter?.from?.username,
+            email: letter?.from?.email,
+            semester: letter?.from?.semester,
+            department: letter?.from?.department,
+            role: letter?.from?.role,
         },
         createdAt: {
             date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
@@ -221,15 +229,16 @@ const sanitizedLetterData = (letter) => {
 const abstractedUserData = (userObj) => {
     const { password, loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
     const newData = {
+        userId: userAbstractedObj?._id,
         username: userAbstractedObj?.username,
         email: userAbstractedObj?.email,
         password: userAbstractedObj?.password,
         semester: userAbstractedObj?.semester,
         department: userAbstractedObj.department,
-        role: userAbstractedObj.role,
+        role: userAbstractedObj?.role,
         createdAt: {
-            date: moment(userAbstractedObj.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(userAbstractedObj.createdAt).fromNow(),
+            date: moment(userAbstractedObj?.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(userAbstractedObj?.createdAt).fromNow(),
         },
     }
     return newData;
