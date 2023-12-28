@@ -5,7 +5,7 @@ const User = require('../Models/User');
 const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { verifyAdminToken } = require('../libs/Auth');
+const Auth = require('../libs/Auth');
 const json2csv = require('json2csv').parse;
 const pdfmake = require('pdfmake');
 const path = require('path');
@@ -128,7 +128,7 @@ router.post('/adminLogin', async (req, res) => {
 });
 
 //api to get admin info && token is valid or not
-router.get('/getUserDetails', verifyAdminToken, async (req, res) => {
+router.get('/getUserDetails', Auth.verifyAdminToken, async (req, res) => {
     try {
         if (req.user) {
             const userData = abstractedUserData(req.user);
@@ -145,7 +145,7 @@ router.get('/getUserDetails', verifyAdminToken, async (req, res) => {
 })
 
 //api to create a new admin
-router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
+router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -200,7 +200,7 @@ router.post('/createNewAdmin', verifyAdminToken, async (req, res) => {
 });
 
 //api to create  new student
-router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
+router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { username, password, email, semester, department } = req.body;
 
@@ -257,7 +257,7 @@ router.post('/createNewStudent', verifyAdminToken, async (req, res) => {
 });
 
 //api to create  new teacher
-router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
+router.post('/createNewTeacher', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { username, password, department, email } = req.body;
 
@@ -310,7 +310,7 @@ router.post('/createNewTeacher', verifyAdminToken, async (req, res) => {
 });
 
 //api to get all letters
-router.post('/getAllLetters', verifyAdminToken, async (req, res) => {
+router.post('/getAllLetters', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { sortOrder } = req.body
         const letters = await Letter.find().sort({ createdAt: sortOrder }).populate('from', 'username email department semester role');
@@ -331,7 +331,7 @@ router.post('/getAllLetters', verifyAdminToken, async (req, res) => {
 })
 
 //api to get single letter
-router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
+router.get('/getUserLetterById/:id', Auth.verifyAdminToken, async (req, res) => {
     try {
         const letterId = req.params.id;
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
@@ -354,7 +354,7 @@ router.get('/getUserLetterById/:id', verifyAdminToken, async (req, res) => {
 })
 
 //api to get all letters send by the student
-router.get('/getAllStudentLetters', verifyAdminToken, async (req, res) => {
+router.get('/getAllStudentLetters', Auth.verifyAdminToken, async (req, res) => {
     try {
         const letters = await Letter.find({ sender: "student" }).sort({ createdAt: 'desc' }).populate('from', 'username email role semester department');
         const sanitizedLetters = sanitizedLetterList(letters)
@@ -375,7 +375,7 @@ router.get('/getAllStudentLetters', verifyAdminToken, async (req, res) => {
 })
 
 //api to get all letters send by the student
-router.get('/getAllTeacherLetters', verifyAdminToken, async (req, res) => {
+router.get('/getAllTeacherLetters', Auth.verifyAdminToken, async (req, res) => {
     try {
         const letters = await Letter.find({ sender: "teacher" }).sort({ createdAt: 'desc' }).populate('from', 'username email department semester role');
         const sanitizedLetters = sanitizedLetterList(letters)
@@ -443,7 +443,7 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
 
 
 //api to upload bulk user data via xlsx
-router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), async (req, res) => {
+router.post('/uploadManyStudents', Auth.verifyAdminToken, upload.single('file'), async (req, res) => {
     try {
         const errors = validationResult(req);
 
@@ -539,7 +539,7 @@ router.post('/uploadManyStudents', verifyAdminToken, upload.single('file'), asyn
 });
 
 //api to upload bulk user data via xlsx
-router.post('/uploadManyTeacher', verifyAdminToken, upload.single('file'), async (req, res) => {
+router.post('/uploadManyTeacher', Auth.verifyAdminToken, upload.single('file'), async (req, res) => {
     try {
         const errors = validationResult(req);
 
@@ -677,7 +677,7 @@ router.post('/uploadManyTeacher', verifyAdminToken, upload.single('file'), async
 // });
 
 //api to get all students
-router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
+router.post('/getUserListByRole', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { role } = req.body;
         let message;
@@ -710,7 +710,7 @@ router.post('/getUserListByRole', verifyAdminToken, async (req, res) => {
 })
 
 //api to filter students by sem dep etc
-router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
+router.post('/getUserListByFilters', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { role, semester, department, sortOrder } = req.body;
         let message;
@@ -763,7 +763,7 @@ router.post('/getUserListByFilters', verifyAdminToken, async (req, res) => {
 });
 
 //api to search for user based on the role
-router.post('/searchUser', verifyAdminToken, async (req, res) => {
+router.post('/searchUser', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { role, query } = req.body;
         const validRoles = ['student', 'admin', 'teacher'];
@@ -793,7 +793,7 @@ router.post('/searchUser', verifyAdminToken, async (req, res) => {
 });
 
 //api to  update a user details by id (based on role)
-router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
+router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { username, email, password, semester, role, department } = req.body;
         const userId = req.params.id;
@@ -847,7 +847,7 @@ router.put('/editUser/:id', verifyAdminToken, async (req, res) => {
 });
 
 //api to delete a user by id
-router.delete('/deleteUserById/:id', verifyAdminToken, async (req, res) => {
+router.delete('/deleteUserById/:id', Auth.verifyAdminToken, async (req, res) => {
     try {
         const userId = req.params.id
         const userExists = await User.findOne({ _id: userId });
@@ -870,7 +870,7 @@ router.delete('/deleteUserById/:id', verifyAdminToken, async (req, res) => {
 
 
 //api to search letter
-router.post('/searchLetter', verifyAdminToken, async (req, res) => {
+router.post('/searchLetter', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { query } = req.body;
         if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
@@ -899,7 +899,7 @@ router.post('/searchLetter', verifyAdminToken, async (req, res) => {
 });
 
 //api to add action by admin
-router.post('/addActionsAndComments', verifyAdminToken, async (req, res) => {
+router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { letterId, actions, comments } = req.body;
 
@@ -946,7 +946,7 @@ router.post('/addActionsAndComments', verifyAdminToken, async (req, res) => {
 });
 
 //api to update read status of the letter
-router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
+router.post('/updateReadStatus', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { letterId } = req.body;
         const letter = await Letter.findOne({ _id: letterId });
@@ -973,7 +973,7 @@ router.post('/updateReadStatus', verifyAdminToken, async (req, res) => {
 })
 
 //api to generate csv fot the grievances
-router.post('/generate-csv', verifyAdminToken, async (req, res) => {
+router.post('/generate-csv', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
 
@@ -1029,7 +1029,7 @@ router.post('/generate-csv', verifyAdminToken, async (req, res) => {
 });
 
 //api to generate pdf fot the grievances
-router.post('/generate-pdf', verifyAdminToken, async (req, res) => {
+router.post('/generate-pdf', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { startDate, endDate } = req.body;
         console.log(req.body)

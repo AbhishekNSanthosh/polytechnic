@@ -5,7 +5,7 @@ const User = require('../Models/User');
 const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { verifyStudentToken } = require('../libs/Auth');
+const Auth = require('../libs/Auth');
 const Letter = require('../Models/Letter');
 const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse, abstractedUserData, customError } = require('../Utils/Helpers');
 const moment = require('moment');
@@ -105,7 +105,7 @@ router.post('/studentLogin', async (req, res) => {
     }
 });
 
-router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
+router.get('/getUserLetterById/:id', Auth.verifyStudentToken, async (req, res) => {
     try {
         const letterId = req.params.id;
         if (!letterId) {
@@ -148,7 +148,7 @@ router.get('/getUserLetterById/:id', verifyStudentToken, async (req, res) => {
 })
 
 //api to get admin info && token is valid or not
-router.get('/getUserDetails', verifyStudentToken, async (req, res) => {
+router.get('/getUserDetails', Auth.verifyStudentToken, async (req, res) => {
     try {
         if (req.user) {
             if (!req.user) {
@@ -168,7 +168,7 @@ router.get('/getUserDetails', verifyStudentToken, async (req, res) => {
 })
 
 //api to create a new letter from student
-router.post('/addLetter', verifyStudentToken, async (req, res) => {
+router.post('/addLetter', Auth.verifyStudentToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
@@ -212,7 +212,7 @@ router.post('/addLetter', verifyStudentToken, async (req, res) => {
 });
 
 //api to get all letters send by the student
-router.post('/getAllLetters', verifyStudentToken, async (req, res) => {
+router.post('/getAllLetters', Auth.verifyStudentToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
         if (!sortOrder) {
@@ -358,7 +358,7 @@ router.post('/resetPassword', async (req, res) => {
 });
 
 //api to delete a letter
-router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res) => {
+router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req, res) => {
     try {
         const letterId = req.params.letterId;
         if (!letterId) {
@@ -398,7 +398,7 @@ router.delete('/deleteLetterById/:letterId', verifyStudentToken, async (req, res
 });
 
 //api to search letter
-router.post('/searchLetter', verifyStudentToken, async (req, res) => {
+router.post('/searchLetter', Auth.verifyStudentToken, async (req, res) => {
     try {
         const { query } = req.body;
         if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {

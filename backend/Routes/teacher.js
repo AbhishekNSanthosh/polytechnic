@@ -5,7 +5,7 @@ const User = require('../Models/User');
 const validator = require('validator')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { verifyTeacherToken } = require('../libs/Auth');
+const Auth = require('../libs/Auth');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
 const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, abstractedUserData, customError } = require('../Utils/Helpers');
@@ -105,7 +105,7 @@ router.post('/teacherLogin', async (req, res) => {
     }
 });
 
-router.get('/getUserDetails', verifyTeacherToken, async (req, res) => {
+router.get('/getUserDetails', Auth.verifyTeacherToken, async (req, res) => {
     try {
         if (req.user) {
             if (!req.user) {
@@ -125,7 +125,7 @@ router.get('/getUserDetails', verifyTeacherToken, async (req, res) => {
 })
 
 //api to add letter by teacher
-router.post('/addLetter', verifyTeacherToken, async (req, res) => {
+router.post('/addLetter', Auth.verifyTeacherToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
@@ -162,7 +162,7 @@ router.post('/addLetter', verifyTeacherToken, async (req, res) => {
     }
 });
 
-router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
+router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
         if (!letterId) {
@@ -202,7 +202,7 @@ router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
 })
 
 //api to get all letters send by the teacher
-router.post('/getAllLetters', verifyTeacherToken, async (req, res) => {
+router.post('/getAllLetters', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
         if (!sortOrder) {
@@ -243,7 +243,7 @@ router.post('/getAllLetters', verifyTeacherToken, async (req, res) => {
 });
 
 
-router.get('/getUserLetterById/:id', verifyTeacherToken, async (req, res) => {
+router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
         if (!letterId) {
@@ -389,7 +389,7 @@ router.post('/resetPassword', async (req, res) => {
     }
 });
 
-router.post('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => {
+router.post('/teacherPermittedLetters', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
         if (!sortOrder) {
@@ -415,7 +415,7 @@ router.post('/teacherPermittedLetters', verifyTeacherToken, async (req, res) => 
 });
 
 //api to search letter
-router.post('/searchLetter', verifyTeacherToken, async (req, res) => {
+router.post('/searchLetter', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const { query } = req.body;
         if (validator.isEmpty(query) || validator.matches(query, /[./\[\]{}<>]/)) {
