@@ -248,7 +248,7 @@ export const updateCommentAndActions = async (
     toast
 ) => {
     try {
-        const response = await axios.post("http://localhost:9000" + adminApi.actionAndCommentUpdate, { letterId, actions, comments }, {
+        const response = await axios.post(backendApiUrl + adminApi.actionAndCommentUpdate, { letterId, actions, comments }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
@@ -295,7 +295,7 @@ export const deleteComment = async (
     toast
 ) => {
     try {
-        const response = await axios.post("http://localhost:9000" + adminApi.deleteCommentApi, { letterId }, {
+        const response = await axios.post(backendApiUrl + adminApi.deleteCommentApi, { letterId }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
@@ -341,7 +341,7 @@ export const deleteAction = async (
     toast
 ) => {
     try {
-        const response = await axios.post("http://localhost:9000" + adminApi.deleteActionApi, { letterId }, {
+        const response = await axios.post(backendApiUrl + adminApi.deleteActionApi, { letterId }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
