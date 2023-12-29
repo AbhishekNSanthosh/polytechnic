@@ -334,6 +334,9 @@ router.post('/getAllLetters', Auth.verifyAdminToken, async (req, res) => {
 router.get('/getUserLetterById/:id', Auth.verifyAdminToken, async (req, res) => {
     try {
         const letterId = req.params.id;
+        if (!letterId) {
+            throw { status: 400, message: "Invalid grievance id" }
+        }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         if (!letter) {
             throw { status: 404, message: resMessages.notFoundMsg }

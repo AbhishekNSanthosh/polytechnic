@@ -31,7 +31,9 @@ const DisplayLetter = () => {
                     <div className={styles.letterTopBtn}>
                         <button className={styles.manageBtn}
                             onClick={() => {
-                                navigate(`/view-letter/${letterData?._id}/manage`);
+                                if (params?.id !== "") {
+                                    navigate(`/view-letter/${letterData?._id}/manage`);
+                                }
                             }}
                         >Manage</button>
                     </div>
@@ -54,7 +56,7 @@ const DisplayLetter = () => {
                             <span className={styles.subtitle}>Date:</span>
                         </div>
                         <div className={styles.right}>
-                            <span className={styles.letterDetails}>{letterData?.createdAt?.date.slice(0,11)}</span>
+                            <span className={styles.letterDetails}>{letterData?.createdAt?.date.slice(0, 11)}</span>
                         </div>
                     </div>
                     <div className={styles.letterRow}>
