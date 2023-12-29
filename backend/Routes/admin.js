@@ -927,16 +927,16 @@ router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) =>
 
         if (actions !== "") {
             letter.actions = actions;
-            successMessage = twohundredResponse({ message: 'Actions added successfully', data: { actions, comments: "" } });
+            successMessage = twohundredResponse({ message: 'Actions added successfully', data: { actions, comments: letter.comments } });
         }
 
         if (comments !== "") {
             letter.comments = comments;
-            successMessage = twohundredResponse({ message: 'Comments added successfully', data: { comments, actions: "" } });
+            successMessage = twohundredResponse({ message: 'Comments added successfully', data: { comments, actions: letter?.actions } });
         }
 
         if (actions !== "" && comments !== "") {
-            successMessage = twohundredResponse({ message: 'Actions & Comments added successfully', data: { actions, comments } });
+            successMessage = twohundredResponse({ message: 'Actions & Comments added successfully', data: { actions: letter?.actions, comments: letter?.comments } });
         }
 
         await letter.save();
