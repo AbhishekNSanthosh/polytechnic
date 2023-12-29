@@ -334,12 +334,12 @@ router.post('/getAllLetters', Auth.verifyAdminToken, async (req, res) => {
 router.get('/getUserLetterById/:id', Auth.verifyAdminToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        if (letterId === undefined || !letterId) {
-            throw { status: 400, message: "Invalid grievance id" }
+        if (letterId === "undefined" || !letterId) {
+            throw { status: 400, message: "Invalid grievance id. Please provide a valid id." }
         }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         if (!letter) {
-            throw { status: 404, message: resMessages.notFoundMsg }
+            throw { status: 404, message: "Letter not found. Please check the provided id." }
         }
         const sanitizedLetter = sanitizedLetterData(letter);
         const successResponseMsg = twohundredResponse({
@@ -348,13 +348,14 @@ router.get('/getUserLetterById/:id', Auth.verifyAdminToken, async (req, res) => 
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.error(error);
+        console.error("error", error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
         const errorMessage = customError({ resCode: status, message })
         return res.status(status).json(errorMessage);
     }
-})
+});
+
 
 //api to get all letters send by the student
 router.get('/getAllStudentLetters', Auth.verifyAdminToken, async (req, res) => {

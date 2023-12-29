@@ -157,6 +157,7 @@ export const getLetterDetailsByAdmin = async (
     authToken,
     toast
 ) => {
+    console.log("called")
     try {
         const response = await axios.get(backendApiUrl + adminApi.getLetterData + letterId, {
             headers: {

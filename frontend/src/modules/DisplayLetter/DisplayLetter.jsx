@@ -31,7 +31,7 @@ const DisplayLetter = () => {
                     <div className={styles.letterTopBtn}>
                         <button className={styles.manageBtn}
                             onClick={() => {
-                                if (params?.id !== "") {
+                                if (params?.id !== "undefined") {
                                     navigate(`/view-letter/${letterData?._id}/manage`);
                                 }
                             }}
