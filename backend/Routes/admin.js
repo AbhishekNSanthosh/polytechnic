@@ -903,11 +903,11 @@ router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) =>
     try {
         const { letterId, actions, comments, isDeleteActionCall, isDeleteCommentCall } = req.body;
 
-        if (validator.matches(actions, /[./\[\]{}<>]/)) {
+        if (validator.matches(actions, /[/\[\]{}<>]/)) {
             throw { status: 400, message: 'Please enter a valid action' };
         }
 
-        if (validator.matches(comments, /[./\[\]{}<>]/)) {
+        if (validator.matches(comments, /[/\[\]{}<>]/)) {
             throw { status: 400, message: 'Please enter a valid comment' };
         }
 

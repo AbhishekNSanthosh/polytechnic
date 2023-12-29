@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    height: autp;
+    height: auto;
     border-radius: 10px;
     flex-direction: column;
     background-color: #fff;
@@ -12,6 +12,16 @@
     height: 100%;
     position: relative;
     margin: 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .letterWrap {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        margin: 0.5rem 0;
+    }
 }
 
 .letterTopRow {
