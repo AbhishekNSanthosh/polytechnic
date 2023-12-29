@@ -28,14 +28,9 @@ const ManageLetter = () => {
     const letterId = params.id;
 
     const getUserData = () => {
-        const abortController = new AbortController();
         if (authToken !== "") {
-            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast, abortController);
+            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast);
         }
-
-        return () => {
-            abortController.abort();
-        };
     }
 
     useEffect(() => {
@@ -148,7 +143,7 @@ const ManageLetter = () => {
                                 <div className={styles.listTopContainer}>
                                     <div className={styles.listContainer}>
                                         {teachers && teachers.map((teacher, index) => (
-                                            <div className={styles.userListContainer}>
+                                            <div className={styles.userListContainer} key={index}>
                                                 <div className={styles.left}>
                                                     <div className={styles.leftItem}>
                                                         <span className={styles.count}>{index + 1}.</span>

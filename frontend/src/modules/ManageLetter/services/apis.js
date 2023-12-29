@@ -9,10 +9,8 @@ export const getTeachersByAdmin = async (
     sortOrder,
     authToken,
     setTeachers,
-    // setSelectedUsers,
     navigate,
-    toast,
-    abortController
+    toast
 ) => {
     try {
         const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
@@ -24,7 +22,6 @@ export const getTeachersByAdmin = async (
             headers: {
                 Authorization: "Bearer " + authToken
             },
-            signal: abortController.signal
         });
         setTeachers(response?.data?.data);
         // setSelectedUsers(response?.data?.data?.viewAccessids)
@@ -169,18 +166,17 @@ export const getLetterDetailsByAdmin = async (
 ) => {
     console.log("called")
     try {
-        const abortController = new AbortController();
 
         const response = await axios.get(backendApiUrl + adminApi.getLetterData + letterId, {
             headers: {
                 Authorization: "Bearer " + authToken
             },
-            signal: abortController.signal
         })
         console.log(response);
         setLetterData(response?.data?.data);
         setSelectedUsers(response?.data?.data.viewAccessids)
     } catch (error) {
+        console.log(error)
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",
@@ -201,8 +197,6 @@ export const getLetterDetailsByAdmin = async (
                 navigate('/')
             }, 2000);
         }
-    } finally {
-        abortController.abort();
     }
 }
 
@@ -407,13 +401,13 @@ export const getLetterDetails = async (
         const response = await axios.get(backendApiUrl + adminApi.getLetterData + letterId, {
             headers: {
                 Authorization: "Bearer " + authToken
-            },
-            signal: abortController.signal
+            }
         })
         console.log(response);
         setShowActions(response?.data?.data?.actions);
         setShowComments(response?.data?.data?.comments);
     } catch (error) {
+        console.log(error)
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",
@@ -434,7 +428,5 @@ export const getLetterDetails = async (
                 navigate('/')
             }, 2000);
         }
-    } finally {
-        abortController.abort();
     }
 }
