@@ -753,7 +753,7 @@ router.post('/getUserListByFilters', Auth.verifyAdminToken, async (req, res) => 
         const usersData = sanitizedUserList(users);
         const successMsg = twohundredResponse({
             message,
-            data: usersData.length === 0 ? null : usersData,
+            data: usersData.length === 0 ? [] : usersData,
             studentsCount: usersData.length,
             accessToken: req.accessToken
         });

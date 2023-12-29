@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String, enum: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', null], default: null,
   },
   department: {
-    type: String, enum: ['CS', 'EEE', 'CE', 'ME', null], default: null,
+    type: String, enum: ['CSE', 'EEE', 'CIVIL', 'MECH', 'AUTOMOBILE', 'ELECTRONICS', null], default: null,
   },
   role: {
     type: String, enum: ['admin', 'student', 'teacher'], required: true,

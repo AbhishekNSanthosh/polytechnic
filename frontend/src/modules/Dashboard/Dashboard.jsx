@@ -90,14 +90,6 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className={styles.dashboardRowRight}>
-                    {/* <div className={styles.rightItem}>
-                        <Select placeholder='Filter Dep wise'>
-                            <option value='option1'>CE</option>
-                            <option value='option2'>CSE</option>
-                            <option value='option3'>ME</option>
-                            <option value='option3'>EEE</option>
-                        </Select>
-                    </div> */}
                     <div className={styles.rightItem}>
                         <Select className={styles.select} placeholder='Sort' value={sortOrder} onChange={(e) => {
                             setSortOrder(e.target.value);

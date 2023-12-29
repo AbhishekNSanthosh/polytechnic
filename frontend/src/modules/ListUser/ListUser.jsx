@@ -77,10 +77,12 @@ const ListUser = () => {
                 <Select style={{ width: '8rem' }} value={department} placeholder='Filter Dep wise' onChange={(e) => {
                   setDepartment(e.target.value)
                 }}>
-                  <option value='CE'>CE</option>
-                  <option value='CS'>CS</option>
-                  <option value='ME'>ME</option>
+                  <option value='CIVIL'>CIVIL</option>
+                  <option value='CSE'>CSE</option>
+                  <option value='MECH'>MECH</option>
                   <option value='EEE'>EEE</option>
+                  <option value='ELECTRONICS'>ELECTRONICS</option>
+                  <option value='AUTOMOBILE'>AUTOMOBILE</option>
                 </Select>
               </div>
             }

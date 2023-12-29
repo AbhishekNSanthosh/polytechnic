@@ -114,10 +114,12 @@ const ManageLetter = () => {
                                         }} style={{
                                             width: '8rem'
                                         }}>
-                                            <option value='CE'>CE</option>
-                                            <option value='CS'>CS</option>
-                                            <option value='ME'>ME</option>
+                                            <option value='CIVIL'>CIVIL</option>
+                                            <option value='CSE'>CSE</option>
+                                            <option value='MECH'>MECH</option>
                                             <option value='EEE'>EEE</option>
+                                            <option value='ELECTRONICS'>ELECTRONICS</option>
+                                            <option value='AUTOMOBILE'>AUTOMOBILE</option>
                                         </Select>
                                     </div>
                                     <div className={styles.manageTopActionItem}>
