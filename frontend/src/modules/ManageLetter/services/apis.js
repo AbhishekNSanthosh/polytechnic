@@ -8,7 +8,7 @@ export const getTeachersByAdmin = async (
     sortOrder,
     authToken,
     setTeachers,
-    selectedUsers,
+    // setSelectedUsers,
     navigate,
     toast
 ) => {
@@ -24,7 +24,7 @@ export const getTeachersByAdmin = async (
             }
         });
         setTeachers(response?.data?.data);
-        selectedUsers(response?.data?.data?.viewAccessids)
+        // setSelectedUsers(response?.data?.data?.viewAccessids)
         console.log(response)
     } catch (error) {
         console.log(error);
@@ -152,6 +152,7 @@ export const updateAccess = async (
 export const getLetterDetailsByAdmin = async (
     letterId,
     setSelectedUsers,
+    setLetterData,
     navigate,
     authToken,
     toast
@@ -163,6 +164,7 @@ export const getLetterDetailsByAdmin = async (
             }
         })
         console.log(response);
+        setLetterData(response?.data?.data);
         setSelectedUsers(response?.data?.data.viewAccessids)
     } catch (error) {
         toast({
@@ -197,14 +199,14 @@ export const updateStatusByAdmin = async (
     toast
 ) => {
     try {
-        const response = await axios.post("http://localhost:9000" + adminApi.adminUpdateGrievanceStatus, { letterId, status }, {
+        const response = await axios.post(backendApiUrl + adminApi.adminUpdateGrievanceStatus, { letterId, status }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
         })
         console.log(response);
-        // setStatus(response?.data?.data.status);
-         toast({
+        setStatus(response?.data?.data.status);
+        toast({
             title: response?.data?.message,
             status: 'success',
             duration: 3000,
@@ -215,6 +217,99 @@ export const updateStatusByAdmin = async (
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}
+
+export const updateCommentAndActions = async (
+    letterId,
+    actions = "",
+    comments = "",
+    setShowActions,
+    setShowComments,
+    isDeleteActionCall = false,
+    isDeleteCommentCall = false,
+    authToken,
+    navigate,
+    toast
+) => {
+    try {
+        const response = await axios.post("http://localhost:9000" + adminApi.actionAndCommentUpdate, { letterId, actions, comments,isDeleteActionCall,isDeleteCommentCall }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response);
+        setShowActions(response?.data?.data?.actions);
+        setShowComments(response?.data?.data?.comments);
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+    } catch (error) {
+        console.log(error)
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}
+
+export const getLetterDetails = async (
+    letterId,
+    setShowActions,
+    setShowComments,
+    navigate,
+    authToken,
+    toast
+) => {
+    try {
+        const response = await axios.get(backendApiUrl + adminApi.getLetterData + letterId, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response);
+        setShowActions(response?.data?.data?.actions);
+        setShowComments(response?.data?.data?.comments);
+    } catch (error) {
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
             status: 'error',
             duration: 3000,
             isClosable: true,

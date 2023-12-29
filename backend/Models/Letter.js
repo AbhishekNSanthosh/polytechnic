@@ -29,11 +29,11 @@ const letterSchema = new mongoose.Schema({
   viewAccessids: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   actions: {
     type: String,
-    default: null
+    default: ""
   },
   comments: {
     type: String,
-    default: null
+    default: ""
   },
 }, { timestamps: true, versionKey: false });
 

@@ -901,7 +901,7 @@ router.post('/searchLetter', Auth.verifyAdminToken, async (req, res) => {
 //api to add action by admin
 router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) => {
     try {
-        const { letterId, actions, comments } = req.body;
+        const { letterId, actions, comments, isDeleteActionCall, isDeleteCommentCall } = req.body;
 
         if (validator.matches(actions, /[./\[\]{}<>]/)) {
             throw { status: 400, message: 'Please enter a valid action' };
@@ -921,16 +921,26 @@ router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) =>
 
         if (actions !== "") {
             letter.actions = actions;
-            successMessage = twohundredResponse({ message: 'Actions added successfully', data: { actions } });
+            successMessage = twohundredResponse({ message: 'Actions added successfully', data: { actions, comments: "" } });
         }
 
         if (comments !== "") {
             letter.comments = comments;
-            successMessage = twohundredResponse({ message: 'Comments added successfully', data: { comments } });
+            successMessage = twohundredResponse({ message: 'Comments added successfully', data: { comments, actions: "" } });
         }
 
         if (actions !== "" && comments !== "") {
             successMessage = twohundredResponse({ message: 'Actions & Comments added successfully', data: { actions, comments } });
+        }
+
+        if (isDeleteActionCall) {
+            letter.actions = ""
+            successMessage = twohundredResponse({ message: 'Actions deleted successfully', data: { action: "", comments } });
+        }
+
+        if (isDeleteCommentCall) {
+            letter.comments = ""
+            successMessage = twohundredResponse({ message: 'Comments deleted successfully', data: { actions, comments: "" } });
         }
 
         await letter.save();

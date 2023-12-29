@@ -6,6 +6,7 @@ import { useToast } from '@chakra-ui/react'
 import { getLetterDetailsByAdmin, getTeachersByAdmin, searchUser, updateAccess } from './services/apis'
 import { Checkbox } from '@chakra-ui/react'
 import ManageStatus from './components/ManageStatus'
+import ActionAndComment from './components/ActionAndComment'
 
 const ManageLetter = () => {
     const [applyFilter, setApplyFilter] = useState(false);
@@ -17,6 +18,7 @@ const ManageLetter = () => {
     const [query, setQuery] = useState("");
     const [apiOnCall, setApiOnCall] = useState(false);
     const [showNoResults, setShowNoResults] = useState(false);
+    const [letterData, setLetterData] = useState({})
 
     const params = useParams();
     const authToken = localStorage.getItem("accessToken");
@@ -33,7 +35,7 @@ const ManageLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin" && authToken !== "") {
-            getLetterDetailsByAdmin(letterId, setSelectedUsers, navigate, authToken, toast);
+            getLetterDetailsByAdmin(letterId, setSelectedUsers,setLetterData, navigate, authToken, toast);
         }
     }, [])
 
@@ -137,7 +139,6 @@ const ManageLetter = () => {
                                                         <span className={styles.count}>{index + 1}.</span>
                                                     </div>
                                                     <div className={styles.leftItem}>
-                                                        {console.log("hii", selectedUsers.some(selected => selected.id === teacher?.id))}
                                                         <Checkbox isChecked={selectedUsers.some(selected => selected === teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
                                                     </div>
 
@@ -191,6 +192,7 @@ const ManageLetter = () => {
                         </div>
                     </div>
                 </div>
+                <ActionAndComment letterData={letterData}/>
             </div>
         </div>
     )

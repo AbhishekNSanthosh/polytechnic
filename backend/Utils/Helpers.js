@@ -162,7 +162,7 @@ const transporter = nodemailer.createTransport({
 
 const sanitizedUserList = (users) => {
     const userList = users.map(user => ({
-        userId: user?._id,
+        _id: user?._id,
         username: user?.username,
         email: user?.email,
         semester: user?.semester,
@@ -184,7 +184,7 @@ const sanitizedLetterList = (letters) => {
     const sanitizedLetters = letters.map(letter => ({
         ...letter.toObject(),
         from: {
-            userId: letter?.from?._id,
+            _id: letter?.from?._id,
             username: letter?.from?.username,
             email: letter?.from?.email,
             semester: letter?.from?.semester,
@@ -207,7 +207,7 @@ const sanitizedLetterData = (letter) => {
     const sanitizedLetter = {
         ...letter.toObject(),
         from: {
-            userId: letter?.from?._id,
+            _id: letter?.from?._id,
             username: letter?.from?.username,
             email: letter?.from?.email,
             semester: letter?.from?.semester,
@@ -229,7 +229,7 @@ const sanitizedLetterData = (letter) => {
 const abstractedUserData = (userObj) => {
     const { password, loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
     const newData = {
-        userId: userAbstractedObj?._id,
+        _id: userAbstractedObj?._id,
         username: userAbstractedObj?.username,
         email: userAbstractedObj?.email,
         password: userAbstractedObj?.password,

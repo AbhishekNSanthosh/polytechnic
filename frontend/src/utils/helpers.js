@@ -53,4 +53,5 @@ export const adminApi = {
     adminGeneratePDF: "/api/v2/admin/generate-pdf",
     adminGenerateCSV: "/api/v2/admin/generate-csv",
     adminUpdateGrievanceStatus: "/api/v2/admin/updateGrievanceStatus",
+    actionAndCommentUpdate: "/api/v2/admin/addActionsAndComments",
 }

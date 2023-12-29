@@ -366,7 +366,7 @@
     }
 }
 
-.statusRow{
+.statusRow {
     display: flex;
     align-items: center;
     flex: 7;
@@ -376,7 +376,7 @@
 }
 
 @media only screen and (max-width: 767px) {
-    .statusRow{
+    .statusRow {
         display: flex;
         align-items: center;
         justify-content: start;
@@ -396,10 +396,109 @@
     }
 }
 
-.statuBtn{
+.statuBtn {
     width: 100%;
     background-color: red;
     border-radius: 10px;
     padding: 8px;
     color: #fff
+}
+
+.ActionAndCommentContainer {
+    display: flex;
+    gap: 2rem;
+    margin: 5rem 0;
+}
+
+.ActionAndCommentLeft {
+    flex: 6;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 767px) {
+    .ActionAndCommentContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin: 5rem 0;
+    }
+}
+
+.ActionAndCommentTitle {
+    font-size: 1.1rem;
+}
+
+.ActionAndCommentRight {
+    flex: 6;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.txtArea {
+    width: 100%;
+    padding: 0.5rem;
+    outline: none;
+    border: 1px solid rgb(255, 241, 241);
+    background-color: #fff5f5;
+    border-radius: 10px;
+}
+
+.manageBtn {
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+    border-radius: 10px;
+    background-color: red;
+    color: #fff;
+    font-weight: 500;
+}
+
+.defaultActions {
+    display: flex;
+    gap: 1rem;
+    height: auto;
+    width: auto;
+    padding: 10px 10px;
+    min-height: 4rem;
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    align-items: center;
+}
+
+.defaultActionLeft {
+    flex: 10;
+    display: flex;
+    text-align: justify;
+}
+
+.ActionAndCommentInfo{
+    font-size: 0.9rem;
+}
+
+.defaultActionRight {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.iconBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0.8rem;
+    cursor: pointer;
+}
+
+.iconBox:hover {
+    background-color: #e7e7e7;
+    color:red
+}
+
+.actionIcon{
+    font-size: 1.17rem;
 }
