@@ -243,14 +243,12 @@ export const updateCommentAndActions = async (
     comments = "",
     setShowActions,
     setShowComments,
-    isDeleteActionCall = false,
-    isDeleteCommentCall = false,
     authToken,
     navigate,
     toast
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.actionAndCommentUpdate, { letterId, actions, comments,isDeleteActionCall,isDeleteCommentCall }, {
+        const response = await axios.post("http://localhost:9000" + adminApi.actionAndCommentUpdate, { letterId, actions, comments }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
@@ -258,6 +256,98 @@ export const updateCommentAndActions = async (
         console.log(response);
         setShowActions(response?.data?.data?.actions);
         setShowComments(response?.data?.data?.comments);
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+    } catch (error) {
+        console.log(error)
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}
+
+export const deleteComment = async (
+    letterId,
+    setShowComments,
+    authToken,
+    navigate,
+    toast
+) => {
+    try {
+        const response = await axios.post("http://localhost:9000" + adminApi.deleteCommentApi, { letterId }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response);
+        setShowComments(response?.data?.data?.comments);
+        toast({
+            title: response?.data?.message,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+    } catch (error) {
+        console.log(error)
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}
+
+export const deleteAction = async (
+    letterId,
+    setShowActions,
+    authToken,
+    navigate,
+    toast
+) => {
+    try {
+        const response = await axios.post("http://localhost:9000" + adminApi.deleteActionApi, { letterId }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response);
+        setShowActions(response?.data?.data?.actions);
         toast({
             title: response?.data?.message,
             status: 'success',

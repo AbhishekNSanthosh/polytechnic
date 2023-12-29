@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from '../ManageLetter.module.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { getLetterDetails, getLetterDetailsByAdmin, updateCommentAndActions } from '../services/apis'
+import { deleteAction, deleteComment, getLetterDetails, getLetterDetailsByAdmin, updateCommentAndActions } from '../services/apis'
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 
@@ -24,19 +24,17 @@ const ActionAndComment = () => {
     const letterId = params.id;
 
     const handleActionsAndComments = async () => {
-        await updateCommentAndActions(letterId, actions, comments, setShowActions, setShowComments, isDeleteActionCall, isDeleteCommentCall, authToken, navigate, toast);
+        await updateCommentAndActions(letterId, actions, comments, setShowActions, setShowComments, authToken, navigate, toast);
         setEditAction(false);
         setEditComment(false);
     }
 
     const handleDeleteComment = async () => {
-        await updateCommentAndActions(letterId, actions, comments, setShowActions, setShowComments, isDeleteActionCall, true, authToken, navigate, toast);
-        setIsDeleteCommentCall(false);
+        await deleteComment(letterId, setShowComments, authToken, navigate, toast);
     }
 
     const handleDeleteAction = async () => {
-        await updateCommentAndActions(letterId, actions, comments, setShowActions, setShowComments, true, isDeleteCommentCall, authToken, navigate, toast);
-        setIsDeleteActionCall(false);
+        await deleteAction(letterId, setShowActions, authToken, navigate, toast);
     }
 
     useEffect(() => {

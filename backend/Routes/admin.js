@@ -901,7 +901,7 @@ router.post('/searchLetter', Auth.verifyAdminToken, async (req, res) => {
 //api to add action by admin
 router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) => {
     try {
-        const { letterId, actions, comments, isDeleteActionCall, isDeleteCommentCall } = req.body;
+        const { letterId, actions, comments } = req.body;
 
         if (validator.matches(actions, /[/\[\]{}<>]/)) {
             throw { status: 400, message: 'Please enter a valid action' };
@@ -933,16 +933,6 @@ router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) =>
             successMessage = twohundredResponse({ message: 'Actions & Comments added successfully', data: { actions, comments } });
         }
 
-        if (isDeleteActionCall) {
-            letter.actions = ""
-            successMessage = twohundredResponse({ message: 'Actions deleted successfully', data: { action: "", comments } });
-        }
-
-        if (isDeleteCommentCall) {
-            letter.comments = ""
-            successMessage = twohundredResponse({ message: 'Comments deleted successfully', data: { actions, comments: "" } });
-        }
-
         await letter.save();
 
         return res.json(successMessage || twohundredResponse({ message: 'No changes made' }));
@@ -954,6 +944,57 @@ router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) =>
         return res.status(status).json(errorMessage);
     }
 });
+
+//api to delete comment or actions
+router.post("/deleteComments", Auth.verifyAdminToken, async (req, res) => {
+    try {
+        const { letterId } = req.body;
+        if (!letterId) {
+            throw { status: 400, message: "Invalid grievance id" }
+        }
+        const letter = await Letter.findOne({ _id: letterId })
+        if (!letter) {
+            throw { status: 404, message: "Grievance does not exists" }
+        }
+
+        letter.comments = ""
+        await letter.save();
+
+        return res.status(200).json(twohundredResponse({ data: { comments: "" }, message: 'Comment deleted successfully' }));
+    } catch (error) {
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
+    }
+})
+
+
+//api to delete actions
+router.post("/deleteActions", Auth.verifyAdminToken, async (req, res) => {
+    try {
+        const { letterId } = req.body;
+        if (!letterId) {
+            throw { status: 400, message: "Invalid grievance id" }
+        }
+        const letter = await Letter.findOne({ _id: letterId })
+        if (!letter) {
+            throw { status: 404, message: "Grievance does not exists" }
+        }
+
+        letter.actions = ""
+        await letter.save();
+
+        return res.status(200).json(twohundredResponse({ data: { actions: "" }, message: 'Actions deleted successfully' }));
+    } catch (error) {
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const errorMessage = customError({ resCode: status, message })
+        return res.status(status).json(errorMessage);
+    }
+})
 
 //api to update read status of the letter
 router.post('/updateReadStatus', Auth.verifyAdminToken, async (req, res) => {
