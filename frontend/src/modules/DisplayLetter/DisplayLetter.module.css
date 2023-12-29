@@ -203,6 +203,18 @@
     box-shadow: rgba(201, 201, 201, 0.2) 0px 8px 24px;
 }
 
+@media only screen and (max-width: 767px) {
+    .commentCol {
+        flex: 6;
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 1rem;
+        flex-direction: column;
+        box-shadow: rgba(201, 201, 201, 0.2) 0px 8px 24px;
+    }
+}
+
 .manageTitle {
     font-size: 1.1rem
 }
@@ -221,6 +233,18 @@
     font-size: 1rem;
     padding: 1rem;
     box-shadow: rgba(201, 201, 201, 0.2) 0px 8px 24px;
+}
+
+@media only screen and (max-width: 767px) {
+    .actionCol {
+        display: flex;
+        gap: 0.5rem;
+        flex-direction: column;
+        font-size: 1rem;
+        padding: 1rem;
+        width: 100%;
+        box-shadow: rgba(201, 201, 201, 0.2) 0px 8px 24px;
+    }
 }
 
 .statusYello {
