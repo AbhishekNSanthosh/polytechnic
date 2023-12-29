@@ -15,14 +15,22 @@ const DisplayLetter = () => {
     const authToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
+        const abortController = new AbortController();
+        const { signal } = abortController;
+    
         if (accessType === "admin") {
-            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate, authToken, toast);
+            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate, authToken, toast, { signal });
         } else if (accessType === "student") {
-            getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate, authToken, toast);
+            getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate, authToken, toast, { signal });
         } else if (accessType === "teacher") {
-            getLetterDetails(params?.id, setLetterData, teacherApi.getLetterData, navigate, authToken, toast);
+            getLetterDetails(params?.id, setLetterData, teacherApi.getLetterData, navigate, authToken, toast, { signal });
         }
-    }, [])
+    
+        return () => {
+            abortController.abort();
+        };
+    }, []);
+    
 
     return (
         <div className={styles.container}>

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import styles from './Dashboard.module.css'
 import { IoIosSearch } from "react-icons/io";
-import { Select } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react';
 import LetterList from './components/LetterList';
-import { useEffect } from 'react';
 import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher, getSearchResults, getTeacherPermittedLetters } from './services/apis';
-import { useToast } from '@chakra-ui/react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
 
 const Dashboard = () => {
@@ -15,6 +14,7 @@ const Dashboard = () => {
     const [isApiOnCall, setIsApiOnCall] = useState(false);
     const [sortOrder, setSortOrder] = useState("desc");
     const [applyFilter, setApplyFilter] = useState(false);
+    const abortController = new AbortController();
 
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
@@ -25,20 +25,20 @@ const Dashboard = () => {
     const pathArray = location.pathname.split('/');
     const lastPart = pathArray[pathArray.length - 1];
 
-    const getLetterData = () => {
+    const getLetterData = async () => {
         try {
             if (authToken !== "") {
                 if (lastPart === "permitted-grievances") {
                     if (accessType === "teacher" && authToken !== "") {
-                        getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast)
+                        await getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast, abortController);
                     }
                 } else {
                     if (accessType === "admin") {
-                        getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken);
+                        await getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken, abortController);
                     } else if (accessType === "student") {
-                        getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken);
+                        await getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken, abortController);
                     } else if (accessType === "teacher") {
-                        getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken)
+                        await getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken, abortController);
                     }
                 }
             }
@@ -52,12 +52,14 @@ const Dashboard = () => {
                 isClosable: true,
             });
         }
-    }
+    };
 
     useEffect(() => {
         getLetterData();
-    }, [authToken, applyFilter, sortOrder, lastPart]);
 
+        // Cleanup function to abort the request when the component is unmounted
+        return () => abortController.abort();
+    }, [authToken, applyFilter, sortOrder, lastPart]);
 
     const handleQueryChange = (e) => {
         const newQuery = e.target.value;

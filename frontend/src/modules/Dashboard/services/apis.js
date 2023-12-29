@@ -8,17 +8,17 @@ export const getAllLettersForAdmin = async (
     sortOrder,
     toast,
     navigate,
-    authToken
+    authToken,
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.getAllLetters, {
-            sortOrder
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
+        const response = await axios.post(
+            backendApiUrl + adminApi.getAllLetters,
+            { sortOrder },
+            {
+                headers: { Authorization: "Bearer " + authToken },
             }
-        })
-        setLetters(response.data.data)
+        );
+        setLetters(response.data.data);
     } catch (error) {
         console.log(error);
         toast({
@@ -175,7 +175,8 @@ export const getTeacherPermittedLetters = async (
     setLetters,
     authToken,
     navigate,
-    toast
+    toast,
+
 ) => {
     try {
         const response = await axios.post(backendApiUrl + teacherApi.getPermittedLetters, {
@@ -184,7 +185,8 @@ export const getTeacherPermittedLetters = async (
         }, {
             headers: {
                 Authorization: "Bearer " + authToken
-            }
+            },
+
         })
         console.log(response);
         setLetters(response?.data?.data)

@@ -6,10 +6,10 @@ import './index.css'
 import toast, { Toaster } from 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ChakraProvider>
     <Toaster />
       <App />
     </ChakraProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

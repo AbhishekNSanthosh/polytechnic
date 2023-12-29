@@ -401,10 +401,12 @@ router.get('/getAllTeacherLetters', Auth.verifyAdminToken, async (req, res) => {
 
 //api to allow view access to teacher
 router.post('/addViewAccessIds/:letterId', async (req, res) => {
-    const { userIds } = req.body;
-
     try {
+        const { userIds } = req.body;
         const letterId = req.params.letterId;
+        if (!letterId || letterId === "undefined") {
+            throw { status: 400, message: "Invalid grievance id" }
+        }
         const letter = await Letter.findById(letterId);
 
         if (!letter) {
@@ -1284,7 +1286,7 @@ router.post('/updateGrievanceStatus', Auth.verifyAdminToken, async (req, res) =>
     try {
         const { letterId, status } = req.body;
         const validStatuses = ['PENDING', 'APPROVED', 'REJECTED']
-        if (!letterId) {
+        if (!letterId || letterId === "undefined") {
             throw { status: 400, message: "Invalid grievance id" }
         }
         if (!status) {

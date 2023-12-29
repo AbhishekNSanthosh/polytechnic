@@ -38,7 +38,13 @@ const ActionAndComment = () => {
     }
 
     useEffect(() => {
-        getLetterDetails(letterId, setShowActions, setShowComments, navigate, authToken, toast,)
+        const abortController = new AbortController();
+        const { signal } = abortController;
+
+        getLetterDetails(letterId, setShowActions, setShowComments, navigate, authToken, toast, { signal })
+        return () => {
+            abortController.abort();
+        };
     }, [])
 
     return (

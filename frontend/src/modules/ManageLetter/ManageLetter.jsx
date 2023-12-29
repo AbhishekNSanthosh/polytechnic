@@ -28,14 +28,25 @@ const ManageLetter = () => {
     const letterId = params.id;
 
     const getUserData = () => {
+        const abortController = new AbortController();
         if (authToken !== "") {
-            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast);
+            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast, abortController);
         }
+
+        return () => {
+            abortController.abort();
+        };
     }
 
     useEffect(() => {
+        const abortController = new AbortController();
+        const { signal } = abortController;
+
         if (accessType === "admin" && authToken !== "") {
-            getLetterDetailsByAdmin(letterId, setSelectedUsers, setLetterData, navigate, authToken, toast);
+            getLetterDetailsByAdmin(letterId, setSelectedUsers, setLetterData, navigate, authToken, toast, { signal });
+        }
+        return () => {
+            abortController.abort()
         }
     }, [])
 
