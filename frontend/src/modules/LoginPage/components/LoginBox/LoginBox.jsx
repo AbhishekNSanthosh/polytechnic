@@ -8,7 +8,7 @@ import { dashboardUrls, loginUrls } from '../../../../utils/helpers';
 
 const LoginBox = ({ handleLoginUser, user }) => {
     const [emailOrUsername, setEmailOrUsername] = useState(null);
-    const [passsword, setPassword] = useState(null); console.log(emailOrUsername, passsword);
+    const [passsword, setPassword] = useState(null);
     const navigate = useNavigate();
     const toast = useToast()
 

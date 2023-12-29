@@ -35,7 +35,7 @@ const ManageLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin" && authToken !== "") {
-            getLetterDetailsByAdmin(letterId, setSelectedUsers,setLetterData, navigate, authToken, toast);
+            getLetterDetailsByAdmin(letterId, setSelectedUsers, setLetterData, navigate, authToken, toast);
         }
     }, [])
 
@@ -77,6 +77,10 @@ const ManageLetter = () => {
         if (authToken !== "" && accessType === "admin") {
             updateAccess(letterId, selectedUsers, setSelectedUsers, authToken, navigate, toast);
         }
+    }
+
+    if (accessType !== "admin") {
+        return null
     }
     return (
         <div className={styles.container}>
@@ -192,7 +196,7 @@ const ManageLetter = () => {
                         </div>
                     </div>
                 </div>
-                <ActionAndComment letterData={letterData}/>
+                <ActionAndComment letterData={letterData} />
             </div>
         </div>
     )

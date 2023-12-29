@@ -41,7 +41,7 @@ const ActionAndComment = () => {
 
     useEffect(() => {
         getLetterDetails(letterId, setShowActions, setShowComments, navigate, authToken, toast,)
-    }, [handleActionsAndComments])
+    }, [])
 
     return (
         <div className={styles.ActionAndCommentContainer}>

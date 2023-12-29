@@ -250,7 +250,7 @@ export const updateCommentAndActions = async (
     toast
 ) => {
     try {
-        const response = await axios.post("http://localhost:9000" + adminApi.actionAndCommentUpdate, { letterId, actions, comments,isDeleteActionCall,isDeleteCommentCall }, {
+        const response = await axios.post(backendApiUrl + adminApi.actionAndCommentUpdate, { letterId, actions, comments,isDeleteActionCall,isDeleteCommentCall }, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
