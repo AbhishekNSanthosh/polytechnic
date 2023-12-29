@@ -130,7 +130,7 @@ export const updateAccess = async (
         toast({
             title: response?.data?.message,
             // description: "Redirecting to Login page",
-            status: 'error',
+            status: 'success',
             duration: 3000,
             isClosable: true,
         });
@@ -139,7 +139,7 @@ export const updateAccess = async (
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",
-            status: 'success',
+            status: 'error',
             duration: 3000,
             isClosable: true,
         });
