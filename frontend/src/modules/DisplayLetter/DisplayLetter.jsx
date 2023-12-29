@@ -17,7 +17,7 @@ const DisplayLetter = () => {
     useEffect(() => {
         const abortController = new AbortController();
         const { signal } = abortController;
-    
+
         if (accessType === "admin") {
             getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate, authToken, toast, { signal });
         } else if (accessType === "student") {
@@ -25,12 +25,12 @@ const DisplayLetter = () => {
         } else if (accessType === "teacher") {
             getLetterDetails(params?.id, setLetterData, teacherApi.getLetterData, navigate, authToken, toast, { signal });
         }
-    
+
         return () => {
             abortController.abort();
         };
     }, []);
-    
+
 
     return (
         <div className={styles.container}>
@@ -97,6 +97,37 @@ const DisplayLetter = () => {
                             <span className={styles.subtitle}>Thank you</span>
                         </div>
                     </div>
+                    {
+                        accessType !== "admin" &&
+                        <div className={styles.dataContainer}>
+                            <div className={styles.dataContainerRow}>
+                                <div className={styles.statusLeft}>
+                                    <span className={styles.statustitle}>Status:</span>
+                                </div>
+                                <div className={styles.statusRight}>
+                                    {letterData?.status === "PENDING" &&
+                                        <span className={styles.statusYello}>{letterData?.status}⏳</span>
+                                    }
+                                    {letterData?.status === "REJECTED" &&
+                                        <span className={styles.statusRed}><strike>{letterData?.status}</strike></span>
+                                    }
+                                    {letterData?.status === "APPROVED" &&
+                                        <span className={styles.statusGreen}>{letterData?.status}</span>
+                                    }
+                                </div>
+                            </div>
+                            <div className={styles.dataContainerManageRow}>
+                                <div className={styles.actionCol}>
+                                    <span className={styles.manageTitle}>Actions:</span>
+                                    <span className={styles.manageTitle}>{letterData?.actions ? letterData?.actions : "No actions taken yet!!!"}</span>
+                                </div>
+                                <div className={styles.commentCol}>
+                                    <span className={styles.manageTitle}>Comments:</span>
+                                    <span className={styles.manageTitle}>{letterData?.comments ? letterData?.comments : "No comments added yet!!!"}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
