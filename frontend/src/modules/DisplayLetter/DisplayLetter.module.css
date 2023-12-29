@@ -237,6 +237,6 @@
 
 .statusGreen {
     font-size: 1.2rem;
-    color: green;
-    font-weight: 500;
+    color: rgb(0, 197, 0);
+    font-weight: 800;
 }
