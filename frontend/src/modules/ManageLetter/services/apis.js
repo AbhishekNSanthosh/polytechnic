@@ -24,7 +24,7 @@ export const getTeachersByAdmin = async (
             headers: {
                 Authorization: "Bearer " + authToken
             },
-            signal:abortController.signal
+            signal: abortController.signal
         });
         setTeachers(response?.data?.data);
         // setSelectedUsers(response?.data?.data?.viewAccessids)
@@ -127,12 +127,19 @@ export const updateAccess = async (
             }
         });
         setSelectedUsers(response?.data?.data?.viewAccessids)
+        toast({
+            title: response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
     } catch (error) {
         console.log(error)
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",
-            status: 'error',
+            status: 'success',
             duration: 3000,
             isClosable: true,
         });
