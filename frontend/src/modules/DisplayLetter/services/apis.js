@@ -21,7 +21,7 @@ export const getLetterDetails = async (
         // Set the flag to indicate that a request is in progress
         isRequestInProgress = true;
 
-        const response = await axios.get("http://localhost:9000" + url + letterId, {
+        const response = await axios.get(backendApiUrl + url + letterId, {
             headers: {
                 Authorization: "Bearer " + authToken
             }
