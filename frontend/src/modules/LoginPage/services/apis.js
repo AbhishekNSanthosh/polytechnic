@@ -7,8 +7,10 @@ export const loginUser = async (
     toast,
     navigate,
     url,
-    userDetails
+    userDetails,
+    setIsLoading
 ) => {
+    setIsLoading(true);
     try {
         const response = await axios.post(backendApiUrl + url, {
             username,
@@ -35,7 +37,9 @@ export const loginUser = async (
                 navigate('/dashboard')
             }, 1000);
         })
+        setIsLoading(false)
     } catch (error) {
+        setIsLoading(false)
         if (error?.response?.data?.resCode === 403) {
             toast({
                 title: error?.response?.data.message,

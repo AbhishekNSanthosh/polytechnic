@@ -5,10 +5,12 @@ import { loginUser } from '../../services/apis';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react'
 import { dashboardUrls, loginUrls } from '../../../../utils/helpers';
+import { ClipLoader } from 'react-spinners'
 
 const LoginBox = ({ handleLoginUser, user }) => {
     const [emailOrUsername, setEmailOrUsername] = useState(null);
     const [passsword, setPassword] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const toast = useToast()
 
@@ -27,7 +29,8 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 toast,
                 navigate,
                 loginUrls.adminLogin,
-                dashboardUrls.getAdminDetials
+                dashboardUrls.getAdminDetials,
+                setIsLoading
             );
         } else if (user === "student") {
             await loginUser(
@@ -35,7 +38,8 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 passsword, toast,
                 navigate,
                 loginUrls.studentLogin,
-                dashboardUrls.getStudentDetials
+                dashboardUrls.getStudentDetials,
+                setIsLoading
             );
         } else if (user === "teacher") {
             await loginUser(emailOrUsername,
@@ -43,7 +47,8 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 toast,
                 navigate,
                 loginUrls.facultyLogin,
-                dashboardUrls.getFacultyDetials
+                dashboardUrls.getFacultyDetials,
+                setIsLoading
             );
         }
     }
@@ -75,9 +80,9 @@ const LoginBox = ({ handleLoginUser, user }) => {
                     e.preventDefault();
                     setPassword(e.target.value);
                 }} />
-                {user === "admin" && <button className={styles.LoginBoxAdminButton} onClick={handleLogin}>Login</button>}
-                {user === "teacher" && <button className={styles.LoginBoxFacultyButton} onClick={handleLogin}>Login</button>}
-                {user === "student" && <button className={styles.LoginBoxStudentButton} onClick={handleLogin}>Login</button>}
+                {user === "admin" && <button className={styles.LoginBoxAdminButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
+                {user === "teacher" && <button className={styles.LoginBoxFacultyButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
+                {user === "student" && <button className={styles.LoginBoxStudentButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
                 <span className={styles.forgot}>Forgot password ?</span>
             </div>
         </div>

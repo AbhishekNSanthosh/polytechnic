@@ -56,6 +56,7 @@
     padding: 12px 0px;
     font-weight: 600;
     border-radius: 10px;
+    gap: 0.5rem;
     outline: none;
     background: #14541a;
     border: none;
@@ -73,6 +74,7 @@
     font-weight: 600;
     border-radius: 10px;
     outline: none;
+    gap: 0.5rem;
     background: #940303;
     border: none;
     align-items: center;
@@ -89,6 +91,7 @@
     font-weight: 600;
     border-radius: 10px;
     outline: none;
+    gap: 0.5rem;
     background: #3658cf;
     border: none;
     align-items: center;
