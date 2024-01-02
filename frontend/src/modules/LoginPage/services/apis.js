@@ -35,9 +35,9 @@ export const loginUser = async (
             console.log(res)
             setTimeout(() => {
                 navigate('/dashboard')
+                setIsLoading(false)
             }, 1000);
         })
-        setIsLoading(false)
     } catch (error) {
         setIsLoading(false)
         if (error?.response?.data?.resCode === 403) {
