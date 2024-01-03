@@ -31,7 +31,7 @@
         padding: 0 0.3rem;
         height: 100%;
     }
-    
+
 }
 
 .dashboardTopRow {
@@ -107,8 +107,7 @@
 }
 
 .dashboardRow {
-    height: auto;
-    max-height: 61vh;
+    height: 61vh;
     overflow: scroll;
     display: flex;
     flex-direction: column;
@@ -117,8 +116,7 @@
 
 @media only screen and (max-width: 767px) {
     .dashboardRow {
-        height: auto;
-        max-height: 72vh;
+        height: 72vh;
         overflow: scroll;
         display: flex;
         flex-direction: column;
@@ -126,7 +124,13 @@
     }
 }
 
-
+.dashboardLoaderRow {
+    height: 61vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
 
 .dashboardRowLeftSearch {
     height: 3rem;
@@ -138,6 +142,22 @@
 
 }
 
+
+.emptyImgBox {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    gap: 1rem;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emptyImg {
+    display: flex;
+    height: 10rem;
+}
 
 
 .apllyBtn {

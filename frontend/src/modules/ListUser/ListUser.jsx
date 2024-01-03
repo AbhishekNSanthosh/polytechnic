@@ -6,6 +6,8 @@ import UserList from './components/UserList';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { getUsersByAdmin, searchUser } from './services/apis';
+import { Loader } from '../../components/Loader';
+import emptyImg from '../../assets/Images/empty.svg'
 
 const ListUser = () => {
   const [semester, setSemester] = useState("");
@@ -15,6 +17,7 @@ const ListUser = () => {
   const [isApiOnCall, setIsApiOnCall] = useState(false);
   const [query, setQuery] = useState("");
   const [applyFilter, setApplyFilter] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const location = useLocation();
   const path = location.pathname;
@@ -27,11 +30,11 @@ const ListUser = () => {
 
   const getUserData = () => {
     if (userValue === "student") {
-      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
+      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast, setIsLoading)
     } else if (userValue === "admin") {
-      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
+      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast, setIsLoading)
     } else if (userValue === "teacher") {
-      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
+      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast, setIsLoading)
     }
   }
 
@@ -128,13 +131,30 @@ const ListUser = () => {
             </div>
           </div>
         </div>
-        <div className={styles.dashboardRow}>
-          {users && users.map((user, index) => (
-            <div key={index}>
-              <UserList user={user} index={index} />
+        {
+          isLoading
+            ?
+            <div className={styles.dashboardLoaderRow}>
+              <Loader />
             </div>
-          ))}
-        </div>
+            :
+            <div className={styles.dashboardRow}>
+              {users.length === 0 ?
+                <div className={styles.emptyImgBox}>
+                  <img src={emptyImg} alt="" className={styles.emptyImg} />
+                  No data found !!!
+                </div>
+                :
+                <>
+                  {users && users.map((user, index) => (
+                    <div key={index}>
+                      <UserList user={user} index={index} />
+                    </div>
+                  ))}
+                </>
+              }
+            </div>
+        }
       </div>
     </div>
   )

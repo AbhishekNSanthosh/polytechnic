@@ -9,8 +9,10 @@ export const getUsersByAdmin = async (
     authToken,
     setUsers,
     navigate,
-    toast
+    toast,
+    setIsLoading
 ) => {
+    setIsLoading(true)
     try {
         const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
             semester,
@@ -24,7 +26,9 @@ export const getUsersByAdmin = async (
         });
         setUsers(response?.data?.data);
         console.log(response)
+        setIsLoading(false)
     } catch (error) {
+        setIsLoading(false)
         console.log(error);
         toast({
             title: error?.response?.data?.message,
