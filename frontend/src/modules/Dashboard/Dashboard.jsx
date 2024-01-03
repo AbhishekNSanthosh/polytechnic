@@ -7,13 +7,16 @@ import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher
 import { useToast } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
+import { GridLoader } from 'react-spinners'
+import { Loader } from '../../components/Loader';
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
     const [query, setQuery] = useState("");
-    const [isApiOnCall, setIsApiOnCall] = useState(false);
     const [sortOrder, setSortOrder] = useState("desc");
     const [applyFilter, setApplyFilter] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const abortController = new AbortController();
 
     const accessType = localStorage.getItem('accessType');
@@ -30,15 +33,15 @@ const Dashboard = () => {
             if (authToken !== "") {
                 if (lastPart === "permitted-grievances") {
                     if (accessType === "teacher" && authToken !== "") {
-                        await getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast, abortController);
+                        await getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast, setIsLoading);
                     }
                 } else {
                     if (accessType === "admin") {
-                        await getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken, abortController);
+                        await getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken, setIsLoading);
                     } else if (accessType === "student") {
-                        await getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken, abortController);
+                        await getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken, setIsLoading);
                     } else if (accessType === "teacher") {
-                        await getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken, abortController);
+                        await getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken, setIsLoading);
                     }
                 }
             }
@@ -115,13 +118,19 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.dashboardRow}>
-                {letters && letters.map((letter, index) => (
-                    <div key={index}>
-                        <LetterList index={index} letter={letter} />
-                    </div>
-                ))}
-            </div>
+            {!isLoading ?
+                <div className={styles.dashboardLoadingRow}>
+                    <Loader/>
+                </div>
+                :
+                <div className={styles.dashboardRow}>
+                    {letters && letters.map((letter, index) => (
+                        <div key={index}>
+                            <LetterList index={index} letter={letter} />
+                        </div>
+                    ))}
+                </div>
+            }
         </div>
     )
 }

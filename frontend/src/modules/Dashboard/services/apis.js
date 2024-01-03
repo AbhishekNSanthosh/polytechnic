@@ -9,7 +9,9 @@ export const getAllLettersForAdmin = async (
     toast,
     navigate,
     authToken,
+    setIsLoading
 ) => {
+    setIsLoading(true)
     try {
         const response = await axios.post(
             backendApiUrl + adminApi.getAllLetters,
@@ -19,7 +21,9 @@ export const getAllLettersForAdmin = async (
             }
         );
         setLetters(response.data.data);
+        setIsLoading(false)
     } catch (error) {
+        setIsLoading(false)
         console.log(error);
         toast({
             title: error?.response?.data?.message,
@@ -49,8 +53,10 @@ export const getAllLettersForStudent = async (
     sortOrder,
     toast,
     navigate,
-    authToken
+    authToken,
+    setIsLoading
 ) => {
+    setIsLoading(true)
     try {
         const response = await axios.post(backendApiUrl + studentApi.getAllLetters, {
             sortOrder
@@ -61,7 +67,10 @@ export const getAllLettersForStudent = async (
         })
         console.log(response.data)
         setLetters(response.data.data)
+        setIsLoading(false)
     } catch (error) {
+        (false)
+        setIsLoading
         console.log(error);
         toast({
             title: error?.response?.data?.message,
@@ -91,8 +100,10 @@ export const getAllLettersForTeacher = async (
     sortOrder,
     toast,
     navigate,
-    authToken
+    authToken,
+    setIsLoading
 ) => {
+    setIsLoading(true)
     try {
         console.log("called")
         const response = await axios.post(backendApiUrl + teacherApi.getAllLetters, { sortOrder }, {
@@ -102,7 +113,9 @@ export const getAllLettersForTeacher = async (
         })
         console.log(response.data)
         setLetters(response.data.data)
+        setIsLoading(false)
     } catch (error) {
+        setIsLoading(false)
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",
@@ -176,8 +189,9 @@ export const getTeacherPermittedLetters = async (
     authToken,
     navigate,
     toast,
-
+    setIsLoading
 ) => {
+    setIsLoading(true)
     try {
         const response = await axios.post(backendApiUrl + teacherApi.getPermittedLetters, {
             sortOrder,
@@ -189,8 +203,10 @@ export const getTeacherPermittedLetters = async (
 
         })
         console.log(response);
-        setLetters(response?.data?.data)
+        setLetters(response?.data?.data);
+        setIsLoading(false);
     } catch (error) {
+        setIsLoading(false)
         toast({
             title: error?.response?.data?.message,
             // description: "Redirecting to Login page",

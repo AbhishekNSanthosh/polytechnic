@@ -37,12 +37,22 @@
     width: 100%;
 }
 
+
 @media only screen and (max-width: 767px) {
     .dashboardRowLeft {
         display: flex;
         flex: 12;
         width: 100%;
     }
+}
+
+.dashboardLoadingRow {
+    height: 70vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    gap: 0.5rem;
+    overflow-y: auto;
 }
 
 .dashboardRowRight {
@@ -83,7 +93,7 @@
         justify-content: center;
         gap: 10px;
         padding: 0 10px;
-        background-color:rgb(255, 252, 252);
+        background-color: rgb(255, 252, 252);
         border-radius: 30px;
         width: 100%;
     }
@@ -187,12 +197,12 @@
     }
 }
 
-.subjectRes{
+.subjectRes {
     display: none;
 }
 
 @media only screen and (max-width: 767px) {
-    .subjectRes{
+    .subjectRes {
         display: flex;
         text-transform: capitalize;
     }
@@ -255,12 +265,12 @@
     }
 }
 
-.date{
+.date {
     font-size: 1rem;
 }
 
 @media only screen and (max-width: 767px) {
-    .date{
+    .date {
         font-size: 0.7rem;
     }
 }
