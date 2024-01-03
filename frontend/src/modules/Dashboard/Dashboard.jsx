@@ -118,7 +118,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            {!isLoading ?
+            {isLoading ?
                 <div className={styles.dashboardLoadingRow}>
                     <Loader/>
                 </div>
