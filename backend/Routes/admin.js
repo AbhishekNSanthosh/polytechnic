@@ -30,8 +30,8 @@ const { validationResult } = require('express-validator');
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
 
-const deps = ['CSE', 'EEE', 'CIVIL', 'MECH', 'AUTOMOBILE', 'ELECTRONICS']
-const sems = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6']
+const deps = ["CSE", 'EEE', 'CIVIL', 'MECH', 'AUTOMOBILE', 'ELECTRONICS']
+const sems = ['S1', 'S2', "S3", 'S4', 'S5', 'S6']
 const rateLimitError = (req, res) => {
     return res.status(429).json({
         resCode: 429,
@@ -840,6 +840,45 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
             throw { status: 400, message: "Please fill the required fields" }
         }
 
+        if (role === "student") {
+            if (!username) {
+                throw { status: 400, message: "Username is required" }
+            } else if (!password) {
+                throw { status: 400, message: "Password is required" }
+            } else if (!email) {
+                throw { status: 400, message: "Email is required" }
+            } else if (!semester) {
+                throw { status: 400, message: "Semester is required" }
+            } else if (!department) {
+                throw { status: 400, message: "Department is required" }
+            }
+        } else if (role === "teacher") {
+
+            if (!username) {
+                throw { status: 400, message: "Username is required" }
+            } else if (!password) {
+                throw { status: 400, message: "Password is required" }
+            } else if (!email) {
+                throw { status: 400, message: "Email is required" }
+            } else if (!department) {
+                throw { status: 400, message: "Department is required" }
+            }
+        } else if (role === "admin") {
+            if (!username) {
+                throw { status: 400, message: "Username is required" }
+            } else if (!email) {
+                throw { status: 400, message: "Email is required" }
+            }
+        }
+
+        if (department && !deps.includes(department)) {
+            throw { status: 400, message: "Please select a valid department" }
+        }
+
+        if (semester && !sems.includes(semester)) {
+            throw { status: 400, message: "Please select a valid semester" }
+        }
+
         // Check if username or email already exists
         const existingUserByUsername = await User.findOne({
             username,
@@ -851,12 +890,11 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
             role,
             _id: { $ne: userId } // Exclude the requesting user
         });
-
-
+        console.log(existingByEmail)
         if (existingUserByUsername && existingUserByUsername._id.toString() !== userId) {
-            throw { status: 400, message: resMessages.userAlreadyExistsMsg }
+            throw { status: 400, message: `Email: "${existingByEmail?.username}" is already taken`, description: "Please choose a different username" }
         } else if (existingByEmail && existingByEmail._id.toString() !== userId) {
-            throw { status: 400, message: resMessages.emailAlreadyExistsMsg }
+            throw { status: 400, message: `Email: "${existingByEmail?.email}" is already taken`, description: "Please choose a different email" }
         }
 
         // Find user by ID
@@ -886,17 +924,18 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
             user.role = role;
             user.lastUpdatedBy = req.user._id
         }
-
+        let updated = true
         // Save updated user
         const updatedUser = await user.save();
-        const userData = abstractedUserData(updatedUser);
+        const userData = abstractedUserData(updatedUser, updated);
         const successMessage = twohundredResponse({ message: 'User details updated successfully', data: userData })
         return res.status(200).json(successMessage);
     } catch (error) {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description || ""
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });

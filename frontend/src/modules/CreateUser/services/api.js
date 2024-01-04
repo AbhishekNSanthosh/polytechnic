@@ -313,16 +313,21 @@ export const editUserData = async (
     semester,
     department,
     role,
-    toast
+    toast,
+    authToken
 ) => {
     try {
-        const response = await privateGateway.put(adminApi.editUserData + userId, {
+        const response = await axios.put('http://localhost:9000' + adminApi.editUserData + userId, {
             username,
             password,
             email,
             semester,
             department,
             role
+        }, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
         })
         console.log(response)
     } catch (error) {

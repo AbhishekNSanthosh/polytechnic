@@ -226,7 +226,7 @@ const sanitizedLetterData = (letter) => {
     return sanitizedLetter
 }
 
-const abstractedUserData = (userObj, showPass) => {
+const abstractedUserData = (userObj, updated) => {
     console.log(userObj)
     const { loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
     const newData = {
@@ -240,6 +240,13 @@ const abstractedUserData = (userObj, showPass) => {
             date: moment(userAbstractedObj?.createdAt).format('DD/MM/YYYY , HH:mm'),
             ago: moment(userAbstractedObj?.createdAt).fromNow(),
         },
+    }
+
+    if (updated) {
+        newData.updatedAt = {
+            date: moment(userAbstractedObj?.updatedAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(userAbstractedObj?.updatedAt).fromNow(),
+        }
     }
     return newData;
 }

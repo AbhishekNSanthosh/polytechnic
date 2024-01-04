@@ -26,7 +26,7 @@ const CreateUser = () => {
 
     const handleSubmit = async () => {
         if (editPage) {
-            await editUserData(userId, username, password, email, semester, department,role, toast)
+            await editUserData(userId, username, password, email, semester, department,role, toast,authToken)
         } else {
             if (userValue === "student") {
                 await createStudent(username, password, email, semester, department, authToken, navigate, toast)

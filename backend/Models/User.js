@@ -6,13 +6,13 @@ const userSchema = new mongoose.Schema({
     type: String, required: true
   },
   email: {
-    type: String, default: null
+    type: String, default: null, unique: true
   },
   password: {
     type: String, required: true
   },
   semester: {
-    type: String, enum: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', null], default: null,
+    type: String, enum: ['S1', 'S2', "S3", 'S4', 'S5', 'S6', null], default: null,
   },
   department: {
     type: String, enum: ['CSE', 'EEE', 'CIVIL', 'MECH', 'AUTOMOBILE', 'ELECTRONICS', null], default: null,
