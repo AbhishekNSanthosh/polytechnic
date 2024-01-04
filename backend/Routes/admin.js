@@ -903,10 +903,6 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
             throw { status: 404, message: resMessages.userNotfoundMsg }
         }
 
-        if (user?.username === username && user?.email === email && user?.semester === semester && user?.department === department) {
-            throw { status: 400, message: "No changes were made", description: "Please edit the data and try again" }
-        }
-
         // Update user details based on role
         if (user.role === 'student') {
             user.username = username;

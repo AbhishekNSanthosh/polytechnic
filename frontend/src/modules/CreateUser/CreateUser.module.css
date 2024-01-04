@@ -1,5 +1,5 @@
 .container {
-    background-color:#fff;
+    background-color: #fff;
     height: 100auto;
     padding: 1rem;
     border-radius: 10px;
@@ -355,4 +355,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.pass {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.select::placeholder{
+    color: #858585;
 }

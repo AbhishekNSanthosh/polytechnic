@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { TbUsersPlus } from "react-icons/tb";
 import { createAdmin, createFaculty, createStudent, editUserData, getUserData } from './services/api';
 import { useToast } from '@chakra-ui/react'
+import { Select } from '@chakra-ui/react';
 
 const CreateUser = () => {
     const [username, setUsername] = useState("");
@@ -26,7 +27,7 @@ const CreateUser = () => {
 
     const handleSubmit = async () => {
         if (editPage) {
-            await editUserData(userId, username, password, email, semester, department,role, toast,authToken)
+            await editUserData(userId, username, password, email, semester, department, role, toast, navigate)
         } else {
             if (userValue === "student") {
                 await createStudent(username, password, email, semester, department, authToken, navigate, toast)
@@ -47,10 +48,14 @@ const CreateUser = () => {
             setEditPage(false)
             setUserType("Add " + userValue)
         }
-        console.log('user id :', userId)
 
-        getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment,setRole, toast)
+        if (userId !== null) {
+            getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment, setRole, toast)
+        }
     }, [userId]);
+
+    const redAsterisk = <span style={{ color: 'red' }}>*</span>;
+
 
     return (
         <div className={styles.container}>
@@ -82,7 +87,7 @@ const CreateUser = () => {
                             <input type="text" value={password} className={styles.txtInput} placeholder='Password*' onChange={(e) => {
                                 setPassword(e.target.value);
                             }} />
-
+                            {editPage && <span className={styles.pass}>Password can't be edited. Please create a new password.</span>}
                         </div>
                     </div>
                     <div className={styles.row}>
@@ -92,21 +97,33 @@ const CreateUser = () => {
                             }} />}
                         </div>
                         <div className={styles.item}>
-                            {userValue !== "admin" && <input type="text" value={department} className={styles.txtInput} placeholder='Department*' onChange={(e) => {
-                                setDepartment(e.target.value);
-                            }} />}
+                            {userValue !== "admin" &&
+                                <Select className={styles.select} placeholder='Department*' value={department} onChange={(e) => {
+                                    setDepartment(e.target.value);
+                                }}>
+                                    <option value='CSE'>CSE</option>
+                                    <option value='MECH'>MECH</option>
+                                    <option value='CIVIL'>CIVIL</option>
+                                    <option value='EEE'>EEE</option>
+                                    <option value='AUTOMOBILE'>AUTOMOBILE</option>
+                                    <option value='ELECTRONICS'>ELECTRONICS</option>
+                                </Select>
+                            }
                         </div>
                     </div>
                     {userValue === "student" &&
-                        <div
-                            div className={styles.row}>
+                        <div className={styles.row}>
+                            <Select className={styles.select} placeholder='Semester*' value={semester} onChange={(e) => {
+                                setDepartment(e.target.value);
+                            }}>
+                                <option value='S1'>S1</option>
+                                <option value='S2'>S2</option>
+                                <option value='S3'>S3</option>
+                                <option value='S4'>S4</option>
+                                <option value='S5'>S5</option>
+                                <option value='S6'>S6</option>
+                            </Select>
                             <div className={styles.item}>
-                                <input type="text" value={semester} className={styles.txtInput} placeholder='Semester*' onChange={(e) => {
-                                    setSemester(e.target.value);
-                                }} />
-                            </div>
-                            <div className={styles.item}>
-
                             </div>
                         </div>
                     }

@@ -314,22 +314,25 @@ export const editUserData = async (
     department,
     role,
     toast,
-    authToken
+    navigate
 ) => {
     try {
-        const response = await axios.put('http://localhost:9000' + adminApi.editUserData + userId, {
+        const response = await privateGateway.put(adminApi.editUserData + userId, {
             username,
             password,
             email,
             semester,
             department,
             role
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
         })
-        console.log(response)
+        toast({
+            title: response?.data?.message,
+            description: response?.data?.description,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+        });
+        navigate(`/user-management/list-${role}`)
     } catch (error) {
         console.log(error);
         toast({
