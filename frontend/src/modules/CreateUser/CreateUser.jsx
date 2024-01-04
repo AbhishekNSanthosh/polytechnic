@@ -114,7 +114,7 @@ const CreateUser = () => {
                     {userValue === "student" &&
                         <div className={styles.row}>
                             <Select className={styles.select} placeholder='Semester*' value={semester} onChange={(e) => {
-                                setDepartment(e.target.value);
+                                setSemester(e.target.value);
                             }}>
                                 <option value='S1'>S1</option>
                                 <option value='S2'>S2</option>

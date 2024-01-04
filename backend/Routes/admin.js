@@ -947,7 +947,7 @@ router.delete('/deleteUserById/:id', Auth.verifyAdminToken, async (req, res) => 
 
         await userExists.deleteOne();
         const deletedUser = abstractedUserData(userExists);
-        const successMessage = twohundredResponse({ message: 'User deleted successfully', data: deletedUser })
+        const successMessage = twohundredResponse({ message: `User: ${deletedUser?.username} deleted successfully`, data: deletedUser })
         return res.status(200).json(successMessage);
     } catch (error) {
         console.error(error);
