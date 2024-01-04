@@ -301,3 +301,34 @@ export const getUserData = async (
         });
     }
 }
+
+//api to edit userdata
+export const editUserData = async (
+    userId,
+    username,
+    password,
+    email,
+    semester,
+    department,
+    toast
+) => {
+    try {
+        const response = await privateGateway.put(adminApi.editUserData + userId, {
+            username,
+            password,
+            email,
+            semester,
+            department,
+        })
+        console.log(response)
+    } catch (error) {
+        console.log(error);
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+        });
+    }
+}

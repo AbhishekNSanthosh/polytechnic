@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './CreateUser.module.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { TbUsersPlus } from "react-icons/tb";
-import { createAdmin, createFaculty, createStudent, getUserData } from './services/api';
+import { createAdmin, createFaculty, createStudent, editUserData, getUserData } from './services/api';
 import { useToast } from '@chakra-ui/react'
 
 const CreateUser = () => {
@@ -24,12 +24,16 @@ const CreateUser = () => {
     const toast = useToast();
 
     const handleSubmit = async () => {
-        if (userValue === "student") {
-            await createStudent(username, password, email, semester, department, authToken, navigate, toast)
-        } else if (userValue === "admin") {
-            await createAdmin(username, password, authToken, navigate, toast)
-        } if (userValue === "teacher") {
-            await createFaculty(username, password, email, department, authToken, navigate, toast)
+        if (editPage) {
+            await editUserData(userId, username, password, email, semester, department,toast)
+        } else {
+            if (userValue === "student") {
+                await createStudent(username, password, email, semester, department, authToken, navigate, toast)
+            } else if (userValue === "admin") {
+                await createAdmin(username, password, authToken, navigate, toast)
+            } if (userValue === "teacher") {
+                await createFaculty(username, password, email, department, authToken, navigate, toast)
+            }
         }
     }
 
