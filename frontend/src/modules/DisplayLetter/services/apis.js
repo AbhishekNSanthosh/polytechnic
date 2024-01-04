@@ -7,8 +7,10 @@ export const getLetterDetails = async (
     url,
     navigate,
     authToken,
-    toast
+    toast,
+    setIsLoading
 ) => {
+    setIsLoading(true)
     try {
         const response = await axios.get(backendApiUrl + url + letterId, {
             headers: {
@@ -18,7 +20,9 @@ export const getLetterDetails = async (
 
         console.log(response.data.data);
         setLetterData(response?.data?.data);
+        setIsLoading(false)
     } catch (error) {
+        setIsLoading(false)
         console.log(error);
         toast({
             title: error?.response?.data?.message,

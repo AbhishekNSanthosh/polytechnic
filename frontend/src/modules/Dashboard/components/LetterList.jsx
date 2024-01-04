@@ -4,9 +4,12 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoMailUnreadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineMarkEmailRead } from "react-icons/md";
+
 const LetterList = (props) => {
     const { index, letter } = props;
     const navigate = useNavigate();
+    const accessType = localStorage.getItem('accessType')
 
     const letterSub = letter?.subject.slice(0, 25);
     const letterSubRes = letter?.subject.slice(0, 15);
@@ -23,9 +26,13 @@ const LetterList = (props) => {
             </div>
             <div className={styles.centertwo}>
                 <span className={styles.date}>{letter?.createdAt?.ago}</span>
-                <div className={styles.hoverIcon}>
-                    <IoMailUnreadOutline className={styles.read} title='unread' />
-                </div>
+                {accessType === "admin" && <div className={styles.hoverIcon}>
+                    {!letter?.isRead ?
+                        <IoMailUnreadOutline className={styles.unread} title='unread' />
+                        :
+                        <MdOutlineMarkEmailRead className={styles.read} title='unread' />
+                    }
+                </div>}
             </div>
             <div className={styles.right}>
                 <div className={styles.hoverIcon}>
