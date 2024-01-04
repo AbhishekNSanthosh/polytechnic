@@ -278,6 +278,7 @@ export const getUserData = async (
     setEmail,
     setSemester,
     setDepartment,
+    setRole,
     toast
 ) => {
     try {
@@ -290,6 +291,7 @@ export const getUserData = async (
         setEmail(response?.data?.data?.email);
         setSemester(response?.data?.data?.semester);
         setDepartment(response?.data?.data?.department);
+        setRole(response?.data?.data?.role);
     } catch (error) {
         console.log(error);
         toast({
@@ -310,6 +312,7 @@ export const editUserData = async (
     email,
     semester,
     department,
+    role,
     toast
 ) => {
     try {
@@ -319,6 +322,7 @@ export const editUserData = async (
             email,
             semester,
             department,
+            role
         })
         console.log(response)
     } catch (error) {

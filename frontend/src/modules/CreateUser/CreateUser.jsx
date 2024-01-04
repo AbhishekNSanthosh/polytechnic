@@ -11,6 +11,7 @@ const CreateUser = () => {
     const [email, setEmail] = useState("");
     const [semester, setSemester] = useState("");
     const [department, setDepartment] = useState("");
+    const [role, setRole] = useState("");
     const [userType, setUserType] = useState("")
     const [userId, setUserId] = useState(null);
     const [editPage, setEditPage] = useState(false);
@@ -25,7 +26,7 @@ const CreateUser = () => {
 
     const handleSubmit = async () => {
         if (editPage) {
-            await editUserData(userId, username, password, email, semester, department,toast)
+            await editUserData(userId, username, password, email, semester, department,role, toast)
         } else {
             if (userValue === "student") {
                 await createStudent(username, password, email, semester, department, authToken, navigate, toast)
@@ -48,7 +49,7 @@ const CreateUser = () => {
         }
         console.log('user id :', userId)
 
-        getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment, toast)
+        getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment,setRole, toast)
     }, [userId]);
 
     return (
