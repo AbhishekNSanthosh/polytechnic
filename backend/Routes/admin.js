@@ -1013,7 +1013,7 @@ router.post('/updateReadStatus', Auth.verifyAdminToken, async (req, res) => {
         }
 
         if (letter.isRead) {
-            throw { status: 400, message: "Letter already read !" }
+            throw { status: 200, message: "Letter already read !" }
         }
 
         letter.isRead = true

@@ -56,4 +56,5 @@ export const adminApi = {
     actionAndCommentUpdate: "/api/v2/admin/addActionsAndComments",
     deleteCommentApi: "/api/v2/admin/deleteComments",
     deleteActionApi: "/api/v2/admin/deleteActions",
+    updateReadStatus: "/api/v2/admin/updateReadStatus",
 }
