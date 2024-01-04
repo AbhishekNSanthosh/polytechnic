@@ -841,8 +841,16 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
         }
 
         // Check if username or email already exists
-        const existingUserByUsername = await User.findOne({ username, role, _id: { $ne: userId } });
-        const existingByEmail = await User.findOne({ email, role, _id: { $ne: userId } });
+        const existingUserByUsername = await User.findOne({
+            username,
+            role,
+            _id: { $ne: userId } // Exclude the requesting user
+        });
+        const existingByEmail = await User.findOne({
+            email,
+            role,
+            _id: { $ne: userId } // Exclude the requesting user
+        });
 
 
         if (existingUserByUsername && existingUserByUsername._id.toString() !== userId) {
