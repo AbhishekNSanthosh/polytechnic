@@ -8,6 +8,7 @@ import { useToast } from '@chakra-ui/react'
 import { getUsersByAdmin, searchUser } from './services/apis';
 import { Loader } from '../../components/Loader';
 import emptyImg from '../../assets/Images/empty.svg'
+import EmptyData from '../../components/EmptyData';
 
 const ListUser = () => {
   const [semester, setSemester] = useState("");
@@ -140,10 +141,7 @@ const ListUser = () => {
             :
             <div className={styles.dashboardRow}>
               {users.length === 0 ?
-                <div className={styles.emptyImgBox}>
-                  <img src={emptyImg} alt="" className={styles.emptyImg} />
-                  No data found !!!
-                </div>
+               <EmptyData/>
                 :
                 <>
                   {users && users.map((user, index) => (
