@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
 import { GridLoader } from 'react-spinners'
 import { Loader } from '../../components/Loader';
+import EmptyData from '../../components/EmptyData';
 
 const Dashboard = () => {
     const [letters, setLetters] = useState([]);
@@ -94,42 +95,52 @@ const Dashboard = () => {
                 </div>
                 <div className={styles.dashboardRowRight}>
                     <div className={styles.rightItem}>
-                        <Select className={styles.select} placeholder='Sort' value={sortOrder} onChange={(e) => {
+                        <Select className={styles.select} value={sortOrder} onChange={(e) => {
                             setSortOrder(e.target.value);
                         }}>
                             <option value='desc'>Newest on top</option>
                             <option value='asc'>Oldest on top</option>
                         </Select>
                     </div>
-                    <div className={styles.rightItem}>
-                        <button className={styles.apllyBtn} onClick={() => {
-                            getLetterData();
-                            setApplyFilter(true);
-                        }}>Apply filter</button>
-                        {applyFilter &&
-                            <button className={styles.removeBtn} onClick={() => {
-                                setSortOrder("desc");
-                                // setTimeout(() => {
-                                //     getLetterData();
-                                // }, 1000)
-                                setApplyFilter(false);
-                            }}>Remove filter</button>
-                        }
-                    </div>
+                    {
+                        accessType !== "admin" && <div className={styles.rightItem}>
+                            <button className={styles.apllyBtn} onClick={() => {
+                                getLetterData();
+                                setApplyFilter(true);
+                            }}>Apply filter</button>
+                            {applyFilter &&
+                                <button className={styles.removeBtn} onClick={() => {
+                                    setSortOrder("desc");
+                                    // setTimeout(() => {
+                                    //     getLetterData();
+                                    // }, 1000)
+                                    setApplyFilter(false);
+                                }}>Remove filter</button>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
             {isLoading ?
                 <div className={styles.dashboardLoadingRow}>
-                    <Loader/>
+                    <Loader />
                 </div>
                 :
-                <div className={styles.dashboardRow}>
-                    {letters && letters.map((letter, index) => (
-                        <div key={index}>
-                            <LetterList index={index} letter={letter} />
+                <>
+                    {letters?.length === 0 ?
+                        <div className={styles.dashboardRow}>
+                            <EmptyData />
                         </div>
-                    ))}
-                </div>
+                        :
+                        <div className={styles.dashboardRow}>
+                            {letters && letters.map((letter, index) => (
+                                <div key={index}>
+                                    <LetterList index={index} letter={letter} />
+                                </div>
+                            ))}
+                        </div>
+                    }
+                </>
             }
         </div>
     )
