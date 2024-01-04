@@ -100,3 +100,53 @@ export const searchUser = async (
         }
     }
 }
+
+//api to delet user
+export const deleteUser = async (
+    userId,
+    authToken,
+    setShowConfirm,
+    navigate,
+    toast,
+    getUserList
+) => {
+    try {
+        const response = await axios.delete(backendApiUrl + adminApi.deleteUserApi + userId, {
+            headers: {
+                Authorization: "Bearer " + authToken
+            }
+        })
+        console.log(response)
+        toast({
+            title: response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+        setShowConfirm(false);
+        getUserList()
+    } catch (error) {
+        console.log(error)
+        toast({
+            title: error?.response?.data?.message,
+            // description: "Redirecting to Login page",
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+        if (error?.response?.data?.error === "TokenExpiredError") {
+            toast({
+                title: 'Session Expired',
+                description: "Redirecting to Login page",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            localStorage.clear();
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
+        }
+    }
+}

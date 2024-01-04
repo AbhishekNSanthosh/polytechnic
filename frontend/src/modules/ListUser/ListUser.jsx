@@ -18,7 +18,8 @@ const ListUser = () => {
   const [isApiOnCall, setIsApiOnCall] = useState(false);
   const [query, setQuery] = useState("");
   const [applyFilter, setApplyFilter] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [goForCall, setGoForCall] = useState(false);
 
   const location = useLocation();
   const path = location.pathname;
@@ -41,7 +42,7 @@ const ListUser = () => {
 
   useEffect(() => {
     getUserData();
-  }, [authToken, applyFilter]);
+  }, [goForCall,authToken, applyFilter]);
 
   const handleChange = async (e) => {
     setQuery(e.target.value)
@@ -58,7 +59,9 @@ const ListUser = () => {
     }
   }
 
-
+  const getUserList = () => {
+    setGoForCall(true);
+  }
 
   return (
     <div className={styles.container}>
@@ -141,12 +144,12 @@ const ListUser = () => {
             :
             <div className={styles.dashboardRow}>
               {users.length === 0 ?
-               <EmptyData/>
+                <EmptyData />
                 :
                 <>
                   {users && users.map((user, index) => (
                     <div key={index}>
-                      <UserList user={user} index={index} />
+                      <UserList user={user} index={index} getUserList={getUserList}/>
                     </div>
                   ))}
                 </>

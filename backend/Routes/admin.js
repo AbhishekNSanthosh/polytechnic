@@ -548,7 +548,7 @@ router.post('/uploadManyStudents', Auth.verifyAdminToken, upload.single('file'),
 router.post('/uploadManyTeacher', Auth.verifyAdminToken, upload.single('file'), async (req, res) => {
     try {
         const errors = validationResult(req);
-
+        const deps = ['CSE', 'EEE', 'CIVIL', 'MECH', 'AUTOMOBILE', 'ELECTRONICS']
         if (!errors.isEmpty()) {
             // Validation errors in the request body
             throw { status: 400, message: errors.array() }
@@ -598,6 +598,9 @@ router.post('/uploadManyTeacher', Auth.verifyAdminToken, upload.single('file'), 
         }
 
         const studentsToInsert = await Promise.all(jsonData.map(async (teacher) => {
+            if (!deps.includes(teacher?.department)) {
+                throw { status: 400, message: `Please add a valid department for the user: ${teacher?.username}` }
+            }
             if (!teacher.username) {
                 throw { status: 400, message: `Username field missing for user: ${teacher.username} ` }
             }
