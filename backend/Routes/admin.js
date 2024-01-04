@@ -525,7 +525,7 @@ router.post('/uploadManyStudents', Auth.verifyAdminToken, upload.single('file'),
 
         const studentsToInsert = await Promise.all(jsonData.map(async (student) => {
             if (!deps.includes(student?.department)) {
-                throw { status: 400, message: `Please add a valid department for the user: ${teacher?.username}` }
+                throw { status: 400, message: `Please add a valid department for the user: ${student?.username}` }
             }
             if (!student.username) {
                 throw { status: 400, message: `Username field missing for user: ${student.username} ` }
