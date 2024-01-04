@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { adminApi, backendApiUrl } from '../../../utils/helpers'
+import { privateGateway } from '../../../services/apiGateWays';
 
 export const getUsersByAdmin = async (
     semester,
@@ -14,18 +15,13 @@ export const getUsersByAdmin = async (
 ) => {
     setIsLoading(true)
     try {
-        const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
+        const response = await privateGateway.post(adminApi.getAllUsers, {
             semester,
             department,
             sortOrder,
             role
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
         });
         setUsers(response?.data?.data);
-        console.log(response)
         setIsLoading(false)
     } catch (error) {
         setIsLoading(false)
@@ -37,19 +33,6 @@ export const getUsersByAdmin = async (
             duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 

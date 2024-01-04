@@ -90,6 +90,18 @@ function App() {
           path: '/user-management/create-admin',
           element: <CreateUser />
         },
+        {
+          path: '/user-management/edit-admin/:id',
+          element: <CreateUser />
+        },
+        {
+          path: '/user-management/edit-teacher/:id',
+          element: <CreateUser />
+        },
+        {
+          path: '/user-management/edit-student/:id',
+          element: <CreateUser />
+        },
       ]
     },
   ]);

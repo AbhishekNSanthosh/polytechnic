@@ -1345,4 +1345,31 @@ router.post('/updateGrievanceStatus', Auth.verifyAdminToken, async (req, res) =>
     }
 })
 
+//api to get user details by id
+router.post('/getUserDetailsById', Auth.verifyAdminToken, async (req, res) => {
+    try {
+        const { userId } = req.body;
+        if (!userId) {
+            throw { status: 400, message: "User Id not found!" }
+        }
+        if (!userId === "undefined") {
+            throw { status: 400, message: "Invalid user id" }
+        }
+        const user = await User.findOne({ _id: userId });
+        if (!user) {
+            throw { status: 404, message: "User does not exists" }
+        }
+
+        const userData = abstractedUserData(user);
+        return res.status(200).json(twohundredResponse({ message: "Here's the user data :", data: userData }))
+    } catch (error) {
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
+        return res.status(status).json(errorMessage);
+    }
+})
+
 module.exports = router;

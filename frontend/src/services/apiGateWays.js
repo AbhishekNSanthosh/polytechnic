@@ -1,0 +1,99 @@
+import axios from "axios";
+import { createStandaloneToast } from "@chakra-ui/react";
+
+const { toast } = createStandaloneToast();
+
+export const publicGateway = axios.create({
+    baseURL: import.meta.env.VITE_APP_BACKEND_API,
+    headers: {
+        "Content-Type": "application/json"
+    }
+});
+
+export const privateGateway = axios.create({
+    baseURL: import.meta.env.VITE_APP_BACKEND_API,
+    headers: {
+        "Content-Type": "application/json"
+    }
+});
+
+
+// Add a request interceptor
+privateGateway.interceptors.request.use(
+    function (config) {
+        const accessToken = localStorage.getItem("accessToken");
+        if (accessToken) {
+            config.headers["Authorization"] = `Bearer ${accessToken}`;
+        }
+
+        return config;
+    },
+    function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    }
+);
+
+// Request Interceptor: Ensure that the URL ends with a trailing slash
+// If the URL doesn't terminate with a slash, this interceptor appends one.
+privateGateway.interceptors.request.use(
+    function (config) {
+        if (config.url) {
+            if (!config.url.endsWith("/")) {
+                config.url += "/";
+            }
+        }
+        return config;
+    },
+    function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    }
+);
+
+// Add a response interceptor
+privateGateway.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    async function (error) {
+        console.log(error)
+        // TODO: if error occurs and status isn't 1000 nothing will happen
+        //console.log(error.response,error.response?.data?.statusCode === 1000)
+        if (error.response?.data?.resCode === 2215) {
+            // publicGatewayAuth
+            //console.log("inside",error.response,error.response?.data?.statusCode)
+            //console.log("refresh",fetchLocalStorage<AllTokens["refreshToken"]>("refreshToken"))
+
+            //console.log('error_2',error_2);
+            toast.closeAll();
+            toast({
+                title: "Your session has expired.",
+                description: "Please login again.",
+                status: "error",
+                duration: 5000,
+                isClosable: true
+            });
+
+            // Wait for 3 seconds
+            setTimeout(() => {
+                localStorage.clear();
+                window.location.href = "/login";
+            }, 3000);
+            return await Promise.reject(error);
+
+        }
+        //! This was causeing unwanted redirects during api testing please fix.
+        //! Spend 2 hours to figure out this was causing the issue.
+        // if (error.response?.status === 500) {
+        //     // publicGatewayAuth
+        //     //console.log("inside", error.response, error.response?.data?.statusCode)
+        //     //Toast.error("A server error has occurred. Please try again later.");
+        //     window.location.href = "/500";
+        // }
+
+        // Any status codes that fall outside the range of 2xx cause this function to trigger
+        // Do something with response error
+        return Promise.reject(error);
+    }
+);

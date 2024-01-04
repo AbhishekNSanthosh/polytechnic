@@ -5,7 +5,7 @@ import { IoMailUnreadOutline } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
 import deleteImg from '../../../assets/Images/deleteIcon.svg'
 import { deleteUser } from '../services/apis';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 
 const UserList = ({ user, index, getUserList }) => {
@@ -13,7 +13,10 @@ const UserList = ({ user, index, getUserList }) => {
 
     const navigate = useNavigate();
     const toast = useToast();
-
+    const location = useLocation();
+    const path = location.pathname;
+    const lastPart = path.split('/').pop();
+    const userValue = lastPart.split('-').pop();
     const authToken = localStorage.getItem('accessToken');
 
     const handleDeleteUser = () => {
@@ -31,7 +34,15 @@ const UserList = ({ user, index, getUserList }) => {
                 <span className={styles.subject}>{user?.semester && user?.semester}</span>
             </div>
             <div className={styles.right}>
-                <div className={styles.hover}>
+                <div className={styles.hover} onClick={() => {
+                    if (userValue === "student") {
+                        navigate(`/user-management/edit-student/${user?._id}`)
+                    } else if (userValue === "admin") {
+                        navigate(`/user-management/edit-admin/${user?._id}`)
+                    } else if (userValue === "teacher") {
+                        navigate(`/user-management/edit-teacher/${user?._id}`)
+                    }
+                }}>
                     <FiEdit title='Edit' className={styles.edit} />
                 </div>
                 <div className={styles.hover} onClick={() => {

@@ -35,7 +35,7 @@ const verifyAdminToken = async (req, res, next) => {
     } catch (error) {
         console.log(error)
         if (error.name === 'TokenExpiredError') {
-            const errorMessage = customError({ resCode: 401, message: resMessages.sessionExpired, error: 'TokenExpiredError' })
+            const errorMessage = customError({ resCode: 2215, message: resMessages.sessionExpired, error: 'TokenExpiredError' })
             return res.status(401).json(errorMessage);
         }
         const status = error.status || 500;

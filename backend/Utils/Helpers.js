@@ -226,13 +226,13 @@ const sanitizedLetterData = (letter) => {
     return sanitizedLetter
 }
 
-const abstractedUserData = (userObj) => {
-    const { password, loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
+const abstractedUserData = (userObj, showPass) => {
+    console.log(userObj)
+    const { loginAttempts, lockUntil, lastUpdatedBy, resetTokenUsed, ...userAbstractedObj } = userObj._doc;
     const newData = {
         _id: userAbstractedObj?._id,
         username: userAbstractedObj?.username,
         email: userAbstractedObj?.email,
-        password: userAbstractedObj?.password,
         semester: userAbstractedObj?.semester,
         department: userAbstractedObj.department,
         role: userAbstractedObj?.role,
@@ -243,25 +243,6 @@ const abstractedUserData = (userObj) => {
     }
     return newData;
 }
-
-const generatePdfContent = (letters) => {
-    let html = '<html><body>';
-
-    letters.forEach((letter) => {
-        html += `
-        <div style="margin-bottom: 20px;">
-          <h2>${letter.subject}</h2>
-          <p><strong>From:</strong> ${letter.from}</p>
-          <p><strong>Date:</strong></p>
-          <p>${letter.body}</p>
-        </div>
-      `;
-    });
-
-    html += '</body></html>';
-
-    return { content: html };
-};
 
 function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
