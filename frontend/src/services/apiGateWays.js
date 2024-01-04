@@ -57,7 +57,6 @@ privateGateway.interceptors.response.use(
         return response;
     },
     async function (error) {
-        console.log(error)
         // TODO: if error occurs and status isn't 1000 nothing will happen
         //console.log(error.response,error.response?.data?.statusCode === 1000)
         if (error.response?.data?.resCode === 2215) {
@@ -78,7 +77,7 @@ privateGateway.interceptors.response.use(
             // Wait for 3 seconds
             setTimeout(() => {
                 localStorage.clear();
-                window.location.href = "/login";
+                window.location.href = "/";
             }, 3000);
             return await Promise.reject(error);
 

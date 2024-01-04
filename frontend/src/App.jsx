@@ -91,15 +91,15 @@ function App() {
           element: <CreateUser />
         },
         {
-          path: '/user-management/edit-admin/:id',
+          path: '/user-management/:id/edit-admin',
           element: <CreateUser />
         },
         {
-          path: '/user-management/edit-teacher/:id',
+          path: '/user-management/:id/edit-teacher',
           element: <CreateUser />
         },
         {
-          path: '/user-management/edit-student/:id',
+          path: '/user-management/:id/edit-student',
           element: <CreateUser />
         },
       ]

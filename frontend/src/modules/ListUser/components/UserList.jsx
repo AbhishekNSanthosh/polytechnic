@@ -36,11 +36,11 @@ const UserList = ({ user, index, getUserList }) => {
             <div className={styles.right}>
                 <div className={styles.hover} onClick={() => {
                     if (userValue === "student") {
-                        navigate(`/user-management/edit-student/${user?._id}`)
+                        navigate(`/user-management/${user?._id}/edit-student`)
                     } else if (userValue === "admin") {
-                        navigate(`/user-management/edit-admin/${user?._id}`)
+                        navigate(`/user-management/${user?._id}/edit-admin`)
                     } else if (userValue === "teacher") {
-                        navigate(`/user-management/edit-teacher/${user?._id}`)
+                        navigate(`/user-management/${user?._id}/edit-teacher`)
                     }
                 }}>
                     <FiEdit title='Edit' className={styles.edit} />

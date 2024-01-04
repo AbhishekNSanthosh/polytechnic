@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './CreateUser.module.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { TbUsersPlus } from "react-icons/tb";
-import { createAdmin, createFaculty, createStudent } from './services/api';
+import { createAdmin, createFaculty, createStudent, getUserData } from './services/api';
 import { useToast } from '@chakra-ui/react'
 
 const CreateUser = () => {
@@ -11,6 +11,10 @@ const CreateUser = () => {
     const [email, setEmail] = useState("");
     const [semester, setSemester] = useState("");
     const [department, setDepartment] = useState("");
+    const [userType, setUserType] = useState("")
+    const [userId, setUserId] = useState(null);
+    const [editPage, setEditPage] = useState(false);
+
     const location = useLocation();
     const path = location.pathname;
     const lastPart = path.split('/').pop();
@@ -28,10 +32,25 @@ const CreateUser = () => {
             await createFaculty(username, password, email, department, authToken, navigate, toast)
         }
     }
+
+    useEffect(() => {
+        if (location.pathname.split('/').pop().split('-')[0] === "edit") {
+            setEditPage(true)
+            setUserType("Edit " + userValue);
+            setUserId(location.pathname.split('/')[2])
+        } else {
+            setEditPage(false)
+            setUserType("Add " + userValue)
+        }
+        console.log('user id :', userId)
+
+        getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment, toast)
+    }, [userId]);
+
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>
-                {userValue !== "admin" &&
+                {userValue !== "admin" && !editPage &&
                     <button className={styles.bulk} onClick={() => {
                         if (userValue === "student") {
                             navigate('/user-management/create-student/bulk-student')
@@ -42,19 +61,20 @@ const CreateUser = () => {
                     }}> <TbUsersPlus />Add bulk users ?</button>
                 }
                 <div className={styles.topRow}>
-                    {userValue === "student" && <span className={styles.title}>Add Student</span>}
+                    {/* {userValue === "student" && <span className={styles.title}>Add Student</span>}
                     {userValue === "admin" && <span className={styles.title}>Add Admin</span>}
-                    {userValue === "teacher" && <span className={styles.title}>Add teacher</span>}
+                    {userValue === "teacher" && <span className={styles.title}>Add teacher</span>} */}
+                    <span className={styles.title}>{userType}</span>
                 </div>
                 <div className={styles.actionBox}>
                     <div className={styles.row}>
                         <div className={styles.item}>
-                            <input type="text" className={styles.txtInput} placeholder='Username*' onChange={(e) => {
+                            <input type="text" value={username} className={styles.txtInput} placeholder='Username*' onChange={(e) => {
                                 setUsername(e.target.value);
                             }} />
                         </div>
                         <div className={styles.item}>
-                            <input type="text" className={styles.txtInput} placeholder='Password*' onChange={(e) => {
+                            <input type="text" value={password} className={styles.txtInput} placeholder='Password*' onChange={(e) => {
                                 setPassword(e.target.value);
                             }} />
 
@@ -62,12 +82,12 @@ const CreateUser = () => {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.item}>
-                            {userValue !== "admin" && <input type="text" className={styles.txtInput} placeholder='Email*' onChange={(e) => {
+                            {userValue !== "admin" && <input type="text" value={email} className={styles.txtInput} placeholder='Email*' onChange={(e) => {
                                 setEmail(e.target.value);
                             }} />}
                         </div>
                         <div className={styles.item}>
-                            {userValue !== "admin" && <input type="text" className={styles.txtInput} placeholder='Department*' onChange={(e) => {
+                            {userValue !== "admin" && <input type="text" value={department} className={styles.txtInput} placeholder='Department*' onChange={(e) => {
                                 setDepartment(e.target.value);
                             }} />}
                         </div>
@@ -76,7 +96,7 @@ const CreateUser = () => {
                         <div
                             div className={styles.row}>
                             <div className={styles.item}>
-                                <input type="text" className={styles.txtInput} placeholder='Semester*' onChange={(e) => {
+                                <input type="text" value={semester} className={styles.txtInput} placeholder='Semester*' onChange={(e) => {
                                     setSemester(e.target.value);
                                 }} />
                             </div>

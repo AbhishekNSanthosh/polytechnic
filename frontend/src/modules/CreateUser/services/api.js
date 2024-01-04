@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { adminApi, backendApiUrl } from '../../../utils/helpers'
+import { privateGateway } from '../../../services/apiGateWays';
 
 export const createFaculty = async (
     username,
@@ -88,6 +89,7 @@ export const createStudent = async (
         console.log(error);
         toast({
             title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
             status: 'error',
             duration: 2000,
             isClosable: true,
@@ -266,5 +268,36 @@ export const uploadBulkTeacherData = async (
                 navigate('/')
             }, 2000);
         }
+    }
+}
+
+export const getUserData = async (
+    userId,
+    setUsername,
+    setPassword,
+    setEmail,
+    setSemester,
+    setDepartment,
+    toast
+) => {
+    try {
+        const response = await privateGateway.post(adminApi.getUserData, {
+            userId
+        })
+        console.log(response?.data?.data)
+        setUsername(response?.data?.data?.username);
+        setPassword(response?.data?.data?.password);
+        setEmail(response?.data?.data?.email);
+        setSemester(response?.data?.data?.semester);
+        setDepartment(response?.data?.data?.department);
+    } catch (error) {
+        console.log(error);
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+        });
     }
 }

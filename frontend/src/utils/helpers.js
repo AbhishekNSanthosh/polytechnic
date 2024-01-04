@@ -57,5 +57,6 @@ export const adminApi = {
     deleteCommentApi: "/api/v2/admin/deleteComments",
     deleteActionApi: "/api/v2/admin/deleteActions",
     updateReadStatus: "/api/v2/admin/updateReadStatus",
+    getUserData: "/api/v2/admin/getUserDetailsById",
     deleteUserApi: "/api/v2/admin/deleteUserById/",//+id
 }
