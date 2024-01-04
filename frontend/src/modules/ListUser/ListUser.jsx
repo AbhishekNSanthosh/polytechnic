@@ -59,8 +59,8 @@ const ListUser = () => {
     }
   }
 
-  const getUserList = () => {
-    setGoForCall(true);
+  const getUserList = (data) => {
+    setGoForCall(data);
   }
 
   return (

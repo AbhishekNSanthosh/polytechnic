@@ -30,6 +30,8 @@ const { validationResult } = require('express-validator');
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
 
+const deps = ['CSE', 'EEE', 'CIVIL', 'MECH', 'AUTOMOBILE', 'ELECTRONICS']
+const sems = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6']
 const rateLimitError = (req, res) => {
     return res.status(429).json({
         resCode: 429,
@@ -204,6 +206,10 @@ router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { username, password, email, semester, department } = req.body;
 
+        if (!username && !password && !email && !semester && !department) {
+            throw { status: 400, message: "Please fill the required fields" }
+        }
+
         if (!username) {
             throw { status: 400, message: "Username field is required" }
         } else if (!password) {
@@ -221,6 +227,14 @@ router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
         }
         if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid password" }
+        }
+
+        if (!deps.includes(department)) {
+            throw { status: 400, message: "Please enter valid department" }
+        }
+
+        if (!sems.includes(semester)) {
+            throw { status: 400, message: "Please enter valid semester" }
         }
 
         const existingStudent = await User.findOne({ username, role: "student" });
@@ -261,6 +275,10 @@ router.post('/createNewTeacher', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { username, password, department, email } = req.body;
 
+        if (!username && !password && !email && !department) {
+            throw { status: 400, message: "Please fill the required fields" }
+        }
+
         if (!username) {
             throw { status: 400, message: "Username field is required" }
         } else if (!password) {
@@ -271,12 +289,16 @@ router.post('/createNewTeacher', Auth.verifyAdminToken, async (req, res) => {
             throw { status: 400, message: "Department field is required" }
         }
 
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(username) || validator.matches(username, /[/\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid username" }
         }
 
-        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(password) || validator.matches(password, /[/\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid password" }
+        }
+
+        if (!deps.includes(department)) {
+            throw { status: 400, message: "Please enter valid department" }
         }
 
         const existingTeacher = await User.findOne({ username, role: "teacher" });
@@ -452,7 +474,7 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
 router.post('/uploadManyStudents', Auth.verifyAdminToken, upload.single('file'), async (req, res) => {
     try {
         const errors = validationResult(req);
-
+        const deps = ['CSE', 'EEE', 'CIVIL', 'MECH', 'AUTOMOBILE', 'ELECTRONICS']
         if (!errors.isEmpty()) {
             // Validation errors in the request body
             throw { status: 400, message: errors.array() }
@@ -502,6 +524,9 @@ router.post('/uploadManyStudents', Auth.verifyAdminToken, upload.single('file'),
         }
 
         const studentsToInsert = await Promise.all(jsonData.map(async (student) => {
+            if (!deps.includes(student?.department)) {
+                throw { status: 400, message: `Please add a valid department for the user: ${teacher?.username}` }
+            }
             if (!student.username) {
                 throw { status: 400, message: `Username field missing for user: ${student.username} ` }
             }

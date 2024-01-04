@@ -8,7 +8,7 @@ import { deleteUser } from '../services/apis';
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 
-const UserList = ({ user, index,getUserList }) => {
+const UserList = ({ user, index, getUserList }) => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const UserList = ({ user, index,getUserList }) => {
     const authToken = localStorage.getItem('accessToken');
 
     const handleDeleteUser = () => {
-        deleteUser(user?._id, authToken, setShowConfirm,navigate,toast,getUserList)
+        deleteUser(user?._id, authToken, setShowConfirm, navigate, toast, getUserList)
     }
     return (
         <div className={styles.listContainer}>
@@ -27,8 +27,8 @@ const UserList = ({ user, index,getUserList }) => {
                 {/* <IoMailUnreadOutline className={styles.read} title='unread' /> */}
             </div>
             <div className={styles.centerCol}>
-                <span className={styles.subject}>{user?.department ? user?.department : "Nill"}</span>
-                <span className={styles.subject}>{user?.semester ? user?.semester : "Nill"}</span>
+                <span className={styles.subject}>{user?.department && user?.department}</span>
+                <span className={styles.subject}>{user?.semester && user?.semester}</span>
             </div>
             <div className={styles.right}>
                 <div className={styles.hover}>

@@ -125,7 +125,10 @@ export const deleteUser = async (
             isClosable: true,
         });
         setShowConfirm(false);
-        getUserList()
+        getUserList(true);
+        setTimeout(() => {
+            getUserList(false);
+        }, 300);
     } catch (error) {
         console.log(error)
         toast({
