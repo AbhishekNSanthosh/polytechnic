@@ -832,6 +832,14 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
         const { username, email, password, semester, role, department } = req.body;
         const userId = req.params.id;
 
+        if (userId === "undefined") {
+            throw { status: 400, message: "User id not found" }
+        }
+
+        if (!username && !email && !password && !role && !department) {
+            throw { status: 400, message: "Please fill the required fields" }
+        }
+
         // Check if username or email already exists
         const existingUserByUsername = await User.findOne({ username });
         const existingByEmail = await User.findOne({ email });
@@ -846,6 +854,10 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
         const user = await User.findById(userId);
         if (!user) {
             throw { status: 404, message: resMessages.userNotfoundMsg }
+        }
+
+        if (user?.username === username && user?.email === email && user?.semester === semester && user?.department === department) {
+            throw { status: 400, message: "No changes were made", description: "Please edit the data and try again" }
         }
 
         // Update user details based on role
