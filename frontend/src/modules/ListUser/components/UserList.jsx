@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styles from '../ListUser.module.css'
 import { MdDeleteOutline } from "react-icons/md";
-import { IoMailUnreadOutline } from "react-icons/io5";
 import { FiEdit } from "react-icons/fi";
 import deleteImg from '../../../assets/Images/deleteIcon.svg'
 import { deleteUser } from '../services/apis';
@@ -20,7 +19,7 @@ const UserList = ({ user, index, getUserList }) => {
     const authToken = localStorage.getItem('accessToken');
 
     const handleDeleteUser = () => {
-        deleteUser(user?._id, authToken, setShowConfirm, navigate, toast, getUserList)
+        deleteUser(user?._id, setShowConfirm, toast, getUserList)
     }
     return (
         <div className={styles.listContainer}>

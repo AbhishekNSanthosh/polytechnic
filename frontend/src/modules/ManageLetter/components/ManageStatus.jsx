@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from '../ManageLetter.module.css'
 import { Select } from '@chakra-ui/react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -9,15 +9,13 @@ const ManageStatus = () => {
     const [status, setStatus] = useState('PENDING');
 
     const params = useParams();
-    const authToken = localStorage.getItem("accessToken");
     const accessType = localStorage.getItem('accessType');
-    const navigate = useNavigate();
     const toast = useToast();
     const letterId = params.id;
 
     const handleUpdate = async (e) => {
         if (accessType === "admin") {
-            await updateStatusByAdmin(letterId, status, setStatus, authToken, navigate, toast)
+            await updateStatusByAdmin(letterId, status, setStatus, toast)
         }
     }
 

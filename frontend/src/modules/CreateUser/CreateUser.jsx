@@ -30,11 +30,11 @@ const CreateUser = () => {
             await editUserData(userId, username, password, email, semester, department, role, toast, navigate)
         } else {
             if (userValue === "student") {
-                await createStudent(username, password, email, semester, department, authToken, navigate, toast)
+                await createStudent(username, password, email, semester, department, navigate, toast)
             } else if (userValue === "admin") {
                 await createAdmin(username, password, authToken, navigate, toast)
             } if (userValue === "teacher") {
-                await createFaculty(username, password, email, department, authToken, navigate, toast)
+                await createFaculty(username, password, email, department, navigate, toast)
             }
         }
     }
@@ -53,9 +53,6 @@ const CreateUser = () => {
             getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment, setRole, toast)
         }
     }, [userId]);
-
-    const redAsterisk = <span style={{ color: 'red' }}>*</span>;
-
 
     return (
         <div className={styles.container}>

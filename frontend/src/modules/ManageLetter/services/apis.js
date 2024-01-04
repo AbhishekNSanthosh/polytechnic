@@ -1,77 +1,47 @@
-import axios from 'axios'
-import { adminApi, backendApiUrl } from '../../../utils/helpers'
-const abortController = new AbortController()
+import { adminApi } from '../../../utils/helpers'
+import { privateGateway } from '../../../services/apiGateWays';
 
 export const getTeachersByAdmin = async (
     semester,
     department,
     role,
     sortOrder,
-    authToken,
     setTeachers,
-    navigate,
     toast
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.getAllUsers, {
+        const response = await privateGateway.post(adminApi.getAllUsers, {
             semester,
             department,
             sortOrder,
             role
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            },
         });
         setTeachers(response?.data?.data);
-        // setSelectedUsers(response?.data?.data?.viewAccessids)
-        console.log(response)
     } catch (error) {
-        console.log(error);
         setTeachers([]);
         toast({
-            title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            title: error?.response?.data?.title,
+            description: error?.response?.data?.message,
             status: 'error',
-            duration: 3000,
+            duration: 2000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
 export const searchUser = async (
     query,
     role,
-    authToken,
     setTeachers,
     setIsApiOnCall,
     setShowNoResults,
-    navigate,
     toast
 ) => {
-    console.log("first")
     setIsApiOnCall(true);
     try {
-        const response = await axios.post(backendApiUrl + adminApi.searchUsers, {
+        const response = await privateGateway.post(adminApi.searchUsers, {
             query,
             role
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
         })
         setTeachers(response?.data?.data)
         setIsApiOnCall(false);
@@ -80,30 +50,16 @@ export const searchUser = async (
         } else {
             setShowNoResults(false);
         }
-        console.log(response)
     } catch (error) {
         setIsApiOnCall(false);
         setTeachers([]);
         toast({
-            title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            title: error?.response?.data?.title,
+            description: error?.response?.data?.message,
             status: 'error',
-            duration: 3000,
+            duration: 2000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
@@ -111,48 +67,28 @@ export const updateAccess = async (
     letterId,
     userIds,
     setSelectedUsers,
-    authToken,
-    navigate,
     toast
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.updateViewAccess + letterId, {
+        const response = await privateGateway.post(adminApi.updateViewAccess + letterId, {
             userIds
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
         });
         setSelectedUsers(response?.data?.data?.viewAccessids)
         toast({
             title: response?.data?.message,
-            // description: "Redirecting to Login page",
+            description: response?.data?.description,
             status: 'success',
             duration: 3000,
             isClosable: true,
         });
     } catch (error) {
-        console.log(error)
         toast({
-            title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            title: error?.response?.data?.title,
+            description: error?.response?.data?.message,
             status: 'error',
-            duration: 3000,
+            duration: 2000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
@@ -160,43 +96,21 @@ export const getLetterDetailsByAdmin = async (
     letterId,
     setSelectedUsers,
     setLetterData,
-    navigate,
-    authToken,
     toast
 ) => {
-    console.log("called")
     try {
 
-        const response = await axios.get(backendApiUrl + adminApi.getLetterData + letterId, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            },
-        })
-        console.log(response);
+        const response = await privateGateway.get(adminApi.getLetterData + letterId);
         setLetterData(response?.data?.data);
         setSelectedUsers(response?.data?.data.viewAccessids)
     } catch (error) {
-        console.log(error)
         toast({
-            title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            title: error?.response?.data?.title,
+            description: error?.response?.data?.message,
             status: 'error',
-            duration: 3000,
+            duration: 2000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
@@ -204,26 +118,19 @@ export const updateStatusByAdmin = async (
     letterId,
     status,
     setStatus,
-    authToken,
-    navigate,
     toast
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.adminUpdateGrievanceStatus, { letterId, status }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        })
-        console.log(response);
+        const response = await privateGateway.post(adminApi.adminUpdateGrievanceStatus, { letterId, status });
         setStatus(response?.data?.data.status);
         toast({
             title: response?.data?.message,
+            description: response?.data?.description,
             status: 'success',
             duration: 3000,
             isClosable: true,
         });
     } catch (error) {
-        console.log(error)
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,
@@ -231,19 +138,6 @@ export const updateStatusByAdmin = async (
             duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
@@ -253,27 +147,20 @@ export const updateCommentAndActions = async (
     comments = "",
     setShowActions,
     setShowComments,
-    authToken,
-    navigate,
     toast
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.actionAndCommentUpdate, { letterId, actions, comments }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        })
-        console.log(response);
+        const response = await privateGateway.post(adminApi.actionAndCommentUpdate, { letterId, actions, comments });
         setShowActions(response?.data?.data?.actions);
         setShowComments(response?.data?.data?.comments);
         toast({
             title: response?.data?.message,
+            description: response?.data?.description,
             status: 'success',
             duration: 3000,
             isClosable: true,
         });
     } catch (error) {
-        console.log(error)
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,
@@ -281,45 +168,25 @@ export const updateCommentAndActions = async (
             duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
 export const deleteComment = async (
     letterId,
     setShowComments,
-    authToken,
-    navigate,
     toast
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.deleteCommentApi, { letterId }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        })
-        console.log(response);
+        const response = await privateGateway.post(adminApi.deleteCommentApi, { letterId });
         setShowComments(response?.data?.data?.comments);
         toast({
             title: response?.data?.message,
+            description: response?.data?.description,
             status: 'success',
             duration: 3000,
             isClosable: true,
         });
     } catch (error) {
-        console.log(error)
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,
@@ -327,45 +194,25 @@ export const deleteComment = async (
             duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
 export const deleteAction = async (
     letterId,
     setShowActions,
-    authToken,
-    navigate,
     toast
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + adminApi.deleteActionApi, { letterId }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        })
-        console.log(response);
+        const response = await privateGateway.post(adminApi.deleteActionApi, { letterId });
         setShowActions(response?.data?.data?.actions);
         toast({
             title: response?.data?.message,
+            description: response?.data?.description,
             status: 'success',
             duration: 3000,
             isClosable: true,
         });
     } catch (error) {
-        console.log(error)
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,
@@ -373,19 +220,6 @@ export const deleteAction = async (
             duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
@@ -393,40 +227,19 @@ export const getLetterDetails = async (
     letterId,
     setShowActions,
     setShowComments,
-    navigate,
-    authToken,
     toast
 ) => {
     try {
-        const response = await axios.get(backendApiUrl + adminApi.getLetterData + letterId, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        })
-        console.log(response);
+        const response = await privateGateway.get(adminApi.getLetterData + letterId);
         setShowActions(response?.data?.data?.actions);
         setShowComments(response?.data?.data?.comments);
     } catch (error) {
-        console.log(error)
         toast({
-            title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            title: error?.response?.data?.title,
+            description: error?.response?.data?.message,
             status: 'error',
-            duration: 3000,
+            duration: 2000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }

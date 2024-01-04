@@ -134,7 +134,7 @@ const SideNavBar = ({ drawerOpenStatus }) => {
                   title: 'Logout successful',
                   description: 'Redirecting to login page',
                   status: 'error',
-                  duration: 2000,
+                  duration: 3000,
                   isClosable: true,
                 });
                 setTimeout(() => {

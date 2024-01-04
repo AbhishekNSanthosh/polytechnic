@@ -32,17 +32,17 @@ const ListUser = () => {
 
   const getUserData = () => {
     if (userValue === "student") {
-      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast, setIsLoading)
+      getUsersByAdmin(semester, department, role, sortOrder, setUsers, toast, setIsLoading)
     } else if (userValue === "admin") {
-      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast, setIsLoading)
+      getUsersByAdmin(semester, department, role, sortOrder, setUsers, toast, setIsLoading)
     } else if (userValue === "teacher") {
-      getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast, setIsLoading)
+      getUsersByAdmin(semester, department, role, sortOrder, setUsers, toast, setIsLoading)
     }
   }
 
   useEffect(() => {
     getUserData();
-  }, [goForCall,authToken, applyFilter]);
+  }, [goForCall, authToken, applyFilter]);
 
   const handleChange = async (e) => {
     setQuery(e.target.value)
@@ -50,11 +50,11 @@ const ListUser = () => {
       await searchUser(query, role, authToken, setUsers, setIsApiOnCall, navigate, toast)
     } else {
       if (userValue === "student") {
-        getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
+        getUsersByAdmin(semester, department, role, sortOrder, setUsers, toast)
       } else if (userValue === "admin") {
-        getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
+        getUsersByAdmin(semester, department, role, sortOrder, setUsers, toast)
       } else if (userValue === "teacher") {
-        getUsersByAdmin(semester, department, role, sortOrder, authToken, setUsers, navigate, toast)
+        getUsersByAdmin(semester, department, role, sortOrder, setUsers, toast)
       }
     }
   }
@@ -149,7 +149,7 @@ const ListUser = () => {
                 <>
                   {users && users.map((user, index) => (
                     <div key={index}>
-                      <UserList user={user} index={index} getUserList={getUserList}/>
+                      <UserList user={user} index={index} getUserList={getUserList} />
                     </div>
                   ))}
                 </>

@@ -7,9 +7,7 @@ export const getUsersByAdmin = async (
     department,
     role,
     sortOrder,
-    authToken,
     setUsers,
-    navigate,
     toast,
     setIsLoading
 ) => {
@@ -25,10 +23,9 @@ export const getUsersByAdmin = async (
         setIsLoading(false)
     } catch (error) {
         setIsLoading(false)
-        console.log(error);
         toast({
             title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            description: error?.response?.data?.description,
             status: 'error',
             duration: 3000,
             isClosable: true,
@@ -39,70 +36,42 @@ export const getUsersByAdmin = async (
 export const searchUser = async (
     query,
     role,
-    authToken,
     setUsers,
     setIsApiOnCall,
-    navigate,
     toast
 ) => {
-    console.log("first")
     setIsApiOnCall(true);
     try {
         const response = await axios.post(backendApiUrl + adminApi.searchUsers, {
             query,
             role
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        })
+        });
         setUsers(response?.data?.data)
         setIsApiOnCall(false);
-        console.log(response)
     } catch (error) {
         setIsApiOnCall(false);
         toast({
             title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            description: error?.response?.data?.description,
             status: 'error',
             duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }
 
 //api to delet user
 export const deleteUser = async (
     userId,
-    authToken,
     setShowConfirm,
-    navigate,
     toast,
     getUserList
 ) => {
     try {
-        const response = await axios.delete(backendApiUrl + adminApi.deleteUserApi + userId, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
-        })
-        console.log(response)
+        const response = await axios.delete(backendApiUrl + adminApi.deleteUserApi + userId);
         toast({
             title: response?.data?.message,
-            // description: "Redirecting to Login page",
+            description: response?.data?.description,
             status: 'success',
             duration: 3000,
             isClosable: true,
@@ -113,26 +82,12 @@ export const deleteUser = async (
             getUserList(false);
         }, 300);
     } catch (error) {
-        console.log(error)
         toast({
             title: error?.response?.data?.message,
-            // description: "Redirecting to Login page",
+            description: error?.response?.data?.description,
             status: 'error',
             duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }

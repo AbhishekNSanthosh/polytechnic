@@ -29,19 +29,13 @@ const ManageLetter = () => {
 
     const getUserData = () => {
         if (authToken !== "") {
-            getTeachersByAdmin("", department, role, sortOrder, authToken, setTeachers, navigate, toast);
+            getTeachersByAdmin("", department, role, sortOrder, setTeachers, toast);
         }
     }
 
     useEffect(() => {
-        const abortController = new AbortController();
-        const { signal } = abortController;
-
         if (accessType === "admin" && authToken !== "") {
-            getLetterDetailsByAdmin(letterId, setSelectedUsers, setLetterData, navigate, authToken, toast, { signal });
-        }
-        return () => {
-            abortController.abort()
+            getLetterDetailsByAdmin(letterId, setSelectedUsers, setLetterData, toast);
         }
     }, [])
 
@@ -65,7 +59,7 @@ const ManageLetter = () => {
         setQuery(e.target.value);
         if (authToken !== "" && accessType === "admin") {
             if (query !== "" && query !== " ") {
-                await searchUser(query, "teacher", authToken, setTeachers, setApiOnCall, setShowNoResults, navigate, toast)
+                await searchUser(query, "teacher", setTeachers, setApiOnCall, setShowNoResults, toast)
             } else {
                 getUserData();
             }
@@ -81,7 +75,7 @@ const ManageLetter = () => {
 
     const handleViewAccess = () => {
         if (authToken !== "" && accessType === "admin") {
-            updateAccess(letterId, selectedUsers, setSelectedUsers, authToken, navigate, toast);
+            updateAccess(letterId, selectedUsers, setSelectedUsers, toast);
         }
     }
 

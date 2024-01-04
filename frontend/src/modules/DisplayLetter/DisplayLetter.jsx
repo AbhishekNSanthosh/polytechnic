@@ -19,17 +19,17 @@ const DisplayLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin") {
-            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, navigate, authToken, toast, setIsLoading);
+            getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, toast, setIsLoading);
         } else if (accessType === "student") {
-            getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, navigate, authToken, toast, setIsLoading);
+            getLetterDetails(params?.id, setLetterData, studentApi.getLetterData, toast, setIsLoading);
         } else if (accessType === "teacher") {
-            getLetterDetails(params?.id, setLetterData, teacherApi.getLetterData, navigate, authToken, toast, setIsLoading);
+            getLetterDetails(params?.id, setLetterData, teacherApi.getLetterData, toast, setIsLoading);
         }
     }, []);
 
     useEffect(() => {
         if (accessType === "admin") {
-            updateRead(params?.id, authToken)
+            updateRead(params?.id)
         }
     }, [])
 

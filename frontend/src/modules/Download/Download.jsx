@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { adminApi, backendApiUrl } from '../../utils/helpers';
 import { useEffect } from 'react';
+import { privateGateway } from '../../services/apiGateWays';
 
 const Download = () => {
   const [startDate, setStartDate] = useState('');
@@ -17,19 +18,13 @@ const Download = () => {
 
   const handleDownloadCSV = async () => {
     try {
-      const response = await axios.post(backendApiUrl + adminApi.adminGenerateCSV, {
+      const response = await privateGateway.post(adminApi.adminGenerateCSV, {
         startDate,
         endDate
       },
         {
-          headers: {
-            Authorization: "Bearer " + authToken
-          }
-        },
-        {
           responseType: 'blob',
         });
-
       const blob = new Blob([response.data], { type: 'text/csv' });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
@@ -38,43 +33,25 @@ const Download = () => {
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.log(error);
       toast({
         title: error?.response?.data?.message,
+        description: error?.response?.data?.description,
         status: 'error',
         duration: 3000,
         isClosable: true,
       });
-      if (error?.response?.data?.error === "TokenExpiredError") {
-        toast({
-          title: 'Session Expired',
-          description: "Redirecting to Login page",
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
-        localStorage.clear();
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
-      }
     }
   };
 
   const handleDownloadPDF = async () => {
     try {
-      const response = await axios.post(
+      const response = await privateGateway.post(
         backendApiUrl + adminApi.adminGeneratePDF,
         { startDate, endDate },
         {
-          headers: {
-            Authorization: "Bearer " + authToken,
-          },
           responseType: 'blob',
         }
       );
-
-      console.log(response)
       const blob = new Blob([response.data], { type: 'application/pdf' });
 
       // Create a link element and trigger a download
@@ -91,27 +68,13 @@ const Download = () => {
       const reader = new FileReader();
       reader.onload = function () {
         const jsonData = JSON.parse(reader.result);
-
-        if (jsonData.error === "TokenExpiredError") {
-          toast({
-            title: 'Session Expired',
-            description: "Redirecting to Login page",
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-          });
-          localStorage.clear();
-          setTimeout(() => {
-            navigate('/');
-          }, 2000);
-        } else {
-          toast({
-            title: jsonData.message,
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-          });
-        }
+        toast({
+          title: jsonData?.message,
+          description: jsonData?.description,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
       };
       reader.readAsText(blob);
     }

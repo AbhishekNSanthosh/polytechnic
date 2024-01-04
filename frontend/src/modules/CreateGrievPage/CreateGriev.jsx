@@ -8,17 +8,16 @@ import { studentApi, teacherApi } from '../../utils/helpers'
 const CreateGriev = () => {
     const [subject, setSubject] = useState("");
     const [desc, setDesc] = useState("");
-    const accessType = localStorage.getItem('accessType');
-    const authToken = localStorage.getItem('accessToken');
 
+    const accessType = localStorage.getItem('accessType');
     const navigate = useNavigate();
     const toast = useToast();
 
     const handleSubmit = async () => {
         if (accessType === "student") {
-            await addLetter(toast, navigate, subject, desc, studentApi.createLetter, authToken);
+            await addLetter(toast, subject, desc, studentApi.createLetter);
         } else if (accessType === "teacher") {
-            await addLetter(toast, navigate, subject, desc, teacherApi.createLetter, authToken);
+            await addLetter(toast, subject, desc, teacherApi.createLetter);
         }
     }
     return (

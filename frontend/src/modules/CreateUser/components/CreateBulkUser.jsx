@@ -47,8 +47,6 @@ const CreateBulkUser = () => {
         }
     };
 
-
-    console.log(userValue)
     const handleUploadStudents = () => {
         if (authToken !== '' && accessType === 'admin' && file) {
             if (userValue === "student") {
@@ -68,7 +66,6 @@ const CreateBulkUser = () => {
         if (e.target.classList.contains(styles.modalWrap)) {
             onClose();
         }
-        console.log(e.target.classList.contains(styles.modalWrap));
     };
     return (
         <div className={styles.container}>

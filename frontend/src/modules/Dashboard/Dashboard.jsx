@@ -18,8 +18,6 @@ const Dashboard = () => {
     const [applyFilter, setApplyFilter] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const abortController = new AbortController();
-
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
     const toast = useToast();
@@ -34,15 +32,15 @@ const Dashboard = () => {
             if (authToken !== "") {
                 if (lastPart === "permitted-grievances") {
                     if (accessType === "teacher" && authToken !== "") {
-                        await getTeacherPermittedLetters(sortOrder, setLetters, authToken, navigate, toast, setIsLoading);
+                        await getTeacherPermittedLetters(sortOrder, setLetters, toast, setIsLoading);
                     }
                 } else {
                     if (accessType === "admin") {
-                        await getAllLettersForAdmin(setLetters, sortOrder, toast, navigate, authToken, setIsLoading);
+                        await getAllLettersForAdmin(setLetters, sortOrder, toast, setIsLoading);
                     } else if (accessType === "student") {
-                        await getAllLettersForStudent(setLetters, sortOrder, toast, navigate, authToken, setIsLoading);
+                        await getAllLettersForStudent(setLetters, sortOrder, toast, setIsLoading);
                     } else if (accessType === "teacher") {
-                        await getAllLettersForTeacher(setLetters, sortOrder, toast, navigate, authToken, setIsLoading);
+                        await getAllLettersForTeacher(setLetters, sortOrder, toast, setIsLoading);
                     }
                 }
             }
@@ -60,9 +58,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         getLetterData();
-
-        // Cleanup function to abort the request when the component is unmounted
-        return () => abortController.abort();
     }, [authToken, applyFilter, sortOrder, lastPart]);
 
     const handleQueryChange = (e) => {
@@ -71,11 +66,11 @@ const Dashboard = () => {
 
         if (newQuery.trim() !== '') {
             if (accessType === 'admin') {
-                getSearchResults(adminApi.searchLetters, newQuery, authToken, setLetters, toast);
+                getSearchResults(adminApi.searchLetters, newQuery, setLetters, toast);
             } else if (accessType === 'teacher') {
-                getSearchResults(teacherApi.searchLetters, newQuery, authToken, setLetters, toast);
+                getSearchResults(teacherApi.searchLetters, newQuery, setLetters, toast);
             } else if (accessType === 'student') {
-                getSearchResults(studentApi.searchLetters, newQuery, authToken, setLetters, toast);
+                getSearchResults(studentApi.searchLetters, newQuery, setLetters, toast);
             }
         } else {
             getLetterData();

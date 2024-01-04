@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { backendApiUrl } from '../../../utils/helpers'
+import { privateGateway } from '../../../services/apiGateWays';
 
 export const addLetter = async (
     toast,
@@ -7,20 +6,15 @@ export const addLetter = async (
     subject,
     desc,
     url,
-    authToken
 ) => {
     try {
-        const response = await axios.post(backendApiUrl + url, {
+        const response = await privateGateway.post(url, {
             subject,
             body: desc
-        }, {
-            headers: {
-                Authorization: "Bearer " + authToken
-            }
         })
         toast({
-            title: 'Grievance created successfully',
-            // description: "Redirecting to Login page",
+            title: response?.data?.message,
+            description: response?.data?.description,
             status: 'success',
             duration: 3000,
             isClosable: true,
@@ -30,25 +24,12 @@ export const addLetter = async (
             localStorage.setItem('selectedTab', JSON.stringify(1));
         }, 1000)
     } catch (error) {
-        console.log(error);
         toast({
             title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
             status: 'error',
-            duration: 2000,
+            duration: 3000,
             isClosable: true,
         });
-        if (error?.response?.data?.error === "TokenExpiredError") {
-            toast({
-                title: 'Session Expired',
-                description: "Redirecting to Login page",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            localStorage.clear();
-            setTimeout(() => {
-                navigate('/')
-            }, 2000);
-        }
     }
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../ManageLetter.module.css'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { deleteAction, deleteComment, getLetterDetails, getLetterDetailsByAdmin, updateCommentAndActions } from '../services/apis'
+import { deleteAction, deleteComment, getLetterDetails, updateCommentAndActions } from '../services/apis'
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 
@@ -13,38 +13,27 @@ const ActionAndComment = () => {
     const [comments, setComments] = useState(showComments);
     const [editAction, setEditAction] = useState(false);
     const [editComment, setEditComment] = useState(false);
-    const [isDeleteActionCall, setIsDeleteActionCall] = useState(false);
-    const [isDeleteCommentCall, setIsDeleteCommentCall] = useState(false);
 
     const params = useParams();
-    const authToken = localStorage.getItem("accessToken");
-    const accessType = localStorage.getItem('accessType');
-    const navigate = useNavigate();
     const toast = useToast();
     const letterId = params.id;
 
     const handleActionsAndComments = async () => {
-        await updateCommentAndActions(letterId, actions, comments, setShowActions, setShowComments, authToken, navigate, toast);
+        await updateCommentAndActions(letterId, actions, comments, setShowActions, setShowComments, toast);
         setEditAction(false);
         setEditComment(false);
     }
 
     const handleDeleteComment = async () => {
-        await deleteComment(letterId, setShowComments, authToken, navigate, toast);
+        await deleteComment(letterId, setShowComments, toast);
     }
 
     const handleDeleteAction = async () => {
-        await deleteAction(letterId, setShowActions, authToken, navigate, toast);
+        await deleteAction(letterId, setShowActions, toast);
     }
 
     useEffect(() => {
-        const abortController = new AbortController();
-        const { signal } = abortController;
-
-        getLetterDetails(letterId, setShowActions, setShowComments, navigate, authToken, toast, { signal })
-        return () => {
-            abortController.abort();
-        };
+        getLetterDetails(letterId, setShowActions, setShowComments, toast)
     }, [])
 
     return (

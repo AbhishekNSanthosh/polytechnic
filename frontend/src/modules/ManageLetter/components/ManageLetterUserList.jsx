@@ -1,6 +1,6 @@
 import styles from '../ManageLetter.module.css'
-import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Checkbox } from '@chakra-ui/react'
+import React from 'react'
 
 const ManageLetterUserList = ({ list, teacher, index }) => {
     return (
