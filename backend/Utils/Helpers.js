@@ -23,7 +23,7 @@ if (currentTime.getHours() < 12) {
 }
 
 const twohundredResponse = (data = {}) => {
-    return {
+    const res = {
         greeting,
         hasError: false,
         resCode: 200,
@@ -34,6 +34,11 @@ const twohundredResponse = (data = {}) => {
         createdBy: "Carmel Polytechnic Professional Security",
         dev: "∞ Infinity ∞"
     };
+
+    // if (data?.description) {
+    //     res.description = data?.description
+    // }
+    return res;
 };
 
 const twoNotOneResponse = (data = {}) => {
