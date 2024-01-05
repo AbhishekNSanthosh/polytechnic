@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     const toast = useToast();
 
     const handleForgotPassword = () => {
-        forgotPassword(email, toast,setErrMsg);
+        forgotPassword(email, toast, setErrMsg);
     }
     return (
         <div className={styles.container}>
@@ -22,9 +22,10 @@ const ForgotPassword = () => {
                 <span className={styles.title}>Forgot your Password ?</span>
                 <span className={styles.desc}>Please enter the email address which you'd like your password reset information sent to </span>
                 <input value={email} placeholder='Email address' onChange={(e) => {
+                    setErrMsg("")
                     setEmail(e.target.value)
                 }} type="text" className={styles.inputEmail} />
-                {errorMsg && <span className={styles.err}>Please enter the email address which you'd like your password reset information sent to </span>}
+                {errorMsg && <span className={styles.err}>{errorMsg}</span>}
                 <button className={styles.submit} onClick={() => {
                     handleForgotPassword()
                 }}>Request reset link</button>

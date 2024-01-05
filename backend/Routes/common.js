@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../Models/User');
 const rateLimit = require('express-rate-limit');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 const { twohundredResponse, customError } = require('../Utils/Helpers');
 
 const passwordlimiter = rateLimit({

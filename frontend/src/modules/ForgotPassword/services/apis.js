@@ -1,9 +1,9 @@
-import { privateGateway } from "../../../services/apiGateWays";
+import { publicGateway } from "../../../services/apiGateWays";
 import { publicApi } from "../../../utils/helpers";
 
 export const forgotPassword = async (email, toast, setErrMsg) => {
     try {
-        const response = await privateGateway.post(publicApi.forgotPasswordApi, { email });
+        const response = await publicGateway.post(publicApi.forgotPasswordApi, { email });
         console.log(response)
     } catch (error) {
         setErrMsg(error?.response?.data?.message + '. ' + error?.response?.data?.description || "")
