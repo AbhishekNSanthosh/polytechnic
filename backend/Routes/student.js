@@ -37,19 +37,19 @@ router.post('/studentLogin', async (req, res) => {
             throw { status: 400, message: "Password field is required" }
         }
 
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(username) || validator.matches(username, /[/\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid username" }
         }
-        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(password) || validator.matches(password, /[/\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid password" }
         }
 
         const isEmail = validator.isEmail(username);
-        console.log(isEmail)
+        console.log("Is email ? ", isEmail)
         // Query the user based on either username or email
         const userQuery = isEmail ? { email: username, role: "student" } : { username, role: "student" };
         const user = await User.findOne(userQuery);
-        
+        console.log("user", user)
         if (!user) {
             throw { status: 404, message: resMessages.userNotfoundMsg }
         }

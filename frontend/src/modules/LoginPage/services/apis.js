@@ -12,7 +12,7 @@ export const loginUser = async (
 ) => {
     setIsLoading(true);
     try {
-        const response = await axios.post('http://localhost:9000' + url, {
+        const response = await axios.post(backendApiUrl + url, {
             username,
             password
         })
@@ -40,23 +40,12 @@ export const loginUser = async (
         })
     } catch (error) {
         setIsLoading(false)
-        if (error?.response?.data?.resCode === 403) {
-            toast({
-                title: error?.response?.data.message,
-                description: error?.response?.data?.description,
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            })
-        } else {
-            toast({
-                title: error?.response?.data.message,
-                // description: error?.response?.data?.description,
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            })
-        }
-        console.log(error)
+        toast({
+            title: error?.response?.data.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        })
     }
 }
