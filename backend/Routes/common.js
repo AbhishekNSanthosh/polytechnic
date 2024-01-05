@@ -5,7 +5,7 @@ const rateLimit = require('express-rate-limit');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const { twohundredResponse, customError } = require('../Utils/Helpers');
+const { twohundredResponse, customError, transporter } = require('../Utils/Helpers');
 
 const passwordlimiter = rateLimit({
     store: new rateLimit.MemoryStore({
