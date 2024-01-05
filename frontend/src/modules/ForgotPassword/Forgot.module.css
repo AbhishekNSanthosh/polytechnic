@@ -118,3 +118,9 @@
     color: rgb(0, 167, 0);
     font-weight: 600;
 }
+
+.validationError{
+    font-size: 0.9rem;
+    color: red;
+    font-weight: 500;
+}

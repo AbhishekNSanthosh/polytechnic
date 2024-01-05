@@ -39,7 +39,7 @@ router.post('/forgotPassword', passwordlimiter, async (req, res) => {
         const token = jwt.sign({ userId: user._id, department: user?.department }, 'carmelpoly', { expiresIn: '1h' });
 
         // Send reset password email
-        const resetPasswordUrl = `http://localhost:5173/reset-password/${token}`;
+        const resetPasswordUrl = `https://polytechnic.vercel.app/reset-password/${token}`;
 
         // const mailOptions = {
         //     from: 'abhisheksanthosh404@gmail.com',
@@ -149,7 +149,7 @@ router.post('/resetPassword', async (req, res) => {
         if (!user) {
             throw { status: 404, message: "User does not exists", description: "Please contact administrator for more help" }
         } else if (user.resetTokenUsed) {
-            throw { status: 400, message: "Password reset link expired!", description: "Please try after some time" }
+            throw { status: 400, message: "Password reset link expired!", description: "Please try after some time with new link" }
 
         }
 
@@ -159,7 +159,7 @@ router.post('/resetPassword', async (req, res) => {
         user.resetTokenUsed = true;
         await user.save();
 
-        const successResponse = twohundredResponse({ message: resMessages.passwordReset })
+        const successResponse = twohundredResponse({ message: resMessages.passwordReset, description: "Please login with new password" })
         return res.status(200).json(successResponse);
     } catch (error) {
         console.error(error);

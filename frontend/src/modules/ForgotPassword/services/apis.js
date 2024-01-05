@@ -27,3 +27,26 @@ export const forgotPassword = async (email, toast, setErrMsg, setSuccessMsg) => 
         });
     }
 }
+
+export const resetPassword = async (token, newPassword, navigate, toast) => {
+    try {
+        const response = await publicGateway.post(publicApi.resetPasswordApi, { token, newPassword })
+        console.log(response);
+        toast({
+            title: response?.data?.message,
+            description: response?.data?.description,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+        navigate('/')
+    } catch (error) {
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+    }
+}
