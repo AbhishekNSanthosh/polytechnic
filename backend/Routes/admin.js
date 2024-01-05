@@ -898,7 +898,7 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
             role,
             _id: { $ne: userId } // Exclude the requesting user
         });
-        console.log(existingByEmail)
+
         if (existingUserByUsername && existingUserByUsername._id.toString() !== userId) {
             throw { status: 400, message: `Email: "${existingByEmail?.username}" is already taken`, description: "Please choose a different username" }
         } else if (existingByEmail && existingByEmail._id.toString() !== userId) {
@@ -911,11 +911,12 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
             throw { status: 404, message: resMessages.userNotfoundMsg }
         }
 
+        const hashedPassword = await bcrypt.hash(password, 12);
         // Update user details based on role
         if (user.role === 'student') {
             user.username = username;
             user.email = email;
-            user.password = password;
+            user.password = hashedPassword;
             user.semester = semester;
             user.role = role;
             user.department = department;
@@ -923,7 +924,7 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
         } else {
             user.username = username;
             user.email = email;
-            user.password = password;
+            user.password = hashedPassword;
             user.department = department;
             user.role = role;
             user.lastUpdatedBy = req.user._id
@@ -931,6 +932,7 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
         let updated = true
         // Save updated user
         const updatedUser = await user.save();
+        console.log(updatedUser)
         const userData = abstractedUserData(updatedUser, updated);
         const successMessage = twohundredResponse({ message: 'User details updated successfully', data: userData })
         return res.status(200).json(successMessage);

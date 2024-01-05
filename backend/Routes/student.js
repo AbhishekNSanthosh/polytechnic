@@ -45,11 +45,11 @@ router.post('/studentLogin', async (req, res) => {
         }
 
         const isEmail = validator.isEmail(username);
-
+        console.log(isEmail)
         // Query the user based on either username or email
         const userQuery = isEmail ? { email: username, role: "student" } : { username, role: "student" };
         const user = await User.findOne(userQuery);
-
+        
         if (!user) {
             throw { status: 404, message: resMessages.userNotfoundMsg }
         }

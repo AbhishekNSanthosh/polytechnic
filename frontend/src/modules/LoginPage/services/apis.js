@@ -12,7 +12,7 @@ export const loginUser = async (
 ) => {
     setIsLoading(true);
     try {
-        const response = await axios.post(backendApiUrl + url, {
+        const response = await axios.post('http://localhost:9000' + url, {
             username,
             password
         })

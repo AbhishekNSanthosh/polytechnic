@@ -227,7 +227,7 @@ export const editUserData = async (
     department,
     role,
     toast,
-    navigate
+    navigate,
 ) => {
     try {
         const response = await privateGateway.put(adminApi.editUserData + userId, {
