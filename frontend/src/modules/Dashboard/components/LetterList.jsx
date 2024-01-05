@@ -21,11 +21,15 @@ const LetterList = (props) => {
 
     const handleDeleteLetter = () => {
         if (accessType === "student") {
-            deleteLetterByStudent(letter?._id, toast, goForApiCall,setShowConfirm)
+            deleteLetterByStudent(letter?._id, toast, goForApiCall, setShowConfirm)
         } else if (accessType === "teacher") {
-            deleteLetterByTeacher(letter?._id, toast, goForApiCall,setShowConfirm)
+            deleteLetterByTeacher(letter?._id, toast, goForApiCall, setShowConfirm)
         }
     }
+
+    const oneHourAgo = new Date();
+    oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+    console.log(letter?.sentAt < oneHourAgo)
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>

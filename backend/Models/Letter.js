@@ -35,6 +35,10 @@ const letterSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  sentAt: {
+    type: Date,
+    default: Date.now,
+  },
 }, { timestamps: true, versionKey: false });
 
 letterSchema.set('toJSON', {
@@ -47,13 +51,15 @@ letterSchema.set('toJSON', {
     const updatedAgo = updatedAt.from(now)
 
     ret.createdAt = {
-      date: createdAt.format('DD/MM/YYYY , HH:mm'),
-      ago: createdAgo.replace('minutes', 'min').replace('seconds', 'sec')
+      date: createdAt.format('DD/MM/YYYY'),
+      time: createdAt.format('hh:mm A'), // 'hh:mm A' will give you time in AM/PM format
+      ago: createdAgo.replace('minutes', 'min').replace('seconds', 's').replace('hours', 'h').replace('days', 'd')
     };
 
     ret.updatedAt = {
-      date: updatedAt.format('DD/MM/YYYY , HH:mm'),
-      ago: updatedAgo.replace('minutes', 'min').replace('seconds', 'sec')
+      date: updatedAt.format('DD/MM/YYYY'),
+      time: updatedAt.format('hh:mm A'), // 'hh:mm A' will give you time in AM/PM format
+      ago: updatedAgo.replace('minutes', 'min').replace('seconds', 's').replace('hours', 'h').replace('days', 'd')
     };
 
     return ret;

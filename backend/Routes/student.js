@@ -387,7 +387,7 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         const oneHourAgo = new Date();
         oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
-        if (letter.sentAt < oneHourAgo) {
+        if (letter?.sentAt < oneHourAgo) {
             throw { status: 400, message: "Cannot delete the letter.", description: "More than one hour passed since sending" }
         }
 
