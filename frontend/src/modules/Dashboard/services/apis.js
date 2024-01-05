@@ -125,12 +125,11 @@ export const deleteLetterByStudent = async (
     letterId,
     toast,
     goForApiCall,
-    setShowConfirm
+    setShowConfirm,
 ) => {
     try {
         const response = await privateGateway.delete(studentApi.deleteLetter + letterId);
         goForApiCall(true)
-        console.log(response)
         setShowConfirm(false);
         toast({
             title: response?.data?.message,
@@ -143,6 +142,7 @@ export const deleteLetterByStudent = async (
             goForApiCall(false)
         }, 400);
     } catch (error) {
+        setShowConfirm(false);
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,
@@ -162,7 +162,6 @@ export const deleteLetterByTeacher = async (
     try {
         const response = await privateGateway.delete(teacherApi.deleteLetter + letterId);
         goForApiCall(true);
-        console.log(response)
         setShowConfirm(false)
         toast({
             title: response?.data?.message,
@@ -175,6 +174,7 @@ export const deleteLetterByTeacher = async (
             goForApiCall(false)
         }, 400);
     } catch (error) {
+        setShowConfirm(false)
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,

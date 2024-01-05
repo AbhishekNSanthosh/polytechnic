@@ -15,6 +15,7 @@ const LetterList = (props) => {
     const { index, letter, goForApiCall } = props;
     const navigate = useNavigate();
     const accessType = localStorage.getItem('accessType');
+    const accessToken = localStorage.getItem('accessToken');
     const toast = useToast();
     const letterSub = letter?.subject.slice(0, 25);
     const letterSubRes = letter?.subject.slice(0, 15);
@@ -29,7 +30,8 @@ const LetterList = (props) => {
 
     const oneHourAgo = new Date();
     oneHourAgo.setHours(oneHourAgo.getHours() - 1);
-    console.log(letter?.sentAt < oneHourAgo)
+    console.log('ago:', oneHourAgo)
+    console.log("time", letter?.sentAt < oneHourAgo)
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>

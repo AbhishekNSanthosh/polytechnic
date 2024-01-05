@@ -372,6 +372,7 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         if (!letterId) {
             throw { status: 400, message: "Invalid letterId found" }
         }
+
         // Find the letter by ID
         const letter = await Letter.findById(letterId).populate('sender');
         if (!letter) {
@@ -387,12 +388,17 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         const oneHourAgo = new Date();
         oneHourAgo.setHours(oneHourAgo.getHours() - 1);
 
-        if (letter?.sentAt < oneHourAgo) {
-            throw { status: 400, message: "Cannot delete the letter.", description: "More than one hour passed since sending" }
+        console.log(letter?.createdAt.toLocaleString())
+        console.log(oneHourAgo.toLocaleString())
+
+        console.log(letter?.createdAt < oneHourAgo)
+
+        if (letter?.createdAt < oneHourAgo) {
+            throw { status: 400, message: "Letter cannot be deleted !", description: "More than one hour passed since sending" }
         }
 
         // Delete the letter
-        await Letter.findByIdAndDelete(letterId);
+        // await Letter.findByIdAndDelete(letterId);
 
         const successResponseMsg = twohundredResponse({ message: 'Letter deleted successfully' })
         return res.status(200).json(successResponseMsg);
