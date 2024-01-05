@@ -100,7 +100,7 @@ router.post('/studentLogin', async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const description = error.description;
+        const description = error.description || "";
         const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
@@ -164,7 +164,7 @@ router.get('/getUserDetails', Auth.verifyStudentToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const description = error.description;
+        const description = error.description || "";
         const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
@@ -212,7 +212,7 @@ router.post('/addLetter', Auth.verifyStudentToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const description = error.description;
+        const description = error.description || "";
         const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
@@ -255,7 +255,7 @@ router.post('/getAllLetters', Auth.verifyStudentToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const description = error.description;
+        const description = error.description || "";
         const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
@@ -406,7 +406,7 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const description = error.description;
+        const description = error.description || "";
         const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
@@ -435,7 +435,7 @@ router.post('/searchLetter', Auth.verifyStudentToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const description = error.description;
+        const description = error.description || "";
         const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
