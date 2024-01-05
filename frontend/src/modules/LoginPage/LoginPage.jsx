@@ -22,7 +22,7 @@ const LoginPage = () => {
         <div className={styles.loginContainer}>
             <div className={styles.loginWrapper}>
                 <div className={styles.loginLeftCol}>
-                    <img src={collegeImages.collegelogosvg} alt="carmel polytechnic logo" className={styles.loginPageLogo} />
+                    <img src={collegeImages.collegeLogopng} alt="carmel polytechnic logo" className={styles.loginPageLogo} />
                 </div>
                 <div className={styles.loginRightCol}>
                     <div className={styles.loginNavWrap}>

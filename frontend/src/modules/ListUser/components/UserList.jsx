@@ -6,6 +6,7 @@ import deleteImg from '../../../assets/Images/deleteIcon.svg'
 import { deleteUser } from '../services/apis';
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
+import { TiDelete } from "react-icons/ti";
 
 const UserList = ({ user, index, getUserList }) => {
     const [showConfirm, setShowConfirm] = useState(false);
@@ -53,8 +54,9 @@ const UserList = ({ user, index, getUserList }) => {
             {showConfirm &&
                 <div className={styles.deleteConfirm}>
                     <div className={styles.deleteConfirmBox}>
-                        <img src={deleteImg} alt="" className={styles.deleteImage} />
-                        <span className={styles.deleteTitle}>Are you sure you want to delete <span className={styles.high}>{user?.username}</span> ?</span>
+                        <TiDelete className={styles.deleteImage}/>
+                        {/* <img src={deleteImg} alt="" className={styles.deleteImage} /> */}
+                        <span className={styles.deleteTitle}>Are you sure you want to delete the user: "<span className={styles.high}>{user?.username}</span>" ?</span>
                         <div className={styles.row}>
                             <button className={styles.cancel} onClick={() => {
                                 setShowConfirm(false);

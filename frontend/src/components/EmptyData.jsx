@@ -1,6 +1,6 @@
 import styles from './PolyStyles.module.css'
 import React from 'react'
-import emptyImg from '../assets/Images/empty.svg'
+import emptyImg from '../assets/Images/empty.png'
 
 const EmptyData = () => {
     return (

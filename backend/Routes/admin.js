@@ -120,10 +120,7 @@ router.post('/adminLogin', async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        let description
-        if (error.description) {
-            description = error.description
-        }
+        const description = error.description;
         const errorMessage = customError({ resCode: status, message, description, userIpAddress })
         return res.status(status).json(errorMessage);
     }
@@ -141,7 +138,8 @@ router.get('/getUserDetails', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -196,7 +194,8 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -265,7 +264,8 @@ router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -326,7 +326,8 @@ router.post('/createNewTeacher', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -347,7 +348,8 @@ router.post('/getAllLetters', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -370,10 +372,11 @@ router.get('/getUserLetterById/:id', Auth.verifyAdminToken, async (req, res) => 
         });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
-        console.error("error", error);
+        console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -416,7 +419,8 @@ router.get('/getAllTeacherLetters', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -464,7 +468,8 @@ router.post('/addViewAccessIds/:letterId', async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -738,7 +743,8 @@ router.post('/getUserListByRole', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -791,7 +797,8 @@ router.post('/getUserListByFilters', Auth.verifyAdminToken, async (req, res) => 
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -821,7 +828,8 @@ router.post('/searchUser', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -953,7 +961,8 @@ router.delete('/deleteUserById/:id', Auth.verifyAdminToken, async (req, res) => 
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -983,7 +992,8 @@ router.post('/searchLetter', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -1030,7 +1040,8 @@ router.post('/addActionsAndComments', Auth.verifyAdminToken, async (req, res) =>
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -1055,7 +1066,8 @@ router.post("/deleteComments", Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -1081,7 +1093,8 @@ router.post("/deleteActions", Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -1108,7 +1121,8 @@ router.post('/updateReadStatus', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 })
@@ -1164,7 +1178,8 @@ router.post('/generate-csv', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
@@ -1360,7 +1375,8 @@ router.post('/generate-pdf', Auth.verifyAdminToken, async (req, res) => {
         console.error(error);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
-        const errorMessage = customError({ resCode: status, message })
+        const description = error.description;
+        const errorMessage = customError({ resCode: status, message, description })
         return res.status(status).json(errorMessage);
     }
 });
