@@ -1,8 +1,9 @@
 import React from 'react'
 import styles from './Forgot.module.css'
 import { collegeImages } from '../../utils/helpers'
-
+import { useNavigate } from 'react-router-dom'
 const ForgotPassword = () => {
+    const navigate = useNavigate();
     return (
         <div className={styles.container}>
             <img src={collegeImages.collegelogosvg} alt="" className={styles.logo} />
@@ -11,7 +12,9 @@ const ForgotPassword = () => {
                 <span className={styles.desc}>Please enter the email address which you'd like your password reset information sent to </span>
                 <input placeholder='Email address' type="text" className={styles.inputEmail} />
                 <button className={styles.submit}>Request reset link</button>
-                <button className={styles.back}>Back to login</button>
+                <button className={styles.back} onClick={() => {
+                    navigate('/')
+                }}>Back to login</button>
             </div>
         </div>
     )

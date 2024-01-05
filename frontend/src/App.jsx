@@ -16,6 +16,7 @@ import ManageLetter from './modules/ManageLetter/ManageLetter';
 import CreateBulkUser from './modules/CreateUser/components/CreateBulkUser';
 import Download from './modules/Download/Download';
 import ForgotPassword from './modules/ForgotPassword/ForgotPassword';
+import ResetPassword from './modules/ForgotPassword/ResetPassword';
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,10 @@ function App() {
     {
       path: 'forgot-password',
       element: <ForgotPassword />
+    },
+    {
+      path: 'reset-password/:token',
+      element: <ResetPassword />
     },
     {
       path: "/",
