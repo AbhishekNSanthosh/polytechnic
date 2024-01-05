@@ -173,8 +173,8 @@ const sanitizedUserList = (users) => {
             ago: moment(user?.createdAt).fromNow(),
         },
         updatedAt: {
-            date: moment(user?.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(user?.createdAt).fromNow(),
+            date: moment(user?.updatedAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(user?.updatedAt).fromNow(),
         },
     }));
     return userList;
