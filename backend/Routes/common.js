@@ -1,7 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../Models/User');
+const rateLimit = require('express-rate-limit');
 const { twohundredResponse, customError } = require('../Utils/Helpers');
+
+const passwordlimiter = rateLimit({
+    store: new rateLimit.MemoryStore({
+        points: 3, // Number of attempts allowed
+        duration: 3600, // 1 hour in seconds
+    }),
+    max: 3, // Max attempts per hour
+    windowMs: 60 * 60 * 1000, // 1 hour in milliseconds
+    message: "Too many password reset attempts. Please try again later.",
+});
 
 //student forgot password feature
 router.post('/forgotPassword', passwordlimiter, async (req, res) => {
@@ -110,3 +121,5 @@ router.post('/resetPassword', async (req, res) => {
         return res.status(status).json(errorMessage);
     }
 });
+
+module.exports = router;
