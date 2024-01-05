@@ -30,6 +30,7 @@ export const studentApi = {
     getAllLetters: '/api/v2/student/getAllLetters',
     searchLetters: "/api/v2/student/searchLetter",
     createLetter: '/api/v2/student/addLetter',
+    deleteLetter: '/api/v2/student/deleteLetterById',
 }
 
 export const teacherApi = {

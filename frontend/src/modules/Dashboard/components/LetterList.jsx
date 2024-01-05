@@ -5,8 +5,13 @@ import { MdDeleteOutline } from "react-icons/md";
 import { IoMailUnreadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineMarkEmailRead } from "react-icons/md";
+// import { deleteUser } from '../services/apis';
+import { TiDelete } from "react-icons/ti";
 
 const LetterList = (props) => {
+    const [showConfirm, setShowConfirm] = useState(false);
+
+
     const { index, letter } = props;
     const navigate = useNavigate();
     const accessType = localStorage.getItem('accessType')
@@ -39,6 +44,23 @@ const LetterList = (props) => {
                     <MdDeleteOutline title='delete' className={styles.actionIcon} />
                 </div>
             </div>
+            {showConfirm &&
+                <div className={styles.deleteConfirm}>
+                    <div className={styles.deleteConfirmBox}>
+                        <TiDelete className={styles.deleteImage} />
+                        {/* <img src={deleteImg} alt="" className={styles.deleteImage} /> */}
+                        <span className={styles.deleteTitle}>Are you sure you want to delete the user: "<span className={styles.high}>{user?.username}</span>" ?</span>
+                        <div className={styles.row}>
+                            <button className={styles.cancel} onClick={() => {
+                                setShowConfirm(false);
+                            }}>Cancel</button>
+                            <button className={styles.delete} onClick={() => {
+                                // handleDeleteUser();
+                            }}>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     )
 }
