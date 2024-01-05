@@ -1,23 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './CreateGriev.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { addLetter } from './services/apis'
+import { addLetter, addStudentLetter, addTeacherLetter } from './services/apis'
 import { studentApi, teacherApi } from '../../utils/helpers'
 
 const CreateGriev = () => {
     const [subject, setSubject] = useState("");
     const [desc, setDesc] = useState("");
 
+    let studentUrl, teacherUrl
     const accessType = localStorage.getItem('accessType');
     const navigate = useNavigate();
     const toast = useToast();
+    useEffect(() => {
+        studentUrl = studentApi.createLetter
+        teacherUrl = teacherApi.createLetter
+    }, [])
+
 
     const handleSubmit = async () => {
         if (accessType === "student") {
-            await addLetter(toast, subject, desc, studentApi.createLetter);
+            console.log(studentUrl)
+            await addStudentLetter(toast,navigate, subject, desc);
         } else if (accessType === "teacher") {
-            await addLetter(toast, subject, desc, teacherApi.createLetter);
+            await addTeacherLetter(toast,navigate, subject, desc);
         }
     }
     return (

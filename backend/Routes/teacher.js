@@ -127,6 +127,16 @@ router.post('/addLetter', Auth.verifyTeacherToken, async (req, res) => {
     const { body, subject } = req.body;
 
     try {
+        const { body, subject } = req.body;
+        if (!subject && !body) {
+            throw { status: 400, message: "Please fill the required fields" }
+        }
+        if (!subject) {
+            throw { status: 400, message: "Subject field is required" }
+        }
+        if (!body) {
+            throw { status: 400, message: "Body field is required" }
+        }
         if (validator.isEmpty(subject) || !validator.trim(subject)) {
             throw { status: 400, messsage: "Invalid characters in subject" }
         }
