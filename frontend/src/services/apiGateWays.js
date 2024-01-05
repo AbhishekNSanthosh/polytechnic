@@ -67,8 +67,8 @@ privateGateway.interceptors.response.use(
             //console.log('error_2',error_2);
             toast.closeAll();
             toast({
-                title: "Your session has expired.",
-                description: "Please login again.",
+                title: error.response?.data?.message,
+                description: error?.response?.data?.description,
                 status: "error",
                 duration: 5000,
                 isClosable: true

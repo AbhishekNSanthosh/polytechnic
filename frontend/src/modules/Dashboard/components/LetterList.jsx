@@ -5,18 +5,27 @@ import { MdDeleteOutline } from "react-icons/md";
 import { IoMailUnreadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineMarkEmailRead } from "react-icons/md";
-// import { deleteUser } from '../services/apis';
+import { useToast } from '@chakra-ui/react';
 import { TiDelete } from "react-icons/ti";
+import { deleteLetterByStudent, deleteLetterByTeacher } from '../services/apis';
 
 const LetterList = (props) => {
     const [showConfirm, setShowConfirm] = useState(false);
 
-    const { index, letter } = props;
+    const { index, letter, goForApiCall } = props;
     const navigate = useNavigate();
-    const accessType = localStorage.getItem('accessType')
-
+    const accessType = localStorage.getItem('accessType');
+    const toast = useToast();
     const letterSub = letter?.subject.slice(0, 25);
     const letterSubRes = letter?.subject.slice(0, 15);
+
+    const handleDeleteLetter = () => {
+        if (accessType === "student") {
+            deleteLetterByStudent(letter?._id, toast, goForApiCall,setShowConfirm)
+        } else if (accessType === "teacher") {
+            deleteLetterByTeacher(letter?._id, toast, goForApiCall,setShowConfirm)
+        }
+    }
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>
@@ -50,13 +59,13 @@ const LetterList = (props) => {
                     <div className={styles.deleteConfirmBox}>
                         <TiDelete className={styles.deleteImage} />
                         {/* <img src={deleteImg} alt="" className={styles.deleteImage} /> */}
-                        <span className={styles.deleteTitle}>Are you sure you want to delete the user: "<span className={styles.high}>hi</span>" ?</span>
+                        <span className={styles.deleteTitle}>Are you sure you want to delete this letter? </span>
                         <div className={styles.row}>
                             <button className={styles.cancel} onClick={() => {
                                 setShowConfirm(false);
                             }}>Cancel</button>
                             <button className={styles.delete} onClick={() => {
-                                // handleDeleteUser();
+                                handleDeleteLetter();
                             }}>Delete</button>
                         </div>
                     </div>

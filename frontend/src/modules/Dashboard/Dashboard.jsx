@@ -17,6 +17,7 @@ const Dashboard = () => {
     const [sortOrder, setSortOrder] = useState("desc");
     const [applyFilter, setApplyFilter] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [goForCall, setGoForCall] = useState(false);
 
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
@@ -58,7 +59,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         getLetterData();
-    }, [authToken, applyFilter, sortOrder, lastPart]);
+    }, [authToken, applyFilter, sortOrder, lastPart,goForCall]);
 
     const handleQueryChange = (e) => {
         const newQuery = e.target.value;
@@ -77,6 +78,12 @@ const Dashboard = () => {
         }
     };
 
+
+    const goForApiCall = (data)=>{
+        setGoForCall(data)
+    }
+
+    console.log(goForCall)
     return (
         <div className={styles.container}>
             <div className={styles.dashboardTopRow}>
@@ -130,7 +137,7 @@ const Dashboard = () => {
                         <div className={styles.dashboardRow}>
                             {letters && letters.map((letter, index) => (
                                 <div key={index}>
-                                    <LetterList index={index} letter={letter} />
+                                    <LetterList index={index} letter={letter} goForApiCall={goForApiCall}/>
                                 </div>
                             ))}
                         </div>

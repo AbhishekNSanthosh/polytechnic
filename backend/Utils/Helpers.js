@@ -146,7 +146,7 @@ const resMessages = {
     createdSuccessMsg: "Created successfully",
     tokenNotFound: "Token not found",
     unAuthorized: "Unauthorized access",
-    sessionExpired: "Session expired",
+    sessionExpired: "Your session has expired",
     authFailed: "Authentication failed",
     rateLimit: "Too many requests. Please try after some time",
     passwordReset: "Password reset successfully"
