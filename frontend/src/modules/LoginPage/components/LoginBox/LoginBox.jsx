@@ -83,7 +83,9 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 {user === "admin" && <button className={styles.LoginBoxAdminButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
                 {user === "teacher" && <button className={styles.LoginBoxFacultyButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
                 {user === "student" && <button className={styles.LoginBoxStudentButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
-                <span className={styles.forgot}>Forgot password ?</span>
+                <span className={styles.forgot} onClick={() => {
+                    navigate('/forgot-password')
+                }}>Forgot password ?</span>
             </div>
         </div>
     )

@@ -15,12 +15,17 @@ import CreateUser from './modules/CreateUser/CreateUser';
 import ManageLetter from './modules/ManageLetter/ManageLetter';
 import CreateBulkUser from './modules/CreateUser/components/CreateBulkUser';
 import Download from './modules/Download/Download';
+import ForgotPassword from './modules/ForgotPassword/ForgotPassword';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       element: <LoginPage />
+    },
+    {
+      path: 'forgot-password',
+      element: <ForgotPassword />
     },
     {
       path: "/",

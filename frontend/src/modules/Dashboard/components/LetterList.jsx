@@ -27,11 +27,6 @@ const LetterList = (props) => {
             deleteLetterByTeacher(letter?._id, toast, goForApiCall, setShowConfirm)
         }
     }
-
-    const oneHourAgo = new Date();
-    oneHourAgo.setHours(oneHourAgo.getHours() - 1);
-    console.log('ago:', oneHourAgo)
-    console.log("time", letter?.sentAt < oneHourAgo)
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>
