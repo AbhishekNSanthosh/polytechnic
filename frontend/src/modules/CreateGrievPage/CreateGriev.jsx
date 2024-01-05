@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styles from './CreateGriev.module.css'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
-import { addLetter, addStudentLetter, addTeacherLetter } from './services/apis'
+import { addStudentLetter, addTeacherLetter } from './services/apis'
 import { studentApi, teacherApi } from '../../utils/helpers'
 
 const CreateGriev = () => {
@@ -20,11 +20,12 @@ const CreateGriev = () => {
 
 
     const handleSubmit = async () => {
+        console.log(accessType)
         if (accessType === "student") {
             console.log(studentUrl)
-            await addStudentLetter(toast,navigate, subject, desc);
+            await addStudentLetter(toast, navigate, subject, desc, studentUrl);
         } else if (accessType === "teacher") {
-            await addTeacherLetter(toast,navigate, subject, desc);
+            await addTeacherLetter(toast, navigate, subject, desc, teacherUrl);
         }
     }
     return (

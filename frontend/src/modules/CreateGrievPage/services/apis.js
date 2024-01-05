@@ -6,10 +6,10 @@ export const addStudentLetter = async (
     navigate,
     subject,
     desc,
+    url
 ) => {
-    console.log(url)
     try {
-        const response = await privateGateway.post(studentApi.createLetter, {
+        const response = await privateGateway.post(studentApi.createLetter || url, {
             subject,
             body: desc
         })
@@ -40,10 +40,11 @@ export const addTeacherLetter = async (
     navigate,
     subject,
     desc,
+    url
 ) => {
     console.log(url)
     try {
-        const response = await privateGateway.post(teacherApi.createLetter, {
+        const response = await privateGateway.post(teacherApi.createLetter || url, {
             subject,
             body: desc
         })

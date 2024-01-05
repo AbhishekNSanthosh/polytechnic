@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from '../Dashboard.module.css'
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
@@ -10,7 +10,6 @@ import { TiDelete } from "react-icons/ti";
 
 const LetterList = (props) => {
     const [showConfirm, setShowConfirm] = useState(false);
-
 
     const { index, letter } = props;
     const navigate = useNavigate();
@@ -40,7 +39,9 @@ const LetterList = (props) => {
                 </div>}
             </div>
             <div className={styles.right}>
-                <div className={styles.hoverIcon}>
+                <div className={styles.hoverIcon} onClick={() => {
+                    setShowConfirm(true)
+                }}>
                     <MdDeleteOutline title='delete' className={styles.actionIcon} />
                 </div>
             </div>
@@ -49,7 +50,7 @@ const LetterList = (props) => {
                     <div className={styles.deleteConfirmBox}>
                         <TiDelete className={styles.deleteImage} />
                         {/* <img src={deleteImg} alt="" className={styles.deleteImage} /> */}
-                        <span className={styles.deleteTitle}>Are you sure you want to delete the user: "<span className={styles.high}>{user?.username}</span>" ?</span>
+                        <span className={styles.deleteTitle}>Are you sure you want to delete the user: "<span className={styles.high}>hi</span>" ?</span>
                         <div className={styles.row}>
                             <button className={styles.cancel} onClick={() => {
                                 setShowConfirm(false);

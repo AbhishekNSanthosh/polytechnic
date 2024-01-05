@@ -119,3 +119,52 @@ export const getTeacherPermittedLetters = async (
         });
     }
 }
+
+//api to delete letter by student
+export const deleteLetterByStudent = async (
+    letterId
+) => {
+    try {
+        const response = await privateGateway.delete(studentApi.deleteLetter + letterId);
+        console.log(response)
+        toast({
+            title: response?.data?.message,
+            description: response?.data?.description,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+    } catch (error) {
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+    }
+}
+
+export const deleteLetterByTeacher = async (
+    letterId
+) => {
+    try {
+        const response = await privateGateway.delete(teacherApi.deleteLetter + letterId);
+        console.log(response)
+        toast({
+            title: response?.data?.message,
+            description: response?.data?.description,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+    } catch (error) {
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+    }
+}
