@@ -109,3 +109,12 @@
     color: red;
     font-weight: 500;
 }
+
+.success{
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(0, 167, 0);
+    font-weight: 600;
+}
