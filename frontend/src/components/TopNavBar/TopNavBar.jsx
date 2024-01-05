@@ -3,7 +3,7 @@ import styles from './TopNavBar.module.css'
 import { FiMenu } from "react-icons/fi";
 import SideNavBar from '../SideNavbar/SideNavbar';
 import { IoClose } from "react-icons/io5";
-import banner from '../../assets/Logos/titleImg.svg'
+import { collegeImages } from '../../utils/helpers';
 
 const TopNavBar = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -29,7 +29,7 @@ const TopNavBar = () => {
                         <span className={styles.welcome}>Hello, {userObj?.username} 👋</span>
                     </div>
                     <div className={styles.navBoxRes}>
-                        <img src={banner} alt="" className={styles.bannerLogo} />
+                        <img src={collegeImages?.collegelogosvg} alt="" className={styles.bannerLogo} />
                     </div>
                     <div className={styles.navBox}>
                         <div className={styles.dp}>

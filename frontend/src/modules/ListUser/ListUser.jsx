@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { getUsersByAdmin, searchUser } from './services/apis';
 import { Loader } from '../../components/Loader';
-import emptyImg from '../../assets/Images/empty.svg'
 import EmptyData from '../../components/EmptyData';
 
 const ListUser = () => {
