@@ -65,3 +65,8 @@ export const adminApi = {
     editUserData: "/api/v2/admin/editUser/",
     deleteUserApi: "/api/v2/admin/deleteUserById/",//+id
 }
+
+export const publicApi = {
+    forgotPasswordApi:'/api/v2/public/forgotPassword',
+    resetPasswordApi:'/api/v2/public/resetPassword'
+}

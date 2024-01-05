@@ -6,6 +6,7 @@ const cors = require('cors');
 const adminRoute = require('./Routes/admin.js')
 const studentRoute = require('./Routes/student.js')
 const teacherRoute = require('./Routes/teacher.js')
+const publicRoute = require('./Routes/common.js')
 const rateLimit = require('express-rate-limit');
 const { resMessages } = require('./Utils/Helpers.js');
 
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use("/api/v2/admin", adminRoute);
 app.use("/api/v2/student", studentRoute);
 app.use("/api/v2/teacher", teacherRoute);
+app.use("/api/v2/public", publicRoute);
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "http://localhost:5173");
