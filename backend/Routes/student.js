@@ -244,7 +244,7 @@ router.post('/getAllLetters', Auth.verifyStudentToken, async (req, res) => {
         }));
         const successResponseMsg = twohundredResponse({
             message: letters.length === 0 ? "No letters send by you" : "All letters",
-            data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
+            data: sanitizedLetters,
             letterCount: letters.length
         });
         return res.status(200).json(successResponseMsg);

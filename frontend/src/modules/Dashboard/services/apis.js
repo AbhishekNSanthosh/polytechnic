@@ -33,7 +33,7 @@ export const getAllLettersForStudent = async (
 ) => {
     setIsLoading(true)
     try {
-        const response = await axios.post(studentApi.getAllLetters, {
+        const response = await privateGateway.post(studentApi.getAllLetters, {
             sortOrder
         });
         setLetters(response.data.data)
@@ -58,7 +58,7 @@ export const getAllLettersForTeacher = async (
 ) => {
     setIsLoading(true)
     try {
-        const response = await axios.post(teacherApi.getAllLetters, { sortOrder });
+        const response = await privateGateway.post(teacherApi.getAllLetters, { sortOrder });
         setLetters(response.data.data)
         setIsLoading(false)
     } catch (error) {
@@ -103,7 +103,7 @@ export const getTeacherPermittedLetters = async (
 ) => {
     setIsLoading(true)
     try {
-        const response = await axios.post(teacherApi.getPermittedLetters, {
+        const response = await privateGateway.post(teacherApi.getPermittedLetters, {
             sortOrder
         });
         setLetters(response?.data?.data);
