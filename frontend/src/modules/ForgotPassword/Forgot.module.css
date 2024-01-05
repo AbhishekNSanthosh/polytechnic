@@ -1,5 +1,81 @@
-.container{
+.container {
     height: 100vh;
     width: 100vw;
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    height: 2.5rem;
+}
+
+.forgotBox {
+    width: 40%;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 10px;
+    height: auto;
+    box-shadow: rgba(179, 144, 144, 0.2) 0px 7px 29px 0px;
+}
+
+@media only screen and (max-width: 767px) {
+    .forgotBox {
+        width: 90%;
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        border-radius: 10px;
+        height: auto;
+        box-shadow: rgba(179, 144, 144, 0.2) 0px 7px 29px 0px;
+    }
+}
+
+.desc {
+    text-align: start;
+    font-weight: normal;
+}
+
+.title {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.inputEmail {
+    padding: 12px 10px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(255, 235, 235);
+}
+
+.submit {
+    width: 100%;
     background-color: red;
+    border-radius: 10px;
+    outline: none;
+    padding: 13px;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-weight: 500;
+}
+
+.back{
+    width: 100%;
+    padding: 13px;
+    color: red;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    outline: none;
 }
