@@ -1219,7 +1219,7 @@ router.post('/generate-pdf', Auth.verifyAdminToken, async (req, res) => {
         }
 
         const formattedLetters = letters.map((letter) => ({
-            from: letter.from.username,
+            from: letter?.from?.username,
             subject: letter?.subject,
             body: letter?.body,
             actions: letter?.actions ? letter?.actions : "No actions taken",
