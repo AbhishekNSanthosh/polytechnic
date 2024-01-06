@@ -80,7 +80,7 @@ export const getSearchResults = async (
     toast
 ) => {
     try {
-        const response = await axios.post(url, {
+        const response = await privateGateway.post(url, {
             query
         });
         setLetters(response.data.data);
