@@ -19,7 +19,13 @@ const ResetPassword = () => {
     const location = useLocation();
     const params = useParams();
     const toast = useToast();
+    const authToken = localStorage.getItem('accessToken');
 
+    useEffect(() => {
+        if (authToken) {
+            navigate('/dashboard')
+        }
+    }, [])
     useEffect(() => {
         setToken(params?.token);
     }, []);
@@ -56,7 +62,7 @@ const ResetPassword = () => {
 
     const handleSubmit = () => {
         if (newPassword === confirmPassword) {
-            resetPassword(token, newPassword,navigate,toast)
+            resetPassword(token, newPassword, navigate, toast)
         } else {
             setValidationError('Passwords do not match.');
         }

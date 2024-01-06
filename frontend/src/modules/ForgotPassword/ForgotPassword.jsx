@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Forgot.module.css'
 import { collegeImages } from '../../utils/helpers'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,14 @@ const ForgotPassword = () => {
 
     const navigate = useNavigate();
     const toast = useToast();
+    const authToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        if (authToken) {
+            navigate('/dashboard')
+        }
+    }, [])
+
 
     const handleForgotPassword = () => {
         forgotPassword(email, toast, setErrMsg, setSuccessMsg);
