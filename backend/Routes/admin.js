@@ -237,9 +237,14 @@ router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
         }
 
         const existingStudent = await User.findOne({ username, role: "student" });
+        const existingByEmail = await User.findOne({ email, role: "student" });
 
         if (existingStudent) {
-            throw { status: 409, message: resMessages.userAlreadyExistsMsg }
+            throw { status: 409, message: "Username already exists.", description: "Choose a different username." }
+        }
+
+        if (existingByEmail) {
+            throw { status: 409, message: "Email already exists.", description: "Choose a different email." }
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -301,9 +306,14 @@ router.post('/createNewTeacher', Auth.verifyAdminToken, async (req, res) => {
             throw { status: 400, message: "Please enter valid department" }
         }
 
-        const existingTeacher = await User.findOne({ username, role: "teacher" });
-        if (existingTeacher) {
-            throw { status: 409, message: resMessages.userAlreadyExistsMsg }
+        const existingUserByUsername = await User.findOne({ username, role: "teacher" });
+        const existingUserByEmail = await User.findOne({ email, role: "teacher" });
+        if (existingUserByUsername) {
+            throw { status: 409, message: "Username already exists.", description: "Choose a different username." }
+        }
+
+        if (existingUserByEmail) {
+            throw { status: 409, message: "Email already exists.", description: "Choose a different email." }
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -1105,7 +1115,7 @@ router.post("/deleteActions", Auth.verifyAdminToken, async (req, res) => {
 router.post('/updateReadStatus', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { letterId } = req.body;
-        
+
         if (letterId === "undefined" || letterId === null) {
             throw { status: 404, message: "Invalid letter id" }
         }
