@@ -1446,7 +1446,7 @@ router.post('/getUserDetailsById', Auth.verifyAdminToken, async (req, res) => {
 })
 
 //api to delete a letter
-router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req, res) => {
+router.delete('/deleteLetterById/:letterId', Auth.verifyAdminToken, async (req, res) => {
     try {
         const letterId = req.params.letterId;
         if (!letterId) {
@@ -1462,21 +1462,6 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         if (!letter) {
             throw { status: 404, message: resMessages.notFoundMsg }
         }
-
-        // Check if the sender has the role 'student'
-
-        // Check if it's within one hour of sending the letter
-        // const oneHourAgo = new Date();
-        // oneHourAgo.setHours(oneHourAgo.getHours() - 1);
-
-        // console.log(letter?.createdAt.toLocaleString())
-        // console.log(oneHourAgo.toLocaleString())
-
-        // console.log(letter?.createdAt < oneHourAgo)
-
-        // if (letter?.createdAt < oneHourAgo) {
-        //     throw { status: 400, message: "Letter cannot be deleted !", description: "More than one hour passed since sending" }
-        // }
 
         // Delete the letter
         await Letter.findByIdAndDelete(letterId);

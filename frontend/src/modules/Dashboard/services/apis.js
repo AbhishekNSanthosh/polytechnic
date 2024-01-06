@@ -184,3 +184,35 @@ export const deleteLetterByTeacher = async (
         });
     }
 }
+
+export const deleteLetterByAdmin = async (
+    letterId,
+    toast,
+    goForApiCall,
+    setShowConfirm
+) => {
+    try {
+        const response = await privateGateway.delete(adminApi.deleteLetter + letterId);
+        goForApiCall(true);
+        setShowConfirm(false)
+        toast({
+            title: response?.data?.message,
+            description: response?.data?.description,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        });
+        setTimeout(() => {
+            goForApiCall(false)
+        }, 400);
+    } catch (error) {
+        setShowConfirm(false)
+        toast({
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+        });
+    }
+}

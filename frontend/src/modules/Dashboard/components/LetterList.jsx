@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { useToast } from '@chakra-ui/react';
 import { TiDelete } from "react-icons/ti";
-import { deleteLetterByStudent, deleteLetterByTeacher } from '../services/apis';
+import { deleteLetterByAdmin, deleteLetterByStudent, deleteLetterByTeacher } from '../services/apis';
 
 const LetterList = (props) => {
     const [showConfirm, setShowConfirm] = useState(false);
@@ -25,6 +25,9 @@ const LetterList = (props) => {
             deleteLetterByStudent(letter?._id, toast, goForApiCall, setShowConfirm)
         } else if (accessType === "teacher") {
             deleteLetterByTeacher(letter?._id, toast, goForApiCall, setShowConfirm)
+        }else if (accessType === "admin") {
+            console.log('first')
+            deleteLetterByAdmin(letter?._id, toast, goForApiCall, setShowConfirm)
         }
     }
     return (

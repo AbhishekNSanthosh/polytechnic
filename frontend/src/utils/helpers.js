@@ -64,6 +64,7 @@ export const adminApi = {
     getUserData: "/api/v2/admin/getUserDetailsById",
     editUserData: "/api/v2/admin/editUser/",
     deleteUserApi: "/api/v2/admin/deleteUserById/",//+id
+    deleteLetter: '/api/v2/admin/deleteLetterById/',
 }
 
 export const publicApi = {
