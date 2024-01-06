@@ -1105,6 +1105,11 @@ router.post("/deleteActions", Auth.verifyAdminToken, async (req, res) => {
 router.post('/updateReadStatus', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { letterId } = req.body;
+        
+        if (letterId === "undefined" || letterId === null) {
+            throw { status: 404, message: "Invalid letter id" }
+        }
+
         const letter = await Letter.findOne({ _id: letterId });
 
         if (!letter) {
@@ -1161,12 +1166,12 @@ router.post('/generate-csv', Auth.verifyAdminToken, async (req, res) => {
         }
 
         const formattedLetters = letters.map(letter => ({
-            from: letter.from.username,
-            subject: letter.subject,
-            body: letter.body,
+            from: letter?.from?.username,
+            subject: letter?.subject,
+            body: letter?.body,
             actions: letter?.actions ? letter?.actions : "No actions taken",
             comments: letter?.comments ? letter?.comments : "No comments added",
-            createdAt: formatDate(letter.createdAt),
+            createdAt: formatDate(letter?.createdAt),
         }));
 
         // Convert letters to CSV
@@ -1175,7 +1180,7 @@ router.post('/generate-csv', Auth.verifyAdminToken, async (req, res) => {
         // Set response headers for CSV download
         res.setHeader('Content-disposition', 'attachment; filename=Grievances.csv');
         res.set('Content-Type', 'text/csv');
-        res.status(200).send(csv);
+        return res.status(200).send(csv);
     } catch (error) {
         console.error(error);
         const status = error.status || 500;
