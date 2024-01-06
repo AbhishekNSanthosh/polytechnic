@@ -1433,7 +1433,6 @@ router.post('/getUserDetailsById', Auth.verifyAdminToken, async (req, res) => {
         if (!user) {
             throw { status: 404, message: "User does not exists" }
         }
-
         const userData = abstractedUserData(user);
         return res.status(200).json(twohundredResponse({ message: "Here's the user data :", data: userData }))
     } catch (error) {

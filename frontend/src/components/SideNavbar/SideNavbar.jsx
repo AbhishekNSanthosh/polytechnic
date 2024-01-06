@@ -109,7 +109,17 @@ const SideNavBar = ({ drawerOpenStatus }) => {
                 key={item.id}
                 onClick={() => {
                   setSelectedTab(item.id);
-                  navigate(item.link);
+                  if (item?.link === 'profile') {
+                    toast({
+                      title: 'Profile will be available soon',
+                      description: 'Sorry for the inconvenience',
+                      status: 'info',
+                      duration: 5000,
+                      isClosable: true,
+                    });
+                  } else {
+                    navigate(item.link);
+                  }
                   drawerOpenStatus()
                 }}
                 style={{
