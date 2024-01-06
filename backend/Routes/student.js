@@ -398,7 +398,7 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         }
 
         // Delete the letter
-        // await Letter.findByIdAndDelete(letterId);
+        await Letter.findByIdAndDelete(letterId);
 
         const successResponseMsg = twohundredResponse({ message: 'Letter deleted successfully' })
         return res.status(200).json(successResponseMsg);

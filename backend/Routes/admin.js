@@ -1445,4 +1445,52 @@ router.post('/getUserDetailsById', Auth.verifyAdminToken, async (req, res) => {
     }
 })
 
+//api to delete a letter
+router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req, res) => {
+    try {
+        const letterId = req.params.letterId;
+        if (!letterId) {
+            throw { status: 400, message: "Letter id not found" }
+        }
+
+        if (letterId === "undefined") {
+            throw { status: 400, message: "Invalid letter id found" }
+        }
+
+        // Find the letter by ID
+        const letter = await Letter.findById(letterId).populate('sender');
+        if (!letter) {
+            throw { status: 404, message: resMessages.notFoundMsg }
+        }
+
+        // Check if the sender has the role 'student'
+
+        // Check if it's within one hour of sending the letter
+        // const oneHourAgo = new Date();
+        // oneHourAgo.setHours(oneHourAgo.getHours() - 1);
+
+        // console.log(letter?.createdAt.toLocaleString())
+        // console.log(oneHourAgo.toLocaleString())
+
+        // console.log(letter?.createdAt < oneHourAgo)
+
+        // if (letter?.createdAt < oneHourAgo) {
+        //     throw { status: 400, message: "Letter cannot be deleted !", description: "More than one hour passed since sending" }
+        // }
+
+        // Delete the letter
+        await Letter.findByIdAndDelete(letterId);
+
+        const successResponseMsg = twohundredResponse({ message: 'Letter deleted successfully' })
+        return res.status(200).json(successResponseMsg);
+    } catch (error) {
+        console.error(error);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const description = error.description || "";
+        const errorMessage = customError({ resCode: status, message, description })
+        return res.status(status).json(errorMessage);
+    }
+});
+
 module.exports = router;
