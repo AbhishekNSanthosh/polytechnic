@@ -42,7 +42,7 @@ export const searchUser = async (
 ) => {
     setIsApiOnCall(true);
     try {
-        const response = await axios.post(backendApiUrl + adminApi.searchUsers, {
+        const response = await privateGateway.post(adminApi.searchUsers, {
             query,
             role
         });
@@ -68,7 +68,7 @@ export const deleteUser = async (
     getUserList
 ) => {
     try {
-        const response = await axios.delete(backendApiUrl + adminApi.deleteUserApi + userId);
+        const response = await privateGateway.delete(adminApi.deleteUserApi + userId);
         toast({
             title: response?.data?.message,
             description: response?.data?.description,
