@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import styles from './Download.module.css'
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { adminApi, backendApiUrl } from '../../utils/helpers';
 import { useEffect } from 'react';
