@@ -12,8 +12,6 @@ const Download = () => {
   const [endDate, setEndDate] = useState('');
 
   const accessType = localStorage.getItem("accessType");
-  const authToken = localStorage.getItem("accessToken");
-  const navigate = useNavigate();
   const toast = useToast();
 
   const handleDownloadCSV = async () => {
