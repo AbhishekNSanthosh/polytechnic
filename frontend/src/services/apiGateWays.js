@@ -79,7 +79,8 @@ privateGateway.interceptors.response.use(
                 localStorage.clear();
                 window.location.href = "/";
             }, 3000);
-            return await Promise.reject(error);
+            // return await Promise.reject(error);
+            return Promise.reject(error);
 
         }
         //! This was causeing unwanted redirects during api testing please fix.

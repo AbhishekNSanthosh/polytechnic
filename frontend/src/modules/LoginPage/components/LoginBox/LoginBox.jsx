@@ -8,8 +8,8 @@ import { dashboardUrls, loginUrls } from '../../../../utils/helpers';
 import { ClipLoader } from 'react-spinners'
 
 const LoginBox = ({ handleLoginUser, user }) => {
-    const [emailOrUsername, setEmailOrUsername] = useState(null);
-    const [passsword, setPassword] = useState(null);
+    const [emailOrUsername, setEmailOrUsername] = useState("");
+    const [passsword, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const toast = useToast()
