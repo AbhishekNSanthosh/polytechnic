@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styles from '../Dashboard.module.css'
-import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoMailUnreadOutline } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
