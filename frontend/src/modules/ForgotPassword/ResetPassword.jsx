@@ -16,7 +16,6 @@ const ResetPassword = () => {
     const [validationError, setValidationError] = useState('');
 
     const navigate = useNavigate();
-    const location = useLocation();
     const params = useParams();
     const toast = useToast();
     const authToken = localStorage.getItem('accessToken');
