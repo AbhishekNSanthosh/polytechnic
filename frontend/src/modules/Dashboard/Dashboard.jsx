@@ -7,7 +7,6 @@ import { getAllLettersForAdmin, getAllLettersForStudent, getAllLettersForTeacher
 import { useToast } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
-import { GridLoader } from 'react-spinners'
 import { Loader } from '../../components/Loader';
 import EmptyData from '../../components/EmptyData';
 
@@ -22,7 +21,6 @@ const Dashboard = () => {
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
     const toast = useToast();
-    const navigate = useNavigate();
     const location = useLocation();
 
     const pathArray = location.pathname.split('/');
