@@ -15,8 +15,7 @@ const DisplayLetter = () => {
     const params = useParams();
     const navigate = useNavigate();
     const toast = useToast();
-    const authToken = localStorage.getItem('accessToken');
-
+    
     useEffect(() => {
         if (accessType === "admin") {
             getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, toast, setIsLoading);
