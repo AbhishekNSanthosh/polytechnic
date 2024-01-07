@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { adminApi, backendApiUrl } from '../../../utils/helpers'
+import { adminApi } from '../../../utils/helpers'
 import { privateGateway } from '../../../services/apiGateWays';
 
 export const getUsersByAdmin = async (
