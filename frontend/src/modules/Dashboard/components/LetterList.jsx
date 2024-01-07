@@ -14,7 +14,6 @@ const LetterList = (props) => {
     const { index, letter, goForApiCall } = props;
     const navigate = useNavigate();
     const accessType = localStorage.getItem('accessType');
-    const accessToken = localStorage.getItem('accessToken');
     const toast = useToast();
     const letterSub = letter?.subject.slice(0, 25);
     const letterSubRes = letter?.subject.slice(0, 15);
