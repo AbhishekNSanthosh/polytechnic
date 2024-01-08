@@ -105,15 +105,16 @@
 }
 
 .err{
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: red;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .success{
     font-size: 0.8rem;
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     justify-content: center;
     color: rgb(0, 167, 0);
     font-weight: 600;

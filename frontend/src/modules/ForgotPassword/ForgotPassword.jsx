@@ -37,7 +37,7 @@ const ForgotPassword = () => {
                     setEmail(e.target.value)
                 }} type="text" className={styles.inputEmail} />
                 {errorMsg && <span className={styles.err}>{errorMsg}</span>}
-                {successMsg && <span className={styles.success}><TiTick />{successMsg}</span>}
+                {successMsg && <span className={styles.success}><TiTick fontSize={30}/>{successMsg}</span>}
                 <button className={styles.submit} onClick={() => {
                     handleForgotPassword()
                 }}>Request reset link</button>

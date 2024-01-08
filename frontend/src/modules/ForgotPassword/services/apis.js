@@ -17,7 +17,7 @@ export const forgotPassword = async (email, toast, setErrMsg, setSuccessMsg) => 
             isClosable: true,
         });
     } catch (error) {
-        setErrMsg(error?.response?.data?.message + '. ' + error?.response?.data?.description || "")
+        setErrMsg(error?.response?.data?.message + error?.response?.data?.description || "")
         toast({
             title: error?.response?.data?.message,
             description: error?.response?.data?.description,

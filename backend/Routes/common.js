@@ -17,7 +17,7 @@ const passwordlimiter = rateLimit({
     max: 3, // Max attempts per hour
     windowMs: 60 * 60 * 1000, // 1 hour in milliseconds
     handler: (req, res) => {
-        const errorMessage = customError({ resCode: 429, message: "Too many password reset attempts.", description: " Please try again later." })
+        const errorMessage = customError({ resCode: 429, message: "Too many password reset attempts from you", description: " Please try again later." })
         return res.status(429).json(errorMessage);
     },
 });
