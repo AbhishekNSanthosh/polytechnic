@@ -20,7 +20,6 @@ const CreateGriev = () => {
 
 
     const handleSubmit = async () => {
-        console.log(accessType)
         if (accessType === "student") {
             console.log(studentUrl)
             await addStudentLetter(toast, navigate, subject, desc, studentUrl);
