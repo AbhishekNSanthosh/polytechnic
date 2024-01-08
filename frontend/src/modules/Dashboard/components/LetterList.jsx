@@ -9,9 +9,10 @@ import { TiDelete } from "react-icons/ti";
 import { deleteLetterByAdmin, deleteLetterByStudent, deleteLetterByTeacher } from '../services/apis';
 
 const LetterList = (props) => {
+    const { index, letter, goForApiCall } = props;
+
     const [showConfirm, setShowConfirm] = useState(false);
 
-    const { index, letter, goForApiCall } = props;
     const navigate = useNavigate();
     const accessType = localStorage.getItem('accessType');
     const toast = useToast();
@@ -28,6 +29,7 @@ const LetterList = (props) => {
             deleteLetterByAdmin(letter?._id, toast, goForApiCall, setShowConfirm)
         }
     }
+    
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>

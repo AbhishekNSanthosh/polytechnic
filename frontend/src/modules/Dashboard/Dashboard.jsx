@@ -44,7 +44,6 @@ const Dashboard = () => {
                 }
             }
         } catch (error) {
-            console.error('Error fetching letter data:', error);
             toast({
                 title: 'Error',
                 description: 'Failed to fetch letter data. Please try again.',
@@ -81,7 +80,6 @@ const Dashboard = () => {
         setGoForCall(data)
     }
 
-    console.log(goForCall)
     return (
         <div className={styles.container}>
             <div className={styles.dashboardTopRow}>
