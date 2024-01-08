@@ -66,6 +66,7 @@ const SideNavBar = ({ drawerOpenStatus }) => {
       visibility: ['admin'],
     },
   ];
+  
   useEffect(() => {
     if (location.pathname === '/dashboard') {
       setSelectedTab(1);
