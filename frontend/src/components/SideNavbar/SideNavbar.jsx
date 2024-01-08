@@ -21,7 +21,6 @@ const SideNavBar = ({ drawerOpenStatus }) => {
   const navigate = useNavigate();
   const toast = useToast();
   const location = useLocation();
-  console.log(location.pathname);
 
   const navItem = [
     {
