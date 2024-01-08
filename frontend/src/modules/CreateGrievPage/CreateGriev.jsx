@@ -13,6 +13,7 @@ const CreateGriev = () => {
     const accessType = localStorage.getItem('accessType');
     const navigate = useNavigate();
     const toast = useToast();
+
     useEffect(() => {
         studentUrl = studentApi.createLetter
         teacherUrl = teacherApi.createLetter
@@ -21,7 +22,6 @@ const CreateGriev = () => {
 
     const handleSubmit = async () => {
         if (accessType === "student") {
-            console.log(studentUrl)
             await addStudentLetter(toast, navigate, subject, desc, studentUrl);
         } else if (accessType === "teacher") {
             await addTeacherLetter(toast, navigate, subject, desc, teacherUrl);
