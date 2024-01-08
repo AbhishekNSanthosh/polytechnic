@@ -39,7 +39,9 @@ export const resetPassword = async (token, newPassword, navigate, toast) => {
             duration: 3000,
             isClosable: true,
         });
+       setTimeout(() => {
         navigate('/')
+       }, 500);
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
