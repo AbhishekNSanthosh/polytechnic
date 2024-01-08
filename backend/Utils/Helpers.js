@@ -118,7 +118,7 @@ const fourHundredResponse = (data = {}) => {
 
 const customError = (data = {}) => {
     const errorObject = {
-        greeting: data?.greeting,
+        greeting,
         resCode: data?.resCode || "UNKNOWN_ERROR",
         status: "FAILURE",
         hasError: true,
