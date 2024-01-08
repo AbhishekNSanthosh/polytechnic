@@ -31,7 +31,7 @@ export const updateRead = async (
     letterId
 ) => {
     try {
-        const response = privateGateway.post(adminApi.updateReadStatus, { letterId });
+        await privateGateway.post(adminApi.updateReadStatus, { letterId });
     } catch (error) {
         toast({
             title: error?.response?.data?.message,

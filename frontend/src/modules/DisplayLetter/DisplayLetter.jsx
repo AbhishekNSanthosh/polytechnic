@@ -30,9 +30,7 @@ const DisplayLetter = () => {
         if (accessType === "admin") {
             updateRead(params?.id)
         }
-    }, [])
-
-
+    }, []);
 
     return (
         <div className={styles.container}>
