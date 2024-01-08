@@ -11,7 +11,10 @@ export const forgotPassword = async (
     setErrMsg("")
     setSuccessMsg("")
     try {
-        const response = await privateGateway.post(publicApi.forgotPasswordApi, { email });
+        const response = await privateGateway.post(publicApi.forgotPasswordApi,
+            {
+                email
+            });
         setSuccessMsg(response?.data?.message + ' ' + response?.data?.description);
         toast({
             title: response?.data?.message,
