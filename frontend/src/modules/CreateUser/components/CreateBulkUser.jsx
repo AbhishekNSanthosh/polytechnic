@@ -67,6 +67,7 @@ const CreateBulkUser = () => {
             onClose();
         }
     };
+    
     return (
         <div className={styles.container}>
             <div className={styles.wrap}>

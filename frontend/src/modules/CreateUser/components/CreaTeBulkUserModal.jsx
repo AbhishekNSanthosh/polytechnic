@@ -4,6 +4,7 @@ import React from 'react'
 const CreaTeBulkUserModal = ({ modalOpen, onClose, duplicateData }) => {
 
     if (!modalOpen) return null;
+    
     return (
         <div className={styles.modalContainer}>
             <div className={styles.modalWrapItem}>
