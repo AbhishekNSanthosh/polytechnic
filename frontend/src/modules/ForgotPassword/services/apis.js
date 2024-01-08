@@ -2,12 +2,16 @@ import { privateGateway, publicGateway } from "../../../services/apiGateWays";
 import { publicApi } from "../../../utils/helpers";
 // import axios from 'axios'/
 
-export const forgotPassword = async (email, toast, setErrMsg, setSuccessMsg) => {
+export const forgotPassword = async (
+    email,
+    toast,
+    setErrMsg,
+    setSuccessMsg
+) => {
     setErrMsg("")
     setSuccessMsg("")
     try {
         const response = await privateGateway.post(publicApi.forgotPasswordApi, { email });
-        console.log(response)
         setSuccessMsg(response?.data?.message + ' ' + response?.data?.description);
         toast({
             title: response?.data?.message,
@@ -38,9 +42,9 @@ export const resetPassword = async (token, newPassword, navigate, toast) => {
             duration: 3000,
             isClosable: true,
         });
-       setTimeout(() => {
-        navigate('/')
-       }, 500);
+        setTimeout(() => {
+            navigate('/')
+        }, 500);
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
