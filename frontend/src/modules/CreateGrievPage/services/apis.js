@@ -42,7 +42,6 @@ export const addTeacherLetter = async (
     desc,
     url
 ) => {
-    console.log(url)
     try {
         const response = await privateGateway.post(teacherApi.createLetter || url, {
             subject,
