@@ -35,7 +35,12 @@ export const forgotPassword = async (
     }
 }
 
-export const resetPassword = async (token, newPassword, navigate, toast) => {
+export const resetPassword = async (
+    token,
+    newPassword,
+    navigate,
+    toast
+) => {
     try {
         const response = await publicGateway.post(publicApi.resetPasswordApi, { token, newPassword })
         toast({
