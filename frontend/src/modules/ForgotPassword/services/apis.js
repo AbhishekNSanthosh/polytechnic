@@ -31,7 +31,6 @@ export const forgotPassword = async (email, toast, setErrMsg, setSuccessMsg) => 
 export const resetPassword = async (token, newPassword, navigate, toast) => {
     try {
         const response = await publicGateway.post(publicApi.resetPasswordApi, { token, newPassword })
-        console.log(response);
         toast({
             title: response?.data?.message,
             description: response?.data?.description,
