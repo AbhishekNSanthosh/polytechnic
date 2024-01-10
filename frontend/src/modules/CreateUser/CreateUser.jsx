@@ -32,7 +32,7 @@ const CreateUser = () => {
             if (userValue === "student") {
                 await createStudent(username, password, email, semester, department, navigate, toast)
             } else if (userValue === "admin") {
-                await createAdmin(username, password, authToken, navigate, toast)
+                await createAdmin(username, password, authToken, navigate, toast);
             } if (userValue === "teacher") {
                 await createFaculty(username, password, email, department, navigate, toast);
             }
