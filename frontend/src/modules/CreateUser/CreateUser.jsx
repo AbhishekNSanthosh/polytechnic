@@ -46,7 +46,7 @@ const CreateUser = () => {
             setUserId(location.pathname.split('/')[2])
         } else {
             setEditPage(false)
-            setUserType("Add " + userValue)
+            setUserType("Add " + userValue);
         }
 
         if (userId !== null) {
