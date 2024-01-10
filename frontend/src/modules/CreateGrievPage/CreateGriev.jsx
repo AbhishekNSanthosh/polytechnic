@@ -15,8 +15,8 @@ const CreateGriev = () => {
     const toast = useToast();
 
     useEffect(() => {
-        studentUrl = studentApi.createLetter
-        teacherUrl = teacherApi.createLetter
+        studentUrl = studentApi.createLetter;
+        teacherUrl = teacherApi.createLetter;
     }, [])
 
 
