@@ -9,7 +9,7 @@ const CreateGriev = () => {
     const [subject, setSubject] = useState("");
     const [desc, setDesc] = useState("");
 
-    let studentUrl, teacherUrl
+    let studentUrl, teacherUrl;
     const accessType = localStorage.getItem('accessType');
     const navigate = useNavigate();
     const toast = useToast();
