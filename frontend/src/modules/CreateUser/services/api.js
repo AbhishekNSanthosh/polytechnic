@@ -49,10 +49,10 @@ export const createStudent = async (
 ) => {
     try {
         const response = await privateGateway.post(adminApi.createStudent, {
-            username, 
+            username,
             email,
-            department, 
-            semester, 
+            department,
+            semester,
             password
         });
         toast({
@@ -84,7 +84,7 @@ export const createAdmin = async (
 ) => {
     try {
         const response = await privateGateway.post(backendApiUrl + adminApi.createAdmin, {
-            username, 
+            username,
             password
         });
         toast({
@@ -201,9 +201,7 @@ export const getUserData = async (
     toast
 ) => {
     try {
-        const response = await privateGateway.post(adminApi.getUserData, {
-            userId
-        });
+        const response = await privateGateway.post(adminApi.getUserData, { userId });
         setUsername(response?.data?.data?.username);
         setPassword(response?.data?.data?.password);
         setEmail(response?.data?.data?.email);
