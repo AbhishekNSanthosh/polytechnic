@@ -249,7 +249,7 @@ export const editUserData = async (
             duration: 3000,
             isClosable: true,
         });
-        navigate(`/user-management/list-${role}`)
+        navigate(`/user-management/list-${role}`);
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
