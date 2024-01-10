@@ -43,7 +43,7 @@ const CreateUser = () => {
         if (location.pathname.split('/').pop().split('-')[0] === "edit") {
             setEditPage(true)
             setUserType("Edit " + userValue);
-            setUserId(location.pathname.split('/')[2])
+            setUserId(location.pathname.split('/')[2]);
         } else {
             setEditPage(false);
             setUserType("Add " + userValue);
