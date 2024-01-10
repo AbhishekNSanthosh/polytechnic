@@ -6,13 +6,15 @@ import TopNavBar from '../../components/TopNavBar/TopNavBar'
 import { useNavigate } from 'react-router-dom'
 
 const Layout = () => {
-    const token = localStorage.getItem('accessToken')
+    const token = localStorage.getItem('accessToken');
     const navigate = useNavigate();
+    
     useEffect(() => {
         if (!token) {
             navigate('/')
         }
-    }, [])
+    }, []);
+
     return (
         <div className={styles.fullPage}>
             <div className={styles.SideNavBarWrap}>
