@@ -241,7 +241,7 @@ export const editUserData = async (
             semester,
             department,
             role
-        })
+        });
         toast({
             title: response?.data?.message,
             description: response?.data?.description,
