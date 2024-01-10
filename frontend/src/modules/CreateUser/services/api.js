@@ -203,7 +203,7 @@ export const getUserData = async (
     try {
         const response = await privateGateway.post(adminApi.getUserData, {
             userId
-        })
+        });
         setUsername(response?.data?.data?.username);
         setPassword(response?.data?.data?.password);
         setEmail(response?.data?.data?.email);
