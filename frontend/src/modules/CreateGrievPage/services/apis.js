@@ -23,7 +23,7 @@ export const addStudentLetter = async (
         setTimeout(() => {
             navigate('/dashboard');
             localStorage.setItem('selectedTab', JSON.stringify(1));
-        }, 1000)
+        }, 1000);
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
@@ -57,7 +57,7 @@ export const addTeacherLetter = async (
         setTimeout(() => {
             navigate('/dashboard');
             localStorage.setItem('selectedTab', JSON.stringify(1));
-        }, 1000)
+        }, 1000);
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
