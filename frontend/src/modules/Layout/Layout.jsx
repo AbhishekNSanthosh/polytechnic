@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const Layout = () => {
     const token = localStorage.getItem('accessToken');
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         if (!token) {
             navigate('/');
