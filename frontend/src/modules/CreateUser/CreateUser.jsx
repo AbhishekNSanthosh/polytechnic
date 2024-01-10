@@ -50,7 +50,7 @@ const CreateUser = () => {
         }
 
         if (userId !== null) {
-            getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment, setRole, toast)
+            getUserData(userId, setUsername, setPassword, setEmail, setSemester, setDepartment, setRole, toast);
         }
     }, [userId]);
 
