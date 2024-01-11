@@ -57,8 +57,6 @@ privateGateway.interceptors.response.use(
         return response;
     },
     async function (error) {
-        // TODO: if error occurs and status isn't 1000 nothing will happen
-        //console.log(error.response,error.response?.data?.statusCode === 1000)
         if (error.response?.data?.resCode === 2215) {
             toast.closeAll();
             toast({
