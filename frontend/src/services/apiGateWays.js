@@ -60,10 +60,6 @@ privateGateway.interceptors.response.use(
         // TODO: if error occurs and status isn't 1000 nothing will happen
         //console.log(error.response,error.response?.data?.statusCode === 1000)
         if (error.response?.data?.resCode === 2215) {
-            // publicGatewayAuth
-            //console.log("inside",error.response,error.response?.data?.statusCode)
-            //console.log("refresh",fetchLocalStorage<AllTokens["refreshToken"]>("refreshToken"))
-
             toast.closeAll();
             toast({
                 title: error.response?.data?.message,
