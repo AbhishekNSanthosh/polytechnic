@@ -64,7 +64,7 @@ privateGateway.interceptors.response.use(
             //console.log("inside",error.response,error.response?.data?.statusCode)
             //console.log("refresh",fetchLocalStorage<AllTokens["refreshToken"]>("refreshToken"))
 
-            //console.log('error_2',error_2);
+
             toast.closeAll();
             toast({
                 title: error.response?.data?.message,
