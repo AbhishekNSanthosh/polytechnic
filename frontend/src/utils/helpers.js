@@ -63,7 +63,7 @@ export const adminApi = {
     updateReadStatus: "/api/v2/admin/updateReadStatus",
     getUserData: "/api/v2/admin/getUserDetailsById",
     editUserData: "/api/v2/admin/editUser/",
-    deleteUserApi: "/api/v2/admin/deleteUserById/",//+id
+    deleteUserApi: "/api/v2/admin/deleteUserById/",
     deleteLetter: '/api/v2/admin/deleteLetterById/',
 }
 
