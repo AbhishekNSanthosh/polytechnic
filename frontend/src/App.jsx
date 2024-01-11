@@ -19,7 +19,7 @@ import ForgotPassword from './modules/ForgotPassword/ForgotPassword';
 import ResetPassword from './modules/ForgotPassword/ResetPassword';
 
 function App() {
-  
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -116,6 +116,7 @@ function App() {
       ]
     },
   ]);
+  
   return (
     <RouterProvider router={router} />
   )
