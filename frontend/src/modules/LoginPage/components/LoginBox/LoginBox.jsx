@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './LoginBox.module.css'
 import { IoMdArrowBack } from "react-icons/io";
 import { loginUser } from '../../services/apis';
@@ -7,6 +7,7 @@ import { useToast } from '@chakra-ui/react'
 import { dashboardUrls, loginUrls } from '../../../../utils/helpers';
 import { ClipLoader } from 'react-spinners'
 
+// eslint-disable-next-line react/prop-types
 const LoginBox = ({ handleLoginUser, user }) => {
     const [emailOrUsername, setEmailOrUsername] = useState("");
     const [passsword, setPassword] = useState("");
@@ -22,34 +23,44 @@ const LoginBox = ({ handleLoginUser, user }) => {
     }, [])
 
     const handleLogin = async () => {
-        if (user === "admin") {
-            await loginUser(
-                emailOrUsername,
-                passsword,
-                toast,
-                navigate,
-                loginUrls.adminLogin,
-                dashboardUrls.getAdminDetials,
-                setIsLoading
-            );
-        } else if (user === "student") {
-            await loginUser(
-                emailOrUsername,
-                passsword, toast,
-                navigate,
-                loginUrls.studentLogin,
-                dashboardUrls.getStudentDetials,
-                setIsLoading
-            );
-        } else if (user === "teacher") {
-            await loginUser(emailOrUsername,
-                passsword,
-                toast,
-                navigate,
-                loginUrls.facultyLogin,
-                dashboardUrls.getFacultyDetials,
-                setIsLoading
-            );
+        if (emailOrUsername === "") {
+            toast({
+                title: 'Please fill the required fields',
+                description: "Redirecting to dashboard",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            })
+        } else {
+            if (user === "admin") {
+                await loginUser(
+                    emailOrUsername,
+                    passsword,
+                    toast,
+                    navigate,
+                    loginUrls.adminLogin,
+                    dashboardUrls.getAdminDetials,
+                    setIsLoading
+                );
+            } else if (user === "student") {
+                await loginUser(
+                    emailOrUsername,
+                    passsword, toast,
+                    navigate,
+                    loginUrls.studentLogin,
+                    dashboardUrls.getStudentDetials,
+                    setIsLoading
+                );
+            } else if (user === "teacher") {
+                await loginUser(emailOrUsername,
+                    passsword,
+                    toast,
+                    navigate,
+                    loginUrls.facultyLogin,
+                    dashboardUrls.getFacultyDetials,
+                    setIsLoading
+                );
+            }
         }
     }
 
