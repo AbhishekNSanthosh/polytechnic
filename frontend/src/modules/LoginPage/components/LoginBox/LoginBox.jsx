@@ -45,7 +45,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 isClosable: true,
             })
         } else if (passsword === "") {
-            setPassswordError(true)
+            setPassswordError(true);
             toast({
                 title: 'Password is required',
                 // description: "Email is required",
@@ -105,16 +105,28 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 </div>
             </div>
             <div className={styles.inputCol}>
-                <input type="text" style={{
-
-                }} required className={styles.loginInput} placeholder='Username' value={emailOrUsername} onChange={(e) => {
-                    e.preventDefault();
-                    setEmailOrUsername(e.target.value);
-                }} />
-                <input type="password" required className={styles.loginInput} placeholder='Password' value={passsword} onChange={(e) => {
-                    e.preventDefault();
-                    setPassword(e.target.value);
-                }} />
+                <div className={styles.inputWrap}>
+                    <input type="text" style={{
+                        border: emailError ? '1px solid red' : 'none'
+                    }} required className={styles.loginInput} placeholder='Username' value={emailOrUsername} onChange={(e) => {
+                        e.preventDefault();
+                        setEmailOrUsername(e.target.value);
+                    }} />
+                    {emailError && <span className={styles.errorMsg}>
+                        Email is required
+                    </span>}
+                </div>
+                <div className={styles.inputWrap}>
+                    <input style={{
+                        border: emailError ? '1px solid red' : 'none'
+                    }} type="password" required className={styles.loginInput} placeholder='Password' value={passsword} onChange={(e) => {
+                        e.preventDefault();
+                        setPassword(e.target.value);
+                    }} />
+                       {passswordError && <span className={styles.errorMsg}>
+                        Password is required
+                    </span>}
+                </div>
                 {user === "admin" && <button className={styles.LoginBoxAdminButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
                 {user === "teacher" && <button className={styles.LoginBoxFacultyButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
                 {user === "student" && <button className={styles.LoginBoxStudentButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
