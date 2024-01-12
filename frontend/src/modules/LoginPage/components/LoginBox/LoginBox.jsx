@@ -110,21 +110,23 @@ const LoginBox = ({ handleLoginUser, user }) => {
                         border: emailError ? '1px solid red' : 'none'
                     }} required className={styles.loginInput} placeholder='Username' value={emailOrUsername} onChange={(e) => {
                         e.preventDefault();
+                        setEmailError(false);
                         setEmailOrUsername(e.target.value);
                     }} />
                     {emailError && <span className={styles.errorMsg}>
-                        Email is required
+                        Email is required.
                     </span>}
                 </div>
                 <div className={styles.inputWrap}>
                     <input style={{
-                        border: emailError ? '1px solid red' : 'none'
+                        border: passswordError ? '1px solid red' : 'none'
                     }} type="password" required className={styles.loginInput} placeholder='Password' value={passsword} onChange={(e) => {
                         e.preventDefault();
+                        setPassswordError(false)
                         setPassword(e.target.value);
                     }} />
-                       {passswordError && <span className={styles.errorMsg}>
-                        Password is required
+                    {passswordError && <span className={styles.errorMsg}>
+                        Password is required.
                     </span>}
                 </div>
                 {user === "admin" && <button className={styles.LoginBoxAdminButton} onClick={handleLogin} disabled={isLoading}>{isLoading ? "Please wait" : "Login"} {isLoading && <ClipLoader size={22} color="#36d7b7" />}</button>}
