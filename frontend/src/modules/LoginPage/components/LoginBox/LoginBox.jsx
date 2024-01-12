@@ -23,11 +23,27 @@ const LoginBox = ({ handleLoginUser, user }) => {
     }, [])
 
     const handleLogin = async () => {
-        if (emailOrUsername === "") {
+        if (emailOrUsername == "" && passsword === "") {
             toast({
                 title: 'Please fill the required fields',
-                description: "Redirecting to dashboard",
-                status: 'success',
+                description: "Email and password is required",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        } else if (emailOrUsername === "") {
+            toast({
+                title: 'Email is required',
+                // description: "Email is required",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
+        } else if (passsword === "") {
+            toast({
+                title: 'Password is required',
+                // description: "Email is required",
+                status: 'error',
                 duration: 3000,
                 isClosable: true,
             })
