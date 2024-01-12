@@ -10,6 +10,8 @@ import { ClipLoader } from 'react-spinners'
 // eslint-disable-next-line react/prop-types
 const LoginBox = ({ handleLoginUser, user }) => {
     const [emailOrUsername, setEmailOrUsername] = useState("");
+    const [emailError, setEmailError] = useState(false);
+    const [passswordError, setPassswordError] = useState(false);
     const [passsword, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -24,6 +26,8 @@ const LoginBox = ({ handleLoginUser, user }) => {
 
     const handleLogin = async () => {
         if (emailOrUsername == "" && passsword === "") {
+            setEmailError(true);
+            setPassswordError(true)
             toast({
                 title: 'Please fill the required fields',
                 description: "Email and password is required",
@@ -32,6 +36,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 isClosable: true,
             })
         } else if (emailOrUsername === "") {
+            setEmailError(true);
             toast({
                 title: 'Email is required',
                 // description: "Email is required",
@@ -40,6 +45,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 isClosable: true,
             })
         } else if (passsword === "") {
+            setPassswordError(true)
             toast({
                 title: 'Password is required',
                 // description: "Email is required",
@@ -99,7 +105,9 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 </div>
             </div>
             <div className={styles.inputCol}>
-                <input type="text" required className={styles.loginInput} placeholder='Username' value={emailOrUsername} onChange={(e) => {
+                <input type="text" style={{
+
+                }} required className={styles.loginInput} placeholder='Username' value={emailOrUsername} onChange={(e) => {
                     e.preventDefault();
                     setEmailOrUsername(e.target.value);
                 }} />
