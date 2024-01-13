@@ -156,7 +156,6 @@ export const deleteLetterByStudent = async (
 export const deleteLetterByTeacher = async (
     letterId,
     toast,
-    goForApiCall,
     setShowConfirm
 ) => {
     try {
