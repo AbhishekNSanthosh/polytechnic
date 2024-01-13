@@ -124,7 +124,6 @@ export const getTeacherPermittedLetters = async (
 export const deleteLetterByStudent = async (
     letterId,
     toast,
-    goForApiCall,
     setShowConfirm,
     handleDelete
 ) => {
