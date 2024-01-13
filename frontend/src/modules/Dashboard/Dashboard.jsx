@@ -75,6 +75,7 @@ const Dashboard = () => {
         }
     };
 
+    //removes the letter without going for another api call
     const handleDeleteLetter = (id) => {
         const updatedLetters = letters.filter(letter => letter?._id !== id);
         setLetters(updatedLetters);
