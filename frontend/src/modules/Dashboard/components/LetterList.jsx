@@ -9,7 +9,7 @@ import { TiDelete } from "react-icons/ti";
 import { deleteLetterByAdmin, deleteLetterByStudent, deleteLetterByTeacher } from '../services/apis';
 
 const LetterList = (props) => {
-    const { index, letter, goForApiCall,handleDelete } = props;
+    const { index, letter, goForApiCall, handleDelete } = props;
 
     const [showConfirm, setShowConfirm] = useState(false);
 
@@ -21,15 +21,15 @@ const LetterList = (props) => {
 
     const handleDeleteLetter = () => {
         if (accessType === "student") {
-            deleteLetterByStudent(letter?._id, toast, goForApiCall, setShowConfirm,handleDelete)
+            deleteLetterByStudent(letter?._id, toast, setShowConfirm, handleDelete)
         } else if (accessType === "teacher") {
-            deleteLetterByTeacher(letter?._id, toast, goForApiCall, setShowConfirm,handleDelete)
-        }else if (accessType === "admin") {
+            deleteLetterByTeacher(letter?._id, toast, setShowConfirm, handleDelete)
+        } else if (accessType === "admin") {
             console.log('first')
-            deleteLetterByAdmin(letter?._id, toast, goForApiCall, setShowConfirm,handleDelete)
+            deleteLetterByAdmin(letter?._id, toast, setShowConfirm, handleDelete)
         }
     }
-    
+
     return (
         <div className={styles.LetterListContainer} key={index + 1}>
             <div className={styles.left}>
