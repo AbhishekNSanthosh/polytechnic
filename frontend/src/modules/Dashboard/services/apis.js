@@ -137,6 +137,7 @@ export const deleteLetterByStudent = async (
             duration: 3000,
             isClosable: true,
         });
+        handleDelete(letterId)
     } catch (error) {
         setShowConfirm(false);
         toast({
