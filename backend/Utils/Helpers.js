@@ -3,6 +3,8 @@ const moment = require('moment');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const currentTime = new Date();
+
 const roles = {
     adminRole: "admin",
     studentRole: "student",
@@ -10,7 +12,6 @@ const roles = {
 }
 
 const getGreeting = () => {
-    const currentTime = new Date();
     let greeting;
 
     if (currentTime.getHours() < 12) {
