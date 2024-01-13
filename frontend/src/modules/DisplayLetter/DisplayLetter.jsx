@@ -15,7 +15,7 @@ const DisplayLetter = () => {
     const params = useParams();
     const navigate = useNavigate();
     const toast = useToast();
-    
+
     useEffect(() => {
         if (accessType === "admin") {
             getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, toast, setIsLoading);
@@ -93,7 +93,12 @@ const DisplayLetter = () => {
                             <div className={styles.letterBodyRow}>
                                 <div className={styles.content}>
                                     <span className={styles.subtitle}>Respected Sir ,</span>
-                                    <span className={styles.subtitle}>{letterData?.body}</span>
+                                    {letterData?.body && letterData.body.split('\n').map((paragraph, index) => (
+                                        <span key={index}>
+                                            {paragraph}
+                                            {index !== letterData.body.split('\n').length - 1 && <br />}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                             <div className={styles.letterBodyRow}>
