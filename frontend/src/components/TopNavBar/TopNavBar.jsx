@@ -14,6 +14,7 @@ const TopNavBar = () => {
     const drawerOpenStatus = () => {
         setIsDrawerOpen(false);
     }
+    
     return (
         <>
             <div className={styles.container}>

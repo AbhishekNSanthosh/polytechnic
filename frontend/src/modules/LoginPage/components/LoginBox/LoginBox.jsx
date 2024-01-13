@@ -106,7 +106,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
             </div>
             <div className={styles.inputCol}>
                 <div className={styles.inputWrap}>
-                    <input type="text" style={{
+                    <input id='username' type="text" style={{
                         border: emailError ? '1px solid red' : 'none'
                     }} required className={styles.loginInput} placeholder='Username' value={emailOrUsername} onChange={(e) => {
                         e.preventDefault();
@@ -118,7 +118,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                     </span>}
                 </div>
                 <div className={styles.inputWrap}>
-                    <input style={{
+                    <input id='password' style={{
                         border: passswordError ? '1px solid red' : 'none'
                     }} type="password" required className={styles.loginInput} placeholder='Password' value={passsword} onChange={(e) => {
                         e.preventDefault();

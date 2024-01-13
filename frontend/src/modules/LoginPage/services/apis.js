@@ -32,7 +32,6 @@ export const loginUser = async (
             }
         }).then((res) => {
             localStorage.setItem('user', JSON.stringify(res.data.data));
-            console.log(res)
             setTimeout(() => {
                 navigate('/dashboard')
                 setIsLoading(false)
