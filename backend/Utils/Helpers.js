@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 const moment = require('moment');
 const dotenv = require('dotenv');
-const { unsubscribe } = require('../Routes/admin');
 dotenv.config();
 
 const roles = {
@@ -10,21 +9,23 @@ const roles = {
     teacherRole: "teacher"
 }
 
-const currentTime = new Date();
-let greeting;
+const getGreeting = () => {
+    let greeting;
 
-// Determine the appropriate greeting based on the time of day
-if (currentTime.getHours() < 12) {
-    greeting = "Good morning";
-} else if (currentTime.getHours() < 18) {
-    greeting = "Good afternoon";
-} else {
-    greeting = "Good evening";
+    if (currentTime.getHours() < 12) {
+        greeting = "Good morning";
+    } else if (currentTime.getHours() < 18) {
+        greeting = "Good afternoon";
+    } else {
+        greeting = "Good evening";
+    }
+
+    return greeting
 }
 
 const twohundredResponse = (data = {}) => {
     const res = {
-        greeting,
+        getGreeting,
         hasError: false,
         resCode: 200,
         status: "SUCCESS",
@@ -43,7 +44,7 @@ const twohundredResponse = (data = {}) => {
 
 const twoNotOneResponse = (data = {}) => {
     return {
-        greeting,
+        getGreeting,
         hasError: false,
         resCode: 201,
         status: "SUCCESS",
@@ -118,7 +119,7 @@ const fourHundredResponse = (data = {}) => {
 
 const customError = (data = {}) => {
     const errorObject = {
-        greeting,
+        getGreeting,
         resCode: data?.resCode || "UNKNOWN_ERROR",
         status: "FAILURE",
         hasError: true,
