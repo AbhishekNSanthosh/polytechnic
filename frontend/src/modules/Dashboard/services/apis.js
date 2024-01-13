@@ -202,9 +202,6 @@ export const deleteLetterByAdmin = async (
             duration: 3000,
             isClosable: true,
         });
-        // setTimeout(() => {
-        //     goForApiCall(false)
-        // }, 400);
         handleDelete(letterId)
     } catch (error) {
         setShowConfirm(false)
