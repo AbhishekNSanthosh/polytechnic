@@ -14,11 +14,15 @@ const currentTime = new Date();
 
 const twohundredResponse = (data = {}) => {
     const currentTime = new Date();
+    const currentHour = currentTime.getUTCHours() + 5; // Adjust for GMT+5
+    const currentMinutes = currentTime.getUTCMinutes() + 30; // Adjust for GMT+30
+
     let greeting;
 
-    if (currentTime.getHours() < 12) {
+    // Determine the appropriate greeting based on the adjusted time
+    if (currentHour < 12 || (currentHour === 12 && currentMinutes < 30)) {
         greeting = "Good morning";
-    } else if (currentTime.getHours() < 18) {
+    } else if (currentHour < 18 || (currentHour === 18 && currentMinutes < 30)) {
         greeting = "Good afternoon";
     } else {
         greeting = "Good evening";
@@ -44,16 +48,19 @@ const twohundredResponse = (data = {}) => {
 
 const twoNotOneResponse = (data = {}) => {
     const currentTime = new Date();
+    const currentHour = currentTime.getUTCHours() + 5; // Adjust for GMT+5
+    const currentMinutes = currentTime.getUTCMinutes() + 30; // Adjust for GMT+30
+
     let greeting;
 
-    if (currentTime.getHours() < 12) {
+    // Determine the appropriate greeting based on the adjusted time
+    if (currentHour < 12 || (currentHour === 12 && currentMinutes < 30)) {
         greeting = "Good morning";
-    } else if (currentTime.getHours() < 18) {
+    } else if (currentHour < 18 || (currentHour === 18 && currentMinutes < 30)) {
         greeting = "Good afternoon";
     } else {
         greeting = "Good evening";
     }
-
     return {
         greeting,
         hasError: false,
@@ -130,11 +137,15 @@ const fourHundredResponse = (data = {}) => {
 
 const customError = (data = {}) => {
     const currentTime = new Date();
+    const currentHour = currentTime.getUTCHours() + 5; // Adjust for GMT+5
+    const currentMinutes = currentTime.getUTCMinutes() + 30; // Adjust for GMT+30
+
     let greeting;
 
-    if (currentTime.getHours() < 12) {
+    // Determine the appropriate greeting based on the adjusted time
+    if (currentHour < 12 || (currentHour === 12 && currentMinutes < 30)) {
         greeting = "Good morning";
-    } else if (currentTime.getHours() < 18) {
+    } else if (currentHour < 18 || (currentHour === 18 && currentMinutes < 30)) {
         greeting = "Good afternoon";
     } else {
         greeting = "Good evening";
