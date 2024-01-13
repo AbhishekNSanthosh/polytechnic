@@ -137,9 +137,6 @@ export const deleteLetterByStudent = async (
             duration: 3000,
             isClosable: true,
         });
-        setTimeout(() => {
-            goForApiCall(false)
-        }, 400);
     } catch (error) {
         setShowConfirm(false);
         toast({
