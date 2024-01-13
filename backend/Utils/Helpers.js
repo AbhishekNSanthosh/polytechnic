@@ -3,7 +3,6 @@ const moment = require('moment');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const currentTime = new Date();
 
 const roles = {
     adminRole: "admin",
@@ -11,7 +10,10 @@ const roles = {
     teacherRole: "teacher"
 }
 
-const getGreeting = () => {
+const currentTime = new Date();
+
+const twohundredResponse = (data = {}) => {
+    const currentTime = new Date();
     let greeting;
 
     if (currentTime.getHours() < 12) {
@@ -22,12 +24,8 @@ const getGreeting = () => {
         greeting = "Good evening";
     }
 
-    return greeting
-}
-
-const twohundredResponse = (data = {}) => {
     const res = {
-        getGreeting,
+        greeting,
         hasError: false,
         resCode: 200,
         status: "SUCCESS",
@@ -45,8 +43,19 @@ const twohundredResponse = (data = {}) => {
 };
 
 const twoNotOneResponse = (data = {}) => {
+    const currentTime = new Date();
+    let greeting;
+
+    if (currentTime.getHours() < 12) {
+        greeting = "Good morning";
+    } else if (currentTime.getHours() < 18) {
+        greeting = "Good afternoon";
+    } else {
+        greeting = "Good evening";
+    }
+
     return {
-        getGreeting,
+        greeting,
         hasError: false,
         resCode: 201,
         status: "SUCCESS",
@@ -120,8 +129,19 @@ const fourHundredResponse = (data = {}) => {
 };
 
 const customError = (data = {}) => {
+    const currentTime = new Date();
+    let greeting;
+
+    if (currentTime.getHours() < 12) {
+        greeting = "Good morning";
+    } else if (currentTime.getHours() < 18) {
+        greeting = "Good afternoon";
+    } else {
+        greeting = "Good evening";
+    }
+
     const errorObject = {
-        getGreeting,
+        greeting,
         resCode: data?.resCode || "UNKNOWN_ERROR",
         status: "FAILURE",
         hasError: true,
