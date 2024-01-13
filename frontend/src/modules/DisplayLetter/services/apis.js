@@ -28,7 +28,8 @@ export const getLetterDetails = async (
 
 //api to update read status
 export const updateRead = async (
-    letterId
+    letterId,
+    toast
 ) => {
     try {
         await privateGateway.post(adminApi.updateReadStatus, { letterId });

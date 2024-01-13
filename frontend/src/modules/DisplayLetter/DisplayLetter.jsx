@@ -28,7 +28,7 @@ const DisplayLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin") {
-            updateRead(params?.id)
+            updateRead(params?.id,toast)
         }
     }, []);
 

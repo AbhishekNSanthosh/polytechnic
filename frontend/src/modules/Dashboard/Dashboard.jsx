@@ -16,7 +16,6 @@ const Dashboard = () => {
     const [sortOrder, setSortOrder] = useState("desc");
     const [applyFilter, setApplyFilter] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [goForCall, setGoForCall] = useState(false);
 
     const accessType = localStorage.getItem('accessType');
     const authToken = localStorage.getItem('accessToken');
@@ -56,7 +55,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         getLetterData();
-    }, [authToken, applyFilter, sortOrder, lastPart, goForCall]);
+    }, [authToken, applyFilter, sortOrder, lastPart]);
 
     const handleQueryChange = (e) => {
         const newQuery = e.target.value;

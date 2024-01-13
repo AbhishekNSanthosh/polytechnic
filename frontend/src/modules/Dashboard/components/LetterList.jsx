@@ -25,7 +25,6 @@ const LetterList = (props) => {
         } else if (accessType === "teacher") {
             deleteLetterByTeacher(letter?._id, toast, setShowConfirm, handleDelete)
         } else if (accessType === "admin") {
-            console.log('first')
             deleteLetterByAdmin(letter?._id, toast, setShowConfirm, handleDelete)
         }
     }
