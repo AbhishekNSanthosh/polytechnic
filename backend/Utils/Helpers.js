@@ -10,6 +10,7 @@ const roles = {
 }
 
 const getGreeting = () => {
+    const currentTime = new Date();
     let greeting;
 
     if (currentTime.getHours() < 12) {
