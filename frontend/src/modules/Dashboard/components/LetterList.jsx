@@ -14,8 +14,8 @@ const LetterList = (props) => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     const navigate = useNavigate();
-    const accessType = localStorage.getItem('accessType');
     const toast = useToast();
+    const accessType = localStorage.getItem('accessType');
     const letterSub = letter?.subject.slice(0, 25);
     const letterSubRes = letter?.subject.slice(0, 15);
 
