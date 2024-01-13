@@ -99,7 +99,7 @@ const LoginBox = ({ handleLoginUser, user }) => {
                 <div className={styles.LoginBoxTitleBox}>
                     <span className={styles.LoginNavTitleName}>
                         {user === "admin" && "Admin Login"}
-                        {user === "teacher" && "teacher Login"}
+                        {user === "teacher" && "Teacher Login"}
                         {user === "student" && "Student Login"}
                     </span>
                 </div>
