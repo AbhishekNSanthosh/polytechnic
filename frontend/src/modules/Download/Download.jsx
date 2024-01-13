@@ -29,13 +29,21 @@ const Download = () => {
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      toast({
-        title: error?.response?.data?.message,
-        description: error?.response?.data?.description,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+      const blob = new Blob([error.response.data], { type: 'application/json' });
+
+      // Convert blob to text
+      const reader = new FileReader();
+      reader.onload = function () {
+        const jsonData = JSON.parse(reader.result);
+        toast({
+          title: jsonData?.message,
+          description: jsonData?.description,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      };
+      reader.readAsText(blob);
     }
   };
 
