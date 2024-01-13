@@ -81,11 +81,6 @@ const Dashboard = () => {
         setLetters(updatedLetters);
     };
 
-
-    const goForApiCall = (data) => {
-        setGoForCall(data)
-    }
-
     return (
         <div className={styles.container}>
             <div className={styles.dashboardTopRow}>
@@ -139,7 +134,7 @@ const Dashboard = () => {
                         <div className={styles.dashboardRow}>
                             {letters && letters.map((letter, index) => (
                                 <div key={index}>
-                                    <LetterList index={index} letter={letter} goForApiCall={goForApiCall} handleDelete={handleDeleteLetter}/>
+                                    <LetterList index={index} letter={letter} handleDelete={handleDeleteLetter} />
                                 </div>
                             ))}
                         </div>
