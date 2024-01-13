@@ -103,9 +103,7 @@ export const getTeacherPermittedLetters = async (
 ) => {
     setIsLoading(true)
     try {
-        const response = await privateGateway.post(teacherApi.getPermittedLetters, {
-            sortOrder
-        });
+        const response = await privateGateway.post(teacherApi.getPermittedLetters, { sortOrder });
         setLetters(response?.data?.data);
         setIsLoading(false);
     } catch (error) {
