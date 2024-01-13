@@ -193,7 +193,6 @@ export const deleteLetterByAdmin = async (
 ) => {
     try {
         const response = await privateGateway.delete(adminApi.deleteLetter + letterId);
-        // goForApiCall(true);
         setShowConfirm(false)
         toast({
             title: response?.data?.message,
