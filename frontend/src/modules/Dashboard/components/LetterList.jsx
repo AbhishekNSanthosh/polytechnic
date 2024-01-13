@@ -9,7 +9,7 @@ import { TiDelete } from "react-icons/ti";
 import { deleteLetterByAdmin, deleteLetterByStudent, deleteLetterByTeacher } from '../services/apis';
 
 const LetterList = (props) => {
-    const { index, letter, goForApiCall, handleDelete } = props;
+    const { index, letter, handleDelete } = props;
 
     const [showConfirm, setShowConfirm] = useState(false);
 
