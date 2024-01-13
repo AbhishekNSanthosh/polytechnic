@@ -126,6 +126,7 @@ export const deleteLetterByStudent = async (
     toast,
     goForApiCall,
     setShowConfirm,
+    handleDelete
 ) => {
     try {
         const response = await privateGateway.delete(studentApi.deleteLetter + letterId);
