@@ -173,6 +173,7 @@ export const deleteLetterByTeacher = async (
         setTimeout(() => {
             goForApiCall(false)
         }, 400);
+        handleDelete(letterId)
     } catch (error) {
         setShowConfirm(false)
         toast({
