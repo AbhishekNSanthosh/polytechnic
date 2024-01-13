@@ -188,12 +188,12 @@ export const deleteLetterByTeacher = async (
 export const deleteLetterByAdmin = async (
     letterId,
     toast,
-    goForApiCall,
-    setShowConfirm
+    setShowConfirm,
+    handleDelete
 ) => {
     try {
         const response = await privateGateway.delete(adminApi.deleteLetter + letterId);
-        goForApiCall(true);
+        // goForApiCall(true);
         setShowConfirm(false)
         toast({
             title: response?.data?.message,
@@ -202,9 +202,10 @@ export const deleteLetterByAdmin = async (
             duration: 3000,
             isClosable: true,
         });
-        setTimeout(() => {
-            goForApiCall(false)
-        }, 400);
+        // setTimeout(() => {
+        //     goForApiCall(false)
+        // }, 400);
+        handleDelete(letterId)
     } catch (error) {
         setShowConfirm(false)
         toast({

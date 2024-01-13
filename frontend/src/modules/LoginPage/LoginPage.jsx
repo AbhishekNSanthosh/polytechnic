@@ -9,6 +9,7 @@ const LoginPage = () => {
     const [loginUser, setLoginUser] = useState("root");
     const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
+    
     useEffect(() => {
         if (accessToken) {
             navigate('/dashboard');

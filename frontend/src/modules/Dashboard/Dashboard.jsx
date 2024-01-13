@@ -56,7 +56,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         getLetterData();
-    }, [authToken, applyFilter, sortOrder, lastPart,goForCall]);
+    }, [authToken, applyFilter, sortOrder, lastPart, goForCall]);
 
     const handleQueryChange = (e) => {
         const newQuery = e.target.value;
@@ -75,8 +75,13 @@ const Dashboard = () => {
         }
     };
 
+    const handleDeleteLetter = (id) => {
+        const updatedLetters = letters.filter(letter => letter?._id !== id);
+        setLetters(updatedLetters);
+    };
 
-    const goForApiCall = (data)=>{
+
+    const goForApiCall = (data) => {
         setGoForCall(data)
     }
 
@@ -133,7 +138,7 @@ const Dashboard = () => {
                         <div className={styles.dashboardRow}>
                             {letters && letters.map((letter, index) => (
                                 <div key={index}>
-                                    <LetterList index={index} letter={letter} goForApiCall={goForApiCall}/>
+                                    <LetterList index={index} letter={letter} goForApiCall={goForApiCall} handleDelete={handleDeleteLetter}/>
                                 </div>
                             ))}
                         </div>
