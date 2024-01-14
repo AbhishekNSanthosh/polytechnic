@@ -77,7 +77,6 @@ export const deleteUser = async (
             isClosable: true,
         });
         setShowConfirm(false);
-        getUserList(true);
         setTimeout(() => {
             getUserList(false);
         }, 300);
