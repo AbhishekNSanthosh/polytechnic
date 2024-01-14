@@ -245,7 +245,7 @@ router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
         });
         const savedUser = await user.save();
         const userData = abstractedUserData(savedUser);
-        
+
         const successResponseMsg = twoNotOneResponse({ message: 'New student created successfully', data: userData });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
@@ -308,12 +308,10 @@ router.post('/createNewTeacher', Auth.verifyAdminToken, async (req, res) => {
             department: department
         });
 
-        await user.save();
-        const responseMsg = {
-            message: 'Teacher created successfully.',
-            accessToken: req.accessToken
-        }
-        const successResponseMsg = twoNotOneResponse(responseMsg);
+        const savedUser = await user.save();
+        const userData = abstractedUserData(savedUser);
+
+        const successResponseMsg = twoNotOneResponse({ message: 'New teacher created successfully', data: userData });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
