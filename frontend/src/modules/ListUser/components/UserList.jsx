@@ -27,7 +27,6 @@ const UserList = ({ user, index, getUserList,handleDeleteUser }) => {
             <div className={styles.center}>
                 <span className={styles.countNo}>{index + 1}.</span>
                 <span className={styles.subject}>{user?.username}</span>
-                {/* <IoMailUnreadOutline className={styles.read} title='unread' /> */}
             </div>
             <div className={styles.centerCol}>
                 <span className={styles.subject}>{user?.department && user?.department}</span>
@@ -55,7 +54,6 @@ const UserList = ({ user, index, getUserList,handleDeleteUser }) => {
                 <div className={styles.deleteConfirm}>
                     <div className={styles.deleteConfirmBox}>
                         <TiDelete className={styles.deleteImage}/>
-                        {/* <img src={deleteImg} alt="" className={styles.deleteImage} /> */}
                         <span className={styles.deleteTitle}>Are you sure you want to delete the user: "<span className={styles.high}>{user?.username}</span>" ?</span>
                         <div className={styles.row}>
                             <button className={styles.cancel} onClick={() => {
