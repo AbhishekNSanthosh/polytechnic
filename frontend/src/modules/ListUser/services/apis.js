@@ -77,6 +77,7 @@ export const deleteUser = async (
             isClosable: true,
         });
         handleDeleteUser(userId);
+        setShowConfirm(false);
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
