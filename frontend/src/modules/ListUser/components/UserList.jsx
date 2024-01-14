@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { TiDelete } from "react-icons/ti";
 
-const UserList = ({ user, index, getUserList,handleDeleteUser }) => {
+const UserList = ({ user, index,handleDeleteUser }) => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     const navigate = useNavigate();
