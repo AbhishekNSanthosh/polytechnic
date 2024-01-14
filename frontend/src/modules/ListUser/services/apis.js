@@ -64,7 +64,6 @@ export const deleteUser = async (
     userId,
     setShowConfirm,
     toast,
-    getUserList,
     handleDeleteUser
 ) => {
     try {
