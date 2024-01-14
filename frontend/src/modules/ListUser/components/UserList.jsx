@@ -20,7 +20,7 @@ const UserList = ({ user, index, getUserList,handleDeleteUser }) => {
     const authToken = localStorage.getItem('accessToken');
 
     const handleDeleteUser = () => {
-        deleteUser(user?._id, setShowConfirm, toast, getUserList,handleDeleteUser)
+        deleteUser(user?._id, setShowConfirm, toast,handleDeleteUser)
     }
     return (
         <div className={styles.listContainer}>
