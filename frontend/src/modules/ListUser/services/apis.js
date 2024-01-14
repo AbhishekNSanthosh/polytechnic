@@ -78,9 +78,6 @@ export const deleteUser = async (
         });
         handleDeleteUser(userId);
         setShowConfirm(false);
-        setTimeout(() => {
-            getUserList(false);
-        }, 300);
     } catch (error) {
         toast({
             title: error?.response?.data?.message,
