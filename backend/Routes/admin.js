@@ -173,22 +173,9 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
             role: "admin"
         });
         const savedUser = await user.save();
-        const userWithoutPassword = {
-            _id: savedUser._id,
-            username: savedUser.username,
-            email: savedUser.email,
-            role: savedUser.role,
-            semester: savedUser.semester,
-            department: savedUser.department
-        };
-        const responseMsg = {
-            resCode: 201,
-            status: 'SUCCESS',
-            message: 'created successfully.',
-            userData: userWithoutPassword,
-            accessToken: req.accessToken
-        }
-        const successResponseMsg = twoNotOneResponse(responseMsg);
+        const userData = abstractedUserData(savedUser);
+
+        const successResponseMsg = twoNotOneResponse({ message: 'New admin created successfully', data: userData });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
