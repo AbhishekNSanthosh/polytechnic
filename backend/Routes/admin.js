@@ -243,14 +243,10 @@ router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
             department,
             semester
         });
-        await user.save();
-        const responseMsg = {
-            resCode: 201,
-            status: 'SUCCESS',
-            message: 'created successfully.',
-            accessToken: req.accessToken
-        }
-        const successResponseMsg = twoNotOneResponse(responseMsg);
+        const savedUser = await user.save();
+        const userData = abstractedUserData(savedUser);
+        
+        const successResponseMsg = twoNotOneResponse({ message: 'New student created successfully', data: userData });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
