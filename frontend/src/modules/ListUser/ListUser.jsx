@@ -62,7 +62,7 @@ const ListUser = () => {
     setGoForCall(data);
   }
 
-  //removes the letter without going for another api call
+  //removes the user without going for another api call
   const handleDeleteUser = (id) => {
     const updatedUsers = users.filter(user => user?._id !== id);
     setUsers(updatedUsers);
