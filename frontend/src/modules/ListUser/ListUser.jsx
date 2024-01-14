@@ -41,7 +41,7 @@ const ListUser = () => {
 
   useEffect(() => {
     getUserData();
-  }, [goForCall, authToken, applyFilter]);
+  }, [authToken, applyFilter]);
 
   const handleChange = async (e) => {
     setQuery(e.target.value)
