@@ -18,8 +18,7 @@ const ListUser = () => {
   const [query, setQuery] = useState("");
   const [applyFilter, setApplyFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [goForCall, setGoForCall] = useState(false);
-
+  
   const location = useLocation();
   const path = location.pathname;
   const lastPart = path.split('/').pop();
