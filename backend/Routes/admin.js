@@ -969,15 +969,16 @@ router.delete('/deleteUserById/:id', Auth.verifyAdminToken, async (req, res) => 
         const role = userExists?.role
 
         await userExists.deleteOne();
-        
+
         const deletedUser = abstractedUserData(userExists);
         if (role === "student") {
             message = `Student: "${deletedUser?.username}" deleted successfully`
         } else if (role === "teacher") {
             message = `Teacher: "${deletedUser?.username}" deleted successfully`
         } else if (role === "admin") {
-            message = `ADmin: "${deletedUser?.username}" deleted successfully`
+            message = `Admin: "${deletedUser?.username}" deleted successfully`
         }
+
         const successMessage = twohundredResponse({ message, data: deletedUser })
         return res.status(200).json(successMessage);
     } catch (error) {
