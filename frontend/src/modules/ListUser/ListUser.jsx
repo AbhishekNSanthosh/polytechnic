@@ -58,10 +58,6 @@ const ListUser = () => {
     }
   }
 
-  const getUserList = (data) => {
-    setGoForCall(data);
-  }
-
   //removes the user without going for another api call
   const handleDeleteUser = (id) => {
     const updatedUsers = users.filter(user => user?._id !== id);
