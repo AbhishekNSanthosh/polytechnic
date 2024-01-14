@@ -18,7 +18,7 @@ const ListUser = () => {
   const [query, setQuery] = useState("");
   const [applyFilter, setApplyFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const location = useLocation();
   const path = location.pathname;
   const lastPart = path.split('/').pop();
@@ -58,7 +58,7 @@ const ListUser = () => {
   }
 
   //removes the user without going for another api call
-  const handleDeleteUser = (id) => {
+  const handleRemoveUserById = (id) => {
     const updatedUsers = users.filter(user => user?._id !== id);
     setUsers(updatedUsers);
   };
@@ -149,7 +149,7 @@ const ListUser = () => {
                 <>
                   {users && users.map((user, index) => (
                     <div key={index}>
-                      <UserList user={user} index={index} handleDeleteUser={handleDeleteUser} />
+                      <UserList user={user} index={index} handleRemoveUserById={handleRemoveUserById} />
                     </div>
                   ))}
                 </>

@@ -959,15 +959,26 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
 //api to delete a user by id
 router.delete('/deleteUserById/:id', Auth.verifyAdminToken, async (req, res) => {
     try {
+        let message
         const userId = req.params.id
         const userExists = await User.findOne({ _id: userId });
         if (!userExists) {
             throw { status: 400, message: resMessages.userNotfoundMsg }
         }
 
+        const role = userExists?.role
+
         await userExists.deleteOne();
+        
         const deletedUser = abstractedUserData(userExists);
-        const successMessage = twohundredResponse({ message: `User: ${deletedUser?.username} deleted successfully`, data: deletedUser })
+        if (role === "student") {
+            message = `Student: "${deletedUser?.username}" deleted successfully`
+        } else if (role === "teacher") {
+            message = `Teacher: "${deletedUser?.username}" deleted successfully`
+        } else if (role === "admin") {
+            message = `ADmin: "${deletedUser?.username}" deleted successfully`
+        }
+        const successMessage = twohundredResponse({ message, data: deletedUser })
         return res.status(200).json(successMessage);
     } catch (error) {
         console.error(error);
