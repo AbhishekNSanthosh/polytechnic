@@ -154,7 +154,7 @@ const ListUser = () => {
                 <>
                   {users && users.map((user, index) => (
                     <div key={index}>
-                      <UserList user={user} index={index} getUserList={getUserList} />
+                      <UserList user={user} index={index} getUserList={getUserList} handleDeleteUser={handleDeleteUser}/>
                     </div>
                   ))}
                 </>
