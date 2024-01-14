@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { TiDelete } from "react-icons/ti";
 
-const UserList = ({ user, index,handleDeleteUser }) => {
+const UserList = ({ user, index,handleRemoveUserById }) => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const UserList = ({ user, index,handleDeleteUser }) => {
     const authToken = localStorage.getItem('accessToken');
 
     const handleDeleteUser = () => {
-        deleteUser(user?._id, setShowConfirm, toast,handleDeleteUser)
+        deleteUser(user?._id, setShowConfirm, toast,handleRemoveUserById)
     }
     return (
         <div className={styles.listContainer}>

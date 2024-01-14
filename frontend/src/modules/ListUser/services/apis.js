@@ -64,7 +64,7 @@ export const deleteUser = async (
     userId,
     setShowConfirm,
     toast,
-    handleDeleteUser
+    handleRemoveUserById
 ) => {
     try {
         const response = await privateGateway.delete(adminApi.deleteUserApi + userId);
