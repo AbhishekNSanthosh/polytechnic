@@ -80,7 +80,7 @@ router.post('/teacherLogin', async (req, res) => {
 
         const token = jwt.sign({
             username: user.username, userId: user._id, role: "teacher"
-        }, "carmelpoly", { expiresIn: '1h' });
+        }, "carmelpoly", { expiresIn: '1w' });
 
         const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
@@ -89,7 +89,7 @@ router.post('/teacherLogin', async (req, res) => {
             accessToken: token,
         }
 
-        const successResponseMsg = twohundredResponse(responseMsg);
+        const successResponseMsg = twohundredResponse({});
         return res.status(200).json(successResponseMsg);
 
     } catch (error) {
