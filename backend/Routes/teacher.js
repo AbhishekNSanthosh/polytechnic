@@ -83,11 +83,10 @@ router.post('/teacherLogin', async (req, res) => {
         }, "carmelpoly", { expiresIn: '1w' });
 
         const successResponseMsg = twohundredResponse({
-            welcomeMesssage: `Welcome ${user.username.toUpperCase()} to Carmel Polytechnic Grievances!!!`, message: resMessages.AuthSuccessMsg, accessType: roles.teacherRole,
+            welcomeMesssage: `Welcome ${user.username.toUpperCase()} to Carmel Polytechnic Grievances`, message: resMessages.AuthSuccessMsg, accessType: roles.teacherRole,
             accessToken: token,
         });
         return res.status(200).json(successResponseMsg);
-
     } catch (error) {
         console.error(error);
         const status = error.status || 500;

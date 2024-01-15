@@ -106,7 +106,7 @@ router.post('/adminLogin', async (req, res) => {
             username: user.username, userId: user._id, role: "admin"
         }, "carmelpoly", { expiresIn: '1w' });
 
-        const successResponseMsg = twohundredResponse({ welcomeMesssage: `Welcome ${user.username.toUpperCase()} !!!`, message: resMessages.AuthSuccessMsg, accessType: roles.adminRole, accessToken: token });
+        const successResponseMsg = twohundredResponse({ welcomeMesssage: `Welcome ${user.username.toUpperCase()} to Carmel Polytechinc Grievances`, message: resMessages.AuthSuccessMsg, accessType: roles.adminRole, accessToken: token });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.error(error);
