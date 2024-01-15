@@ -254,12 +254,12 @@ const sanitizedLetterData = (letter) => {
             role: letter?.from?.role,
         },
         createdAt: {
-            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(letter.createdAt).fromNow(),
+            date: moment(letter?.createdAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter?.createdAt).fromNow(),
         },
         updatedAt: {
-            date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(letter.createdAt).fromNow(),
+            date: moment(letter?.updatedAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter?.updatedAt).fromNow(),
         },
     }
     return sanitizedLetter

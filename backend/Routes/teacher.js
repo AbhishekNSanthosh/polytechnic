@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const Auth = require('../libs/Auth');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
-const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, abstractedUserData, customError, sanitizedLetterList } = require('../Utils/Helpers');
+const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, abstractedUserData, customError, sanitizedLetterList, sanitizedLetterData } = require('../Utils/Helpers');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -181,25 +181,8 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
                 description: "You do not have the necessary permissions to access this letter."
             };
         }
-        const sanitizedLetter = {
-            ...letter.toObject(),
-            from: {
-                _id: letter?.from?._id,
-                username: letter?.from?.username,
-                email: letter?.from?.email,
-                semester: letter?.from?.semester,
-                department: letter?.from?.department,
-                role: letter?.from?.role,
-            },
-            createdAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-            updatedAt: {
-                date: moment(letter.updatedAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.updatedAt).fromNow(),
-            },
-        }
+        const sanitizedLetter = sanitizedLetterData(letter);
+
         const successResponseMsg = twohundredResponse({
             message: "Here's your grievance:",
             data: sanitizedLetter,
@@ -257,24 +240,8 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
         if (!letter) {
             throw { status: 404, message: "Requested resource does not exists" }
         }
-        const sanitizedLetter = {
-            ...letter.toObject(),
-            from: {
-                username: letter.from.username,
-                email: letter.from.email,
-                semester: letter.from.semester,
-                department: letter.from.department,
-                role: letter.from.role,
-            },
-            createdAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-            updatedAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-        }
+        const sanitizedLetter = sanitizedLetterData(letter);
+        
         const successResponseMsg = twohundredResponse({
             message: "Letter from ",
             data: sanitizedLetter,
