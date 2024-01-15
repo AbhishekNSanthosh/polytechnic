@@ -233,15 +233,15 @@ router.post('/getAllLetters', Auth.verifyTeacherToken, async (req, res) => {
 router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        if (!letterId) {
-            throw { status: 400, message: "Invalid letterId" }
+        if (!letterId || letterId === "undefined" || letterId === null) {
+            throw { status: 400, message: "Invalid letterId found", description: "Please provide a valid letterId." }
         }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         if (!letter) {
             throw { status: 404, message: "Requested resource does not exists" }
         }
         const sanitizedLetter = sanitizedLetterData(letter);
-        
+
         const successResponseMsg = twohundredResponse({
             message: "Letter from ",
             data: sanitizedLetter,
