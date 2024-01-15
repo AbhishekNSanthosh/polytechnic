@@ -84,7 +84,7 @@ router.post('/studentLogin', async (req, res) => {
 
         const token = jwt.sign({
             username: user.username, userId: user._id, role: "student"
-        }, "carmelpoly", { expiresIn: '1h' });
+        }, "carmelpoly", { expiresIn: '1w' });
 
         const responseMsg = {
             greetings: `Welcome ${user.username.toUpperCase()} !!!`,
