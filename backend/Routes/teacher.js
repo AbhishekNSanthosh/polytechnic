@@ -102,7 +102,7 @@ router.get('/getUserDetails', Auth.verifyTeacherToken, async (req, res) => {
         if (!req.user) {
             throw { status: 401, message: "Access denied", description: "Authentication token is missing or invalid." };
         }
-        
+
         if (req.user) {
             const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
@@ -120,8 +120,6 @@ router.get('/getUserDetails', Auth.verifyTeacherToken, async (req, res) => {
 
 //api to add letter by teacher
 router.post('/addLetter', Auth.verifyTeacherToken, async (req, res) => {
-    const { body, subject } = req.body;
-
     try {
         const { body, subject } = req.body;
         if (!subject && !body) {
@@ -154,7 +152,7 @@ router.post('/addLetter', Auth.verifyTeacherToken, async (req, res) => {
             data: savedLetter,
             accessToken: req.accessToken
         }
-        const successResponseMsg = twoNotOneResponse(responseMsg);
+        const successResponseMsg = twoNotOneResponse({ message: "Grievance created successfully",data:savedLetter });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
