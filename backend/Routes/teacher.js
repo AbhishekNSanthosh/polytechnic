@@ -356,8 +356,11 @@ router.post('/resetPassword', async (req, res) => {
             const errorResponse = fourNotOneResponse({ message: "Token has expired" })
             return res.status(401).json(errorResponse);
         }
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const description = error.description || "";
+        const errorMessage = customError({ resCode: status, message, description })
+        return res.status(status).json(errorMessage);
     }
 });
 
