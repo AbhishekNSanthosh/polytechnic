@@ -71,10 +71,17 @@ privateGateway.interceptors.response.use(
                 localStorage.clear();
                 window.location.href = "/";
             }, 3000);
-            // return await Promise.reject(error);
-            return await Promise.reject(error);
+            //     // return await Promise.reject(error);
+            //     return await Promise.reject(error);
 
+            // }
+            // return Promise.reject(error);
+            return Promise.resolve({
+                status: 200,
+            });
         }
+
+        // If it's not the specific error you're handling, return the original error
         return Promise.reject(error);
     }
 );
