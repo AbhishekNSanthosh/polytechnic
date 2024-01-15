@@ -235,8 +235,8 @@ const sanitizedLetterList = (letters) => {
             ago: moment(letter?.createdAt).fromNow(),
         },
         updatedAt: {
-            date: moment(letter?.createdAt).format('DD/MM/YYYY , HH:mm'),
-            ago: moment(letter?.createdAt).fromNow(),
+            date: moment(letter?.updatedAt).format('DD/MM/YYYY , HH:mm'),
+            ago: moment(letter?.updatedAt).fromNow(),
         },
     }));
     return sanitizedLetters;

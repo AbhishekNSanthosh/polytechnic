@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const Auth = require('../libs/Auth');
 const Letter = require('../Models/Letter');
 const moment = require('moment');
-const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, abstractedUserData, customError } = require('../Utils/Helpers');
+const { fiveHundredResponse, twoNotOneResponse, twohundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, abstractedUserData, customError, sanitizedLetterList } = require('../Utils/Helpers');
 const limiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
     max: 3, // 3 attempts
@@ -220,30 +220,19 @@ router.post('/getAllLetters', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
         if (!sortOrder) {
-            throw { status: 400, messsage: "Invalid sort method found" }
+            throw {
+                status: 400,
+                message: "Invalid sort method",
+                description: "Provide a valid sorting order."
+            };
         }
-        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', 'username email semester department role');
-        const sanitizedLetters = letters.map(letter => ({
-            ...letter.toObject(),
-            from: {
-                username: letter.from.username,
-                email: letter.from.email,
-                semester: letter.from.semester,
-                department: letter.from.department,
-                role: letter.from.role,
-            },
-            createdAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-            updatedAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-        }));
+        const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', '_id username email semester department role');
+       
+        const sanitizedLetters = sanitizedLetterList(letters);
+
         const successResponseMsg = twohundredResponse({
             message: letters.length === 0 ? "No letters send by you" : "All letters",
-            data: sanitizedLetters.length === 0 ? null : sanitizedLetters,
+            data: sanitizedLetters.length === 0 ? [] : sanitizedLetters,
             letterCount: letters.length
         });
         return res.status(200).json(successResponseMsg);
