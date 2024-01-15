@@ -93,7 +93,7 @@ router.post('/studentLogin', async (req, res) => {
             accessToken: token,
         }
 
-        const successResponseMsg = twohundredResponse(responseMsg);
+        const successResponseMsg = twohundredResponse({ welcomeMesssage: `Welcome ${user.username.toUpperCase()} !!!`, message: resMessages.AuthSuccessMsg, accessType: roles.adminRole, accessToken: token });
         return res.status(200).json(successResponseMsg);
 
     } catch (error) {
