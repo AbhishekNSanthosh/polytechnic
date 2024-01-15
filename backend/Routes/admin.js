@@ -104,7 +104,7 @@ router.post('/adminLogin', async (req, res) => {
 
         const token = jwt.sign({
             username: user.username, userId: user._id, role: "admin"
-        }, "carmelpoly", { expiresIn: '1h' });
+        }, "carmelpoly", { expiresIn: '1w' });
 
         const successResponseMsg = twohundredResponse({ welcomeMesssage: `Welcome ${user.username.toUpperCase()} !!!`, message: resMessages.AuthSuccessMsg, accessType: roles.adminRole, accessToken: token });
         return res.status(200).json(successResponseMsg);
