@@ -317,8 +317,11 @@ router.post('/forgotPassword', passwordlimiter, async (req, res) => {
         return res.status(200).json(successMsg);
     } catch (error) {
         console.error(error);
-        const errorResponse = fiveHundredResponse();
-        return res.status(500).json(errorResponse);
+        const status = error.status || 500;
+        const message = error.message || 'Internal Server Error';
+        const description = error.description || "";
+        const errorMessage = customError({ resCode: status, message, description })
+        return res.status(status).json(errorMessage);
     }
 });
 
