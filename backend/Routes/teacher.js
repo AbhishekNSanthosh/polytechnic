@@ -89,7 +89,8 @@ router.post('/teacherLogin', async (req, res) => {
             accessToken: token,
         }
 
-        const successResponseMsg = twohundredResponse({});
+        const successResponseMsg = twohundredResponse({welcomeMesssage: `Welcome ${user.username.toUpperCase()} to Carmel Polytechnic Grievances!!!`,message: resMessages.AuthSuccessMsg, accessType: roles.teacherRole,
+        accessToken: token,});
         return res.status(200).json(successResponseMsg);
 
     } catch (error) {
