@@ -99,10 +99,11 @@ router.post('/teacherLogin', async (req, res) => {
 
 router.get('/getUserDetails', Auth.verifyTeacherToken, async (req, res) => {
     try {
+        if (!req.user) {
+            throw { status: 401, message: "Access denied", description: "Authentication token is missing or invalid." };
+        }
+        
         if (req.user) {
-            if (!req.user) {
-                throw { status: 401, message: "Access denied" }
-            }
             const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
             return res.status(200).json(responseMsg)
