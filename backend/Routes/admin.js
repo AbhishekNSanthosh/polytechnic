@@ -111,10 +111,9 @@ router.post('/adminLogin', async (req, res) => {
             message: resMessages.AuthSuccessMsg,
             accessType: roles.adminRole,
             accessToken: token,
-            userIpAddress
         }
 
-        const successResponseMsg = twohundredResponse(responseMsg);
+        const successResponseMsg = twohundredResponse({ welcomeMesssage: `Welcome ${user.username.toUpperCase()} !!!`,,message: resMessages.AuthSuccessMsg, accessType: roles.adminRole, });
         return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.error(error);
