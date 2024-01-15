@@ -145,14 +145,8 @@ router.post('/addLetter', Auth.verifyTeacherToken, async (req, res) => {
         });
 
         const savedLetter = await newLetter.save();
-        const responseMsg = {
-            resCode: 201,
-            status: 'SUCCESS',
-            message: 'created successfully.',
-            data: savedLetter,
-            accessToken: req.accessToken
-        }
-        const successResponseMsg = twoNotOneResponse({ message: "Grievance created successfully",data:savedLetter });
+
+        const successResponseMsg = twoNotOneResponse({ message: "Grievance created successfully", data: savedLetter });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
@@ -167,9 +161,10 @@ router.post('/addLetter', Auth.verifyTeacherToken, async (req, res) => {
 router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        if (!letterId) {
-            throw { status: 400, message: "Invalid letterId found" }
+        if (!letterId || letterId === "undefined" || letterId === null) {
+            throw { status: 400, message: "Invalid letterId found", description: "Please provide a valid letterId." }
         }
+        
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         const sanitizedLetter = {
             ...letter.toObject(),
