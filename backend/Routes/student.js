@@ -106,7 +106,7 @@ router.get('/getUserLetterById/:id', Auth.verifyStudentToken, async (req, res) =
         }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         if (!letter) {
-            throw { status: 404, message: "Letter not found.", description: "Please check the provided id." }
+            throw { status: 404, message: "Grievance not found.", description: "Please check the provided id." }
         }
         const sanitizedLetter = sanitizedLetterData(letter);
 
@@ -352,13 +352,13 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         console.log(letter?.createdAt < oneHourAgo)
 
         if (letter?.createdAt < oneHourAgo) {
-            throw { status: 400, message: "Letter cannot be deleted !", description: "More than one hour passed since sending" }
+            throw { status: 400, message: "Grievance cannot be deleted !", description: "More than one hour passed since sending" }
         }
 
         // Delete the letter
         await Letter.findByIdAndDelete(letterId);
 
-        const successResponseMsg = twohundredResponse({ message: 'Letter deleted successfully' })
+        const successResponseMsg = twohundredResponse({ message: 'Grievance deleted successfully' })
         return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.error(error);

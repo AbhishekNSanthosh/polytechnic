@@ -162,7 +162,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
     try {
         const letterId = req.params.id;
         if (!letterId || letterId === "undefined" || letterId === null) {
-            throw { status: 400, message: "Invalid letterId found", description: "Please provide a valid letterId." }
+            throw { status: 400, message: "Invalid grievance id found", description: "Please provide a valid grievance id." }
         }
 
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
@@ -170,7 +170,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             throw {
                 status: 404,
                 message: "Letter not found",
-                description: "The requested letter does not exist."
+                description: "The requested grievance does not exist."
             };
         }
 
@@ -234,16 +234,16 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
     try {
         const letterId = req.params.id;
         if (!letterId || letterId === "undefined" || letterId === null) {
-            throw { status: 400, message: "Invalid letterId found", description: "Please provide a valid letterId." }
+            throw { status: 400, message: "Invalid grievance id found", description: "Please provide a valid grievance id." }
         }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         if (!letter) {
-            throw { status: 404, message: "Requested resource does not exists" }
+            throw { status: 404, message: "Requested grievance does not exists" }
         }
         const sanitizedLetter = sanitizedLetterData(letter);
 
         const successResponseMsg = twohundredResponse({
-            message: "Letter from ",
+            message: "Here's your grievance:",
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);
@@ -449,13 +449,13 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyTeacherToken, async (req
         console.log(letter?.createdAt < oneHourAgo)
 
         if (letter?.createdAt < oneHourAgo) {
-            throw { status: 400, message: "Letter cannot be deleted !", description: "More than one hour passed since sending" }
+            throw { status: 400, message: "Grievance cannot be deleted !", description: "More than one hour passed since sending" }
         }
 
         // Delete the letter
         await Letter.findByIdAndDelete(letterId);
 
-        const successResponseMsg = twohundredResponse({ message: 'Letter deleted successfully' })
+        const successResponseMsg = twohundredResponse({ message: 'Grievance deleted successfully' })
         return res.status(200).json(successResponseMsg);
     } catch (error) {
         console.error(error);
