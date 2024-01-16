@@ -165,7 +165,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             throw { status: 400, message: "Invalid letterId found", description: "Please provide a valid letterId." }
         }
 
-        const letter = await Letter.findOne({ _id: letterId }).populate('from', '_id username email semester department');
+        const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         if (!letter) {
             throw {
                 status: 404,
@@ -210,7 +210,7 @@ router.post('/getAllLetters', Auth.verifyTeacherToken, async (req, res) => {
             };
         }
         const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', '_id username email semester department role');
-       
+
         const sanitizedLetters = sanitizedLetterList(letters);
 
         const successResponseMsg = twohundredResponse({

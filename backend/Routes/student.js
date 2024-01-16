@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Auth = require('../libs/Auth');
 const Letter = require('../Models/Letter');
-const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse, abstractedUserData, customError, sanitizedLetterData } = require('../Utils/Helpers');
+const { fiveHundredResponse, resMessages, fourNotOneResponse, fourNotFourResponse, roles, twoNotOneResponse, twohundredResponse, transporter, fourNotThreeResponse, fourHundredResponse, abstractedUserData, customError, sanitizedLetterData, sanitizedLetterList } = require('../Utils/Helpers');
 const moment = require('moment');
 // const MemoryStore = require("rate-limit-memory");
 
@@ -175,7 +175,7 @@ router.post('/addLetter', Auth.verifyStudentToken, async (req, res) => {
         });
 
         const savedLetter = await newLetter.save();
-        
+
         const successResponseMsg = twoNotOneResponse({ message: "Grievance created successfully", data: savedLetter });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
@@ -197,26 +197,10 @@ router.post('/getAllLetters', Auth.verifyStudentToken, async (req, res) => {
         }
         const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', 'username email department semester role');
 
-        const sanitizedLetters = letters.map(letter => ({
-            ...letter.toObject(),
-            from: {
-                username: letter.from.username,
-                email: letter.from.email,
-                semester: letter.from.semester,
-                department: letter.from.department,
-                role: letter.from.role,
-            },
-            createdAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-            updatedAt: {
-                date: moment(letter.createdAt).format('DD/MM/YYYY , HH:mm'),
-                ago: moment(letter.createdAt).fromNow(),
-            },
-        }));
+        const sanitizedLetters = sanitizedLetterList(letters);
+
         const successResponseMsg = twohundredResponse({
-            message: letters.length === 0 ? "No letters send by you" : "All letters",
+            message: letters.length === 0 ? "No letters send by you" : "Here's your grievances:",
             data: sanitizedLetters,
             letterCount: letters.length
         });
