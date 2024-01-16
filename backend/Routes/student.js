@@ -175,14 +175,8 @@ router.post('/addLetter', Auth.verifyStudentToken, async (req, res) => {
         });
 
         const savedLetter = await newLetter.save();
-        const responseMsg = {
-            resCode: 201,
-            status: 'SUCCESS',
-            message: 'created successfully.',
-            data: savedLetter,
-            accessToken: req.accessToken
-        }
-        const successResponseMsg = twoNotOneResponse(responseMsg);
+        
+        const successResponseMsg = twoNotOneResponse({ message: "Grievance created successfully", data: savedLetter });
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
