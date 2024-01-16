@@ -1,0 +1,145 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        padding: 0.5rem;
+        border-radius: 10px;
+    }
+}
+
+.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 1rem;
+}
+
+.downloadRow {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.downloadItemRow {
+    width: 60%;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    gap: 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .downloadItemRow {
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+.title {
+    font-size: 1.3rem;
+    color: red;
+}
+
+.download {
+    width: 100%;
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid red;
+    border-radius: 10px;
+    color: red;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.left {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+@media only screen and (max-width: 767px) {
+    .left {
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+@media only screen and (max-width: 767px) {
+    .right {
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.downloadWrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 80%;
+    align-items: center;
+    justify-content: center;
+}
+
+.info {
+    font-size: 1.1rem;
+}
+
+.sdate {
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(255, 248, 248);
+}
+
+.edate {
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(255, 248, 248);
+}
+
+@media only screen and (max-width: 767px) {
+    
+}

@@ -1,0 +1,504 @@
+.container {
+
+    background-color: #fff;
+    border-radius: 10px;
+    width: 100%;
+    padding: 1rem;
+    height: auto;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 1rem;
+}
+
+.titleRow {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: red;
+}
+
+.manageRow {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.manageItemTitle {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+}
+
+.itemtitle {
+    font-size: 1.09rem;
+}
+
+.manageItemRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .manageItemRow {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.verticalLine {
+    height: 100%;
+    border-left: 1px solid #ffd2d2;
+    /* You can change the color as needed */
+    margin: 0 10px;
+    /* Adjust the margin as needed */
+}
+
+@media only screen and (max-width: 767px) {
+    .verticalLine {
+        width: 100%;
+        border-bottom: 1px solid #ffd2d2;
+        /* You can change the color as needed */
+        margin-top: 9.5rem;
+        /* Adjust the margin as needed */
+    }
+}
+
+.manageItemLeft {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.manageItemRight {
+    flex: 4;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+
+.manageItemTop {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    gap: 1rem;
+    border-bottom: 1px solid rgb(255, 242, 242);
+    justify-content: space-between;
+}
+
+@media only screen and (max-width: 767px) {
+    .manageItemTop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 10px 0;
+        gap: 1rem;
+        border-bottom: 1px solid rgb(255, 242, 242);
+        justify-content: space-between;
+    }
+}
+
+.searchBox {
+    flex: 4.5;
+    width: 100%;
+}
+
+.manageTopActions {
+    flex: 7.5;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.5rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .manageTopActions {
+        flex: 7.5;
+        display: none;
+        align-items: center;
+        justify-content: end;
+        gap: 0.5rem;
+    }
+
+}
+
+.search {
+    background-color: rgb(255, 237, 237);
+    padding: 10px;
+    border-radius: 50px;
+    width: 100%;
+    outline: none;
+    border: none;
+}
+
+.search::placeholder {
+    letter-spacing: 1px;
+}
+
+.actionBtn {
+    padding: 8px 10px;
+    border: none;
+    background-color: red;
+    color: #fff;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+
+.listTopContainer {
+    height: 20rem;
+}
+
+.listContainer {
+    height: 20rem;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 767px) {
+    .listContainer {
+        height: 20rem;
+        overflow-y: auto;
+    }
+}
+
+.listContainerSpl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 20rem;
+    overflow-y: auto;
+}
+
+
+.listContainerRight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 20rem;
+    min-height: 12rem;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 767px) {
+    .listContainerRight {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 10rem;
+        min-height: 12rem;
+        overflow-y: auto;
+    }
+}
+
+.userListContainer {
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    border-radius: 10px;
+    align-items: center;
+    border-bottom: 1px solid rgb(255, 242, 242);
+}
+
+.left {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    justify-content: space-evenly;
+}
+
+.center {
+    flex: 6;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.right {
+    flex: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.manageRight {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.count {
+    font-size: 1rem;
+}
+
+.leftItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.listUsername {
+    font-size: 1rem;
+    text-transform: capitalize;
+}
+
+.none {
+    font-size: 1rem;
+    font-weight: 500;
+    color: red;
+}
+
+.btnRow {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .btnRow {
+        display: flex;
+        width: 100%;
+        /* gap: 1rem; */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.submitBtn {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    background-color: red;
+    align-items: center;
+    color: #fff;
+    font-weight: 500;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+    .submitBtn {
+        display: flex;
+        width: 100%;
+        margin-top: 1rem;
+        padding: 10px;
+        background-color: red;
+        align-items: center;
+        color: #fff;
+        font-weight: 500;
+        justify-content: center;
+        border-radius: 10px;
+    }
+}
+
+.cancelBtn {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    align-items: center;
+    color: #ff0000;
+    font-weight: 500;
+    border: 1px solid rgb(255, 141, 141);
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.statusContainer {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    /* background-color: rebeccapurple; */
+    padding: 1rem 0 2rem 0;
+    border-bottom: 1px solid rgb(255, 221, 221);
+}
+
+.statusItem {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    width: 60%;
+    font-size: 1.1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .statusItem {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        gap: 1rem;
+        align-items: center;
+        width: 100%;
+        font-size: 1.1rem;
+    }
+}
+
+.statusRow {
+    display: flex;
+    align-items: center;
+    flex: 7;
+    gap: 0.5rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .statusRow {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        width: 100%;
+    }
+}
+
+.right {
+    width: 100%;
+    flex: 5;
+}
+
+@media only screen and (max-width: 767px) {
+    .right {
+        flex: 8;
+        width: 100%;
+    }
+}
+
+.statuBtn {
+    width: 100%;
+    background-color: red;
+    border-radius: 10px;
+    padding: 8px;
+    color: #fff
+}
+
+.ActionAndCommentContainer {
+    display: flex;
+    gap: 2rem;
+    margin: 5rem 0;
+}
+
+.ActionAndCommentLeft {
+    flex: 6;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 767px) {
+    .ActionAndCommentContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin: 5rem 0;
+    }
+}
+
+.ActionAndCommentTitle {
+    font-size: 1.1rem;
+}
+
+.ActionAndCommentRight {
+    flex: 6;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.txtArea {
+    width: 100%;
+    padding: 0.5rem;
+    outline: none;
+    border: 1px solid rgb(255, 241, 241);
+    background-color: #fff5f5;
+    border-radius: 10px;
+}
+
+.manageBtn {
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+    border-radius: 10px;
+    background-color: red;
+    color: #fff;
+    font-weight: 500;
+}
+
+.defaultActions {
+    display: flex;
+    gap: 1rem;
+    height: auto;
+    width: auto;
+    padding: 10px 10px;
+    min-height: 4rem;
+    border-radius: 10px;
+    box-shadow: rgba(223, 223, 223, 0.2) 0px 8px 24px;
+    align-items: center;
+}
+
+.defaultActionLeft {
+    flex: 10;
+    display: flex;
+    text-align: justify;
+}
+
+.ActionAndCommentInfo{
+    font-size: 0.9rem;
+}
+
+.defaultActionRight {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.iconBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0.8rem;
+    cursor: pointer;
+}
+
+.iconBox:hover {
+    background-color: #e7e7e7;
+    color:red
+}
+
+.actionIcon{
+    font-size: 1.17rem;
+}

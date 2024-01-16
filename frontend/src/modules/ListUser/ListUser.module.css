@@ -1,0 +1,401 @@
+.container {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.topTitle {
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    color: red;
+}
+
+.top {
+    display: flex;
+    width: 95%;
+    align-items: center;
+    height: 3rem;
+    justify-content: center;
+}
+
+.wrap {
+    padding: 1rem;
+    height: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .wrap {
+        padding: 0 0.3rem;
+        height: 100%;
+    }
+
+}
+
+.dashboardTopRow {
+    display: flex;
+    width: 100%;
+    padding: 0 0 1rem 0;
+    border-bottom: 1px solid rgb(255, 248, 248);
+}
+
+@media only screen and (max-width: 767px) {
+    .dashboardTopRow {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0 0 1rem 0;
+        border-bottom: 1px solid rgb(255, 239, 239);
+    }
+}
+
+.dashboardRowLeft {
+    display: flex;
+    flex: 4;
+    width: 100%;
+}
+
+.dashboardRowRight {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.5rem;
+    flex: 8;
+}
+
+@media only screen and (max-width: 767px) {
+    .dashboardRowRight {
+        width: 100%;
+        display: none;
+        align-items: center;
+        justify-content: end;
+        gap: 0.5rem;
+        flex: 8;
+    }
+}
+
+.searchWrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 10px;
+    background-color: rgb(255, 249, 249);
+    border-radius: 30px;
+    width: 90%;
+}
+
+@media only screen and (max-width: 767px) {
+    .searchWrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 10px;
+        background-color: rgb(255, 249, 249);
+        border-radius: 30px;
+        width: 100%;
+    }
+}
+
+.icon {
+    font-size: 1.8rem;
+    color: rgb(182, 182, 182);
+}
+
+.dashboardRow {
+    height: 61vh;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .dashboardRow {
+        height: 72vh;
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+    }
+}
+
+.dashboardLoaderRow {
+    height: 61vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dashboardRowLeftSearch {
+    height: 3rem;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: rgb(255, 249, 249);
+    border-radius: 10px;
+
+}
+
+
+.emptyImgBox {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    gap: 1rem;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emptyImg {
+    display: flex;
+    height: 10rem;
+}
+
+
+.apllyBtn {
+    display: flex;
+    padding: 9px 15px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.82rem;
+    background-color: red;
+    border-radius: 10px;
+}
+
+
+.left {
+    padding: 0rem 1.5rem;
+}
+
+.listContainer {
+    width: 100%;
+    height: 4.3rem;
+    min-height: 4.3rem;
+    padding: 0 1.3rem;
+    border-radius: 10px;
+    border-bottom: 1px solid rgb(255, 248, 248);
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .listContainer {
+        width: 100%;
+        height: 4.3rem;
+        min-height: 4.3rem;
+        padding: 0 0rem;
+        border-radius: 10px;
+        border-bottom: 1px solid rgb(255, 238, 238);
+        display: flex;
+        align-items: center;
+    }
+}
+
+.left {
+    display: flex;
+    flex: 0.5;
+}
+
+@media only screen and (max-width: 767px) {
+    .left {
+        display: flex;
+        flex: 0;
+    }
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex: 2;
+}
+
+@media only screen and (max-width: 767px) {
+    .right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 2;
+    }
+}
+
+.center {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: start;
+    flex: 8;
+}
+
+.read {
+    color: red;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.countNo {
+    font-size: 1rem;
+}
+
+.actionIcon {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+    .actionIcon {
+        font-size: 1.3rem;
+        cursor: pointer;
+    }
+}
+
+.edit {
+    font-size: 1.18rem;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+    .edit {
+        font-size: 1rem;
+        cursor: pointer;
+    }
+}
+
+.hover {
+    padding: 0.7rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.hover:hover {
+    background-color: rgb(233, 233, 233);
+}
+
+
+.centerCol {
+    width: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+@media only screen and (max-width: 767px) {
+    .centerCol {
+        width: 10rem;
+        flex: 1;
+        gap: 1rem;
+        margin-right: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+
+.rightItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.deleteConfirm{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(207, 207, 207, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+}
+
+.deleteConfirmBox{
+    background-color: #fff;
+    width: 40%;
+    height: 60%;
+    padding: 2rem;
+    flex-wrap: wrap;
+    text-align: center;
+    flex-direction: column ;
+    border-radius: 20px;
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .deleteConfirmBox{
+        background-color: #fff;
+        width: 90%;
+        height: 60%;
+        padding: 2rem;
+        flex-wrap: wrap;
+        text-align: center;
+        flex-direction: column ;
+        border-radius: 20px;
+        gap: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.deleteTitle{
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.high{
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.cancel{
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    color: red;
+    border: 1px solid red;
+    outline: none;
+    background-color: rgb(255, 255, 255);
+}
+
+.delete{
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    color: #fff;
+    border: none;
+    outline: none;
+    background-color: rgb(255, 0, 0);
+}
+
+.deleteImage{
+    font-size: 5rem;
+    color: red;
+}

@@ -1,0 +1,99 @@
+.LoginNavContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    gap: 2rem;
+    border-radius: 15px;
+    height: 70%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+@media only screen and (max-width: 767px) {
+    .LoginNavContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        gap: 2rem;
+        border-radius: 15px;
+        height: 70%;
+        box-shadow: rgba(211, 206, 206, 0.2) 0px 7px 29px 0px;
+    }
+}
+
+.BtnCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.LoginNavRow {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.LoginNavAdminButton {
+    display: flex;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 16px 10px;
+    background: #14541a;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.LoginNavTeacherButton {
+    display: flex;
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.2rem;
+    padding: 16px 10px;
+    border-radius: 10px;
+    background: #940303;
+    outline: none;
+    color: #fff;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.LoginNavTitle {
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+}
+
+.LoginNavStudentButton {
+    display: flex;
+    width: 100%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 16px 10px;
+    font-weight: 500;
+    border-radius: 10px;
+    outline: none;
+    background: #3658cf;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}

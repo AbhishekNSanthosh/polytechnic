@@ -1,0 +1,122 @@
+.container {
+    display: flex;
+    height: 13vh;
+    align-items: center;
+    color: red;
+    background-color: #fff;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .container {
+        display: flex;
+        height: 9vh;
+        align-items: center;
+        color: red;
+        justify-content: center;
+    }
+}
+
+.TopNavBarWrap {
+    padding: 1rem 2rem;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    height: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    .TopNavBarWrap {
+        padding: 1rem 1rem;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        height: 100%;
+    }
+}
+
+
+@media only screen and (max-width: 767px) {
+    .SideNavBarWrap {
+        display: none;
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .navBoxTitle {
+        display: none;
+    }
+}
+
+.dpImg {
+    object-fit: cover;
+    height: 3rem;
+    border-radius: 50%;
+}
+
+@media only screen and (max-width: 767px) {
+    .dpImg {
+        object-fit: cover;
+        height: 2.1rem;
+        border-radius: 50%;
+    }
+}
+
+.dp {
+    border: 2px solid red;
+    padding: 0.12rem;
+    border-radius: 50%;
+}
+
+.welcome {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    font-weight: 500;
+    color: red;
+    text-transform: capitalize;
+}
+
+.more {
+    display: flex;
+    font-size: 1.7rem;
+    color: red;
+
+    cursor: pointer;
+}
+
+.navRes {
+    position: absolute;
+    background-color: #fff;
+    height: 88vh;
+    width: 100%;
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .navRes {
+        position: absolute;
+        background-color: #fff;
+        z-index: 9999;
+        height: 91vh;
+        width: 100%;
+        display: block;
+    }
+}
+
+.navBoxRes{
+    display: none;
+}
+
+
+@media only screen and (max-width: 767px) {
+    .navBoxRes {
+        display: block;
+    }
+}
+
+.bannerLogo{
+    height: 1.7rem;
+}
