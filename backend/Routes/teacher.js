@@ -430,7 +430,7 @@ router.post('/searchLetter', Auth.verifyTeacherToken, async (req, res) => {
 //api to delete a letter
 router.delete('/deleteLetterById/:letterId', Auth.verifyTeacherToken, async (req, res) => {
     try {
-        const letterId = req.params.id;
+        const letterId = req.params.letterId;
         if (!letterId || letterId === "undefined" || letterId === null) {
             throw { status: 400, message: "Invalid grievance id.", description: "Please provide a valid id." }
         }
