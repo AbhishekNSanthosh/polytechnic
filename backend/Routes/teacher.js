@@ -402,9 +402,14 @@ router.post('/searchLetter', Auth.verifyTeacherToken, async (req, res) => {
         }
 
         const letters = await Letter.find({
-            $or: [
-                { subject: { $regex: query, $options: 'i' } },
-                { content: { $regex: query, $options: 'i' } },
+            $and: [
+                {
+                    $or: [
+                        { subject: { $regex: query, $options: 'i' } },
+                        { content: { $regex: query, $options: 'i' } },
+                    ],
+                },
+                { from: req.userId }, // Add this condition to filter based on the from field
             ],
         }).sort({ createdAt: "desc" });
 
