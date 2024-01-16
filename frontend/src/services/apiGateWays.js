@@ -17,10 +17,23 @@ export const privateGateway = axios.create({
     }
 });
 
-
 // Add a request interceptor
 privateGateway.interceptors.request.use(
     function (config) {
+        // Check if the browser is online
+        if (!navigator.onLine) {
+            toast({
+                title: "Network Error",
+                description: "Please check your internet connection.",
+                status: "error",
+                duration: 5000,
+                isClosable: true
+            });
+
+            // Returning a rejected promise will prevent the request from being sent
+            return Promise.reject("No internet connection");
+        }
+
         const accessToken = localStorage.getItem("accessToken");
         if (accessToken) {
             config.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -34,29 +47,27 @@ privateGateway.interceptors.request.use(
     }
 );
 
-// Request Interceptor: Ensure that the URL ends with a trailing slash
-// If the URL doesn't terminate with a slash, this interceptor appends one.
-// privateGateway.interceptors.request.use(
-//     function (config) {
-//         if (config.url) {
-//             if (!config.url.endsWith("/")) {
-//                 config.url += "/";
-//             }
-//         }
-//         return config;
-//     },
-//     function (error) {
-//         // Do something with request error
-//         return Promise.reject(error);
-//     }
-// );
-
+// Response Interceptor: Handle network errors
 privateGateway.interceptors.response.use(
     function (response) {
         return response;
     },
-    async function (error) {
-        if (error.response?.data?.resCode === 2215) {
+    function (error) {
+        if (!error.response && !error.status) {
+            // No response and no error status, indicating a network issue
+            toast({
+                title: "Network Error",
+                description: "Please check your internet connection.",
+                status: "error",
+                duration: 5000,
+                isClosable: true
+            });
+
+            return Promise.resolve({
+                status: 200,
+            });
+        } else if (error.response?.data?.resCode === 2215) {
+            // Handle specific error code
             toast.closeAll();
             toast({
                 title: error.response?.data?.message,
@@ -71,17 +82,12 @@ privateGateway.interceptors.response.use(
                 localStorage.clear();
                 window.location.href = "/";
             }, 3000);
-            //     // return await Promise.reject(error);
-            //     return await Promise.reject(error);
 
-            // }
-            // return Promise.reject(error);
             return Promise.resolve({
                 status: 200,
             });
+        } else {
+            return Promise.reject(error);
         }
-
-        // If it's not the specific error you're handling, return the original error
-        return Promise.reject(error);
     }
 );
