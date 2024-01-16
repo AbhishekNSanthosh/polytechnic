@@ -333,7 +333,7 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
         }
 
         // Find the letter by ID
-        const letter = await Letter.findById(letterId).populate('sender');
+        const letter = await Letter.findById(letterId);
         if (!letter) {
             throw { status: 404, message: resMessages.notFoundMsg }
         }

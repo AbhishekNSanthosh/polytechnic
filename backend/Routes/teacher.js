@@ -44,8 +44,13 @@ router.post('/teacherLogin', async (req, res) => {
             throw { status: 400, message: "Invalid password" }
         }
 
-        const user = await User.findOne({ username, role: "teacher" });
-
+        const isEmail = validator.isEmail(username);
+        console.log("Is email ? ", isEmail)
+        // Query the user based on either username or email
+        const userQuery = isEmail ? { email: username, role: "teacher" } : { username, role: "teacher" };
+        const user = await User.findOne(userQuery);
+        console.log("user", user)
+        
         if (!user) {
             throw { status: 404, message: resMessages.userNotfoundMsg }
         }
