@@ -193,14 +193,18 @@ router.post('/getAllLetters', Auth.verifyStudentToken, async (req, res) => {
     try {
         const { sortOrder } = req.body;
         if (!sortOrder) {
-            throw { status: 400, message: "Invalid sorting method found" }
+            throw {
+                status: 400,
+                message: "Invalid sort method",
+                description: "Provide a valid sorting order."
+            };
         }
         const letters = await Letter.find({ from: req.userId }).sort({ createdAt: sortOrder }).populate('from', 'username email department semester role');
 
         const sanitizedLetters = sanitizedLetterList(letters);
 
         const successResponseMsg = twohundredResponse({
-            message: letters.length === 0 ? "No letters send by you" : "Here's your grievances:",
+            message: letters.length === 0 ? "No grievances send by you" : "Here's your grievances:",
             data: sanitizedLetters,
             letterCount: letters.length
         });

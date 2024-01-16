@@ -214,8 +214,8 @@ router.post('/getAllLetters', Auth.verifyTeacherToken, async (req, res) => {
         const sanitizedLetters = sanitizedLetterList(letters);
 
         const successResponseMsg = twohundredResponse({
-            message: letters.length === 0 ? "No letters send by you" : "All letters",
-            data: sanitizedLetters.length === 0 ? [] : sanitizedLetters,
+            message: letters.length === 0 ? "No grievances send by you" : "Here's your grievances:",
+            data: sanitizedLetters,
             letterCount: letters.length
         });
         return res.status(200).json(successResponseMsg);
@@ -425,17 +425,16 @@ router.post('/searchLetter', Auth.verifyTeacherToken, async (req, res) => {
 //api to delete a letter
 router.delete('/deleteLetterById/:letterId', Auth.verifyTeacherToken, async (req, res) => {
     try {
-        const letterId = req.params.letterId;
-        if (!letterId) {
-            throw { status: 400, message: "Invalid letterId found" }
+        const letterId = req.params.id;
+        if (!letterId || letterId === "undefined" || letterId === null) {
+            throw { status: 400, message: "Invalid grievance id.", description: "Please provide a valid id." }
         }
-        // Find the letter by ID
+
         const letter = await Letter.findById(letterId).populate('sender');
         if (!letter) {
             throw { status: 404, message: resMessages.notFoundMsg }
         }
 
-        // Check if the sender has the role 'student'
         if (letter.sender !== 'teacher') {
             throw { status: 403, message: "Access denied" }
         }
