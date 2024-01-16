@@ -1330,6 +1330,7 @@ router.post('/generate-pdf', Auth.verifyAdminToken, async (req, res) => {
                                 hour: '2-digit',
                                 minute: '2-digit',
                                 hour12: true,
+                                timeZone: 'Asia/Kolkata', // Set the time zone to GMT+5:30 (Indian Standard Time)
                             })}`,
                             width: '*',
                             alignment: 'center',
