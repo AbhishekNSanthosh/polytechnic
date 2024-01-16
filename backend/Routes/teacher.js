@@ -179,6 +179,10 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             };
         }
         const sanitizedLetter = sanitizedLetterData(letter);
+        console.log("sani from",sanitizedLetter?.from?._id)
+        console.log("letter from",letter?.from?._id)
+        console.log("user",req?.userId)
+        console.log(sanitizedLetter?.from?._id !== req?.userId)
 
         if (sanitizedLetter?.from?._id !== req?.userId) {
             throw {
