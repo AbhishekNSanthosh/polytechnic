@@ -170,7 +170,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             throw { status: 400, message: "Invalid grievance id found", description: "Please provide a valid grievance id." }
         }
 
-        const letter = await Letter.findOne({ _id: letterId,from:req.userId }).populate('from', 'username email semester department role');
+        const letter = await Letter.findOne({ _id: letterId, from: req.userId }).populate('from', 'username email semester department role');
         if (!letter) {
             throw {
                 status: 404,
@@ -179,9 +179,9 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             };
         }
         const sanitizedLetter = sanitizedLetterData(letter);
-        console.log("sani from",sanitizedLetter?.from?._id)
-        console.log("letter from",letter?.from?._id)
-        console.log("user",req?.userId)
+        console.log("sani from", sanitizedLetter?.from?._id)
+        console.log("letter from", letter?.from?._id)
+        console.log("user", req?.userId)
         console.log(sanitizedLetter?.from?._id !== req?.userId)
 
         // if (sanitizedLetter?.from?._id !== req?.userId) {
@@ -390,7 +390,9 @@ router.post('/teacherPermittedLetters', Auth.verifyTeacherToken, async (req, res
 
         const letters = await Letter.find().sort({ updatedAt: sortOrder });
         const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
-        const successResponse = twohundredResponse({ message: "Here's your permitted grievances", data: filteredLetters })
+
+        const lettersList = sanitizedLetterList(filteredLetters);
+        const successResponse = twohundredResponse({ message: "Here's your permitted grievances", data: lettersList })
         return res.json(successResponse);
     } catch (error) {
         console.error(error);
