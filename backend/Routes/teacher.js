@@ -179,7 +179,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             };
         }
 
-        if (letter?.from !== req?.userId) {
+        if (letter?.from?._id !== req?.userId) {
             throw {
                 status: 403,
                 message: "Access denied",
