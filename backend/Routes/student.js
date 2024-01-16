@@ -388,9 +388,9 @@ router.post('/searchLetter', Auth.verifyStudentToken, async (req, res) => {
                 },
                 { from: req.userId }, // Add this condition to filter based on the from field
             ],
-        }).sort({ createdAt: "desc" });
+        }).sort({ createdAt: "desc" }).populate('from', 'username email semester department');
 
-        const sanitizedLetters = letters;
+        const sanitizedLetters = sanitizedLetterList(letters);
         const searchResCount = letters.length
         const successResponse = twohundredResponse({ message: "Search results:", data: sanitizedLetters, searchResCount });
         return res.status(200).json(successResponse);
