@@ -88,7 +88,7 @@ const ManageLetter = () => {
                 <div className={styles.titleRow}>
                     <span className={styles.title}>Manage Letter</span>
                 </div>
-                <ManageStatus />
+                <ManageStatus letterData={letterData} />
                 <div className={styles.manageRow}>
                     <div className={styles.manageItemTitle}>
                         <span className={styles.itemtitle}>Manage View Access Permission :</span>
@@ -176,7 +176,7 @@ const ManageLetter = () => {
                                 {selectedUserNames.length !== 0 ?
                                     <div className={styles.listContainerLeft}>
                                         {selectedUserNames && selectedUserNames.map((teacher, index) => (
-                                            <div className={styles.userListContainer}>
+                                            <div className={styles.userListContainer} key={index}>
                                                 <div className={styles.left}>
                                                     <div className={styles.leftItem}>
                                                         <span className={styles.count}>{index + 1}.</span>
