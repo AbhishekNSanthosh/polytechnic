@@ -326,9 +326,9 @@ router.post('/resetPassword', async (req, res) => {
 //api to delete a letter
 router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req, res) => {
     try {
-        const letterId = req.params.letterId;
-        if (!letterId) {
-            throw { status: 400, message: "Invalid letterId found" }
+        const letterId = req.params.id;
+        if (!letterId || letterId === "undefined" || letterId === null) {
+            throw { status: 400, message: "Invalid grievance id.", description: "Please provide a valid id." }
         }
 
         // Find the letter by ID
@@ -339,7 +339,7 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req
 
         // Check if the sender has the role 'student'
         if (letter.sender !== 'student') {
-            throw { status: 403, message: "Access denied" }
+            throw { status: 403, message: "Access denied", description: "Authentication token is missing or invalid." }
         }
 
         // Check if it's within one hour of sending the letter

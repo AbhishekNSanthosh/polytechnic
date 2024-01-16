@@ -436,7 +436,7 @@ router.delete('/deleteLetterById/:letterId', Auth.verifyTeacherToken, async (req
         }
 
         if (letter.sender !== 'teacher') {
-            throw { status: 403, message: "Access denied" }
+            throw { status: 403, message: "Access denied", description: "Authentication token is missing or invalid." }
         }
 
         // Check if it's within one hour of sending the letter
