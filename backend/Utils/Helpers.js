@@ -208,12 +208,12 @@ const sanitizedUserList = (users) => {
         department: user?.department,
         role: user?.role,
         createdAt: {
-            date: moment(letter?.createdAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
-            ago: moment(letter?.createdAt).utcOffset('+05:30').fromNow(),
+            date: moment(user?.createdAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
+            ago: moment(user?.createdAt).utcOffset('+05:30').fromNow(),
         },
         updatedAt: {
-            date: moment(letter?.updatedAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
-            ago: moment(letter?.updatedAt).utcOffset('+05:30').fromNow(),
+            date: moment(user?.updatedAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
+            ago: moment(user?.updatedAt).utcOffset('+05:30').fromNow(),
         },
     }));
     return userList;
@@ -276,15 +276,15 @@ const abstractedUserData = (userObj, updated) => {
         department: userAbstractedObj.department,
         role: userAbstractedObj?.role,
         createdAt: {
-            date: moment(letter?.createdAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
-            ago: moment(letter?.createdAt).utcOffset('+05:30').fromNow(),
+            date: moment(userAbstractedObj?.createdAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
+            ago: moment(userAbstractedObj?.createdAt).utcOffset('+05:30').fromNow(),
         },
     }
 
     if (updated) {
         newData.updatedAt = {
-            date: moment(letter?.updatedAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
-            ago: moment(letter?.updatedAt).utcOffset('+05:30').fromNow(),
+            date: moment(userAbstractedObj?.updatedAt).utcOffset('+05:30').format('DD/MM/YYYY , hh:mm A'),
+            ago: moment(userAbstractedObj?.updatedAt).utcOffset('+05:30').fromNow(),
         }
     }
     return newData;
