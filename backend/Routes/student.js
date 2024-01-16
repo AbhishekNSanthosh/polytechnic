@@ -130,7 +130,7 @@ router.get('/getUserDetails', Auth.verifyStudentToken, async (req, res) => {
     try {
         if (req.user) {
             if (!req.user) {
-                throw { status: 404, message: "User does not exists" }
+                throw { status: 401, message: "Access denied", description: "Authentication token is missing or invalid." };
             }
             const userData = abstractedUserData(req.user);
             const responseMsg = twohundredResponse({ data: userData, accessToken: req.accessToken });
