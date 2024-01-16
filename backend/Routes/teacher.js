@@ -170,7 +170,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             throw { status: 400, message: "Invalid grievance id found", description: "Please provide a valid grievance id." }
         }
 
-        const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
+        const letter = await Letter.findOne({ _id: letterId,from:req.userId }).populate('from', 'username email semester department');
         if (!letter) {
             throw {
                 status: 404,
@@ -184,13 +184,13 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
         console.log("user",req?.userId)
         console.log(sanitizedLetter?.from?._id !== req?.userId)
 
-        if (sanitizedLetter?.from?._id !== req?.userId) {
-            throw {
-                status: 403,
-                message: "Access denied",
-                description: "You do not have the necessary permissions to access this letter."
-            };
-        }
+        // if (sanitizedLetter?.from?._id !== req?.userId) {
+        //     throw {
+        //         status: 403,
+        //         message: "Access denied",
+        //         description: "You do not have the necessary permissions to access this letter."
+        //     };
+        // }
 
         const successResponseMsg = twohundredResponse({
             message: "Here's your grievance:",
