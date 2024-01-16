@@ -388,7 +388,7 @@ router.post('/teacherPermittedLetters', Auth.verifyTeacherToken, async (req, res
             throw { status: 400, message: 'Invalid or missing user ID in the token' };
         }
 
-        const letters = await Letter.find().sort({ updatedAt: sortOrder });
+        const letters = await Letter.find().sort({ updatedAt: sortOrder }).populate('from','username email semester department role');
         const filteredLetters = letters.filter(letter => letter.viewAccessids.includes(requestingUserId));
 
         const lettersList = sanitizedLetterList(filteredLetters);
