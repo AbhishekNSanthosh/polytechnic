@@ -50,7 +50,7 @@ router.post('/teacherLogin', async (req, res) => {
         const userQuery = isEmail ? { email: username, role: "teacher" } : { username, role: "teacher" };
         const user = await User.findOne(userQuery);
         console.log("user", user)
-        
+
         if (!user) {
             throw { status: 404, message: resMessages.userNotfoundMsg }
         }
@@ -178,15 +178,15 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
                 description: "The requested grievance does not exist."
             };
         }
+        const sanitizedLetter = sanitizedLetterData(letter);
 
-        if (letter?.from?._id !== req?.userId) {
+        if (sanitizedLetter?._id !== req?.userId) {
             throw {
                 status: 403,
                 message: "Access denied",
                 description: "You do not have the necessary permissions to access this letter."
             };
         }
-        const sanitizedLetter = sanitizedLetterData(letter);
 
         const successResponseMsg = twohundredResponse({
             message: "Here's your grievance:",
