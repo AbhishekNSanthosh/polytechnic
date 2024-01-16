@@ -327,6 +327,7 @@ router.post('/resetPassword', async (req, res) => {
 router.delete('/deleteLetterById/:letterId', Auth.verifyStudentToken, async (req, res) => {
     try {
         const letterId = req.params.id;
+        console.log(letterId)
         if (!letterId) {
             throw { status: 400, message: "Invalid grievance id.", description: "Please provide a valid id." }
         }
