@@ -180,7 +180,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
         }
         const sanitizedLetter = sanitizedLetterData(letter);
 
-        if (sanitizedLetter?._id !== req?.userId) {
+        if (sanitizedLetter?.from?._id !== req?.userId) {
             throw {
                 status: 403,
                 message: "Access denied",
