@@ -59,10 +59,10 @@ router.post('/adminLogin', async (req, res) => {
             throw { status: 400, message: "Password field is required" }
         }
 
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(username) || validator.matches(username, /[/\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid username" }
         }
-        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+        if (validator.isEmpty(password) || validator.matches(password, /[/\[\]{}<>]/)) {
             throw { status: 400, message: "Invalid password" }
         }
 
