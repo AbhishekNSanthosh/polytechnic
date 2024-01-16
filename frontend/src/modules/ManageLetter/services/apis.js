@@ -96,13 +96,16 @@ export const getLetterDetailsByAdmin = async (
     letterId,
     setSelectedUsers,
     setLetterData,
-    toast
+    toast,
+    setIsLoading
 ) => {
+    setIsLoading(true);
     try {
 
         const response = await privateGateway.get(adminApi.getLetterData + letterId);
         setLetterData(response?.data?.data);
         setSelectedUsers(response?.data?.data.viewAccessids)
+        setIsLoading(false)
     } catch (error) {
         toast({
             title: error?.response?.data?.title,

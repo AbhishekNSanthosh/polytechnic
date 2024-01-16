@@ -7,6 +7,7 @@ import { getLetterDetailsByAdmin, getTeachersByAdmin, searchUser, updateAccess }
 import { Checkbox } from '@chakra-ui/react'
 import ManageStatus from './components/ManageStatus'
 import ActionAndComment from './components/ActionAndComment'
+import { Loader } from '../../components/Loader'
 
 const ManageLetter = () => {
     const [applyFilter, setApplyFilter] = useState(false);
@@ -18,7 +19,8 @@ const ManageLetter = () => {
     const [query, setQuery] = useState("");
     const [apiOnCall, setApiOnCall] = useState(false);
     const [showNoResults, setShowNoResults] = useState(false);
-    const [letterData, setLetterData] = useState({})
+    const [letterData, setLetterData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     const params = useParams();
     const authToken = localStorage.getItem("accessToken");
@@ -35,7 +37,7 @@ const ManageLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin" && authToken !== "") {
-            getLetterDetailsByAdmin(letterId, setSelectedUsers, setLetterData, toast);
+            getLetterDetailsByAdmin(letterId, setSelectedUsers, setLetterData, toast, setIsLoading);
         }
     }, [])
 
@@ -88,117 +90,124 @@ const ManageLetter = () => {
                 <div className={styles.titleRow}>
                     <span className={styles.title}>Manage Letter</span>
                 </div>
-                <ManageStatus letterData={letterData} />
-                <div className={styles.manageRow}>
-                    <div className={styles.manageItemTitle}>
-                        <span className={styles.itemtitle}>Manage View Access Permission :</span>
-                    </div>
-                    <div className={styles.manageItemRow}>
-                        <div className={styles.manageItemLeft}>
-                            <div className={styles.manageItemTop}>
-                                <div className={styles.searchBox}>
-                                    <input onChange={(e) => {
-                                        handleSearch(e)
-                                    }} type="text" placeholder='Search faculty...' className={styles.search} />
-                                </div>
-                                <div className={styles.manageTopActions}>
-                                    <div className={styles.manageTopActionItem}>
-                                        <Select placeholder='Filter Department' value={department} onChange={(e) => {
-                                            setDepartment(e.target.value);
-                                        }} style={{
-                                            width: '8rem'
-                                        }}>
-                                            <option value='CIVIL'>CIVIL</option>
-                                            <option value='CSE'>CSE</option>
-                                            <option value='MECH'>MECH</option>
-                                            <option value='EEE'>EEE</option>
-                                            <option value='ELECTRONICS'>ELECTRONICS</option>
-                                            <option value='AUTOMOBILE'>AUTOMOBILE</option>
-                                        </Select>
+                {isLoading ?
+                    <div className={styles.loader}>
+                        <Loader />
+                    </div> :
+                    <>
+                        <ManageStatus letterData={letterData} />
+                        <div className={styles.manageRow}>
+                            <div className={styles.manageItemTitle}>
+                                <span className={styles.itemtitle}>Manage View Access Permission :</span>
+                            </div>
+                            <div className={styles.manageItemRow}>
+                                <div className={styles.manageItemLeft}>
+                                    <div className={styles.manageItemTop}>
+                                        <div className={styles.searchBox}>
+                                            <input onChange={(e) => {
+                                                handleSearch(e)
+                                            }} type="text" placeholder='Search faculty...' className={styles.search} />
+                                        </div>
+                                        <div className={styles.manageTopActions}>
+                                            <div className={styles.manageTopActionItem}>
+                                                <Select placeholder='Filter Department' value={department} onChange={(e) => {
+                                                    setDepartment(e.target.value);
+                                                }} style={{
+                                                    width: '8rem'
+                                                }}>
+                                                    <option value='CIVIL'>CIVIL</option>
+                                                    <option value='CSE'>CSE</option>
+                                                    <option value='MECH'>MECH</option>
+                                                    <option value='EEE'>EEE</option>
+                                                    <option value='ELECTRONICS'>ELECTRONICS</option>
+                                                    <option value='AUTOMOBILE'>AUTOMOBILE</option>
+                                                </Select>
+                                            </div>
+                                            <div className={styles.manageTopActionItem}>
+                                                <button className={styles.actionBtn} onClick={() => {
+                                                    setApplyFilter(true);
+                                                }}>Apply Filter</button>
+                                            </div>
+                                            {applyFilter &&
+                                                <div className={styles.manageTopActionItem}>
+                                                    <button className={styles.actionBtn} onClick={() => {
+                                                        setDepartment("");
+                                                        setApplyFilter(false);
+                                                    }}>Remove Filter</button>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
-                                    <div className={styles.manageTopActionItem}>
-                                        <button className={styles.actionBtn} onClick={() => {
-                                            setApplyFilter(true);
-                                        }}>Apply Filter</button>
-                                    </div>
-                                    {applyFilter &&
-                                        <div className={styles.manageTopActionItem}>
-                                            <button className={styles.actionBtn} onClick={() => {
-                                                setDepartment("");
-                                                setApplyFilter(false);
-                                            }}>Remove Filter</button>
+                                    {showNoResults ?
+                                        <div className={styles.listContainerSpl}>
+                                            <span className={styles.none}>No search results !!!</span>
+                                        </div>
+                                        :
+                                        <div className={styles.listTopContainer}>
+                                            <div className={styles.listContainer}>
+                                                {teachers && teachers.map((teacher, index) => (
+                                                    <div className={styles.userListContainer} key={index}>
+                                                        <div className={styles.left}>
+                                                            <div className={styles.leftItem}>
+                                                                <span className={styles.count}>{index + 1}.</span>
+                                                            </div>
+                                                            <div className={styles.leftItem}>
+                                                                <Checkbox isChecked={selectedUsers.some(selected => selected === teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
+                                                            </div>
+
+                                                        </div>
+                                                        <div className={styles.center}>
+                                                            <span className={styles.listUsername}> {teacher?.username}</span>
+                                                        </div>
+                                                        <div className={styles.right}>{teacher?.department}</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className={styles.btnRow}>
+                                                <button className={styles.submitBtn} onClick={() => {
+                                                    handleViewAccess();
+                                                }}>Update view access permission</button>
+                                                <button className={styles.cancelBtn} onClick={() => {
+                                                    navigate('/view-letter/' + letterId)
+                                                }}>Cancel</button>
+                                            </div>
                                         </div>
                                     }
                                 </div>
-                            </div>
-                            {showNoResults ?
-                                <div className={styles.listContainerSpl}>
-                                    <span className={styles.none}>No search results !!!</span>
-                                </div>
-                                :
-                                <div className={styles.listTopContainer}>
-                                    <div className={styles.listContainer}>
-                                        {teachers && teachers.map((teacher, index) => (
-                                            <div className={styles.userListContainer} key={index}>
-                                                <div className={styles.left}>
-                                                    <div className={styles.leftItem}>
-                                                        <span className={styles.count}>{index + 1}.</span>
-                                                    </div>
-                                                    <div className={styles.leftItem}>
-                                                        <Checkbox isChecked={selectedUsers.some(selected => selected === teacher?._id)} onChange={() => handleCheckboxChange(teacher?._id)} colorScheme='red' isInvalid />
-                                                    </div>
-
-                                                </div>
-                                                <div className={styles.center}>
-                                                    <span className={styles.listUsername}> {teacher?.username}</span>
-                                                </div>
-                                                <div className={styles.right}>{teacher?.department}</div>
-                                            </div>
-                                        ))}
+                                <div className={styles.verticalLine}></div>
+                                <div className={styles.manageItemRight}>
+                                    <div className={styles.manageItemTitle}>
+                                        <span className={styles.itemtitle}>Current View Access Permissions :</span>
                                     </div>
-                                    <div className={styles.btnRow}>
-                                        <button className={styles.submitBtn} onClick={() => {
-                                            handleViewAccess();
-                                        }}>Update view access permission</button>
-                                        <button className={styles.cancelBtn} onClick={() => {
-                                            navigate('/view-letter/' + letterId)
-                                        }}>Cancel</button>
+                                    <div className={styles.manageRight}>
+                                        {selectedUserNames.length !== 0 ?
+                                            <div className={styles.listContainerLeft}>
+                                                {selectedUserNames && selectedUserNames.map((teacher, index) => (
+                                                    <div className={styles.userListContainer} key={index}>
+                                                        <div className={styles.left}>
+                                                            <div className={styles.leftItem}>
+                                                                <span className={styles.count}>{index + 1}.</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className={styles.center}>
+                                                            <span className={styles.listUsername}> {teacher?.username}</span>
+                                                        </div>
+                                                        <div className={styles.right}>{teacher?.department}</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            :
+                                            <div className={styles.listContainerRight}>
+                                                <span className={styles.none}>No one is granted permission to glimpse the letter!!!</span>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
-                            }
-                        </div>
-                        <div className={styles.verticalLine}></div>
-                        <div className={styles.manageItemRight}>
-                            <div className={styles.manageItemTitle}>
-                                <span className={styles.itemtitle}>Current View Access Permissions :</span>
-                            </div>
-                            <div className={styles.manageRight}>
-                                {selectedUserNames.length !== 0 ?
-                                    <div className={styles.listContainerLeft}>
-                                        {selectedUserNames && selectedUserNames.map((teacher, index) => (
-                                            <div className={styles.userListContainer} key={index}>
-                                                <div className={styles.left}>
-                                                    <div className={styles.leftItem}>
-                                                        <span className={styles.count}>{index + 1}.</span>
-                                                    </div>
-                                                </div>
-                                                <div className={styles.center}>
-                                                    <span className={styles.listUsername}> {teacher?.username}</span>
-                                                </div>
-                                                <div className={styles.right}>{teacher?.department}</div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    :
-                                    <div className={styles.listContainerRight}>
-                                        <span className={styles.none}>No one is granted permission to glimpse the letter!!!</span>
-                                    </div>
-                                }
                             </div>
                         </div>
-                    </div>
-                </div>
-                <ActionAndComment letterData={letterData} />
+                        <ActionAndComment letterData={letterData} />
+                    </>
+                }
             </div>
         </div>
     )

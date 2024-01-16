@@ -1323,7 +1323,14 @@ router.post('/generate-pdf', Auth.verifyAdminToken, async (req, res) => {
                             color: 'gray',
                         },
                         {
-                            text: `Generated on: ${new Date().toLocaleString()}`, // Add generated date and time
+                            text: `Generated on: ${new Date().toLocaleString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true,
+                            })}`,
                             width: '*',
                             alignment: 'center',
                             fontSize: 8,

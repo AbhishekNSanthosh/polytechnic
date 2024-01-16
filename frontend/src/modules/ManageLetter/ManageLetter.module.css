@@ -1,10 +1,12 @@
 .container {
-
     background-color: #fff;
     border-radius: 10px;
     width: 100%;
     padding: 1rem;
+    min-height: 72vh;
     height: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .wrap {
@@ -474,7 +476,7 @@
     text-align: justify;
 }
 
-.ActionAndCommentInfo{
+.ActionAndCommentInfo {
     font-size: 0.9rem;
 }
 
@@ -496,9 +498,17 @@
 
 .iconBox:hover {
     background-color: #e7e7e7;
-    color:red
+    color: red
 }
 
-.actionIcon{
+.actionIcon {
     font-size: 1.17rem;
+}
+
+.loader {
+    height: 72vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
