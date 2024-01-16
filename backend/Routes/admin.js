@@ -341,16 +341,17 @@ router.post('/getAllLetters', Auth.verifyAdminToken, async (req, res) => {
 router.get('/getUserLetterById/:id', Auth.verifyAdminToken, async (req, res) => {
     try {
         const letterId = req.params.id;
-        if (letterId === "undefined" || !letterId) {
-            throw { status: 400, message: "Invalid grievance id. Please provide a valid id." }
+        if (!letterId || letterId === "undefined" || letterId === null) {
+            throw { status: 400, message: "Invalid grievance id.", description: "Please provide a valid id." }
         }
         const letter = await Letter.findOne({ _id: letterId }).populate('from', 'username email semester department');
         if (!letter) {
-            throw { status: 404, message: "Letter not found. Please check the provided id." }
+            throw { status: 404, message: "Letter not found.", description: "Please check the provided id." }
         }
+
         const sanitizedLetter = sanitizedLetterData(letter);
         const successResponseMsg = twohundredResponse({
-            message: "Letter from: " + letter?.from?.username,
+            message: "Grievance from: " + letter?.from?.username,
             data: sanitizedLetter,
         });
         return res.status(200).json(successResponseMsg);

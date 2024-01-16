@@ -6,6 +6,7 @@ import { adminApi, studentApi, teacherApi } from '../../utils/helpers';
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '@chakra-ui/react'
 import { Loader } from '../../components/Loader';
+import Linkify from 'react-linkify';
 
 const DisplayLetter = () => {
     const [letterData, setLetterData] = useState({});
@@ -28,7 +29,7 @@ const DisplayLetter = () => {
 
     useEffect(() => {
         if (accessType === "admin") {
-            updateRead(params?.id,toast)
+            updateRead(params?.id, toast)
         }
     }, []);
 
@@ -92,13 +93,17 @@ const DisplayLetter = () => {
                             </div>
                             <div className={styles.letterBodyRow}>
                                 <div className={styles.content}>
-                                    <span className={styles.subtitle}>Respected Sir ,</span>
-                                    {letterData?.body && letterData.body.split('\n').map((paragraph, index) => (
-                                        <span key={index}>
-                                            {paragraph}
-                                            {index !== letterData.body.split('\n').length - 1 && <br />}
-                                        </span>
-                                    ))}
+                                    <span className={styles.subtitle}>Respected Sir,</span>
+                                    {letterData?.body && (
+                                        <Linkify>
+                                            {letterData.body.split('\n').map((paragraph, index) => (
+                                                <span key={index}>
+                                                    {paragraph}
+                                                    {index !== letterData.body.split('\n').length - 1 && <br />}
+                                                </span>
+                                            ))}
+                                        </Linkify>
+                                    )}
                                 </div>
                             </div>
                             <div className={styles.letterBodyRow}>
