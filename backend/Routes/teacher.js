@@ -170,7 +170,7 @@ router.get('/getUserLetterById/:id', Auth.verifyTeacherToken, async (req, res) =
             throw { status: 400, message: "Invalid grievance id found", description: "Please provide a valid grievance id." }
         }
 
-        const letter = await Letter.findOne({ _id: letterId,from:req.userId }).populate('from', 'username email semester department');
+        const letter = await Letter.findOne({ _id: letterId,from:req.userId }).populate('from', 'username email semester department role');
         if (!letter) {
             throw {
                 status: 404,
