@@ -135,7 +135,7 @@ const DisplayLetter = () => {
                                     <div className={styles.dataContainerManageRow}>
                                         <div className={styles.actionCol}>
                                             <span className={styles.manageTitle}>Actions:</span>
-                                            <span className={styles.manageTitle}>{letterData?.actions ? letterData?.actions : "No actions taken yet!!!"}</span>
+                                            {letterData?.actions ? <span className={styles.manageTitle}>{letterData?.actions}</span> : <span className={styles.manageTitle}>No actions taken yet!!!</span>}
                                         </div>
                                         <div className={styles.commentCol}>
                                             <span className={styles.manageTitle}>Comments:</span>
