@@ -158,6 +158,7 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
         if (existingAdmin) {
             throw { status: 409, message: resMessages.userAlreadyExistsMsg }
         }
+        console.log(existingAdmin)
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
             username,
@@ -172,6 +173,7 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
+        console.error(error?.messsage);
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
         const description = error.description;
