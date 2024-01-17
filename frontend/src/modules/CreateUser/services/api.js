@@ -99,8 +99,8 @@ export const createAdmin = async (
         }, 1000)
     } catch (error) {
         toast({
-            title: error?.response?.data?.title,
-            description: error?.response?.data?.message,
+            title: error?.response?.data?.message,
+            description: error?.response?.data?.description,
             status: 'error',
             duration: 3000,
             isClosable: true,
