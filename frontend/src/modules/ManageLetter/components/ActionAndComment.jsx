@@ -100,16 +100,16 @@ const ActionAndComment = () => {
                     <div className={styles.ActionAndCommentRow}>
                         <div className={styles.defaultActions}>
                             <div className={styles.defaultActionLeft}>
-                                {showComments && (
+                                <span className={styles.ActionAndCommentInfo}>{showComments && (
                                     <Linkify>
                                         {showComments.split('\n').map((paragraph, index) => (
-                                            <span className={styles.ActionAndCommentInfo} key={index}>
+                                            <span key={index}>
                                                 {paragraph}
                                                 {index !== showComments.split('\n').length - 1 && <br />}
                                             </span>
                                         ))}
                                     </Linkify>
-                                )}
+                                )}</span>
                             </div>
                             <div className={styles.defaultActionRight}>
                                 <div className={styles.iconBox} onClick={() => {
