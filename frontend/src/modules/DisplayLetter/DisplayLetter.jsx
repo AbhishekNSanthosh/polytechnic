@@ -135,11 +135,33 @@ const DisplayLetter = () => {
                                     <div className={styles.dataContainerManageRow}>
                                         <div className={styles.actionCol}>
                                             <span className={styles.manageTitle}>Actions:</span>
-                                            {letterData?.actions ? <span className={styles.manageTitle}>{letterData?.actions}</span> : <span className={styles.manageTitle}>No actions taken yet!!!</span>}
+                                            {letterData?.actions ? <span className={styles.manageTitle}>
+                                                {letterData?.actions && (
+                                                    <Linkify>
+                                                        {letterData?.actions.split('\n').map((paragraph, index) => (
+                                                            <span key={index}>
+                                                                {paragraph}
+                                                                {index !== letterData?.actions.split('\n').length - 1 && <br />}
+                                                            </span>
+                                                        ))}
+                                                    </Linkify>
+                                                )}
+                                            </span> : <span className={styles.manageTitle}>No actions taken yet!!!</span>}
                                         </div>
                                         <div className={styles.commentCol}>
                                             <span className={styles.manageTitle}>Comments:</span>
-                                            <span className={styles.manageTitle}>{letterData?.comments ? letterData?.comments : "No comments added yet!!!"}</span>
+                                            {letterData?.actions ? <span className={styles.manageTitle}>
+                                                {letterData?.comments && (
+                                                    <Linkify>
+                                                        {letterData?.comments.split('\n').map((paragraph, index) => (
+                                                            <span key={index}>
+                                                                {paragraph}
+                                                                {index !== letterData?.comments.split('\n').length - 1 && <br />}
+                                                            </span>
+                                                        ))}
+                                                    </Linkify>
+                                                )}
+                                            </span> : <span className={styles.manageTitle}>No comments taken yet!!!</span>}
                                         </div>
                                     </div>
                                 </div>
