@@ -139,7 +139,7 @@ router.get('/getUserDetails', Auth.verifyAdminToken, async (req, res) => {
 //api to create a new admin
 router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password,email } = req.body;
 
         // Validation
         if (!username || validator.isEmpty(validator.trim(username)) || validator.matches(username, /[./\[\]{}<>]/)) {
@@ -162,6 +162,7 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
         // Create a new admin user
         const user = new User({
             username,
+            email,
             password: hashedPassword,
             role: "admin"
         });
