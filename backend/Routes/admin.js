@@ -161,6 +161,7 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12);
         const user = new User({
             username,
+            email:null,
             password: hashedPassword,
             role: "admin"
         });
