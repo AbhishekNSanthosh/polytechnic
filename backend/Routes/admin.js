@@ -141,31 +141,33 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        if (!username) {
-            throw { status: 400, message: "Username field is required" }
-        } else if (!password) {
-            throw { status: 400, message: "Password field is required" }
+        // Validation
+        if (!username || validator.isEmpty(validator.trim(username)) || validator.matches(username, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid username" };
         }
 
-        if (validator.isEmpty(username) || validator.matches(username, /[./\[\]{}<>]/)) {
-            throw { status: 400, message: "Invalid username" }
-        }
-        if (validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
-            throw { status: 400, message: "Invalid password" }
+        if (!password || validator.isEmpty(password) || validator.matches(password, /[./\[\]{}<>]/)) {
+            throw { status: 400, message: "Invalid password" };
         }
 
+        // Check if admin already exists
         const existingAdmin = await User.findOne({ username, role: "admin" });
         if (existingAdmin) {
-            throw { status: 409, message: resMessages.userAlreadyExistsMsg }
+            throw { status: 409, message: "Admin already exists" };
         }
-        console.log('existingAdmin',existingAdmin)
+
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 12);
+
+        // Create a new admin user
         const user = new User({
             username,
-            email:null,
+            email: null,
             password: hashedPassword,
             role: "admin"
         });
+
+        // Save the user
         const savedUser = await user.save();
         const userData = abstractedUserData(savedUser);
 
@@ -173,14 +175,17 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
         return res.status(201).json(successResponseMsg);
     } catch (error) {
         console.error(error);
-        console.log(error?.messsage);
+        console.log(error?.message);
+
         const status = error.status || 500;
         const message = error.message || 'Internal Server Error';
         const description = error.description;
-        const errorMessage = customError({ resCode: status, message, description })
+        const errorMessage = customError({ resCode: status, message, description });
+
         return res.status(status).json(errorMessage);
     }
 });
+
 
 //api to create  new student
 router.post('/createNewStudent', Auth.verifyAdminToken, async (req, res) => {
