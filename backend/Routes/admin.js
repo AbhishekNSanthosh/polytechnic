@@ -865,8 +865,8 @@ router.put('/editUser/:id', Auth.verifyAdminToken, async (req, res) => {
         } else if (role === "admin") {
             if (!username) {
                 throw { status: 400, message: "Username is required" }
-            } else if (!email) {
-                throw { status: 400, message: "Email is required" }
+            } else if (!password) {
+                throw { status: 400, message: "Password is required" }
             }
         }
 
