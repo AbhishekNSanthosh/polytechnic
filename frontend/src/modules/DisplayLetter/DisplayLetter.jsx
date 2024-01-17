@@ -128,7 +128,7 @@ const DisplayLetter = () => {
                                                 <span className={styles.statusRed}><strike>{letterData?.status}</strike></span>
                                             }
                                             {letterData?.status === "APPROVED" &&
-                                                <span className={styles.statusGreen}>{letterData?.status}</span>
+                                                <span className={styles.statusGreen}>🎇{letterData?.status}🥳</span>
                                             }
                                         </div>
                                     </div>
