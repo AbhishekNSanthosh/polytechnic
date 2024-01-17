@@ -13,9 +13,13 @@ const DisplayLetter = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const accessType = localStorage.getItem('accessType');
+    const userObj = localStorage.getItem('user');
+    const user = JSON.parse(userObj);
     const params = useParams();
     const navigate = useNavigate();
     const toast = useToast();
+
+    console.log(user)
 
     useEffect(() => {
         if (accessType === "admin") {
@@ -62,16 +66,24 @@ const DisplayLetter = () => {
                                     <span className={styles.subtitle}>From:</span>
                                 </div>
                                 <div className={styles.right}>
-                                    <span className={styles.letterDetails}>{letterData?.from?.username}</span>
-                                    <span className={styles.letterDetails}>{letterData?.from?.semester} {letterData?.from?.department}</span>
+                                    <span className={styles.letterDetails}>
+                                        {letterData?.from?.username === user?.username
+                                            ? `${letterData?.from?.username} (You)`
+                                            : letterData?.from?.username
+                                        }
+                                    </span>
+                                    <span className={styles.letterDetails}>
+                                        {letterData?.from?.semester} {letterData?.from?.department}
+                                    </span>
                                 </div>
+
                             </div>
                             <div className={styles.letterRow}>
                                 <div className={styles.left}>
                                     <span className={styles.subtitle}>Date:</span>
                                 </div>
                                 <div className={styles.right}>
-                                    <span className={styles.letterDetails}>{letterData?.createdAt?.date.slice(0, 11)}</span>
+                                    <span className={styles.letterDetails}>{letterData?.createdAt?.date}</span>
                                 </div>
                             </div>
                             <div className={styles.letterRow}>
