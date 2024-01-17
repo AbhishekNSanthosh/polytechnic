@@ -162,7 +162,6 @@ router.post('/createNewAdmin', Auth.verifyAdminToken, async (req, res) => {
         // Create a new admin user
         const user = new User({
             username,
-            email: null,
             password: hashedPassword,
             role: "admin"
         });
