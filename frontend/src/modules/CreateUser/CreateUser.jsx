@@ -32,7 +32,7 @@ const CreateUser = () => {
             if (userValue === "student") {
                 await createStudent(username, password, email, semester, department, navigate, toast);
             } else if (userValue === "admin") {
-                await createAdmin(username, password, authToken, navigate, toast);
+                await createAdmin(username, password,email, authToken, navigate, toast);
             } if (userValue === "teacher") {
                 await createFaculty(username, password, email, department, navigate, toast);
             }
@@ -89,9 +89,9 @@ const CreateUser = () => {
                     </div>
                     <div className={styles.row}>
                         <div className={styles.item}>
-                            {userValue !== "admin" && <input type="text" value={email} className={styles.txtInput} placeholder='Email*' onChange={(e) => {
+                            <input type="text" value={email} className={styles.txtInput} placeholder='Email*' onChange={(e) => {
                                 setEmail(e.target.value);
-                            }} />}
+                            }} />
                         </div>
                         <div className={styles.item}>
                             {userValue !== "admin" &&

@@ -79,13 +79,15 @@ export const createStudent = async (
 export const createAdmin = async (
     username,
     password,
+    email,
     navigate,
     toast,
 ) => {
     try {
         const response = await privateGateway.post(backendApiUrl + adminApi.createAdmin, {
             username,
-            password
+            password,
+            email
         });
         toast({
             title: response?.data?.message,
