@@ -21,11 +21,11 @@ const twohundredResponse = (data = {}) => {
 
     // Determine the appropriate greeting based on the adjusted time
     if (currentHour < 12 || (currentHour === 12 && currentMinutes < 30)) {
-        greeting = "Good morning";
+        greeting = "Good Morning";
     } else if (currentHour < 18 || (currentHour === 18 && currentMinutes < 30)) {
-        greeting = "Good afternoon";
+        greeting = "Good Afternoon";
     } else {
-        greeting = "Good evening";
+        greeting = "Good Evening";
     }
 
     const res = {
@@ -144,11 +144,11 @@ const customError = (data = {}) => {
 
     // Determine the appropriate greeting based on the adjusted time
     if (currentHour < 12 || (currentHour === 12 && currentMinutes < 30)) {
-        greeting = "Good morning";
+        greeting = "Good Morning";
     } else if (currentHour < 18 || (currentHour === 18 && currentMinutes < 30)) {
-        greeting = "Good afternoon";
+        greeting = "Good Afternoon";
     } else {
-        greeting = "Good evening";
+        greeting = "Good Evening";
     }
 
     const errorObject = {
