@@ -84,7 +84,7 @@ export const createAdmin = async (
     toast,
 ) => {
     try {
-        const response = await privateGateway.post(backendApiUrl + adminApi.createAdmin, {
+        const response = await privateGateway.post(adminApi.createAdmin, {
             username,
             password,
             email
@@ -122,7 +122,7 @@ export const uploadBulkStudentData = async (
     formData.append('file', file);
 
     try {
-        const response = await axios.post(backendApiUrl + adminApi.createBulkStudent, formData, {
+        const response = await privateGateway.post(adminApi.createBulkStudent, formData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
                 'Content-Type': 'multipart/form-data', // Important for handling multipart form data
@@ -163,7 +163,7 @@ export const uploadBulkTeacherData = async (
     formData.append('file', file);
 
     try {
-        const response = await axios.post(adminApi.createBulkTeacher, formData, {
+        const response = await privateGateway.post(adminApi.createBulkTeacher, formData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
                 'Content-Type': 'multipart/form-data', // Important for handling multipart form data
