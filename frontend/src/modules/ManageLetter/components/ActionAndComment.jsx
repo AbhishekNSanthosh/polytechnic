@@ -5,6 +5,7 @@ import { useToast } from '@chakra-ui/react'
 import { deleteAction, deleteComment, getLetterDetails, updateCommentAndActions } from '../services/apis'
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
+import Linkify from 'react-linkify';
 
 const ActionAndComment = () => {
     const [showActions, setShowActions] = useState("");
@@ -90,7 +91,16 @@ const ActionAndComment = () => {
                     <div className={styles.ActionAndCommentRow}>
                         <div className={styles.defaultActions}>
                             <div className={styles.defaultActionLeft}>
-                                <span className={styles.ActionAndCommentInfo}>{showComments}</span>
+                                <span className={styles.ActionAndCommentInfo}>{showComments && (
+                                    <Linkify>
+                                        {showComments.split('\n').map((paragraph, index) => (
+                                            <span key={index}>
+                                                {paragraph}
+                                                {index !== showComments.split('\n').length - 1 && <br />}
+                                            </span>
+                                        ))}
+                                    </Linkify>
+                                )}</span>
                             </div>
                             <div className={styles.defaultActionRight}>
                                 <div className={styles.iconBox} onClick={() => {
