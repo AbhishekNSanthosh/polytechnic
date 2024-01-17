@@ -151,14 +151,14 @@ const DisplayLetter = () => {
                                                 {letterData?.actions && (
                                                     <Linkify>
                                                         {letterData?.actions.split('\n').map((paragraph, index) => (
-                                                            <span key={index}>
+                                                            <span className={styles.action} key={index}>
                                                                 {paragraph}
                                                                 {index !== letterData?.actions.split('\n').length - 1 && <br />}
                                                             </span>
                                                         ))}
                                                     </Linkify>
                                                 )}
-                                            </span> : <span className={styles.manageTitle}>No actions taken yet!!!</span>}
+                                            </span> : <span className={styles.action}>No actions taken yet!!!</span>}
                                         </div>
                                         <div className={styles.commentCol}>
                                             <span className={styles.manageTitle}>Comments:</span>
@@ -166,14 +166,14 @@ const DisplayLetter = () => {
                                                 {letterData?.comments && (
                                                     <Linkify>
                                                         {letterData?.comments.split('\n').map((paragraph, index) => (
-                                                            <span key={index}>
+                                                            <span className={styles.action} key={index}>
                                                                 {paragraph}
                                                                 {index !== letterData?.comments.split('\n').length - 1 && <br />}
                                                             </span>
                                                         ))}
                                                     </Linkify>
                                                 )}
-                                            </span> : <span className={styles.manageTitle}>No comments taken yet!!!</span>}
+                                            </span> : <span className={styles.action}>No comments taken yet!!!</span>}
                                         </div>
                                     </div>
                                 </div>

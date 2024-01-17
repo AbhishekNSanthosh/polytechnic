@@ -195,6 +195,10 @@
     flex: 6;
 }
 
+.action{
+    font-size: 1rem;
+}
+
 .commentCol {
     flex: 6;
     display: flex;
