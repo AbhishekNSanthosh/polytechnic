@@ -42,7 +42,7 @@ app.get('/api/v2/', (req, res) => {
     return res.status(200).json({
         resCode: 200,
         status: "SUCCESS",
-        message: "Backend application of Carmel polytechnic grievances, developed by Abhishek Santhosh"
+        message: "Backend application of Carmel Polytechnic grievances, developed by Abhishek Santhosh"
     })
 })
 
