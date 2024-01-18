@@ -8,7 +8,6 @@ const studentRoute = require('./Routes/student.js')
 const teacherRoute = require('./Routes/teacher.js')
 const publicRoute = require('./Routes/common.js')
 const rateLimit = require('express-rate-limit');
-const { resMessages } = require('./Utils/Helpers.js');
 
 
 dotenv.config();
