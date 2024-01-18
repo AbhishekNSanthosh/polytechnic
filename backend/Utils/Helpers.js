@@ -10,7 +10,6 @@ const roles = {
     teacherRole: "teacher"
 }
 
-const currentTime = new Date();
 
 const twohundredResponse = (data = {}) => {
     const currentTime = new Date();
