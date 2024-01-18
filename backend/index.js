@@ -54,7 +54,7 @@ const connectDb = () => {
             console.log("MONGODB CONNECTED SUCCESSFULLY !!!");
         })
         .catch((err) => {
-            console.log("Mongodb error occurred: ", err);
+            console.log("Mongodb error : ", err);
         });
 };
 
