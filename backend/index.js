@@ -9,7 +9,6 @@ const teacherRoute = require('./Routes/teacher.js')
 const publicRoute = require('./Routes/common.js')
 // const rateLimit = require('express-rate-limit');
 
-
 dotenv.config();
 const app = express();
 // app.use(limiter);
