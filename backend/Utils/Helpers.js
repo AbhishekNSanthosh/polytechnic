@@ -73,16 +73,6 @@ const twoNotOneResponse = (data = {}) => {
     };
 };
 
-const fiveHundredResponse = () => {
-    return {
-        hasError: true,
-        resCode: 500,
-        status: "FAILURE",
-        message: "Internal server error. Please try again later.",
-        apiVersion: "V2"
-    };
-};
-
 const fourNotOneResponse = (data = {}) => {
     return {
         hasError: true,
