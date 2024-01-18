@@ -13,7 +13,7 @@ const { resMessages } = require('./Utils/Helpers.js');
 
 dotenv.config();
 const app = express();
-// app.use(limiter);
+
 app.enable('trust proxy');
 app.set('trust proxy', 1);
 
