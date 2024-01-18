@@ -289,7 +289,6 @@ function formatDate(date) {
 module.exports = {
     roles,
     twoNotOneResponse,
-
     twohundredResponse,
     fourNotOneResponse,
     fourNotFourResponse,
