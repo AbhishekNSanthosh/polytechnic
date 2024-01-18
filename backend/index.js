@@ -7,7 +7,7 @@ const adminRoute = require('./Routes/admin.js')
 const studentRoute = require('./Routes/student.js')
 const teacherRoute = require('./Routes/teacher.js')
 const publicRoute = require('./Routes/common.js')
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 
 
 dotenv.config();
