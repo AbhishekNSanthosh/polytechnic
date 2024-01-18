@@ -25,6 +25,7 @@ app.use("/api/v2/admin", adminRoute);
 app.use("/api/v2/student", studentRoute);
 app.use("/api/v2/teacher", teacherRoute);
 app.use("/api/v2/public", publicRoute);
+
 app.use((req, res, next) => {
     if (req.secure) {
         next();
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
         res.redirect('https://' + req.headers.host + req.url);
     }
 });
+
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
