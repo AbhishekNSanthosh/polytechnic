@@ -34,7 +34,7 @@ const TopNavBar = () => {
                     </div>
                     <div className={styles.navBox}>
                         <div className={styles.dp}>
-                            <img src="https://img.freepik.com/premium-photo/astronaut-planet-with-red-background_909774-18.jpg" alt="" className={styles.dpImg} />
+                            <img  loading='lazy' src="https://img.freepik.com/premium-photo/astronaut-planet-with-red-background_909774-18.jpg" alt="" className={styles.dpImg} />
                         </div>
                     </div>
                 </div>
