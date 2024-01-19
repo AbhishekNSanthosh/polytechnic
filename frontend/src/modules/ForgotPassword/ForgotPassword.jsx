@@ -21,7 +21,6 @@ const ForgotPassword = () => {
         }
     }, [])
 
-
     const handleForgotPassword = () => {
         forgotPassword(email, toast, setErrMsg, setSuccessMsg);
     }
