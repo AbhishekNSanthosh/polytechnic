@@ -61,7 +61,6 @@ const LetterList = (props) => {
                 <div className={styles.deleteConfirm}>
                     <div className={styles.deleteConfirmBox}>
                         <TiDelete className={styles.deleteImage} />
-                        {/* <img  loading='lazy' src={deleteImg} alt="" className={styles.deleteImage} /> */}
                         <span className={styles.deleteTitle}>Are you sure you want to delete this letter? </span>
                         <div className={styles.row}>
                             <button className={styles.cancel} onClick={() => {
