@@ -24,6 +24,7 @@ const ForgotPassword = () => {
     const handleForgotPassword = () => {
         forgotPassword(email, toast, setErrMsg, setSuccessMsg);
     }
+    
     return (
         <div className={styles.container}>
             <img  loading='lazy' src={collegeImages.collegelogosvg} alt="" className={styles.logo} />
