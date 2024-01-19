@@ -45,11 +45,7 @@ const CreateGriev = () => {
                             setDesc(e.target.value);
                         }} />
                     </div>
-                    {/* <div className={styles.grievPreRow}>
-                        <button className={styles.preview}>Preview</button>
-                    </div> */}
                     <div className={styles.grievBtnRow}>
-                        {/* <button className={styles.save}>Save as draft</button> */}
                         <button className={styles.cancel} onClick={() => {
                             navigate('/dashboard')
                         }}>Cancel</button>
