@@ -3,7 +3,7 @@ import styles from './SideNavBar.module.css';
 import { collegeImages } from '../../utils/helpers';
 import { LuMails } from 'react-icons/lu';
 import { RiAccountPinBoxLine } from 'react-icons/ri';
-import { SlLogout } from 'react-icons/sl';
+import { TbLogout2 } from "react-icons/tb";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MdManageAccounts } from 'react-icons/md';
 import { useToast } from '@chakra-ui/react';
@@ -154,7 +154,7 @@ const SideNavBar = ({ drawerOpenStatus }) => {
                 drawerOpenStatus()
               }}
             >
-              <SlLogout className={styles.navtitle} />
+              <TbLogout2 className={styles.navtitle} />
               <span className={styles.navtitle}>Logout</span>
             </div>
           </div>
