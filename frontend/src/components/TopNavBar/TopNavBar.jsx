@@ -30,7 +30,7 @@ const TopNavBar = () => {
                         <span className={styles.welcome}>Hello, {userObj?.username} 👋</span>
                     </div>
                     <div className={styles.navBoxRes}>
-                        <img src={collegeImages?.collegelogosvg} alt="" className={styles.bannerLogo} />
+                        <img src={collegeImages?.collegelogosvg} loading='lazy' alt="" className={styles.bannerLogo} />
                     </div>
                     <div className={styles.navBox}>
                         <div className={styles.dp}>
