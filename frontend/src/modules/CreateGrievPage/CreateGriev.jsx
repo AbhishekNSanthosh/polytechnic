@@ -36,7 +36,7 @@ const CreateGriev = () => {
                 </div>
                 <div className={styles.grievBox}>
                     <div className={styles.grievBoxRow}>
-                        <input type="text" className={styles.subject} placeholder='Subject' onChange={(e) => {
+                        <input autoFocus type="text" className={styles.subject} placeholder='Subject' onChange={(e) => {
                             setSubject(e.target.value);
                         }} />
                     </div>
