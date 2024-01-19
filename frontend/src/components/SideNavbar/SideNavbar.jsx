@@ -10,6 +10,7 @@ import { useToast } from '@chakra-ui/react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { IoIosArrowForward } from "react-icons/io";
 import { FiDownload } from "react-icons/fi";
+import { RiMailLockLine } from "react-icons/ri";
 
 const SideNavBar = ({ drawerOpenStatus }) => {
   const storedTab = localStorage.getItem('selectedTab');
@@ -33,7 +34,7 @@ const SideNavBar = ({ drawerOpenStatus }) => {
     {
       id: 2,
       title: 'Permitted Grievances',
-      icon: <LuMails />,
+      icon: <RiMailLockLine />,
       link: 'dashboard/permitted-grievances',
       visibility: ['teacher'],
     },
