@@ -19,8 +19,6 @@ const DisplayLetter = () => {
     const navigate = useNavigate();
     const toast = useToast();
 
-
-
     useEffect(() => {
         if (accessType === "admin") {
             getLetterDetails(params?.id, setLetterData, adminApi.getLetterData, toast, setIsLoading);
