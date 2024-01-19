@@ -69,7 +69,7 @@ const ResetPassword = () => {
 
     return (
         <div className={styles.container}>
-            <img src={collegeImages.collegelogosvg} alt="" className={styles.logo} />
+            <img  loading='lazy' src={collegeImages.collegelogosvg} alt="" className={styles.logo} />
             <div className={styles.forgotBox}>
                 <span className={styles.title}>Change password</span>
                 <span className={styles.desc}>Enter the new password</span>
