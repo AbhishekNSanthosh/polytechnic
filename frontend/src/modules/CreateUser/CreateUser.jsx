@@ -68,9 +68,6 @@ const CreateUser = () => {
                     }}> <TbUsersPlus />Add bulk users ?</button>
                 }
                 <div className={styles.topRow}>
-                    {/* {userValue === "student" && <span className={styles.title}>Add Student</span>}
-                    {userValue === "admin" && <span className={styles.title}>Add Admin</span>}
-                    {userValue === "teacher" && <span className={styles.title}>Add teacher</span>} */}
                     <span className={styles.title}>{userType}</span>
                 </div>
                 <div className={styles.actionBox}>
