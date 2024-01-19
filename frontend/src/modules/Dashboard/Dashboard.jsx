@@ -109,9 +109,6 @@ const Dashboard = () => {
                             {applyFilter &&
                                 <button className={styles.removeBtn} onClick={() => {
                                     setSortOrder("desc");
-                                    // setTimeout(() => {
-                                    //     getLetterData();
-                                    // }, 1000)
                                     setApplyFilter(false);
                                 }}>Remove filter</button>
                             }
