@@ -5,7 +5,7 @@ import { collegeImages } from '../utils/helpers'
 const EmptyData = () => {
     return (
         <div className={styles.emptyImgBox}>
-            <img src={collegeImages.emptyImg} alt="" className={styles.emptyImg} />
+            <img src={collegeImages.emptyImg} alt="" className={styles.emptyImg} loading='lazy'/>
             No data found !!!
         </div>
     )
