@@ -19,7 +19,7 @@ const DisplayLetter = () => {
     const navigate = useNavigate();
     const toast = useToast();
 
-    console.log(user)
+
 
     useEffect(() => {
         if (accessType === "admin") {
