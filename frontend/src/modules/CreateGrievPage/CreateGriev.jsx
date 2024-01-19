@@ -50,13 +50,13 @@ const CreateGriev = () => {
                     </div> */}
                     <div className={styles.grievBtnRow}>
                         {/* <button className={styles.save}>Save as draft</button> */}
+                        <button className={styles.cancel} onClick={() => {
+                            navigate('/dashboard')
+                        }}>Cancel</button>
                         <button className={styles.submit} onClick={(e) => {
                             e.preventDefault();
                             handleSubmit();
                         }}>Submit</button>
-                        <button className={styles.cancel} onClick={() => {
-                            navigate('/dashboard')
-                        }}>Cancel</button>
                     </div>
                 </div>
             </div>
